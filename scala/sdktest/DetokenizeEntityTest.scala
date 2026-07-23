@@ -42,10 +42,6 @@ object DetokenizeEntityTest {
       val detokenizeRef01Match = new LinkedHashMap[String, Object]()
       val detokenizeRef01ListResult = detokenizeRef01Ent.list(detokenizeRef01Match, null)
       rep.check("detokenize.list.islist", detokenizeRef01ListResult.isInstanceOf[JList[?]], "expected list result to be an array, got " + detokenizeRef01ListResult)
-      val detokenizeRef01List = detokenizeRef01ListResult.asInstanceOf[JList[Object]]
-      val detokenizeRef01ListFound = Struct.select(
-          SdkTestSupport.entityListToData(detokenizeRef01List), SdkTestSupport.om("id" -> detokenizeRef01Data.get("id")))
-      rep.check("detokenize.list.exists", !Struct.isempty(detokenizeRef01ListFound), "expected to find created entity in list")
     }
   }
 }

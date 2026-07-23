@@ -204,27 +204,27 @@ voxgig_value* sdk_direct(BluefinShieldconexSDK* sdk, voxgig_value* fetchargs, PN
 
 
 // Detokenize entity bound to this client.
-Entity* bluefin_shieldconex_detokenize(BluefinShieldconexSDK* client, voxgig_value* entopts) {
+Entity* bluefinshieldconex_detokenize(BluefinShieldconexSDK* client, voxgig_value* entopts) {
   return detokenize_entity_new(client, entopts);
 }
 
 // Tokenize entity bound to this client.
-Entity* bluefin_shieldconex_tokenize(BluefinShieldconexSDK* client, voxgig_value* entopts) {
+Entity* bluefinshieldconex_tokenize(BluefinShieldconexSDK* client, voxgig_value* entopts) {
   return tokenize_entity_new(client, entopts);
 }
 
 // TokenizeBatch entity bound to this client.
-Entity* bluefin_shieldconex_tokenize_batch(BluefinShieldconexSDK* client, voxgig_value* entopts) {
+Entity* bluefinshieldconex_tokenize_batch(BluefinShieldconexSDK* client, voxgig_value* entopts) {
   return tokenize_batch_entity_new(client, entopts);
 }
 
 // TokenizeRead entity bound to this client.
-Entity* bluefin_shieldconex_tokenize_read(BluefinShieldconexSDK* client, voxgig_value* entopts) {
+Entity* bluefinshieldconex_tokenize_read(BluefinShieldconexSDK* client, voxgig_value* entopts) {
   return tokenize_read_entity_new(client, entopts);
 }
 
 // Validate entity bound to this client.
-Entity* bluefin_shieldconex_validate(BluefinShieldconexSDK* client, voxgig_value* entopts) {
+Entity* bluefinshieldconex_validate(BluefinShieldconexSDK* client, voxgig_value* entopts) {
   return validate_entity_new(client, entopts);
 }
 

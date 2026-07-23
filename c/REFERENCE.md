@@ -10,7 +10,7 @@ Complete API reference for the BluefinShieldconex C SDK.
 ```c
 #include "core/api.h"
 
-BluefinShieldconexSDK* client = bluefin_shieldconex_sdk_new(options);
+BluefinShieldconexSDK* client = bluefinshieldconex_sdk_new(options);
 ```
 
 Create a new SDK client instance. `options` is a `voxgig_value*` map
@@ -43,27 +43,27 @@ BluefinShieldconexSDK* client = test_sdk(NULL, NULL);
 
 ### Entity Accessors
 
-#### `Entity* bluefin_shieldconex_detokenize(BluefinShieldconexSDK* client, voxgig_value* entopts)`
+#### `Entity* bluefinshieldconex_detokenize(BluefinShieldconexSDK* client, voxgig_value* entopts)`
 
 Create a new `Detokenize` entity instance. Pass `NULL` for no initial
 options.
 
-#### `Entity* bluefin_shieldconex_tokenize(BluefinShieldconexSDK* client, voxgig_value* entopts)`
+#### `Entity* bluefinshieldconex_tokenize(BluefinShieldconexSDK* client, voxgig_value* entopts)`
 
 Create a new `Tokenize` entity instance. Pass `NULL` for no initial
 options.
 
-#### `Entity* bluefin_shieldconex_tokenize_batch(BluefinShieldconexSDK* client, voxgig_value* entopts)`
+#### `Entity* bluefinshieldconex_tokenize_batch(BluefinShieldconexSDK* client, voxgig_value* entopts)`
 
 Create a new `TokenizeBatch` entity instance. Pass `NULL` for no initial
 options.
 
-#### `Entity* bluefin_shieldconex_tokenize_read(BluefinShieldconexSDK* client, voxgig_value* entopts)`
+#### `Entity* bluefinshieldconex_tokenize_read(BluefinShieldconexSDK* client, voxgig_value* entopts)`
 
 Create a new `TokenizeRead` entity instance. Pass `NULL` for no initial
 options.
 
-#### `Entity* bluefin_shieldconex_validate(BluefinShieldconexSDK* client, voxgig_value* entopts)`
+#### `Entity* bluefinshieldconex_validate(BluefinShieldconexSDK* client, voxgig_value* entopts)`
 
 Create a new `Validate` entity instance. Pass `NULL` for no initial
 options.
@@ -97,7 +97,7 @@ Prepare a fetch definition without sending. Returns the fetchdef and sets
 ## Detokenize
 
 ```c
-Entity* detokenize = bluefin_shieldconex_detokenize(client, NULL);
+Entity* detokenize = bluefinshieldconex_detokenize(client, NULL);
 ```
 
 ### Fields
@@ -129,7 +129,7 @@ Entity* detokenize = bluefin_shieldconex_detokenize(client, NULL);
 Create a new entity with the given data. Returns the created entity data and sets `*err` on failure.
 
 ```c
-Entity* detokenize = bluefin_shieldconex_detokenize(client, NULL);
+Entity* detokenize = bluefinshieldconex_detokenize(client, NULL);
 voxgig_value* result = detokenize->vt->create(detokenize, NULL, NULL, &err);
 ```
 
@@ -138,7 +138,7 @@ voxgig_value* result = detokenize->vt->create(detokenize, NULL, NULL, &err);
 List entities matching the given criteria. The match is optional — pass `NULL` to list all records. Returns a List.
 
 ```c
-Entity* detokenize = bluefin_shieldconex_detokenize(client, NULL);
+Entity* detokenize = bluefinshieldconex_detokenize(client, NULL);
 voxgig_value* results = detokenize->vt->list(detokenize, NULL, NULL, &err);
 for (size_t i = 0; i < (size_t)voxgig_size(results); i++) {
     printf("%s\n", voxgig_to_json(voxgig_getelem(results, v_int(i), NULL)));
@@ -169,7 +169,7 @@ Return the entity name.
 ## Tokenize
 
 ```c
-Entity* tokenize = bluefin_shieldconex_tokenize(client, NULL);
+Entity* tokenize = bluefinshieldconex_tokenize(client, NULL);
 ```
 
 ### Fields
@@ -203,7 +203,7 @@ Entity* tokenize = bluefin_shieldconex_tokenize(client, NULL);
 Create a new entity with the given data. Returns the created entity data and sets `*err` on failure.
 
 ```c
-Entity* tokenize = bluefin_shieldconex_tokenize(client, NULL);
+Entity* tokenize = bluefinshieldconex_tokenize(client, NULL);
 voxgig_value* result = tokenize->vt->create(tokenize, cmap(1,
     "template_ref", v_str("example_template_ref"))  // char*
 , NULL, &err);
@@ -214,7 +214,7 @@ voxgig_value* result = tokenize->vt->create(tokenize, cmap(1,
 List entities matching the given criteria. The match is optional — pass `NULL` to list all records. Returns a List.
 
 ```c
-Entity* tokenize = bluefin_shieldconex_tokenize(client, NULL);
+Entity* tokenize = bluefinshieldconex_tokenize(client, NULL);
 voxgig_value* results = tokenize->vt->list(tokenize, NULL, NULL, &err);
 for (size_t i = 0; i < (size_t)voxgig_size(results); i++) {
     printf("%s\n", voxgig_to_json(voxgig_getelem(results, v_int(i), NULL)));
@@ -245,7 +245,7 @@ Return the entity name.
 ## TokenizeBatch
 
 ```c
-Entity* tokenize_batch = bluefin_shieldconex_tokenize_batch(client, NULL);
+Entity* tokenize_batch = bluefinshieldconex_tokenize_batch(client, NULL);
 ```
 
 ### Fields
@@ -271,7 +271,7 @@ Entity* tokenize_batch = bluefin_shieldconex_tokenize_batch(client, NULL);
 Create a new entity with the given data. Returns the created entity data and sets `*err` on failure.
 
 ```c
-Entity* tokenize_batch = bluefin_shieldconex_tokenize_batch(client, NULL);
+Entity* tokenize_batch = bluefinshieldconex_tokenize_batch(client, NULL);
 voxgig_value* result = tokenize_batch->vt->create(tokenize_batch, NULL, NULL, &err);
 ```
 
@@ -299,7 +299,7 @@ Return the entity name.
 ## TokenizeRead
 
 ```c
-Entity* tokenize_read = bluefin_shieldconex_tokenize_read(client, NULL);
+Entity* tokenize_read = bluefinshieldconex_tokenize_read(client, NULL);
 ```
 
 ### Fields
@@ -329,7 +329,7 @@ Entity* tokenize_read = bluefin_shieldconex_tokenize_read(client, NULL);
 Create a new entity with the given data. Returns the created entity data and sets `*err` on failure.
 
 ```c
-Entity* tokenize_read = bluefin_shieldconex_tokenize_read(client, NULL);
+Entity* tokenize_read = bluefinshieldconex_tokenize_read(client, NULL);
 voxgig_value* result = tokenize_read->vt->create(tokenize_read, NULL, NULL, &err);
 ```
 
@@ -357,7 +357,7 @@ Return the entity name.
 ## Validate
 
 ```c
-Entity* validate = bluefin_shieldconex_validate(client, NULL);
+Entity* validate = bluefinshieldconex_validate(client, NULL);
 ```
 
 ### Fields
@@ -375,7 +375,7 @@ Entity* validate = bluefin_shieldconex_validate(client, NULL);
 Create a new entity with the given data. Returns the created entity data and sets `*err` on failure.
 
 ```c
-Entity* validate = bluefin_shieldconex_validate(client, NULL);
+Entity* validate = bluefinshieldconex_validate(client, NULL);
 voxgig_value* result = validate->vt->create(validate, cmap(1,
     "template_ref", v_str("example_template_ref"))  // char*
 , NULL, &err);
@@ -412,7 +412,7 @@ Return the entity name.
 Features are activated via the `feature` option:
 
 ```c
-BluefinShieldconexSDK* client = bluefin_shieldconex_sdk_new(cmap(1,
+BluefinShieldconexSDK* client = bluefinshieldconex_sdk_new(cmap(1,
     "feature", cmap(1,
         "test", cmap(1, "active", v_bool(true)))
 ));

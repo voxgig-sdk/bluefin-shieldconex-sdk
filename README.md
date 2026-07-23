@@ -93,7 +93,7 @@ local results, err = client:Detokenize():list()
 
 BluefinShieldconexSDK* client = test_sdk(NULL, NULL);
 PNError* err = NULL;
-Entity* detokenize = bluefin_shieldconex_detokenize(client, NULL);
+Entity* detokenize = bluefinshieldconex_detokenize(client, NULL);
 voxgig_value* detokenizes = detokenize->vt->list(detokenize, NULL, NULL, &err);
 printf("%s\n", voxgig_to_json(detokenizes));
 ```
@@ -428,11 +428,11 @@ print(detokenizes)
 ```c
 #include "core/api.h"
 
-BluefinShieldconexSDK* client = bluefin_shieldconex_sdk_new(cmap(1,
+BluefinShieldconexSDK* client = bluefinshieldconex_sdk_new(cmap(1,
     "apikey", v_str(getenv("BLUEFIN_SHIELDCONEX_APIKEY"))));
 PNError* err = NULL;
 
-Entity* detokenize = bluefin_shieldconex_detokenize(client, NULL);
+Entity* detokenize = bluefinshieldconex_detokenize(client, NULL);
 
 // List all detokenizes (returns a List, sets *err on failure)
 voxgig_value* detokenizes = detokenize->vt->list(detokenize, NULL, NULL, &err);
