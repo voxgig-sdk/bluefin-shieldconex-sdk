@@ -1,0 +1,1727 @@
+{
+ "openapi": "3.0.1",
+ "info": {
+  "title": "ShieldConex Api",
+  "description": "The purpose of the ShieldConex API's are to provide ability to tokenize/detokenize data",
+  "version": "1.0"
+ },
+ "servers": [
+  {
+   "url": "https://secure-cert.shieldconex.com/api"
+  }
+ ],
+ "security": [
+  {
+   "basic": []
+  }
+ ],
+ "tags": [
+  {
+   "name": "Validate",
+   "description": ""
+  },
+  {
+   "name": "Tokenization",
+   "description": ""
+  },
+  {
+   "name": "Detokenization",
+   "description": ""
+  },
+  {
+   "name": "Healthcheck",
+   "description": ""
+  },
+  {
+   "name": "Tokenization Batch",
+   "description": ""
+  },
+  {
+   "name": "Detokenization Batch",
+   "description": ""
+  }
+ ],
+ "paths": {
+  "/partner/validate": {
+   "post": {
+    "tags": [
+     "Validate"
+    ],
+    "summary": "Validate Partner",
+    "description": "This API call can be used by the Partner to test connectivity to the ShieldConex platform. Upon proper authentication, a \u201csuccess\u201d is returned. This can be used by the Partner as an application \u201cping\u201d.",
+    "operationId": "partner-validate",
+    "requestBody": {
+     "description": "Partner to be validated.",
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/PartnerValidateRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Partner validate response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ValidateResponse"
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Bad request",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Unauthorized",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "403": {
+      "description": "Forbidden",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "409": {
+      "description": "Invalid data",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "500": {
+      "description": "Internal server error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     }
+    },
+    "x-codegen-request-body-name": "partner"
+   }
+  },
+  "/template/validate": {
+   "post": {
+    "tags": [
+     "Validate"
+    ],
+    "summary": "Validate Template",
+    "description": "This activity would be performed to validate that ShieldConex recognizes a partner\u2019s template. This can be used by the Partner to ensure the template being referenced is in the ShieldConex system and provisioned correctly.",
+    "operationId": "template-validate",
+    "requestBody": {
+     "description": "Template to be validated.",
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/TemplateValidateRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Template validate response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ValidateResponse"
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Bad request",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Unauthorized",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "403": {
+      "description": "Forbidden",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "409": {
+      "description": "Invalid data",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "500": {
+      "description": "Internal server error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     }
+    },
+    "x-codegen-request-body-name": "template"
+   }
+  },
+  "/tokenization/tokenize": {
+   "post": {
+    "tags": [
+     "Tokenization"
+    ],
+    "summary": "Tokenize Data",
+    "description": "Provides the ability to tokenize data",
+    "operationId": "tokenize",
+    "parameters": [
+     {
+      "name": "omit",
+      "in": "query",
+      "description": "Set this parameter to 1 if data shouldn't be present in response but can be received by separate 'read' request. Set this parameter to 2 if data still should be present in response but also can be received by separate 'read' request. ",
+      "schema": {
+       "type": "number"
+      }
+     }
+    ],
+    "requestBody": {
+     "description": "Data to be tokenized.",
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/TokenizeRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Tokenize response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/TokenizeResponse"
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Bad request",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Unauthorized",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "403": {
+      "description": "Forbidden",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "409": {
+      "description": "Invalid data",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "500": {
+      "description": "Internal server error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     }
+    },
+    "x-codegen-request-body-name": "data"
+   }
+  },
+  "/tokenization/read": {
+   "post": {
+    "tags": [
+     "Tokenization"
+    ],
+    "summary": "Query Tokenized Data",
+    "description": "Query previously tokenized data",
+    "operationId": "tokenize-read",
+    "requestBody": {
+     "description": "Tokenized data query.",
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/TokenizeReadRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Tokenize response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/TokenizeReadResponse"
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Bad request",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Unauthorized",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "403": {
+      "description": "Forbidden",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "409": {
+      "description": "Invalid data",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "500": {
+      "description": "Internal server error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     }
+    },
+    "x-codegen-request-body-name": "data"
+   }
+  },
+  "/tokenization/delete": {
+   "post": {
+    "tags": [
+     "Tokenization"
+    ],
+    "summary": "Query and Delete Tokenized Data",
+    "description": "Query previously tokenized data and delete data from cache",
+    "operationId": "tokenize-delete",
+    "requestBody": {
+     "description": "Tokenized data query.",
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/TokenizeDeleteRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Tokenize response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/TokenizeResponse"
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Bad request",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Unauthorized",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "403": {
+      "description": "Forbidden",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "409": {
+      "description": "Invalid data",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "500": {
+      "description": "Internal server error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     }
+    },
+    "x-codegen-request-body-name": "data"
+   }
+  },
+  "/tokenization/detokenize": {
+   "post": {
+    "tags": [
+     "Detokenization"
+    ],
+    "summary": "Detokenize Data",
+    "description": "Provides the ability to detokenize data",
+    "operationId": "detokenize",
+    "requestBody": {
+     "description": "Data to be detokenized.",
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/DetokenizeRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Detokenize response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/DetokenizeResponse"
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Bad request",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Unauthorized",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "403": {
+      "description": "Forbidden",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "409": {
+      "description": "Invalid data",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "500": {
+      "description": "Internal server error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     }
+    },
+    "x-codegen-request-body-name": "data"
+   }
+  },
+  "/tokenization/batch/tokenize": {
+   "post": {
+    "tags": [
+     "Tokenization Batch"
+    ],
+    "summary": "Tokenize Batch Data",
+    "description": "Provides the ability to tokenize batch data",
+    "operationId": "tokenize-batch",
+    "parameters": [
+     {
+      "name": "omit",
+      "in": "query",
+      "description": "Set this parameter to 1 if data shouldn't be present in response but can be received by separate 'read' request",
+      "schema": {
+       "type": "number"
+      }
+     }
+    ],
+    "requestBody": {
+     "description": "Data to be tokenized.",
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/TokenizeBatchRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Tokenize batch response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/TokenizeBatchResponse"
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Bad request",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Unauthorized",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "403": {
+      "description": "Forbidden",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "409": {
+      "description": "Invalid data",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "500": {
+      "description": "Internal server error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     }
+    },
+    "x-codegen-request-body-name": "data"
+   }
+  },
+  "/tokenization/batch/read": {
+   "post": {
+    "tags": [
+     "Tokenization Batch"
+    ],
+    "summary": "Query Tokenized Batch Data",
+    "description": "Query previously tokenized batch data",
+    "operationId": "tokenize-read-batch",
+    "requestBody": {
+     "description": "Tokenized read batch data query.",
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/TokenizeReadBatchRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Tokenize batch response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/TokenizeBatchResponse"
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Bad request",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Unauthorized",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "403": {
+      "description": "Forbidden",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "409": {
+      "description": "Invalid data",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "500": {
+      "description": "Internal server error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     }
+    },
+    "x-codegen-request-body-name": "data"
+   }
+  },
+  "/tokenization/batch/delete": {
+   "post": {
+    "tags": [
+     "Tokenization Batch"
+    ],
+    "summary": "Query and Delete Tokenized Batch Data",
+    "description": "Query previously tokenized batch data and delete data from cache",
+    "operationId": "tokenize-delete-batch",
+    "requestBody": {
+     "description": "Tokenized delete batch data query.",
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/TokenizeDeleteBatchRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Tokenize batch response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/TokenizeBatchResponse"
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Bad request",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Unauthorized",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "403": {
+      "description": "Forbidden",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "409": {
+      "description": "Invalid data",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "500": {
+      "description": "Internal server error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     }
+    },
+    "x-codegen-request-body-name": "data"
+   }
+  },
+  "/tokenization/batch/detokenize": {
+   "post": {
+    "tags": [
+     "Detokenization Batch"
+    ],
+    "summary": "Detokenization Batch Data",
+    "description": "Provides the ability to detokenize batch data",
+    "operationId": "detokenize-batch",
+    "requestBody": {
+     "description": "Batch data to be detokenized.",
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/DetokenizeBatchRequest"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Detokenize data response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/DetokenizeBatchResponse"
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Bad request",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Unauthorized",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "403": {
+      "description": "Forbidden",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "409": {
+      "description": "Invalid data",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "500": {
+      "description": "Internal server error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     }
+    },
+    "x-codegen-request-body-name": "data"
+   }
+  },
+  "/healthcheck/tokenize": {
+   "get": {
+    "tags": [
+     "Healthcheck"
+    ],
+    "summary": "Healthcheck Tokenization",
+    "description": "This activity would be performed to ensure that tokenization and detokenization are occurring properly for a given template",
+    "operationId": "healthcheck-tokenize",
+    "parameters": [
+     {
+      "name": "templateRef",
+      "in": "query",
+      "description": "Template Reference. This is the unique alphanumeric string that is used to identify a template. The templateRef is created within ShieldConex Manager and can be found within the template details page of any template within ShieldConex Manager.",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "reference",
+      "in": "query",
+      "description": "Request Reference. This is a reference value that Developers can use to track API requests and responses. It is solely for tracking purposes.",
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "fieldNames",
+      "in": "query",
+      "description": "Field names split by |. This refers to the names of the fields within a template.",
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "fieldValues",
+      "in": "query",
+      "description": "Field values split by |. This is the data that requires tokenization.",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Tokenize response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/TokenizeResponse"
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Bad request",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Unauthorized",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "403": {
+      "description": "Forbidden",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "409": {
+      "description": "Invalid data",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "500": {
+      "description": "Internal server error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/healthcheck/detokenize": {
+   "get": {
+    "tags": [
+     "Healthcheck"
+    ],
+    "summary": "Healthcheck Detokenization",
+    "description": "Healthcheck detokenize method",
+    "operationId": "healthcheck-detokenize",
+    "parameters": [
+     {
+      "name": "bfid",
+      "in": "query",
+      "description": "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).  The BFID refers to that specific tokenization request and is necessary for tokenization and detokenization.",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "reference",
+      "in": "query",
+      "description": "Request Reference. This is a reference value that Developers can use to track API requests and responses. It is solely for tracking purposes.",
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "fieldNames",
+      "in": "query",
+      "description": "Field names split by |. This refers to the names of the fields within a template.",
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "fieldValues",
+      "in": "query",
+      "description": "Field values split by |. This is the encrypted data that requires detokenization.",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Detokeniz response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/DetokenizeResponse"
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Bad request",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Unauthorized",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "403": {
+      "description": "Forbidden",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "409": {
+      "description": "Invalid data",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     },
+     "500": {
+      "description": "Internal server error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ErrorResponse"
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "components": {
+  "schemas": {
+   "PartnerValidateRequest": {
+    "type": "object",
+    "properties": {
+     "reference": {
+      "type": "string",
+      "description": "Request Reference. This is a reference value that Developers can use to track API requests and responses. It is solely for tracking purposes."
+     }
+    },
+    "description": "Partner to be validated"
+   },
+   "TemplateValidateRequest": {
+    "required": [
+     "templateRef"
+    ],
+    "type": "object",
+    "properties": {
+     "reference": {
+      "type": "string",
+      "description": "Request Reference. This is a reference value that Developers can use to track API requests and responses. It is solely for tracking purposes."
+     },
+     "templateRef": {
+      "type": "string",
+      "description": "Template Reference. This is the unique alphanumeric string that is used to identify a template. The templateRef is created within ShieldConex Manager and can be found within the template details page of any template within ShieldConex Manager."
+     }
+    },
+    "description": "Template to be validated"
+   },
+   "TokenizeRequest": {
+    "required": [
+     "templateRef",
+     "values"
+    ],
+    "type": "object",
+    "properties": {
+     "reference": {
+      "type": "string",
+      "description": "Request Reference. This is a reference value that Developers can use to track API requests and responses. It is solely for tracking purposes."
+     },
+     "templateRef": {
+      "type": "string",
+      "description": "Template Reference. This is the unique alphanumeric string that is used to identify a template. The templateRef is created within ShieldConex Manager and can be found within the template details page of any template within ShieldConex Manager."
+     },
+     "values": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/TokenizeRequestItemData"
+      }
+     }
+    },
+    "description": "Data to be tokenized"
+   },
+   "TokenizeRequestItemData": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string",
+      "description": "Field Name. This refers to the name of a field within a template."
+     },
+     "value": {
+      "type": "string",
+      "description": "Field Value. This is to the cleartext value that is entered into a field. This is the data that requires tokenization."
+     }
+    },
+    "description": "JSON array containing the field names (and desired values) matching the fields configured inside of the template being referenced with templateRef."
+   },
+   "TokenizeReadRequest": {
+    "required": [
+     "bfid"
+    ],
+    "type": "object",
+    "properties": {
+     "reference": {
+      "type": "string",
+      "description": "Request Reference. This is a reference value that Developers can use to track API requests and responses. It is solely for tracking purposes."
+     },
+     "bfid": {
+      "type": "string",
+      "description": "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).  The BFID refers to that specific tokenization request and is necessary for tokenization and detokenization."
+     }
+    },
+    "description": "This request (TOKENIZATION/READ) is intended to be used to read data that was entered into a ShieldConex iFrame element (this cannot be used for API only transactions). The BFID that is created during a tokenization request is used to recall the data was used during a tokenize request. The response values would be tokenized. This activity can only be performed once per BFID."
+   },
+   "TokenizeDeleteRequest": {
+    "required": [
+     "bfid"
+    ],
+    "type": "object",
+    "properties": {
+     "reference": {
+      "type": "string",
+      "description": "Request Reference. This is a reference value that Developers can use to track API requests and responses. It is solely for tracking purposes."
+     },
+     "bfid": {
+      "type": "string",
+      "description": "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).  The BFID refers to that specific tokenization request and is necessary for tokenization and detokenization."
+     }
+    },
+    "description": "Tokenized and detele data query"
+   },
+   "TokenizeBatchRequest": {
+    "required": [
+     "batches",
+     "templateRef"
+    ],
+    "type": "object",
+    "properties": {
+     "reference": {
+      "type": "string",
+      "description": "Batch Request Reference. This is a reference value that Developers can use to track API requests and responses. It is solely for tracking purposes."
+     },
+     "templateRef": {
+      "type": "string",
+      "description": "Template Reference"
+     },
+     "batches": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/TokenizeBatchRequestItemData"
+      }
+     }
+    },
+    "description": "Batch data to be tokenized"
+   },
+   "TokenizeBatchRequestItemData": {
+    "required": [
+     "values"
+    ],
+    "type": "object",
+    "properties": {
+     "reference": {
+      "type": "string",
+      "description": "Batch Item Request Reference. This is a reference value that Developers can use to track API requests and responses. It is solely for tracking purposes."
+     },
+     "values": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/TokenizeRequestItemData"
+      }
+     }
+    },
+    "description": "Batch item data to be tokenized"
+   },
+   "TokenizeReadBatchRequest": {
+    "required": [
+     "batches"
+    ],
+    "type": "object",
+    "properties": {
+     "reference": {
+      "type": "string",
+      "description": "Batch Request Reference. This is a reference value that Developers can use to track API requests and responses. It is solely for tracking purposes."
+     },
+     "batches": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/TokenizeReadBatchRequestItemData"
+      }
+     }
+    },
+    "description": "Read tokenized batch data query"
+   },
+   "TokenizeReadBatchRequestItemData": {
+    "required": [
+     "bfid"
+    ],
+    "type": "object",
+    "properties": {
+     "reference": {
+      "type": "string",
+      "description": "Batch Item Request Reference. This is a reference value that Developers can use to track API requests and responses. It is solely for tracking purposes."
+     },
+     "bfid": {
+      "type": "string",
+      "description": "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).  The BFID refers to that specific tokenization request and is necessary for tokenization and detokenization."
+     }
+    },
+    "description": "Data to be read"
+   },
+   "TokenizeDeleteBatchRequest": {
+    "required": [
+     "batches"
+    ],
+    "type": "object",
+    "properties": {
+     "reference": {
+      "type": "string",
+      "description": "Batch Request Reference. This is a reference value that Developers can use to track API requests and responses. It is solely for tracking purposes."
+     },
+     "batches": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/TokenizeDeleteBatchRequestItemData"
+      }
+     }
+    },
+    "description": "Read and delete tokenized data query"
+   },
+   "TokenizeDeleteBatchRequestItemData": {
+    "required": [
+     "bfid"
+    ],
+    "type": "object",
+    "properties": {
+     "reference": {
+      "type": "string",
+      "description": "Batch Item Request Reference. This is a reference value that Developers can use to track API requests and responses. It is solely for tracking purposes."
+     },
+     "bfid": {
+      "type": "string",
+      "description": "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).  The BFID refers to that specific tokenization request and is necessary for tokenization and detokenization."
+     }
+    },
+    "description": "Data to be read and deleted"
+   },
+   "DetokenizeRequest": {
+    "required": [
+     "bfid",
+     "values"
+    ],
+    "type": "object",
+    "properties": {
+     "reference": {
+      "type": "string",
+      "description": "Request Reference. This is a reference value that Developers can use to track API requests and responses. It is solely for tracking purposes."
+     },
+     "bfid": {
+      "type": "string",
+      "description": "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).  The BFID refers to that specific tokenization request and is necessary for tokenization and detokenization."
+     },
+     "values": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/DetokenizeRequestItemData"
+      }
+     }
+    },
+    "description": "Data to be detokenized"
+   },
+   "DetokenizeRequestItemData": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string",
+      "description": "Field Name. This refers to the name of a field within a template."
+     },
+     "value": {
+      "type": "string",
+      "description": "Field Value. This is to the encrypted value of a field. This is the data that requires detokenization."
+     }
+    },
+    "description": "Field Data"
+   },
+   "DetokenizeBatchRequest": {
+    "required": [
+     "batches"
+    ],
+    "type": "object",
+    "properties": {
+     "reference": {
+      "type": "string",
+      "description": "Batch Request Reference"
+     },
+     "batches": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/DetokenizeBatchRequestItemData"
+      }
+     }
+    },
+    "description": "Batch data to be detokenized"
+   },
+   "DetokenizeBatchRequestItemData": {
+    "type": "object",
+    "properties": {
+     "reference": {
+      "type": "string",
+      "description": "Batch Item Request Reference. This is a reference value that Developers can use to track API requests and responses. It is solely for tracking purposes."
+     },
+     "bfid": {
+      "type": "string",
+      "description": "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).  The BFID refers to that specific tokenization request and is necessary for tokenization and detokenization."
+     },
+     "values": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/DetokenizeRequestItemData"
+      }
+     }
+    },
+    "description": "Field Data"
+   },
+   "ValidateResponse": {
+    "type": "object",
+    "properties": {
+     "messageId": {
+      "type": "string",
+      "description": "Message Id"
+     }
+    },
+    "description": "Validation response"
+   },
+   "TokenizeResponse": {
+    "type": "object",
+    "properties": {
+     "messageId": {
+      "type": "string",
+      "description": "Message Id"
+     },
+     "bfid": {
+      "type": "string",
+      "description": "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).  The BFID refers to that specific tokenization request and is necessary for tokenization and detokenization."
+     },
+     "values": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/TokenizeResponseItemData"
+      }
+     }
+    },
+    "description": "Tokenized response"
+   },
+   "TokenizeReadResponse": {
+    "type": "object",
+    "properties": {
+     "messageId": {
+      "type": "string",
+      "description": "Message Id"
+     },
+     "bfid": {
+      "type": "string",
+      "description": "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).  The BFID refers to that specific tokenization request and is necessary for tokenization and detokenization."
+     },
+     "values": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/TokenizeResponseItemData"
+      }
+     },
+     "state": {
+      "$ref": "#/components/schemas/TokenizeReadStateData"
+     }
+    },
+    "description": "Tokenized read response"
+   },
+   "TokenizeReadStateData": {
+    "type": "object",
+    "properties": {
+     "threeDs": {
+      "$ref": "#/components/schemas/TokenizeReadStateThreeDsData"
+     }
+    },
+    "description": "Tokenized State Data (if available)"
+   },
+   "TokenizeReadStateThreeDsData": {
+    "type": "object",
+    "properties": {
+     "acsTransId": {
+      "type": "string",
+      "description": "ACS Transaction"
+     },
+     "dsTransId": {
+      "type": "string",
+      "description": "DS Transaction"
+     },
+     "authenticationType": {
+      "type": "string",
+      "description": "Authentication Type"
+     },
+     "authenticationValue": {
+      "type": "string",
+      "description": "Authentication Value"
+     },
+     "eci": {
+      "type": "string",
+      "description": "ECI"
+     },
+     "status": {
+      "type": "string",
+      "description": "3DS status"
+     },
+     "protocolVersion": {
+      "type": "string",
+      "description": "Protocol Version"
+     },
+     "scaIndicator": {
+      "type": "string",
+      "description": "DS Transaction"
+     }
+    },
+    "description": "3DS State Data"
+   },
+   "TokenizeResponseItemData": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string",
+      "description": "Field Name. This refers to the name of a field within a template."
+     },
+     "value": {
+      "type": "string",
+      "description": "Field Value. This is to the encrypted value of a field. This is the data that requires detokenization."
+     }
+    },
+    "description": "Tokenized Data"
+   },
+   "TokenizeBatchResponse": {
+    "type": "object",
+    "properties": {
+     "messageId": {
+      "type": "string",
+      "description": "Message Id"
+     },
+     "reference": {
+      "type": "string",
+      "description": "Request Reference. This is a reference value that Developers can use to track API requests and responses. It is solely for tracking purposes."
+     },
+     "batches": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/TokenizeBatchResponseItemData"
+      }
+     }
+    },
+    "description": "Tokenized batch response"
+   },
+   "TokenizeBatchResponseItemData": {
+    "type": "object",
+    "properties": {
+     "reference": {
+      "type": "string",
+      "description": "Batch Item Request Reference. This is a reference value that Developers can use to track API requests and responses. It is solely for tracking purposes."
+     },
+     "bfid": {
+      "type": "string",
+      "description": "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).  The BFID refers to that specific tokenization request and is necessary for tokenization and detokenization."
+     },
+     "values": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/TokenizeResponseItemData"
+      }
+     }
+    },
+    "description": "Tokenized data"
+   },
+   "DetokenizeResponse": {
+    "type": "object",
+    "properties": {
+     "messageId": {
+      "type": "string",
+      "description": "Message Id"
+     },
+     "bfid": {
+      "type": "string",
+      "description": "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).  The BFID refers to that specific tokenization request and is necessary for tokenization and detokenization."
+     },
+     "values": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/DetokenizeResponseItemData"
+      }
+     }
+    },
+    "description": "Detokenize response"
+   },
+   "DetokenizeResponseItemData": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string",
+      "description": "Field Name. This refers to the name of a field within a template."
+     },
+     "value": {
+      "type": "string",
+      "description": "Field Value. This is to the encrypted value of a field. This is the data that requires detokenization."
+     }
+    },
+    "description": "Detokenize Data"
+   },
+   "DetokenizeBatchResponse": {
+    "type": "object",
+    "properties": {
+     "messageId": {
+      "type": "string",
+      "description": "Message Id"
+     },
+     "reference": {
+      "type": "string",
+      "description": "Request Reference. This is a reference value that Developers can use to track API requests and responses. It is solely for tracking purposes."
+     },
+     "batches": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/DetokenizeBatchResponseItemData"
+      }
+     }
+    },
+    "description": "Detokenize batch response"
+   },
+   "DetokenizeBatchResponseItemData": {
+    "type": "object",
+    "properties": {
+     "reference": {
+      "type": "string",
+      "description": "Batch Item Request Reference. This is a reference value that Developers can use to track API requests and responses. It is solely for tracking purposes."
+     },
+     "values": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/DetokenizeResponseItemData"
+      }
+     }
+    },
+    "description": "Detokenize batch response item"
+   },
+   "ErrorResponse": {
+    "type": "object",
+    "properties": {
+     "messageId": {
+      "type": "string",
+      "description": "Message Id"
+     },
+     "errCode": {
+      "type": "number",
+      "description": "Error code"
+     },
+     "errMessage": {
+      "type": "string",
+      "description": "Error message"
+     },
+     "itemReference": {
+      "type": "string",
+      "description": "Batch Item Reference (optional)"
+     },
+     "itemIndex": {
+      "type": "number",
+      "description": "Batch Item Index (optional)"
+     }
+    },
+    "description": ""
+   }
+  },
+  "responses": {
+   "400": {
+    "description": "Bad request",
+    "content": {
+     "application/json": {
+      "schema": {
+       "$ref": "#/components/schemas/ErrorResponse"
+      }
+     }
+    }
+   },
+   "401": {
+    "description": "Unauthorized",
+    "content": {
+     "application/json": {
+      "schema": {
+       "$ref": "#/components/schemas/ErrorResponse"
+      }
+     }
+    }
+   },
+   "403": {
+    "description": "Forbidden",
+    "content": {
+     "application/json": {
+      "schema": {
+       "$ref": "#/components/schemas/ErrorResponse"
+      }
+     }
+    }
+   },
+   "409": {
+    "description": "Invalid data",
+    "content": {
+     "application/json": {
+      "schema": {
+       "$ref": "#/components/schemas/ErrorResponse"
+      }
+     }
+    }
+   },
+   "500": {
+    "description": "Internal server error",
+    "content": {
+     "application/json": {
+      "schema": {
+       "$ref": "#/components/schemas/ErrorResponse"
+      }
+     }
+    }
+   }
+  },
+  "securitySchemes": {
+   "basic": {
+    "type": "http",
+    "scheme": "basic"
+   }
+  }
+ },
+ "x-readme": {
+  "explorer-enabled": true,
+  "proxy-enabled": true
+ }
+}
