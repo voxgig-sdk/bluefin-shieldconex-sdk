@@ -1,0 +1,59 @@
+# Guide
+
+guide: {
+  metrics: count: entity: 5
+  metrics: count: path: 12
+  metrics: count: method: 12
+
+  entity: detokenize: {
+    path: "/healthcheck/detokenize": {
+      op: list: method: *GET
+    }
+    path: "/tokenization/batch/detokenize": {
+      op: create: method: *POST
+    }
+    path: "/tokenization/detokenize": {
+      op: create: method: *POST
+    }
+  }
+
+  entity: tokenize: {
+    path: "/healthcheck/tokenize": {
+      op: list: method: *GET
+    }
+    path: "/tokenization/batch/tokenize": {
+      op: create: method: *POST
+    }
+    path: "/tokenization/delete": {
+      op: create: method: *POST
+    }
+    path: "/tokenization/tokenize": {
+      op: create: method: *POST
+    }
+  }
+
+  entity: tokenize_batch: {
+    path: "/tokenization/batch/delete": {
+      op: create: method: *POST
+    }
+    path: "/tokenization/batch/read": {
+      op: create: method: *POST
+    }
+  }
+
+  entity: tokenize_read: {
+    path: "/tokenization/read": {
+      op: create: method: *POST
+    }
+  }
+
+  entity: validate: {
+    path: "/partner/validate": {
+      op: create: method: *POST
+    }
+    path: "/template/validate": {
+      op: create: method: *POST
+    }
+  }
+
+}

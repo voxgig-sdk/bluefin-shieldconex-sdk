@@ -1,0 +1,60 @@
+# Entity: validate
+
+main: kit: entity: validate: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "message_id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "reference"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "template_ref"
+      req: true
+      type: "`$STRING`"
+    }
+  ]
+
+  name: "validate"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          method: "POST"
+          orig: "/partner/validate"
+          parts: [
+            "partner"
+            "validate"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          method: "POST"
+          orig: "/template/validate"
+          parts: [
+            "template"
+            "validate"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

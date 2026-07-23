@@ -1,0 +1,200 @@
+# Entity: tokenize
+
+main: kit: entity: tokenize: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "batch"
+      op: {
+        create: {
+          req: true
+          type: "`$ARRAY`"
+        }
+      }
+      req: false
+      type: "`$ARRAY`"
+    }
+    {
+      name: "bfid"
+      op: {
+        create: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "message_id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "name"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "reference"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "template_ref"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "value"
+      op: {
+        create: {
+          req: true
+          type: "`$ARRAY`"
+        }
+      }
+      req: false
+      type: "`$ARRAY`"
+    }
+  ]
+
+  name: "tokenize"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          args: {
+            query: [
+              {
+                kind: "query"
+                name: "omit"
+                orig: "omit"
+                reqd: false
+                type: "`$NUMBER`"
+              }
+            ]
+          }
+          method: "POST"
+          orig: "/tokenization/batch/tokenize"
+          parts: [
+            "tokenization"
+            "batch"
+            "tokenize"
+          ]
+          select: {
+            exist: [
+              "omit"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          args: {
+            query: [
+              {
+                kind: "query"
+                name: "omit"
+                orig: "omit"
+                reqd: false
+                type: "`$NUMBER`"
+              }
+            ]
+          }
+          method: "POST"
+          orig: "/tokenization/tokenize"
+          parts: [
+            "tokenization"
+            "tokenize"
+          ]
+          select: {
+            exist: [
+              "omit"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          method: "POST"
+          orig: "/tokenization/delete"
+          parts: [
+            "tokenization"
+            "delete"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            query: [
+              {
+                kind: "query"
+                name: "field_name"
+                orig: "field_name"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "field_value"
+                orig: "field_value"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "reference"
+                orig: "reference"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "template_ref"
+                orig: "template_ref"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/healthcheck/tokenize"
+          parts: [
+            "healthcheck"
+            "tokenize"
+          ]
+          select: {
+            exist: [
+              "field_name"
+              "field_value"
+              "reference"
+              "template_ref"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

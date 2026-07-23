@@ -1,0 +1,49 @@
+{
+  "existing": {
+    "tokenize": {
+      "TOKENIZE00": {
+        "batch": [],
+        "bfid": "s47",
+        "message_id": "MESSAGE01",
+        "name": "s49",
+        "reference": "s4a",
+        "template_ref": "s4b",
+        "value": [],
+        "id": "TOKENIZE00"
+      },
+      "TOKENIZE01": {
+        "batch": [],
+        "bfid": "s8d",
+        "message_id": "MESSAGE01",
+        "name": "s8f",
+        "reference": "s90",
+        "template_ref": "s91",
+        "value": [],
+        "id": "TOKENIZE01"
+      },
+      "TOKENIZE02": {
+        "batch": [],
+        "bfid": "sd3",
+        "message_id": "MESSAGE01",
+        "name": "sd5",
+        "reference": "sd6",
+        "template_ref": "sd7",
+        "value": [],
+        "id": "TOKENIZE02"
+      }
+    }
+  },
+  "new": {
+    "tokenize": {
+      "tokenize_ref01": {
+        "batch": [],
+        "bfid": "s119",
+        "message_id": "MESSAGE01",
+        "name": "s11b",
+        "reference": "s11c",
+        "template_ref": "s11d",
+        "value": []
+      }
+    }
+  }
+}

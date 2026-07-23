@@ -1,0 +1,33 @@
+{
+  "existing": {
+    "validate": {
+      "VALIDATE00": {
+        "message_id": "MESSAGE01",
+        "reference": "s1f",
+        "template_ref": "s20",
+        "id": "VALIDATE00"
+      },
+      "VALIDATE01": {
+        "message_id": "MESSAGE01",
+        "reference": "s3d",
+        "template_ref": "s3e",
+        "id": "VALIDATE01"
+      },
+      "VALIDATE02": {
+        "message_id": "MESSAGE01",
+        "reference": "s5b",
+        "template_ref": "s5c",
+        "id": "VALIDATE02"
+      }
+    }
+  },
+  "new": {
+    "validate": {
+      "validate_ref01": {
+        "message_id": "MESSAGE01",
+        "reference": "s79",
+        "template_ref": "s7a"
+      }
+    }
+  }
+}

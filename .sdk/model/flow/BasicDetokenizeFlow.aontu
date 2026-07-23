@@ -1,0 +1,30 @@
+# BasicDetokenizeFlow
+
+main: kit: flow: BasicDetokenizeFlow:
+{
+  entity: "detokenize",
+  kind: "basic",
+  name: "BasicDetokenizeFlow",
+  step: [
+    {
+      input: {
+        ref: "detokenize_ref01"
+      }
+
+      op: "create"
+    }
+
+    {
+      op: "list",
+      valid: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "detokenize_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicDetokenizeFlow"
+}

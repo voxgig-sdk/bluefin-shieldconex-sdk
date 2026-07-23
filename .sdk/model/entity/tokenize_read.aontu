@@ -1,0 +1,64 @@
+# Entity: tokenize_read
+
+main: kit: entity: tokenize_read: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "bfid"
+      op: {
+        create: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "message_id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "reference"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "state"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "value"
+      req: false
+      type: "`$ARRAY`"
+    }
+  ]
+
+  name: "tokenize_read"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          method: "POST"
+          orig: "/tokenization/read"
+          parts: [
+            "tokenization"
+            "read"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

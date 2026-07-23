@@ -1,0 +1,30 @@
+# BasicTokenizeFlow
+
+main: kit: flow: BasicTokenizeFlow:
+{
+  entity: "tokenize",
+  kind: "basic",
+  name: "BasicTokenizeFlow",
+  step: [
+    {
+      input: {
+        ref: "tokenize_ref01"
+      }
+
+      op: "create"
+    }
+
+    {
+      op: "list",
+      valid: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "tokenize_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicTokenizeFlow"
+}

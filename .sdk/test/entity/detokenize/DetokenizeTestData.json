@@ -1,0 +1,45 @@
+{
+  "existing": {
+    "detokenize": {
+      "DETOKENIZE00": {
+        "batch": [],
+        "bfid": "s3d",
+        "message_id": "MESSAGE01",
+        "name": "s3f",
+        "reference": "s40",
+        "value": [],
+        "id": "DETOKENIZE00"
+      },
+      "DETOKENIZE01": {
+        "batch": [],
+        "bfid": "s79",
+        "message_id": "MESSAGE01",
+        "name": "s7b",
+        "reference": "s7c",
+        "value": [],
+        "id": "DETOKENIZE01"
+      },
+      "DETOKENIZE02": {
+        "batch": [],
+        "bfid": "sb5",
+        "message_id": "MESSAGE01",
+        "name": "sb7",
+        "reference": "sb8",
+        "value": [],
+        "id": "DETOKENIZE02"
+      }
+    }
+  },
+  "new": {
+    "detokenize": {
+      "detokenize_ref01": {
+        "batch": [],
+        "bfid": "sf1",
+        "message_id": "MESSAGE01",
+        "name": "sf3",
+        "reference": "sf4",
+        "value": []
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+# BasicTokenizeReadFlow
+
+main: kit: flow: BasicTokenizeReadFlow:
+{
+  entity: "tokenize_read",
+  kind: "basic",
+  name: "BasicTokenizeReadFlow",
+  step: [
+    {
+      input: {
+        ref: "tokenize_read_ref01"
+      }
+
+      op: "create"
+    }
+  ],
+  "key$": "BasicTokenizeReadFlow"
+}

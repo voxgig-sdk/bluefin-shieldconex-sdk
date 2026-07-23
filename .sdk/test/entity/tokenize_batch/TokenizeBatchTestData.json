@@ -1,0 +1,33 @@
+{
+  "existing": {
+    "tokenize_batch": {
+      "TOKENIZE_BATCH00": {
+        "batch": [],
+        "message_id": "MESSAGE01",
+        "reference": "s20",
+        "id": "TOKENIZE_BATCH00"
+      },
+      "TOKENIZE_BATCH01": {
+        "batch": [],
+        "message_id": "MESSAGE01",
+        "reference": "s3e",
+        "id": "TOKENIZE_BATCH01"
+      },
+      "TOKENIZE_BATCH02": {
+        "batch": [],
+        "message_id": "MESSAGE01",
+        "reference": "s5c",
+        "id": "TOKENIZE_BATCH02"
+      }
+    }
+  },
+  "new": {
+    "tokenize_batch": {
+      "tokenize_batch_ref01": {
+        "batch": [],
+        "message_id": "MESSAGE01",
+        "reference": "s7a"
+      }
+    }
+  }
+}
