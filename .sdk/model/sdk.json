@@ -686,6 +686,24 @@
           },
           "name": "test",
           "target": {
+            "c": {
+              "deps": {}
+            },
+            "clojure": {
+              "deps": {}
+            },
+            "cpp": {
+              "deps": {}
+            },
+            "csharp": {
+              "deps": {}
+            },
+            "dart": {
+              "deps": {}
+            },
+            "elixir": {
+              "deps": {}
+            },
             "go": {
               "deps": {}
             },
@@ -695,7 +713,25 @@
             "go-mcp": {
               "deps": {}
             },
+            "haskell": {
+              "deps": {}
+            },
+            "java": {
+              "deps": {}
+            },
+            "js": {
+              "deps": {}
+            },
+            "kotlin": {
+              "deps": {}
+            },
             "lua": {
+              "deps": {}
+            },
+            "ocaml": {
+              "deps": {}
+            },
+            "perl": {
               "deps": {}
             },
             "php": {
@@ -707,7 +743,19 @@
             "rb": {
               "deps": {}
             },
+            "rust": {
+              "deps": {}
+            },
+            "scala": {
+              "deps": {}
+            },
+            "swift": {
+              "deps": {}
+            },
             "ts": {
+              "deps": {}
+            },
+            "zig": {
               "deps": {}
             }
           },
@@ -875,6 +923,229 @@
       },
       "option": {},
       "target": {
+        "c": {
+          "active": true,
+          "comment": {
+            "line": "//"
+          },
+          "deps": {},
+          "ext": "c",
+          "module": {
+            "name": "bluefin-shieldconex"
+          },
+          "name": "c",
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "none",
+              "package": "",
+              "state": "pending",
+              "url": "",
+              "vault": {
+                "alias": "none",
+                "env": "NONE",
+                "recipe": ""
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            }
+          },
+          "srcfeature": false,
+          "title": "C"
+        },
+        "clojure": {
+          "active": true,
+          "comment": {
+            "line": ";"
+          },
+          "deps": {},
+          "ext": "clj",
+          "module": {
+            "name": "bluefin-shieldconex"
+          },
+          "name": "clojure",
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "clojars",
+              "package": "",
+              "state": "pending",
+              "url": "https://clojars.org",
+              "vault": {
+                "alias": "clojars",
+                "env": "",
+                "recipe": ""
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            }
+          },
+          "srcfeature": false,
+          "title": "Clojure"
+        },
+        "cpp": {
+          "active": true,
+          "comment": {
+            "line": "//"
+          },
+          "deps": {},
+          "ext": "hpp",
+          "module": {
+            "name": "bluefin-shieldconex"
+          },
+          "name": "cpp",
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "none",
+              "package": "",
+              "state": "pending",
+              "url": "",
+              "vault": {
+                "alias": "",
+                "env": "",
+                "recipe": ""
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            }
+          },
+          "srcfeature": false,
+          "title": "C++"
+        },
+        "csharp": {
+          "active": true,
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
+          "comment": {
+            "line": "//"
+          },
+          "deps": {},
+          "ext": "cs",
+          "module": {
+            "name": "bluefin-shieldconex"
+          },
+          "name": "csharp",
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "nuget",
+              "package": "",
+              "state": "pending",
+              "url": "https://www.nuget.org",
+              "vault": {
+                "alias": "nuget",
+                "env": "NUGET_API_KEY",
+                "recipe": ""
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            }
+          },
+          "srcfeature": false,
+          "title": "C#"
+        },
+        "dart": {
+          "active": true,
+          "comment": {
+            "line": "//"
+          },
+          "deps": {},
+          "ext": "dart",
+          "module": {
+            "name": "bluefin-shieldconex"
+          },
+          "name": "dart",
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "pub.dev",
+              "package": "",
+              "state": "pending",
+              "url": "https://pub.dev",
+              "vault": {
+                "alias": "pubdev",
+                "env": "PUB_CREDENTIALS",
+                "recipe": ""
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            }
+          },
+          "srcfeature": false,
+          "title": "Dart"
+        },
+        "elixir": {
+          "active": true,
+          "comment": {
+            "line": "#"
+          },
+          "deps": {},
+          "ext": "ex",
+          "module": {
+            "name": "bluefin-shieldconex"
+          },
+          "name": "elixir",
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "hex",
+              "package": "",
+              "state": "pending",
+              "url": "https://hex.pm",
+              "vault": {
+                "alias": "hex",
+                "env": "",
+                "recipe": "hex"
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            }
+          },
+          "srcfeature": false,
+          "title": "Elixir"
+        },
         "go": {
           "active": true,
           "comment": {
@@ -1018,6 +1289,176 @@
           },
           "title": "Go MCP server"
         },
+        "haskell": {
+          "active": true,
+          "comment": {
+            "line": "--"
+          },
+          "deps": {},
+          "ext": "hs",
+          "module": {
+            "name": "bluefin-shieldconex"
+          },
+          "name": "haskell",
+          "phase": {
+            "agentguide": {
+              "active": true
+            },
+            "entity": {
+              "active": false
+            },
+            "feature": {
+              "active": false
+            },
+            "readme": {
+              "active": true
+            },
+            "test": {
+              "active": true
+            }
+          },
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "hackage",
+              "package": "",
+              "state": "pending",
+              "url": "https://hackage.haskell.org",
+              "vault": {
+                "alias": "hackage",
+                "env": "HACKAGE_TOKEN",
+                "recipe": ""
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            }
+          },
+          "srcfeature": false,
+          "title": "Haskell"
+        },
+        "java": {
+          "active": true,
+          "comment": {
+            "line": "//"
+          },
+          "deps": {},
+          "ext": "java",
+          "module": {
+            "name": "bluefin-shieldconex"
+          },
+          "name": "java",
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "maven-central",
+              "package": "",
+              "state": "pending",
+              "url": "https://central.sonatype.com",
+              "vault": {
+                "alias": "central",
+                "env": "",
+                "recipe": "maven"
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            }
+          },
+          "srcfeature": false,
+          "title": "Java"
+        },
+        "js": {
+          "active": true,
+          "comment": {
+            "line": "//"
+          },
+          "deps": {
+            "dotenv": {
+              "active": true,
+              "kind": "dev",
+              "version": "^17.4.2"
+            }
+          },
+          "ext": "js",
+          "module": {
+            "name": "bluefin-shieldconex"
+          },
+          "name": "js",
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "npm",
+              "package": "",
+              "state": "pending",
+              "url": "https://registry.npmjs.org",
+              "vault": {
+                "alias": "npm",
+                "env": "",
+                "recipe": "npm"
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            }
+          },
+          "title": "JavaScript"
+        },
+        "kotlin": {
+          "active": true,
+          "comment": {
+            "line": "//"
+          },
+          "deps": {},
+          "ext": "kt",
+          "module": {
+            "name": "bluefin-shieldconex"
+          },
+          "name": "kotlin",
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "maven-central",
+              "package": "",
+              "state": "pending",
+              "url": "https://central.sonatype.com",
+              "vault": {
+                "alias": "central",
+                "env": "",
+                "recipe": "maven"
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            }
+          },
+          "srcfeature": false,
+          "title": "Kotlin"
+        },
         "lua": {
           "active": true,
           "comment": {
@@ -1060,6 +1501,80 @@
           },
           "srcfeature": false,
           "title": "Lua"
+        },
+        "ocaml": {
+          "active": true,
+          "comment": {
+            "line": "//"
+          },
+          "deps": {},
+          "ext": "ml",
+          "module": {
+            "name": "bluefin-shieldconex"
+          },
+          "name": "ocaml",
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "opam",
+              "package": "",
+              "state": "pending",
+              "url": "https://opam.ocaml.org",
+              "vault": {
+                "alias": "opam",
+                "env": "OPAM_PUBLISH_TOKEN",
+                "recipe": ""
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            }
+          },
+          "srcfeature": false,
+          "title": "OCaml"
+        },
+        "perl": {
+          "active": true,
+          "comment": {
+            "line": "#"
+          },
+          "deps": {},
+          "ext": "pl",
+          "module": {
+            "name": "bluefin-shieldconex"
+          },
+          "name": "perl",
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "cpan",
+              "package": "",
+              "state": "pending",
+              "url": "https://www.cpan.org",
+              "vault": {
+                "alias": "cpan",
+                "env": "",
+                "recipe": "cpan"
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            }
+          },
+          "srcfeature": false,
+          "title": "Perl"
         },
         "php": {
           "active": true,
@@ -1189,6 +1704,124 @@
           "srcfeature": false,
           "title": "Ruby"
         },
+        "rust": {
+          "active": true,
+          "comment": {
+            "line": "//"
+          },
+          "deps": {
+            "ureq": {
+              "active": true,
+              "kind": "prod",
+              "version": "2"
+            }
+          },
+          "ext": "rs",
+          "module": {
+            "name": "bluefin-shieldconex"
+          },
+          "name": "rust",
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "crates.io",
+              "package": "",
+              "state": "pending",
+              "url": "https://crates.io",
+              "vault": {
+                "alias": "cratesio",
+                "env": "CARGO_REGISTRY_TOKEN",
+                "recipe": ""
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            }
+          },
+          "srcfeature": false,
+          "title": "Rust"
+        },
+        "scala": {
+          "active": true,
+          "comment": {
+            "line": "//"
+          },
+          "deps": {},
+          "ext": "scala",
+          "module": {
+            "name": "bluefin-shieldconex"
+          },
+          "name": "scala",
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "maven-central",
+              "package": "",
+              "state": "pending",
+              "url": "https://central.sonatype.com",
+              "vault": {
+                "alias": "central",
+                "env": "",
+                "recipe": "maven"
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            }
+          },
+          "srcfeature": false,
+          "title": "Scala"
+        },
+        "swift": {
+          "active": true,
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
+          "comment": {
+            "line": "//"
+          },
+          "deps": {},
+          "ext": "swift",
+          "module": {
+            "name": "bluefin-shieldconex"
+          },
+          "name": "swift",
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "swiftpm",
+              "package": "",
+              "state": "pending",
+              "url": "https://swift.org/package-manager",
+              "vault": {
+                "alias": "swiftpm",
+                "env": "SWIFTPM_TOKEN",
+                "recipe": ""
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            }
+          },
+          "srcfeature": false,
+          "title": "Swift"
+        },
         "ts": {
           "active": true,
           "base": "node_modules/@voxgig/sdkgen/project/.sdk",
@@ -1241,6 +1874,43 @@
             }
           },
           "title": "TypeScript"
+        },
+        "zig": {
+          "active": true,
+          "comment": {
+            "line": "//"
+          },
+          "deps": {},
+          "ext": "zig",
+          "module": {
+            "name": "bluefin-shieldconex"
+          },
+          "name": "zig",
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "none",
+              "package": "",
+              "state": "pending",
+              "url": "",
+              "vault": {
+                "alias": "none",
+                "env": "NONE",
+                "recipe": ""
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            }
+          },
+          "srcfeature": false,
+          "title": "Zig"
         }
       }
     }
