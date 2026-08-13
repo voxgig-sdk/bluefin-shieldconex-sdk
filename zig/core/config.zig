@@ -39,7 +39,7 @@ pub fn make_config() Value {
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
                         .{ "active", h.vbool(true) },
-                        .{ "name", h.vstr("batch") },
+                        .{ "name", h.vstr("batches") },
                         .{ "op", h.jo(&.{
                             .{ "create", h.jo(&.{
                                 .{ "req", h.vbool(true) },
@@ -65,7 +65,7 @@ pub fn make_config() Value {
                     }),
                     h.jo(&.{
                         .{ "active", h.vbool(true) },
-                        .{ "name", h.vstr("message_id") },
+                        .{ "name", h.vstr("messageId") },
                         .{ "req", h.vbool(false) },
                         .{ "type", h.vstr("`$STRING`") },
                         .{ "index$", h.vnum(2) },
@@ -87,6 +87,13 @@ pub fn make_config() Value {
                     h.jo(&.{
                         .{ "active", h.vbool(true) },
                         .{ "name", h.vstr("value") },
+                        .{ "req", h.vbool(false) },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "index$", h.vnum(5) },
+                    }),
+                    h.jo(&.{
+                        .{ "active", h.vbool(true) },
+                        .{ "name", h.vstr("values") },
                         .{ "op", h.jo(&.{
                             .{ "create", h.jo(&.{
                                 .{ "req", h.vbool(true) },
@@ -95,7 +102,7 @@ pub fn make_config() Value {
                         }) },
                         .{ "req", h.vbool(false) },
                         .{ "type", h.vstr("`$ARRAY`") },
-                        .{ "index$", h.vnum(5) },
+                        .{ "index$", h.vnum(6) },
                     }),
                 }) },
                 .{ "name", h.vstr("detokenize") },
@@ -107,6 +114,7 @@ pub fn make_config() Value {
                             h.jo(&.{
                                 .{ "active", h.vbool(true) },
                                 .{ "args", h.omap() },
+                                .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/tokenization/batch/detokenize") },
                                 .{ "parts", h.ja(&.{
@@ -124,6 +132,7 @@ pub fn make_config() Value {
                             h.jo(&.{
                                 .{ "active", h.vbool(true) },
                                 .{ "args", h.omap() },
+                                .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/tokenization/detokenize") },
                                 .{ "parts", h.ja(&.{
@@ -182,6 +191,7 @@ pub fn make_config() Value {
                                         }),
                                     }) },
                                 }) },
+                                .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/healthcheck/detokenize") },
                                 .{ "parts", h.ja(&.{
@@ -214,7 +224,7 @@ pub fn make_config() Value {
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
                         .{ "active", h.vbool(true) },
-                        .{ "name", h.vstr("batch") },
+                        .{ "name", h.vstr("batches") },
                         .{ "op", h.jo(&.{
                             .{ "create", h.jo(&.{
                                 .{ "req", h.vbool(true) },
@@ -240,7 +250,7 @@ pub fn make_config() Value {
                     }),
                     h.jo(&.{
                         .{ "active", h.vbool(true) },
-                        .{ "name", h.vstr("message_id") },
+                        .{ "name", h.vstr("messageId") },
                         .{ "req", h.vbool(false) },
                         .{ "type", h.vstr("`$STRING`") },
                         .{ "index$", h.vnum(2) },
@@ -261,7 +271,7 @@ pub fn make_config() Value {
                     }),
                     h.jo(&.{
                         .{ "active", h.vbool(true) },
-                        .{ "name", h.vstr("template_ref") },
+                        .{ "name", h.vstr("templateRef") },
                         .{ "req", h.vbool(true) },
                         .{ "type", h.vstr("`$STRING`") },
                         .{ "index$", h.vnum(5) },
@@ -269,6 +279,13 @@ pub fn make_config() Value {
                     h.jo(&.{
                         .{ "active", h.vbool(true) },
                         .{ "name", h.vstr("value") },
+                        .{ "req", h.vbool(false) },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "index$", h.vnum(6) },
+                    }),
+                    h.jo(&.{
+                        .{ "active", h.vbool(true) },
+                        .{ "name", h.vstr("values") },
                         .{ "op", h.jo(&.{
                             .{ "create", h.jo(&.{
                                 .{ "req", h.vbool(true) },
@@ -277,7 +294,7 @@ pub fn make_config() Value {
                         }) },
                         .{ "req", h.vbool(false) },
                         .{ "type", h.vstr("`$ARRAY`") },
-                        .{ "index$", h.vnum(6) },
+                        .{ "index$", h.vnum(7) },
                     }),
                 }) },
                 .{ "name", h.vstr("tokenize") },
@@ -300,6 +317,7 @@ pub fn make_config() Value {
                                         }),
                                     }) },
                                 }) },
+                                .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/tokenization/batch/tokenize") },
                                 .{ "parts", h.ja(&.{
@@ -332,6 +350,7 @@ pub fn make_config() Value {
                                         }),
                                     }) },
                                 }) },
+                                .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/tokenization/tokenize") },
                                 .{ "parts", h.ja(&.{
@@ -352,6 +371,7 @@ pub fn make_config() Value {
                             h.jo(&.{
                                 .{ "active", h.vbool(true) },
                                 .{ "args", h.omap() },
+                                .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/tokenization/delete") },
                                 .{ "parts", h.ja(&.{
@@ -410,6 +430,7 @@ pub fn make_config() Value {
                                         }),
                                     }) },
                                 }) },
+                                .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/healthcheck/tokenize") },
                                 .{ "parts", h.ja(&.{
@@ -442,7 +463,7 @@ pub fn make_config() Value {
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
                         .{ "active", h.vbool(true) },
-                        .{ "name", h.vstr("batch") },
+                        .{ "name", h.vstr("batches") },
                         .{ "op", h.jo(&.{
                             .{ "create", h.jo(&.{
                                 .{ "req", h.vbool(true) },
@@ -455,7 +476,7 @@ pub fn make_config() Value {
                     }),
                     h.jo(&.{
                         .{ "active", h.vbool(true) },
-                        .{ "name", h.vstr("message_id") },
+                        .{ "name", h.vstr("messageId") },
                         .{ "req", h.vbool(false) },
                         .{ "type", h.vstr("`$STRING`") },
                         .{ "index$", h.vnum(1) },
@@ -477,6 +498,7 @@ pub fn make_config() Value {
                             h.jo(&.{
                                 .{ "active", h.vbool(true) },
                                 .{ "args", h.omap() },
+                                .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/tokenization/batch/delete") },
                                 .{ "parts", h.ja(&.{
@@ -494,6 +516,7 @@ pub fn make_config() Value {
                             h.jo(&.{
                                 .{ "active", h.vbool(true) },
                                 .{ "args", h.omap() },
+                                .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/tokenization/batch/read") },
                                 .{ "parts", h.ja(&.{
@@ -533,7 +556,7 @@ pub fn make_config() Value {
                     }),
                     h.jo(&.{
                         .{ "active", h.vbool(true) },
-                        .{ "name", h.vstr("message_id") },
+                        .{ "name", h.vstr("messageId") },
                         .{ "req", h.vbool(false) },
                         .{ "type", h.vstr("`$STRING`") },
                         .{ "index$", h.vnum(1) },
@@ -554,7 +577,7 @@ pub fn make_config() Value {
                     }),
                     h.jo(&.{
                         .{ "active", h.vbool(true) },
-                        .{ "name", h.vstr("value") },
+                        .{ "name", h.vstr("values") },
                         .{ "req", h.vbool(false) },
                         .{ "type", h.vstr("`$ARRAY`") },
                         .{ "index$", h.vnum(4) },
@@ -569,6 +592,7 @@ pub fn make_config() Value {
                             h.jo(&.{
                                 .{ "active", h.vbool(true) },
                                 .{ "args", h.omap() },
+                                .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/tokenization/read") },
                                 .{ "parts", h.ja(&.{
@@ -594,7 +618,7 @@ pub fn make_config() Value {
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
                         .{ "active", h.vbool(true) },
-                        .{ "name", h.vstr("message_id") },
+                        .{ "name", h.vstr("messageId") },
                         .{ "req", h.vbool(false) },
                         .{ "type", h.vstr("`$STRING`") },
                         .{ "index$", h.vnum(0) },
@@ -608,7 +632,7 @@ pub fn make_config() Value {
                     }),
                     h.jo(&.{
                         .{ "active", h.vbool(true) },
-                        .{ "name", h.vstr("template_ref") },
+                        .{ "name", h.vstr("templateRef") },
                         .{ "req", h.vbool(true) },
                         .{ "type", h.vstr("`$STRING`") },
                         .{ "index$", h.vnum(2) },
@@ -623,6 +647,7 @@ pub fn make_config() Value {
                             h.jo(&.{
                                 .{ "active", h.vbool(true) },
                                 .{ "args", h.omap() },
+                                .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/partner/validate") },
                                 .{ "parts", h.ja(&.{
@@ -639,6 +664,7 @@ pub fn make_config() Value {
                             h.jo(&.{
                                 .{ "active", h.vbool(true) },
                                 .{ "args", h.omap() },
+                                .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/template/validate") },
                                 .{ "parts", h.ja(&.{

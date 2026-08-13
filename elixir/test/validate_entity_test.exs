@@ -31,7 +31,8 @@ defmodule BluefinShieldconex.ValidateEntityTest do
   test "should create then read back" do
     sdk = BluefinShieldconex.test(S.jm(["entity", S.jm(["validate", S.jm([])])]))
     ent = BluefinShieldconex.validate(sdk)
-    made = BluefinShieldconex.Entity.Validate.create(ent, S.jm(["name", "test-create"]))
+    created = BluefinShieldconex.Entity.Validate.create(ent, S.jm(["name", "test-create"]))
+    made = BluefinShieldconex.EntityBase.data_get(created)
     assert S.ismap(made)
     assert S.getprop(made, "id") != nil
   end

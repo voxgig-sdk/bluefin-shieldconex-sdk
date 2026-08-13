@@ -106,23 +106,25 @@ Prepare a fetch definition without sending. Returns the `fetchdef` and raises on
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `vector` | No |  |
+| `batches` | `vector` | No |  |
 | `bfid` | `string` | No |  |
-| `message_id` | `string` | No |  |
+| `messageId` | `string` | No |  |
 | `name` | `string` | No |  |
 | `reference` | `string` | No |  |
-| `value` | `vector` | No |  |
+| `value` | `string` | No |  |
+| `values` | `vector` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `value` | - | Yes |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
@@ -190,25 +192,27 @@ Return the entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `vector` | No |  |
+| `batches` | `vector` | No |  |
 | `bfid` | `string` | No |  |
-| `message_id` | `string` | No |  |
+| `messageId` | `string` | No |  |
 | `name` | `string` | No |  |
 | `reference` | `string` | No |  |
-| `template_ref` | `string` | Yes |  |
-| `value` | `vector` | No |  |
+| `templateRef` | `string` | Yes |  |
+| `value` | `string` | No |  |
+| `values` | `vector` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `template_ref` | - | - |
-| `value` | - | Yes |
+| `templateRef` | - | - |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
@@ -220,7 +224,7 @@ Create a new entity with the given data. Returns the created entity data and rai
 (def result
   (e-tokenize/create (api/tokenize client nil)
     (vs/jm
-      "template_ref" "example_template_ref"  ;; string
+      "templateRef" "example_templateRef"  ;; string
       )
     nil))
 ```
@@ -277,16 +281,16 @@ Return the entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `vector` | No |  |
-| `message_id` | `string` | No |  |
+| `batches` | `vector` | No |  |
+| `messageId` | `string` | No |  |
 | `reference` | `string` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
-| `batch` | Yes |
-| `message_id` | - |
+| `batches` | Yes |
+| `messageId` | - |
 | `reference` | - |
 
 ### Operations
@@ -347,20 +351,20 @@ Return the entity name.
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `bfid` | `string` | No |  |
-| `message_id` | `string` | No |  |
+| `messageId` | `string` | No |  |
 | `reference` | `string` | No |  |
 | `state` | `map` | No |  |
-| `value` | `vector` | No |  |
+| `values` | `vector` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
 | `bfid` | Yes |
-| `message_id` | - |
+| `messageId` | - |
 | `reference` | - |
 | `state` | - |
-| `value` | - |
+| `values` | - |
 
 ### Operations
 
@@ -419,9 +423,9 @@ Return the entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `message_id` | `string` | No |  |
+| `messageId` | `string` | No |  |
 | `reference` | `string` | No |  |
-| `template_ref` | `string` | Yes |  |
+| `templateRef` | `string` | Yes |  |
 
 ### Operations
 
@@ -433,7 +437,7 @@ Create a new entity with the given data. Returns the created entity data and rai
 (def result
   (e-validate/create (api/validate client nil)
     (vs/jm
-      "template_ref" "example_template_ref"  ;; string
+      "templateRef" "example_templateRef"  ;; string
       )
     nil))
 ```

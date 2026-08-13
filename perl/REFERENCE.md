@@ -105,23 +105,25 @@ my $detokenize = $client->Detokenize;
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `arrayref` | No |  |
+| `batches` | `arrayref` | No |  |
 | `bfid` | `string` | No |  |
-| `message_id` | `string` | No |  |
+| `messageId` | `string` | No |  |
 | `name` | `string` | No |  |
 | `reference` | `string` | No |  |
-| `value` | `arrayref` | No |  |
+| `value` | `string` | No |  |
+| `values` | `arrayref` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `value` | - | Yes |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
@@ -184,25 +186,27 @@ my $tokenize = $client->Tokenize;
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `arrayref` | No |  |
+| `batches` | `arrayref` | No |  |
 | `bfid` | `string` | No |  |
-| `message_id` | `string` | No |  |
+| `messageId` | `string` | No |  |
 | `name` | `string` | No |  |
 | `reference` | `string` | No |  |
-| `template_ref` | `string` | Yes |  |
-| `value` | `arrayref` | No |  |
+| `templateRef` | `string` | Yes |  |
+| `value` | `string` | No |  |
+| `values` | `arrayref` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `template_ref` | - | - |
-| `value` | - | Yes |
+| `templateRef` | - | - |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
@@ -212,7 +216,7 @@ Create a new entity with the given data. Returns the created entity data and die
 
 ```perl
 my $result = $client->Tokenize->create({
-    'template_ref' => 'example_template_ref',  # string
+    'templateRef' => 'example_templateRef',  # string
 });
 ```
 
@@ -266,16 +270,16 @@ my $tokenize_batch = $client->TokenizeBatch;
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `arrayref` | No |  |
-| `message_id` | `string` | No |  |
+| `batches` | `arrayref` | No |  |
+| `messageId` | `string` | No |  |
 | `reference` | `string` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
-| `batch` | Yes |
-| `message_id` | - |
+| `batches` | Yes |
+| `messageId` | - |
 | `reference` | - |
 
 ### Operations
@@ -329,20 +333,20 @@ my $tokenize_read = $client->TokenizeRead;
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `bfid` | `string` | No |  |
-| `message_id` | `string` | No |  |
+| `messageId` | `string` | No |  |
 | `reference` | `string` | No |  |
 | `state` | `hashref` | No |  |
-| `value` | `arrayref` | No |  |
+| `values` | `arrayref` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
 | `bfid` | Yes |
-| `message_id` | - |
+| `messageId` | - |
 | `reference` | - |
 | `state` | - |
-| `value` | - |
+| `values` | - |
 
 ### Operations
 
@@ -394,9 +398,9 @@ my $validate = $client->Validate;
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `message_id` | `string` | No |  |
+| `messageId` | `string` | No |  |
 | `reference` | `string` | No |  |
-| `template_ref` | `string` | Yes |  |
+| `templateRef` | `string` | Yes |  |
 
 ### Operations
 
@@ -406,7 +410,7 @@ Create a new entity with the given data. Returns the created entity data and die
 
 ```perl
 my $result = $client->Validate->create({
-    'template_ref' => 'example_template_ref',  # string
+    'templateRef' => 'example_templateRef',  # string
 });
 ```
 

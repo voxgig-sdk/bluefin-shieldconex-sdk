@@ -3,26 +3,26 @@
     "tokenize_read": {
       "TOKENIZE_READ00": {
         "bfid": "s32",
-        "message_id": "MESSAGE01",
+        "messageId": "s33",
         "reference": "s34",
         "state": {},
-        "value": [],
+        "values": [],
         "id": "TOKENIZE_READ00"
       },
       "TOKENIZE_READ01": {
         "bfid": "s64",
-        "message_id": "MESSAGE01",
+        "messageId": "s65",
         "reference": "s66",
         "state": {},
-        "value": [],
+        "values": [],
         "id": "TOKENIZE_READ01"
       },
       "TOKENIZE_READ02": {
         "bfid": "s96",
-        "message_id": "MESSAGE01",
+        "messageId": "s97",
         "reference": "s98",
         "state": {},
-        "value": [],
+        "values": [],
         "id": "TOKENIZE_READ02"
       }
     }
@@ -31,10 +31,10 @@
     "tokenize_read": {
       "tokenize_read_ref01": {
         "bfid": "sc8",
-        "message_id": "MESSAGE01",
+        "messageId": "sc9",
         "reference": "sca",
         "state": {},
-        "value": []
+        "values": []
       }
     }
   }

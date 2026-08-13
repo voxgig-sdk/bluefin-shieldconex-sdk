@@ -15,110 +15,116 @@ namespace BluefinShieldconexSdk.Types;
 
 public record Detokenize
 {
-    public List<object?>? batch { get; init; }
+    public List<object?>? batches { get; init; }
     public string? bfid { get; init; }
-    public string? message_id { get; init; }
+    public string? messageId { get; init; }
     public string? name { get; init; }
     public string? reference { get; init; }
-    public List<object?>? value { get; init; }
+    public string? value { get; init; }
+    public List<object?>? values { get; init; }
 }
 
 public record DetokenizeListMatch
 {
-    public List<object?>? batch { get; init; }
+    public List<object?>? batches { get; init; }
     public string? bfid { get; init; }
-    public string? message_id { get; init; }
+    public string? messageId { get; init; }
     public string? name { get; init; }
     public string? reference { get; init; }
-    public List<object?>? value { get; init; }
+    public string? value { get; init; }
+    public List<object?>? values { get; init; }
 }
 
 public record DetokenizeCreateData
 {
-    public List<object?>? batch { get; init; }
+    public List<object?>? batches { get; init; }
     public string? bfid { get; init; }
-    public string? message_id { get; init; }
+    public string? messageId { get; init; }
     public string? name { get; init; }
     public string? reference { get; init; }
-    public List<object?>? value { get; init; }
+    public string? value { get; init; }
+    public List<object?>? values { get; init; }
 }
 
 public record Tokenize
 {
-    public List<object?>? batch { get; init; }
+    public List<object?>? batches { get; init; }
     public string? bfid { get; init; }
-    public string? message_id { get; init; }
+    public string? messageId { get; init; }
     public string? name { get; init; }
     public string? reference { get; init; }
-    public string template_ref { get; init; }
-    public List<object?>? value { get; init; }
+    public string templateRef { get; init; }
+    public string? value { get; init; }
+    public List<object?>? values { get; init; }
 }
 
 public record TokenizeListMatch
 {
-    public List<object?>? batch { get; init; }
+    public List<object?>? batches { get; init; }
     public string? bfid { get; init; }
-    public string? message_id { get; init; }
+    public string? messageId { get; init; }
     public string? name { get; init; }
     public string? reference { get; init; }
-    public string? template_ref { get; init; }
-    public List<object?>? value { get; init; }
+    public string? templateRef { get; init; }
+    public string? value { get; init; }
+    public List<object?>? values { get; init; }
 }
 
 public record TokenizeCreateData
 {
-    public List<object?>? batch { get; init; }
+    public List<object?>? batches { get; init; }
     public string? bfid { get; init; }
-    public string? message_id { get; init; }
+    public string? messageId { get; init; }
     public string? name { get; init; }
     public string? reference { get; init; }
-    public string template_ref { get; init; }
-    public List<object?>? value { get; init; }
+    public string templateRef { get; init; }
+    public string? value { get; init; }
+    public List<object?>? values { get; init; }
 }
 
 public record TokenizeBatch
 {
-    public List<object?>? batch { get; init; }
-    public string? message_id { get; init; }
+    public List<object?>? batches { get; init; }
+    public string? messageId { get; init; }
     public string? reference { get; init; }
 }
 
 public record TokenizeBatchCreateData
 {
-    public List<object?>? batch { get; init; }
-    public string? message_id { get; init; }
+    public List<object?>? batches { get; init; }
+    public string? messageId { get; init; }
     public string? reference { get; init; }
 }
 
 public record TokenizeRead
 {
     public string? bfid { get; init; }
-    public string? message_id { get; init; }
+    public string? messageId { get; init; }
     public string? reference { get; init; }
     public Dictionary<string, object?>? state { get; init; }
-    public List<object?>? value { get; init; }
+    public List<object?>? values { get; init; }
 }
 
 public record TokenizeReadCreateData
 {
     public string? bfid { get; init; }
-    public string? message_id { get; init; }
+    public string? messageId { get; init; }
     public string? reference { get; init; }
     public Dictionary<string, object?>? state { get; init; }
-    public List<object?>? value { get; init; }
+    public List<object?>? values { get; init; }
 }
 
 public record Validate
 {
-    public string? message_id { get; init; }
+    public string? messageId { get; init; }
     public string? reference { get; init; }
-    public string template_ref { get; init; }
+    public string templateRef { get; init; }
 }
 
 public record ValidateCreateData
 {
-    public string? message_id { get; init; }
+    public string? messageId { get; init; }
     public string? reference { get; init; }
-    public string template_ref { get; init; }
+    public string templateRef { get; init; }
 }
 

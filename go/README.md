@@ -63,7 +63,7 @@ func main() {
     }
 
     // Create a detokenize.
-    created, err := client.Detokenize(nil).Create(map[string]any{"batch": []any{}, "bfid": "example_bfid"}, nil)
+    created, err := client.Detokenize(nil).Create(map[string]any{"batches": []any{}, "bfid": "example_bfid"}, nil)
     if err != nil {
         panic(err)
     }
@@ -278,12 +278,13 @@ Only `Direct()` returns a response envelope — a `map[string]any` with
 
 | Field | Description |
 | --- | --- |
-| `"batch"` |  |
+| `"batches"` |  |
 | `"bfid"` |  |
-| `"message_id"` |  |
+| `"messageId"` |  |
 | `"name"` |  |
 | `"reference"` |  |
 | `"value"` |  |
+| `"values"` |  |
 
 Operations: Create, List.
 
@@ -293,13 +294,14 @@ API path: `/tokenization/batch/detokenize`
 
 | Field | Description |
 | --- | --- |
-| `"batch"` |  |
+| `"batches"` |  |
 | `"bfid"` |  |
-| `"message_id"` |  |
+| `"messageId"` |  |
 | `"name"` |  |
 | `"reference"` |  |
-| `"template_ref"` |  |
+| `"templateRef"` |  |
 | `"value"` |  |
+| `"values"` |  |
 
 Operations: Create, List.
 
@@ -309,8 +311,8 @@ API path: `/tokenization/batch/tokenize`
 
 | Field | Description |
 | --- | --- |
-| `"batch"` |  |
-| `"message_id"` |  |
+| `"batches"` |  |
+| `"messageId"` |  |
 | `"reference"` |  |
 
 Operations: Create.
@@ -322,10 +324,10 @@ API path: `/tokenization/batch/delete`
 | Field | Description |
 | --- | --- |
 | `"bfid"` |  |
-| `"message_id"` |  |
+| `"messageId"` |  |
 | `"reference"` |  |
 | `"state"` |  |
-| `"value"` |  |
+| `"values"` |  |
 
 Operations: Create.
 
@@ -335,9 +337,9 @@ API path: `/tokenization/read`
 
 | Field | Description |
 | --- | --- |
-| `"message_id"` |  |
+| `"messageId"` |  |
 | `"reference"` |  |
-| `"template_ref"` |  |
+| `"templateRef"` |  |
 
 Operations: Create.
 
@@ -363,12 +365,13 @@ Create an instance: `detokenize := client.Detokenize(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `[]any` |  |
+| `batches` | `[]any` |  |
 | `bfid` | `string` |  |
-| `message_id` | `string` |  |
+| `messageId` | `string` |  |
 | `name` | `string` |  |
 | `reference` | `string` |  |
-| `value` | `[]any` |  |
+| `value` | `string` |  |
+| `values` | `[]any` |  |
 
 #### Example: List
 
@@ -407,13 +410,14 @@ Create an instance: `tokenize := client.Tokenize(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `[]any` |  |
+| `batches` | `[]any` |  |
 | `bfid` | `string` |  |
-| `message_id` | `string` |  |
+| `messageId` | `string` |  |
 | `name` | `string` |  |
 | `reference` | `string` |  |
-| `template_ref` | `string` |  |
-| `value` | `[]any` |  |
+| `templateRef` | `string` |  |
+| `value` | `string` |  |
+| `values` | `[]any` |  |
 
 #### Example: List
 
@@ -429,7 +433,7 @@ fmt.Println(tokenizes) // the array of records
 
 ```go
 result, err := client.Tokenize(nil).Create(map[string]any{
-    "template_ref": "example_template_ref",
+    "templateRef": "example_templateRef",
 }, nil)
 if err != nil {
     panic(err)
@@ -452,8 +456,8 @@ Create an instance: `tokenizeBatch := client.TokenizeBatch(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `[]any` |  |
-| `message_id` | `string` |  |
+| `batches` | `[]any` |  |
+| `messageId` | `string` |  |
 | `reference` | `string` |  |
 
 #### Example: Create
@@ -483,10 +487,10 @@ Create an instance: `tokenizeRead := client.TokenizeRead(nil)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `bfid` | `string` |  |
-| `message_id` | `string` |  |
+| `messageId` | `string` |  |
 | `reference` | `string` |  |
 | `state` | `map[string]any` |  |
-| `value` | `[]any` |  |
+| `values` | `[]any` |  |
 
 #### Example: Create
 
@@ -514,15 +518,15 @@ Create an instance: `validate := client.Validate(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `message_id` | `string` |  |
+| `messageId` | `string` |  |
 | `reference` | `string` |  |
-| `template_ref` | `string` |  |
+| `templateRef` | `string` |  |
 
 #### Example: Create
 
 ```go
 result, err := client.Validate(nil).Create(map[string]any{
-    "template_ref": "example_template_ref",
+    "templateRef": "example_templateRef",
 }, nil)
 if err != nil {
     panic(err)

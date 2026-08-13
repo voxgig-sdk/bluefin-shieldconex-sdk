@@ -35,7 +35,7 @@ object TokenizeBatchEntityTest {
       var tokenizeBatchRef01Data = Helpers.toMapAny(Struct.getprop(
           Struct.getpath(entityData, "new.tokenize_batch"), "tokenize_batch_ref01"))
       val tokenizeBatchRef01DataResult = tokenizeBatchRef01Ent.create(tokenizeBatchRef01Data, null)
-      tokenizeBatchRef01Data = Helpers.toMapAny(tokenizeBatchRef01DataResult)
+      tokenizeBatchRef01Data = Helpers.toMapAny(tokenizeBatchRef01DataResult match { case e: SdkEntity => e.data(); case o => o })
       rep.check("tokenize_batch.create.map", tokenizeBatchRef01Data != null, "expected create result to be a map")
     }
   }

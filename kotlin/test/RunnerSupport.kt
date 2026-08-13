@@ -63,7 +63,7 @@ object RunnerSupport {
   }
 
   fun envOverride(m: MutableMap<String, Any?>): MutableMap<String, Any?> {
-    if ("TRUE" == getenv("BLUEFINSHIELDCONEX_TEST_LIVE") || "TRUE" == getenv("BLUEFINSHIELDCONEX_TEST_OVERRIDE")) {
+    if ("TRUE" == getenv("BLUEFIN_SHIELDCONEX_TEST_LIVE") || "TRUE" == getenv("BLUEFIN_SHIELDCONEX_TEST_OVERRIDE")) {
       for (key in ArrayList(m.keys)) {
         var envval = getenv(key)
         if (envval != null && envval.isNotEmpty()) {
@@ -80,9 +80,9 @@ object RunnerSupport {
       }
     }
 
-    val explain = getenv("BLUEFINSHIELDCONEX_TEST_EXPLAIN")
+    val explain = getenv("BLUEFIN_SHIELDCONEX_TEST_EXPLAIN")
     if (explain != null && explain.isNotEmpty()) {
-      m["BLUEFINSHIELDCONEX_TEST_EXPLAIN"] = explain
+      m["BLUEFIN_SHIELDCONEX_TEST_EXPLAIN"] = explain
     }
 
     return m

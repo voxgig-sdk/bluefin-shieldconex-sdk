@@ -347,6 +347,12 @@ public:
   virtual EntityPtr make() = 0;
   virtual Value data(const Value& arg = Value::undef()) = 0;
   virtual Value match(const Value& arg = Value::undef()) = 0;
+
+  // `remove` resolves to the entity, marked. The instance KEEPS the data it
+  // held - a caller can still read what was deleted - but it is no longer a
+  // live record.
+  virtual void markDeleted() = 0;
+  virtual bool deleted() = 0;
 };
 
 // ---- Feature contract -------------------------------------------------
@@ -560,28 +566,48 @@ public:
 
   Value prepare(const Value& fetchargs);
   Value direct(const Value& fetchargs);
+  Value graphql(const std::string& query, const Value& variables = Value::undef(),
+                const Value& ctrl = Value::undef());
+
+private:
+  bool opAllowed(const std::string& op);
+  Value opDenied(const std::string& op);
+  Value rawRequest(const Value& fetchargs);
+
+public:
 
   static Value testOptions(const Value& testopts, const Value& sdkopts);
 };
 
 // ---- SdkEntity contract -----------------------------------------------
 
+class SdkEntity;
+using SdkEntityPtr = std::shared_ptr<SdkEntity>;
+
+// Every operation resolves to the ENTITY, not the raw data - `list` to a
+// vector of them, one per record. The record is reached through `data()`.
+// See AGENTS.md "Entity operations return ENTITIES".
+//
+// `Value` cannot carry an entity: it is a closed data union, and adding a
+// variant to a general-purpose struct library to hold SDK objects would be
+// wrong. So the CONTRACT lives in these signatures instead.
 class SdkEntity : public Entity {
 public:
-  virtual Value load(const Value& reqmatch, const Value& ctrl) = 0;
-  virtual Value list(const Value& reqmatch, const Value& ctrl) = 0;
-  virtual Value create(const Value& reqdata, const Value& ctrl) = 0;
-  virtual Value update(const Value& reqdata, const Value& ctrl) = 0;
-  virtual Value remove(const Value& reqmatch, const Value& ctrl) = 0;
+  virtual SdkEntityPtr load(const Value& reqmatch, const Value& ctrl) = 0;
+  virtual std::vector<SdkEntityPtr> list(const Value& reqmatch, const Value& ctrl) = 0;
+  virtual SdkEntityPtr create(const Value& reqdata, const Value& ctrl) = 0;
+  virtual SdkEntityPtr update(const Value& reqdata, const Value& ctrl) = 0;
+  virtual SdkEntityPtr remove(const Value& reqmatch, const Value& ctrl) = 0;
 };
-
-using SdkEntityPtr = std::shared_ptr<SdkEntity>;
 
 // ---- EntityBase (shared entity runtime + runOp) -----------------------
 
-class EntityBase : public SdkEntity {
+class EntityBase : public SdkEntity,
+                   public std::enable_shared_from_this<EntityBase> {
 public:
   std::string name_ = "";
+  // Set once a successful `remove` resolves on this instance.
+  bool deleted_ = false;
   SdkClient* client = nullptr;
   UtilityPtr utility;
   Value entopts = Value::undef();
@@ -592,6 +618,14 @@ public:
   EntityBase(const std::string& name, SdkClient* client_, const Value& entopts_);
 
   std::string getName() override { return name_; }
+
+  void markDeleted() override { deleted_ = true; }
+  bool deleted() override { return deleted_; }
+
+  // The handle for this instance, as the ops return it.
+  SdkEntityPtr self() {
+    return std::static_pointer_cast<SdkEntity>(shared_from_this());
+  }
 
   Value data(const Value& arg = Value::undef()) override;
   Value match(const Value& arg = Value::undef()) override;
@@ -868,7 +902,81 @@ inline Value SdkClient::prepare(const Value& fetchargs_) {
   return u->makeFetchDef(ctx);
 }
 
+// Is this raw-access op permitted by the SDK's allow.op option?
+inline bool SdkClient::opAllowed(const std::string& op) {
+  Value allow = Struct::getpath(options, {"allow", "op"});
+  if (!allow.is_string()) return false;
+  return std::string::npos != allow.as_string().find(op);
+}
+
+inline Value SdkClient::opDenied(const std::string& op) {
+  Value allow = Struct::getpath(options, {"allow", "op"});
+  std::string a = allow.is_string() ? allow.as_string() : "";
+  Value out = vmap();
+  map_put(out, "ok", Value(false));
+  map_put(out, "err", vmap({{"message", Value(
+    "BluefinShieldconexSDK: " + op + ": operation not allowed by"
+    " SDK option allow.op value: \"" + a + "\"")}}));
+  return out;
+}
+
+// Raw endpoint access is operator-controllable, like every entity op.
+// Blocking it means denying BOTH the 'direct' and 'graphql' tokens, since
+// either one reaches the same endpoint.
 inline Value SdkClient::direct(const Value& fetchargs_) {
+  if (!opAllowed("direct")) return opDenied("direct");
+  return rawRequest(fetchargs_);
+}
+
+// Raw GraphQL access: the pressure valve that makes the generated surface's
+// deliberate omissions (per-call selection sets, typed filter builders,
+// batching, subscriptions) livable — the whole schema stays reachable.
+//
+// Thin wrapper over the same prepare/fetch path direct uses, with the one
+// thing raw direct cannot do for GraphQL: a GraphQL failure rides HTTP 200 as
+// a top-level `errors` array, so status alone would report a failed query as
+// ok.
+//
+// NOTE: like direct, this bypasses the feature pipeline — no retry, ratelimit
+// or paging features apply.
+inline Value SdkClient::graphql(const std::string& query, const Value& variables,
+                                const Value& ctrl) {
+  if (!opAllowed("graphql")) return opDenied("graphql");
+
+  Value res = rawRequest(vmap({
+    {"method", Value(std::string("POST"))},
+    {"headers", vmap({{"content-type", Value(std::string("application/json"))}})},
+    {"body", vmap({
+      {"query", Value(query)},
+      {"variables", variables.is_map() ? variables : vmap()}})},
+    {"ctrl", ctrl.is_map() ? ctrl : vmap()}}));
+
+  // Errors are read BEFORE any status check: a GraphQL parse or validation
+  // failure comes back as HTTP 400 carrying the standard { errors: [...] }
+  // body, and the raw path represents a non-2xx as ok:false with no err — so
+  // returning early on status would discard the server's own diagnostics,
+  // which are the only useful part of that response.
+  Value errors = getp(getp(res, "data"), "errors");
+
+  if (errors.is_list() && !errors.as_list()->empty()) {
+    Value first = (*errors.as_list())[0];
+    Value m = getp(first, "message");
+    std::string msg = m.is_string() && !m.as_string().empty()
+      ? m.as_string() : "graphql error";
+    map_put(res, "ok", Value(false));
+    map_put(res, "err", vmap({{"message",
+      Value("BluefinShieldconexSDK: graphql: " + msg)}}));
+    map_put(res, "graphql", errors);
+  }
+
+  return res;
+}
+
+// Ungated request path shared by direct and graphql, each of which checks its
+// own allow.op token first. Private, rather than a flag on fetchargs: a
+// caller-supplied marker would let anyone opt straight back out of the gate
+// by passing it.
+inline Value SdkClient::rawRequest(const Value& fetchargs_) {
   UtilityPtr u = utility;
   Value fetchargs = fetchargs_.is_map() ? fetchargs_ : vmap();
 

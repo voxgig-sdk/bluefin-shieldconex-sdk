@@ -109,23 +109,25 @@ $detokenize = $client->Detokenize();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `array` | No |  |
+| `batches` | `array` | No |  |
 | `bfid` | `string` | No |  |
-| `message_id` | `string` | No |  |
+| `messageId` | `string` | No |  |
 | `name` | `string` | No |  |
 | `reference` | `string` | No |  |
-| `value` | `array` | No |  |
+| `value` | `string` | No |  |
+| `values` | `array` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `value` | - | Yes |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
@@ -186,25 +188,27 @@ $tokenize = $client->Tokenize();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `array` | No |  |
+| `batches` | `array` | No |  |
 | `bfid` | `string` | No |  |
-| `message_id` | `string` | No |  |
+| `messageId` | `string` | No |  |
 | `name` | `string` | No |  |
 | `reference` | `string` | No |  |
-| `template_ref` | `string` | Yes |  |
-| `value` | `array` | No |  |
+| `templateRef` | `string` | Yes |  |
+| `value` | `string` | No |  |
+| `values` | `array` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `template_ref` | - | - |
-| `value` | - | Yes |
+| `templateRef` | - | - |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
@@ -214,7 +218,7 @@ Create a new entity with the given data. Throws on error.
 
 ```php
 $result = $client->Tokenize()->create([
-  "template_ref" => null, // string
+  "templateRef" => null, // string
 ]);
 ```
 
@@ -266,16 +270,16 @@ $tokenize_batch = $client->TokenizeBatch();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `array` | No |  |
-| `message_id` | `string` | No |  |
+| `batches` | `array` | No |  |
+| `messageId` | `string` | No |  |
 | `reference` | `string` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
-| `batch` | Yes |
-| `message_id` | - |
+| `batches` | Yes |
+| `messageId` | - |
 | `reference` | - |
 
 ### Operations
@@ -330,20 +334,20 @@ $tokenize_read = $client->TokenizeRead();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `bfid` | `string` | No |  |
-| `message_id` | `string` | No |  |
+| `messageId` | `string` | No |  |
 | `reference` | `string` | No |  |
 | `state` | `array` | No |  |
-| `value` | `array` | No |  |
+| `values` | `array` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
 | `bfid` | Yes |
-| `message_id` | - |
+| `messageId` | - |
 | `reference` | - |
 | `state` | - |
-| `value` | - |
+| `values` | - |
 
 ### Operations
 
@@ -396,9 +400,9 @@ $validate = $client->Validate();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `message_id` | `string` | No |  |
+| `messageId` | `string` | No |  |
 | `reference` | `string` | No |  |
-| `template_ref` | `string` | Yes |  |
+| `templateRef` | `string` | Yes |  |
 
 ### Operations
 
@@ -408,7 +412,7 @@ Create a new entity with the given data. Throws on error.
 
 ```php
 $result = $client->Validate()->create([
-  "template_ref" => null, // string
+  "templateRef" => null, // string
 ]);
 ```
 

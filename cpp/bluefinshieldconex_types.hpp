@@ -22,100 +22,106 @@ namespace sdk {
 namespace types {
 
 struct Detokenize {
-  std::vector<Value> batch;  // optional
+  std::vector<Value> batches;  // optional
   std::string bfid;  // optional
-  std::string message_id;  // optional
+  std::string messageId;  // optional
   std::string name;  // optional
   std::string reference;  // optional
-  std::vector<Value> value;  // optional
+  std::string value;  // optional
+  std::vector<Value> values;  // optional
 };
 
 struct DetokenizeListMatch {
-  std::vector<Value> batch;  // optional
+  std::vector<Value> batches;  // optional
   std::string bfid;  // optional
-  std::string message_id;  // optional
+  std::string messageId;  // optional
   std::string name;  // optional
   std::string reference;  // optional
-  std::vector<Value> value;  // optional
+  std::string value;  // optional
+  std::vector<Value> values;  // optional
 };
 
 struct DetokenizeCreateData {
-  std::vector<Value> batch;  // optional
+  std::vector<Value> batches;  // optional
   std::string bfid;  // optional
-  std::string message_id;  // optional
+  std::string messageId;  // optional
   std::string name;  // optional
   std::string reference;  // optional
-  std::vector<Value> value;  // optional
+  std::string value;  // optional
+  std::vector<Value> values;  // optional
 };
 
 struct Tokenize {
-  std::vector<Value> batch;  // optional
+  std::vector<Value> batches;  // optional
   std::string bfid;  // optional
-  std::string message_id;  // optional
+  std::string messageId;  // optional
   std::string name;  // optional
   std::string reference;  // optional
-  std::string template_ref;
-  std::vector<Value> value;  // optional
+  std::string templateRef;
+  std::string value;  // optional
+  std::vector<Value> values;  // optional
 };
 
 struct TokenizeListMatch {
-  std::vector<Value> batch;  // optional
+  std::vector<Value> batches;  // optional
   std::string bfid;  // optional
-  std::string message_id;  // optional
+  std::string messageId;  // optional
   std::string name;  // optional
   std::string reference;  // optional
-  std::string template_ref;  // optional
-  std::vector<Value> value;  // optional
+  std::string templateRef;  // optional
+  std::string value;  // optional
+  std::vector<Value> values;  // optional
 };
 
 struct TokenizeCreateData {
-  std::vector<Value> batch;  // optional
+  std::vector<Value> batches;  // optional
   std::string bfid;  // optional
-  std::string message_id;  // optional
+  std::string messageId;  // optional
   std::string name;  // optional
   std::string reference;  // optional
-  std::string template_ref;
-  std::vector<Value> value;  // optional
+  std::string templateRef;
+  std::string value;  // optional
+  std::vector<Value> values;  // optional
 };
 
 struct TokenizeBatch {
-  std::vector<Value> batch;  // optional
-  std::string message_id;  // optional
+  std::vector<Value> batches;  // optional
+  std::string messageId;  // optional
   std::string reference;  // optional
 };
 
 struct TokenizeBatchCreateData {
-  std::vector<Value> batch;  // optional
-  std::string message_id;  // optional
+  std::vector<Value> batches;  // optional
+  std::string messageId;  // optional
   std::string reference;  // optional
 };
 
 struct TokenizeRead {
   std::string bfid;  // optional
-  std::string message_id;  // optional
+  std::string messageId;  // optional
   std::string reference;  // optional
   std::map<std::string, Value> state;  // optional
-  std::vector<Value> value;  // optional
+  std::vector<Value> values;  // optional
 };
 
 struct TokenizeReadCreateData {
   std::string bfid;  // optional
-  std::string message_id;  // optional
+  std::string messageId;  // optional
   std::string reference;  // optional
   std::map<std::string, Value> state;  // optional
-  std::vector<Value> value;  // optional
+  std::vector<Value> values;  // optional
 };
 
 struct Validate {
-  std::string message_id;  // optional
+  std::string messageId;  // optional
   std::string reference;  // optional
-  std::string template_ref;
+  std::string templateRef;
 };
 
 struct ValidateCreateData {
-  std::string message_id;  // optional
+  std::string messageId;  // optional
   std::string reference;  // optional
-  std::string template_ref;
+  std::string templateRef;
 };
 
 } // namespace types

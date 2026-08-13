@@ -16,7 +16,7 @@ import {
   Slot,
   cmp,
   snakify,
-  isAuthActive,
+  isAuthActive, envName, envToken
 } from '@voxgig/sdkgen'
 
 
@@ -35,8 +35,8 @@ const TestDirect = cmp(function TestDirect(props: any) {
 
   const ff = projectPath('src/cmp/dart/fragment/')
 
-  const PROJECTNAME = nom(model, 'Name').toUpperCase().replace(/[^A-Z_]/g, '_')
-  const entidEnvVar = `${PROJECTNAME}_TEST_${nom(entity, 'NAME').replace(/[^A-Z_]/g, '_')}_ENTID`
+  const PROJECTNAME = envName(model)
+  const entidEnvVar = `${PROJECTNAME}_TEST_${envToken(entity.name)}_ENTID`
 
   const authActive = isAuthActive(model)
   const apikeyEnvEntry = authActive
@@ -47,7 +47,7 @@ const TestDirect = cmp(function TestDirect(props: any) {
       'apikey': env['${PROJECTNAME}_APIKEY'],`
     : ''
 
-  const opnames = Object.keys(entity.op)
+  const opnames = Object.keys(entity.op || {})
   const hasLoad = opnames.includes('load')
   const hasList = opnames.includes('list')
 
@@ -157,7 +157,7 @@ dynamic unwrapListData(dynamic data) {
 
 
 function generateDirectLoad(model: Model, entity: ModelEntity) {
-  const loadOp = entity.op.load
+  const loadOp = entity.op?.load
   const loadPoint: ModelPoint | undefined = loadOp?.points?.[0]
 
   if (null == loadPoint) {
@@ -197,7 +197,7 @@ function generateDirectLoad(model: Model, entity: ModelEntity) {
     .join('\n')
 
   // Get list info for live mode bootstrapping
-  const listOp = entity.op.list
+  const listOp = entity.op?.list
   const listPoint = listOp?.points?.[0]
   const listParams = listPoint?.args?.params || []
   const listPath = listPoint ? normalizePathParams(listPoint.parts || [], listParams, listPoint.rename?.param) : ''
@@ -350,7 +350,7 @@ ${paramAsserts}      }
 
 
 function generateDirectList(model: Model, entity: ModelEntity) {
-  const listOp = entity.op.list
+  const listOp = entity.op?.list
   const listPoint: ModelPoint | undefined = listOp?.points?.[0]
 
   if (null == listPoint) {

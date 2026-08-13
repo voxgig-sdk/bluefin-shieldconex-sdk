@@ -107,23 +107,25 @@ local detokenize = client:Detokenize(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `table` | No |  |
+| `batches` | `table` | No |  |
 | `bfid` | `string` | No |  |
-| `message_id` | `string` | No |  |
+| `messageId` | `string` | No |  |
 | `name` | `string` | No |  |
 | `reference` | `string` | No |  |
-| `value` | `table` | No |  |
+| `value` | `string` | No |  |
+| `values` | `table` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `value` | - | Yes |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
@@ -184,25 +186,27 @@ local tokenize = client:Tokenize(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `table` | No |  |
+| `batches` | `table` | No |  |
 | `bfid` | `string` | No |  |
-| `message_id` | `string` | No |  |
+| `messageId` | `string` | No |  |
 | `name` | `string` | No |  |
 | `reference` | `string` | No |  |
-| `template_ref` | `string` | Yes |  |
-| `value` | `table` | No |  |
+| `templateRef` | `string` | Yes |  |
+| `value` | `string` | No |  |
+| `values` | `table` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `template_ref` | - | - |
-| `value` | - | Yes |
+| `templateRef` | - | - |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
@@ -212,7 +216,7 @@ Create a new entity with the given data.
 
 ```lua
 local result, err = client:Tokenize():create({
-  template_ref = --[[ string ]],
+  templateRef = --[[ string ]],
 })
 ```
 
@@ -264,16 +268,16 @@ local tokenize_batch = client:TokenizeBatch(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `table` | No |  |
-| `message_id` | `string` | No |  |
+| `batches` | `table` | No |  |
+| `messageId` | `string` | No |  |
 | `reference` | `string` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
-| `batch` | Yes |
-| `message_id` | - |
+| `batches` | Yes |
+| `messageId` | - |
 | `reference` | - |
 
 ### Operations
@@ -328,20 +332,20 @@ local tokenize_read = client:TokenizeRead(nil)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `bfid` | `string` | No |  |
-| `message_id` | `string` | No |  |
+| `messageId` | `string` | No |  |
 | `reference` | `string` | No |  |
 | `state` | `table` | No |  |
-| `value` | `table` | No |  |
+| `values` | `table` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
 | `bfid` | Yes |
-| `message_id` | - |
+| `messageId` | - |
 | `reference` | - |
 | `state` | - |
-| `value` | - |
+| `values` | - |
 
 ### Operations
 
@@ -394,9 +398,9 @@ local validate = client:Validate(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `message_id` | `string` | No |  |
+| `messageId` | `string` | No |  |
 | `reference` | `string` | No |  |
-| `template_ref` | `string` | Yes |  |
+| `templateRef` | `string` | Yes |  |
 
 ### Operations
 
@@ -406,7 +410,7 @@ Create a new entity with the given data.
 
 ```lua
 local result, err = client:Validate():create({
-  template_ref = --[[ string ]],
+  templateRef = --[[ string ]],
 })
 ```
 

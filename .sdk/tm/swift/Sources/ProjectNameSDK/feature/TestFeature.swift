@@ -85,7 +85,7 @@ private func testBuildArgs(_ ctx: Context, _ op: Operation, _ args: VMap?) -> Va
 }
 
 public final class TestFeature: BaseFeature {
-  private var client: BluefinShieldconexSDK?
+  private var client: ProjectNameSDK?
   private var options: VMap?
   private var netcalls = 0
 

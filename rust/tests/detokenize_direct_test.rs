@@ -27,16 +27,16 @@ fn detokenize_direct_setup(mockres: Value) -> DetokenizeDirectSetup {
     let calls: Rc<RefCell<Vec<Value>>> = Rc::new(RefCell::new(Vec::new()));
 
     let env = env_override(jo(vec![
-        ("BLUEFINSHIELDCONEX_TEST_DETOKENIZE_ENTID", Value::empty_map()),
-        ("BLUEFINSHIELDCONEX_TEST_LIVE", Value::str("FALSE")),
-        ("BLUEFINSHIELDCONEX_APIKEY", Value::str("NONE")),
+        ("BLUEFIN_SHIELDCONEX_TEST_DETOKENIZE_ENTID", Value::empty_map()),
+        ("BLUEFIN_SHIELDCONEX_TEST_LIVE", Value::str("FALSE")),
+        ("BLUEFIN_SHIELDCONEX_APIKEY", Value::str("NONE")),
     ]));
 
-    let live = getp(&env, "BLUEFINSHIELDCONEX_TEST_LIVE") == Value::str("TRUE");
+    let live = getp(&env, "BLUEFIN_SHIELDCONEX_TEST_LIVE") == Value::str("TRUE");
 
     if live {
-        let client = BluefinShieldconexSDK::new(jo(vec![("apikey", getp(&env, "BLUEFINSHIELDCONEX_APIKEY"))]));
-        let idmap = match to_map(&getp(&env, "BLUEFINSHIELDCONEX_TEST_DETOKENIZE_ENTID")) {
+        let client = BluefinShieldconexSDK::new(jo(vec![("apikey", getp(&env, "BLUEFIN_SHIELDCONEX_APIKEY"))]));
+        let idmap = match to_map(&getp(&env, "BLUEFIN_SHIELDCONEX_TEST_DETOKENIZE_ENTID")) {
             Value::Map(m) => Value::Map(m),
             _ => Value::empty_map(),
         };

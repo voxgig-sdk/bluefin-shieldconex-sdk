@@ -68,7 +68,7 @@ switch (client.detokenize(h.vnull()).list(h.vnull(), h.vnull())) {
 
 ```zig
 // Create — .ok carries the created record
-switch (client.detokenize(h.vnull()).create(h.jo(&.{.{ "batch", h.olist() }, .{ "bfid", h.vstr("example_bfid") }}), h.vnull())) {
+switch (client.detokenize(h.vnull()).create(h.jo(&.{.{ "batches", h.olist() }, .{ "bfid", h.vstr("example_bfid") }}), h.vnull())) {
     .ok => |created| std.debug.print("{s}\n", .{h.stringify(created)}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
@@ -267,12 +267,13 @@ On error, `ok` is `false` and `err` carries the error message.
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: Create, List.
 
@@ -282,13 +283,14 @@ API path: `/tokenization/batch/detokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: Create, List.
 
@@ -298,8 +300,8 @@ API path: `/tokenization/batch/tokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
-| `message_id` |  |
+| `batches` |  |
+| `messageId` |  |
 | `reference` |  |
 
 Operations: Create.
@@ -311,10 +313,10 @@ API path: `/tokenization/batch/delete`
 | Field | Description |
 | --- | --- |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
 | `state` |  |
-| `value` |  |
+| `values` |  |
 
 Operations: Create.
 
@@ -324,9 +326,9 @@ API path: `/tokenization/read`
 
 | Field | Description |
 | --- | --- |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 
 Operations: Create.
 
@@ -355,12 +357,13 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `Value (array)` |  |
+| `batches` | `Value (array)` |  |
 | `bfid` | `[]const u8` |  |
-| `message_id` | `[]const u8` |  |
+| `messageId` | `[]const u8` |  |
 | `name` | `[]const u8` |  |
 | `reference` | `[]const u8` |  |
-| `value` | `Value (array)` |  |
+| `value` | `[]const u8` |  |
+| `values` | `Value (array)` |  |
 
 #### Example: List
 
@@ -400,13 +403,14 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `Value (array)` |  |
+| `batches` | `Value (array)` |  |
 | `bfid` | `[]const u8` |  |
-| `message_id` | `[]const u8` |  |
+| `messageId` | `[]const u8` |  |
 | `name` | `[]const u8` |  |
 | `reference` | `[]const u8` |  |
-| `template_ref` | `[]const u8` |  |
-| `value` | `Value (array)` |  |
+| `templateRef` | `[]const u8` |  |
+| `value` | `[]const u8` |  |
+| `values` | `Value (array)` |  |
 
 #### Example: List
 
@@ -421,7 +425,7 @@ switch (client.tokenize(h.vnull()).list(h.vnull(), h.vnull())) {
 
 ```zig
 switch (client.tokenize(h.vnull()).create(h.jo(&.{
-    .{ "template_ref", h.vstr("example_template_ref") }, // []const u8
+    .{ "templateRef", h.vstr("example_templateRef") }, // []const u8
 }), h.vnull())) {
     .ok => |tokenize| std.debug.print("{s}\n", .{h.stringify(tokenize)}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
@@ -446,8 +450,8 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `Value (array)` |  |
-| `message_id` | `[]const u8` |  |
+| `batches` | `Value (array)` |  |
+| `messageId` | `[]const u8` |  |
 | `reference` | `[]const u8` |  |
 
 #### Example: Create
@@ -479,10 +483,10 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 | Field | Type | Description |
 | --- | --- | --- |
 | `bfid` | `[]const u8` |  |
-| `message_id` | `[]const u8` |  |
+| `messageId` | `[]const u8` |  |
 | `reference` | `[]const u8` |  |
 | `state` | `Value (object)` |  |
-| `value` | `Value (array)` |  |
+| `values` | `Value (array)` |  |
 
 #### Example: Create
 
@@ -512,15 +516,15 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `message_id` | `[]const u8` |  |
+| `messageId` | `[]const u8` |  |
 | `reference` | `[]const u8` |  |
-| `template_ref` | `[]const u8` |  |
+| `templateRef` | `[]const u8` |  |
 
 #### Example: Create
 
 ```zig
 switch (client.validate(h.vnull()).create(h.jo(&.{
-    .{ "template_ref", h.vstr("example_template_ref") }, // []const u8
+    .{ "templateRef", h.vstr("example_templateRef") }, // []const u8
 }), h.vnull())) {
     .ok => |validate| std.debug.print("{s}\n", .{h.stringify(validate)}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),

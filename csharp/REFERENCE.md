@@ -113,23 +113,25 @@ var detokenize = client.Detokenize();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `List<object?>` | No |  |
+| `batches` | `List<object?>` | No |  |
 | `bfid` | `string` | No |  |
-| `message_id` | `string` | No |  |
+| `messageId` | `string` | No |  |
 | `name` | `string` | No |  |
 | `reference` | `string` | No |  |
-| `value` | `List<object?>` | No |  |
+| `value` | `string` | No |  |
+| `values` | `List<object?>` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `value` | - | Yes |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
@@ -183,25 +185,27 @@ var tokenize = client.Tokenize();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `List<object?>` | No |  |
+| `batches` | `List<object?>` | No |  |
 | `bfid` | `string` | No |  |
-| `message_id` | `string` | No |  |
+| `messageId` | `string` | No |  |
 | `name` | `string` | No |  |
 | `reference` | `string` | No |  |
-| `template_ref` | `string` | Yes |  |
-| `value` | `List<object?>` | No |  |
+| `templateRef` | `string` | Yes |  |
+| `value` | `string` | No |  |
+| `values` | `List<object?>` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `template_ref` | - | - |
-| `value` | - | Yes |
+| `templateRef` | - | - |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
@@ -212,7 +216,7 @@ Create a new entity with the given data. Returns the created entity data and rai
 ```csharp
 var result = client.Tokenize().Create(new Dictionary<string, object?>
 {
-    ["template_ref"] = "example_template_ref",  // string
+    ["templateRef"] = "example_templateRef",  // string
 });
 ```
 
@@ -256,16 +260,16 @@ var tokenizeBatch = client.TokenizeBatch();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `List<object?>` | No |  |
-| `message_id` | `string` | No |  |
+| `batches` | `List<object?>` | No |  |
+| `messageId` | `string` | No |  |
 | `reference` | `string` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
-| `batch` | Yes |
-| `message_id` | - |
+| `batches` | Yes |
+| `messageId` | - |
 | `reference` | - |
 
 ### Operations
@@ -312,20 +316,20 @@ var tokenizeRead = client.TokenizeRead();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `bfid` | `string` | No |  |
-| `message_id` | `string` | No |  |
+| `messageId` | `string` | No |  |
 | `reference` | `string` | No |  |
 | `state` | `Dictionary<string, object?>` | No |  |
-| `value` | `List<object?>` | No |  |
+| `values` | `List<object?>` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
 | `bfid` | Yes |
-| `message_id` | - |
+| `messageId` | - |
 | `reference` | - |
 | `state` | - |
-| `value` | - |
+| `values` | - |
 
 ### Operations
 
@@ -370,9 +374,9 @@ var validate = client.Validate();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `message_id` | `string` | No |  |
+| `messageId` | `string` | No |  |
 | `reference` | `string` | No |  |
-| `template_ref` | `string` | Yes |  |
+| `templateRef` | `string` | Yes |  |
 
 ### Operations
 
@@ -383,7 +387,7 @@ Create a new entity with the given data. Returns the created entity data and rai
 ```csharp
 var result = client.Validate().Create(new Dictionary<string, object?>
 {
-    ["template_ref"] = "example_template_ref",  // string
+    ["templateRef"] = "example_templateRef",  // string
 });
 ```
 

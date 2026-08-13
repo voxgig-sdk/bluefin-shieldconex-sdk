@@ -104,23 +104,25 @@ detokenize = client.Detokenize()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `list` | No |  |
+| `batches` | `list` | No |  |
 | `bfid` | `str` | No |  |
-| `message_id` | `str` | No |  |
+| `messageId` | `str` | No |  |
 | `name` | `str` | No |  |
 | `reference` | `str` | No |  |
-| `value` | `list` | No |  |
+| `value` | `str` | No |  |
+| `values` | `list` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `value` | - | Yes |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
@@ -182,25 +184,27 @@ tokenize = client.Tokenize()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `list` | No |  |
+| `batches` | `list` | No |  |
 | `bfid` | `str` | No |  |
-| `message_id` | `str` | No |  |
+| `messageId` | `str` | No |  |
 | `name` | `str` | No |  |
 | `reference` | `str` | No |  |
-| `template_ref` | `str` | Yes |  |
-| `value` | `list` | No |  |
+| `templateRef` | `str` | Yes |  |
+| `value` | `str` | No |  |
+| `values` | `list` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `template_ref` | - | - |
-| `value` | - | Yes |
+| `templateRef` | - | - |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
@@ -210,7 +214,7 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.Tokenize().create({
-    "template_ref": "example_template_ref",  # str
+    "templateRef": "example_templateRef",  # str
 })
 ```
 
@@ -263,16 +267,16 @@ tokenize_batch = client.TokenizeBatch()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `list` | No |  |
-| `message_id` | `str` | No |  |
+| `batches` | `list` | No |  |
+| `messageId` | `str` | No |  |
 | `reference` | `str` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
-| `batch` | Yes |
-| `message_id` | - |
+| `batches` | Yes |
+| `messageId` | - |
 | `reference` | - |
 
 ### Operations
@@ -326,20 +330,20 @@ tokenize_read = client.TokenizeRead()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `bfid` | `str` | No |  |
-| `message_id` | `str` | No |  |
+| `messageId` | `str` | No |  |
 | `reference` | `str` | No |  |
 | `state` | `dict` | No |  |
-| `value` | `list` | No |  |
+| `values` | `list` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
 | `bfid` | Yes |
-| `message_id` | - |
+| `messageId` | - |
 | `reference` | - |
 | `state` | - |
-| `value` | - |
+| `values` | - |
 
 ### Operations
 
@@ -391,9 +395,9 @@ validate = client.Validate()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `message_id` | `str` | No |  |
+| `messageId` | `str` | No |  |
 | `reference` | `str` | No |  |
-| `template_ref` | `str` | Yes |  |
+| `templateRef` | `str` | Yes |  |
 
 ### Operations
 
@@ -403,7 +407,7 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.Validate().create({
-    "template_ref": "example_template_ref",  # str
+    "templateRef": "example_templateRef",  # str
 })
 ```
 

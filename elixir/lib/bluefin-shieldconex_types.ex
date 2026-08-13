@@ -19,12 +19,13 @@ defmodule BluefinShieldconex.Types do
   Detokenize entity data model.
 
   Members:
-    * `"batch"` — list() (optional)
+    * `"batches"` — list() (optional)
     * `"bfid"` — String.t() (optional)
-    * `"message_id"` — String.t() (optional)
+    * `"messageId"` — String.t() (optional)
     * `"name"` — String.t() (optional)
     * `"reference"` — String.t() (optional)
-    * `"value"` — list() (optional)
+    * `"value"` — String.t() (optional)
+    * `"values"` — list() (optional)
   """
   @type detokenize :: %{optional(String.t()) => any()}
 
@@ -32,12 +33,13 @@ defmodule BluefinShieldconex.Types do
   Request payload for Detokenize list.
 
   Members:
-    * `"batch"` — list() (optional)
+    * `"batches"` — list() (optional)
     * `"bfid"` — String.t() (optional)
-    * `"message_id"` — String.t() (optional)
+    * `"messageId"` — String.t() (optional)
     * `"name"` — String.t() (optional)
     * `"reference"` — String.t() (optional)
-    * `"value"` — list() (optional)
+    * `"value"` — String.t() (optional)
+    * `"values"` — list() (optional)
   """
   @type detokenize_list_match :: %{optional(String.t()) => any()}
 
@@ -45,12 +47,13 @@ defmodule BluefinShieldconex.Types do
   Request payload for Detokenize create.
 
   Members:
-    * `"batch"` — list() (optional)
+    * `"batches"` — list() (optional)
     * `"bfid"` — String.t() (optional)
-    * `"message_id"` — String.t() (optional)
+    * `"messageId"` — String.t() (optional)
     * `"name"` — String.t() (optional)
     * `"reference"` — String.t() (optional)
-    * `"value"` — list() (optional)
+    * `"value"` — String.t() (optional)
+    * `"values"` — list() (optional)
   """
   @type detokenize_create_data :: %{optional(String.t()) => any()}
 
@@ -58,13 +61,14 @@ defmodule BluefinShieldconex.Types do
   Tokenize entity data model.
 
   Members:
-    * `"batch"` — list() (optional)
+    * `"batches"` — list() (optional)
     * `"bfid"` — String.t() (optional)
-    * `"message_id"` — String.t() (optional)
+    * `"messageId"` — String.t() (optional)
     * `"name"` — String.t() (optional)
     * `"reference"` — String.t() (optional)
-    * `"template_ref"` — String.t() (required)
-    * `"value"` — list() (optional)
+    * `"templateRef"` — String.t() (required)
+    * `"value"` — String.t() (optional)
+    * `"values"` — list() (optional)
   """
   @type tokenize :: %{optional(String.t()) => any()}
 
@@ -72,13 +76,14 @@ defmodule BluefinShieldconex.Types do
   Request payload for Tokenize list.
 
   Members:
-    * `"batch"` — list() (optional)
+    * `"batches"` — list() (optional)
     * `"bfid"` — String.t() (optional)
-    * `"message_id"` — String.t() (optional)
+    * `"messageId"` — String.t() (optional)
     * `"name"` — String.t() (optional)
     * `"reference"` — String.t() (optional)
-    * `"template_ref"` — String.t() (optional)
-    * `"value"` — list() (optional)
+    * `"templateRef"` — String.t() (optional)
+    * `"value"` — String.t() (optional)
+    * `"values"` — list() (optional)
   """
   @type tokenize_list_match :: %{optional(String.t()) => any()}
 
@@ -86,13 +91,14 @@ defmodule BluefinShieldconex.Types do
   Request payload for Tokenize create.
 
   Members:
-    * `"batch"` — list() (optional)
+    * `"batches"` — list() (optional)
     * `"bfid"` — String.t() (optional)
-    * `"message_id"` — String.t() (optional)
+    * `"messageId"` — String.t() (optional)
     * `"name"` — String.t() (optional)
     * `"reference"` — String.t() (optional)
-    * `"template_ref"` — String.t() (required)
-    * `"value"` — list() (optional)
+    * `"templateRef"` — String.t() (required)
+    * `"value"` — String.t() (optional)
+    * `"values"` — list() (optional)
   """
   @type tokenize_create_data :: %{optional(String.t()) => any()}
 
@@ -100,8 +106,8 @@ defmodule BluefinShieldconex.Types do
   TokenizeBatch entity data model.
 
   Members:
-    * `"batch"` — list() (optional)
-    * `"message_id"` — String.t() (optional)
+    * `"batches"` — list() (optional)
+    * `"messageId"` — String.t() (optional)
     * `"reference"` — String.t() (optional)
   """
   @type tokenize_batch :: %{optional(String.t()) => any()}
@@ -110,8 +116,8 @@ defmodule BluefinShieldconex.Types do
   Request payload for TokenizeBatch create.
 
   Members:
-    * `"batch"` — list() (optional)
-    * `"message_id"` — String.t() (optional)
+    * `"batches"` — list() (optional)
+    * `"messageId"` — String.t() (optional)
     * `"reference"` — String.t() (optional)
   """
   @type tokenize_batch_create_data :: %{optional(String.t()) => any()}
@@ -121,10 +127,10 @@ defmodule BluefinShieldconex.Types do
 
   Members:
     * `"bfid"` — String.t() (optional)
-    * `"message_id"` — String.t() (optional)
+    * `"messageId"` — String.t() (optional)
     * `"reference"` — String.t() (optional)
     * `"state"` — map() (optional)
-    * `"value"` — list() (optional)
+    * `"values"` — list() (optional)
   """
   @type tokenize_read :: %{optional(String.t()) => any()}
 
@@ -133,10 +139,10 @@ defmodule BluefinShieldconex.Types do
 
   Members:
     * `"bfid"` — String.t() (optional)
-    * `"message_id"` — String.t() (optional)
+    * `"messageId"` — String.t() (optional)
     * `"reference"` — String.t() (optional)
     * `"state"` — map() (optional)
-    * `"value"` — list() (optional)
+    * `"values"` — list() (optional)
   """
   @type tokenize_read_create_data :: %{optional(String.t()) => any()}
 
@@ -144,9 +150,9 @@ defmodule BluefinShieldconex.Types do
   Validate entity data model.
 
   Members:
-    * `"message_id"` — String.t() (optional)
+    * `"messageId"` — String.t() (optional)
     * `"reference"` — String.t() (optional)
-    * `"template_ref"` — String.t() (required)
+    * `"templateRef"` — String.t() (required)
   """
   @type validate :: %{optional(String.t()) => any()}
 
@@ -154,9 +160,9 @@ defmodule BluefinShieldconex.Types do
   Request payload for Validate create.
 
   Members:
-    * `"message_id"` — String.t() (optional)
+    * `"messageId"` — String.t() (optional)
     * `"reference"` — String.t() (optional)
-    * `"template_ref"` — String.t() (required)
+    * `"templateRef"` — String.t() (required)
   """
   @type validate_create_data :: %{optional(String.t()) => any()}
 

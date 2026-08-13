@@ -37,7 +37,9 @@ const client = new BluefinShieldconexSDK({
 
 ### 2. List detokenize records
 
-`list()` resolves to an array of Detokenize objects — iterate it directly:
+`list()` resolves to an array of Detokenize ENTITIES — every operation
+resolves to entities, not raw records. Iterate them directly, and call
+`.data()` on one for the record it holds:
 
 ```ts
 const detokenizes = await client.Detokenize().list()
@@ -50,9 +52,9 @@ for (const detokenize of detokenizes) {
 ### 4. Create, update, and remove
 
 ```ts
-// Create — returns the created Detokenize
+// Create — returns the created Detokenize ENTITY (.data() for the record)
 const created = await client.Detokenize().create({
-  batch: [],
+  batches: [],
   bfid: 'example_bfid',
 })
 
@@ -133,7 +135,8 @@ Create a mock client for unit testing — no server required:
 const client = BluefinShieldconexSDK.test()
 
 const detokenize = await client.Detokenize().list()
-// detokenize is a bare entity populated with mock response data
+// detokenize is the entity, populated with mock response data
+// — call detokenize.data() for the record itself
 console.log(detokenize)
 ```
 
@@ -307,12 +310,13 @@ The `prepare()` method returns:
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: create, list.
 
@@ -322,13 +326,14 @@ API path: `/tokenization/batch/detokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: create, list.
 
@@ -338,8 +343,8 @@ API path: `/tokenization/batch/tokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
-| `message_id` |  |
+| `batches` |  |
+| `messageId` |  |
 | `reference` |  |
 
 Operations: create.
@@ -351,10 +356,10 @@ API path: `/tokenization/batch/delete`
 | Field | Description |
 | --- | --- |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
 | `state` |  |
-| `value` |  |
+| `values` |  |
 
 Operations: create.
 
@@ -364,9 +369,9 @@ API path: `/tokenization/read`
 
 | Field | Description |
 | --- | --- |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 
 Operations: create.
 
@@ -392,12 +397,13 @@ Create an instance: `const detokenize = client.Detokenize()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `any[]` |  |
+| `batches` | `any[]` |  |
 | `bfid` | `string` |  |
-| `message_id` | `string` |  |
+| `messageId` | `string` |  |
 | `name` | `string` |  |
 | `reference` | `string` |  |
-| `value` | `any[]` |  |
+| `value` | `string` |  |
+| `values` | `any[]` |  |
 
 #### Example: List
 
@@ -428,13 +434,14 @@ Create an instance: `const tokenize = client.Tokenize()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `any[]` |  |
+| `batches` | `any[]` |  |
 | `bfid` | `string` |  |
-| `message_id` | `string` |  |
+| `messageId` | `string` |  |
 | `name` | `string` |  |
 | `reference` | `string` |  |
-| `template_ref` | `string` |  |
-| `value` | `any[]` |  |
+| `templateRef` | `string` |  |
+| `value` | `string` |  |
+| `values` | `any[]` |  |
 
 #### Example: List
 
@@ -446,7 +453,7 @@ const tokenizes = await client.Tokenize().list()
 
 ```ts
 const tokenize = await client.Tokenize().create({
-  template_ref: 'example_template_ref',
+  templateRef: 'example_templateRef',
 })
 ```
 
@@ -465,8 +472,8 @@ Create an instance: `const tokenize_batch = client.TokenizeBatch()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `any[]` |  |
-| `message_id` | `string` |  |
+| `batches` | `any[]` |  |
+| `messageId` | `string` |  |
 | `reference` | `string` |  |
 
 #### Example: Create
@@ -492,10 +499,10 @@ Create an instance: `const tokenize_read = client.TokenizeRead()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `bfid` | `string` |  |
-| `message_id` | `string` |  |
+| `messageId` | `string` |  |
 | `reference` | `string` |  |
 | `state` | `Record<string, any>` |  |
-| `value` | `any[]` |  |
+| `values` | `any[]` |  |
 
 #### Example: Create
 
@@ -519,15 +526,15 @@ Create an instance: `const validate = client.Validate()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `message_id` | `string` |  |
+| `messageId` | `string` |  |
 | `reference` | `string` |  |
-| `template_ref` | `string` |  |
+| `templateRef` | `string` |  |
 
 #### Example: Create
 
 ```ts
 const validate = await client.Validate().create({
-  template_ref: 'example_template_ref',
+  templateRef: 'example_templateRef',
 })
 ```
 

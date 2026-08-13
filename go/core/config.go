@@ -33,7 +33,7 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "batch",
+						"name": "batches",
 						"op": map[string]any{
 							"create": map[string]any{
 								"req": true,
@@ -59,7 +59,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "message_id",
+						"name": "messageId",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 2,
@@ -81,6 +81,13 @@ func MakeConfig() map[string]any {
 					map[string]any{
 						"active": true,
 						"name": "value",
+						"req": false,
+						"type": "`$STRING`",
+						"index$": 5,
+					},
+					map[string]any{
+						"active": true,
+						"name": "values",
 						"op": map[string]any{
 							"create": map[string]any{
 								"req": true,
@@ -89,7 +96,7 @@ func MakeConfig() map[string]any {
 						},
 						"req": false,
 						"type": "`$ARRAY`",
-						"index$": 5,
+						"index$": 6,
 					},
 				},
 				"name": "detokenize",
@@ -101,6 +108,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/tokenization/batch/detokenize",
 								"parts": []any{
@@ -118,6 +126,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/tokenization/detokenize",
 								"parts": []any{
@@ -176,6 +185,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/healthcheck/detokenize",
 								"parts": []any{
@@ -208,7 +218,7 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "batch",
+						"name": "batches",
 						"op": map[string]any{
 							"create": map[string]any{
 								"req": true,
@@ -234,7 +244,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "message_id",
+						"name": "messageId",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 2,
@@ -255,7 +265,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "template_ref",
+						"name": "templateRef",
 						"req": true,
 						"type": "`$STRING`",
 						"index$": 5,
@@ -263,6 +273,13 @@ func MakeConfig() map[string]any {
 					map[string]any{
 						"active": true,
 						"name": "value",
+						"req": false,
+						"type": "`$STRING`",
+						"index$": 6,
+					},
+					map[string]any{
+						"active": true,
+						"name": "values",
 						"op": map[string]any{
 							"create": map[string]any{
 								"req": true,
@@ -271,7 +288,7 @@ func MakeConfig() map[string]any {
 						},
 						"req": false,
 						"type": "`$ARRAY`",
-						"index$": 6,
+						"index$": 7,
 					},
 				},
 				"name": "tokenize",
@@ -294,6 +311,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/tokenization/batch/tokenize",
 								"parts": []any{
@@ -326,6 +344,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/tokenization/tokenize",
 								"parts": []any{
@@ -346,6 +365,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/tokenization/delete",
 								"parts": []any{
@@ -404,6 +424,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/healthcheck/tokenize",
 								"parts": []any{
@@ -436,7 +457,7 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "batch",
+						"name": "batches",
 						"op": map[string]any{
 							"create": map[string]any{
 								"req": true,
@@ -449,7 +470,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "message_id",
+						"name": "messageId",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 1,
@@ -471,6 +492,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/tokenization/batch/delete",
 								"parts": []any{
@@ -488,6 +510,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/tokenization/batch/read",
 								"parts": []any{
@@ -527,7 +550,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "message_id",
+						"name": "messageId",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 1,
@@ -548,7 +571,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "value",
+						"name": "values",
 						"req": false,
 						"type": "`$ARRAY`",
 						"index$": 4,
@@ -563,6 +586,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/tokenization/read",
 								"parts": []any{
@@ -588,7 +612,7 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "message_id",
+						"name": "messageId",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 0,
@@ -602,7 +626,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "template_ref",
+						"name": "templateRef",
 						"req": true,
 						"type": "`$STRING`",
 						"index$": 2,
@@ -617,6 +641,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/partner/validate",
 								"parts": []any{
@@ -633,6 +658,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/template/validate",
 								"parts": []any{

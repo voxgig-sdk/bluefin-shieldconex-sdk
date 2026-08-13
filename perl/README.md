@@ -64,8 +64,8 @@ else {
 ### 4. Create, update, and remove
 
 ```perl
-# Create — returns the bare created record (a hashref)
-my $created = $client->Detokenize->create({ 'batch' => [], 'bfid' => 'example_bfid' });
+# Create — returns the ENTITY (call data_get for the record)
+my $created = $client->Detokenize->create({ 'batches' => [], 'bfid' => 'example_bfid' });
 
 ```
 
@@ -146,7 +146,8 @@ Create a mock client for unit testing — no server required:
 ```perl
 my $client = BluefinShieldconexSDK->test(undef, undef);
 
-# Entity ops return the bare record and die on error.
+# Entity ops return the ENTITY and dies on error;
+# call data_get for the record.
 my $detokenize = $client->Detokenize->list();
 # $detokenize contains the mock response record
 ```
@@ -250,7 +251,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (a `hashref` for single-entity
+Entity operations return the ENTITY (call data_get for the record) (a `hashref` for single-entity
 ops, an `arrayref` for `list`) and die on error. Wrap calls in
 `eval { ... }` and inspect `$@` to handle failures.
 
@@ -272,12 +273,13 @@ On error, `ok` is false and `err` contains the error value.
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: Create, List.
 
@@ -287,13 +289,14 @@ API path: `/tokenization/batch/detokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: Create, List.
 
@@ -303,8 +306,8 @@ API path: `/tokenization/batch/tokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
-| `message_id` |  |
+| `batches` |  |
+| `messageId` |  |
 | `reference` |  |
 
 Operations: Create.
@@ -316,10 +319,10 @@ API path: `/tokenization/batch/delete`
 | Field | Description |
 | --- | --- |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
 | `state` |  |
-| `value` |  |
+| `values` |  |
 
 Operations: Create.
 
@@ -329,9 +332,9 @@ API path: `/tokenization/read`
 
 | Field | Description |
 | --- | --- |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 
 Operations: Create.
 
@@ -357,12 +360,13 @@ Create an instance: `my $detokenize = $client->Detokenize;`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `arrayref` |  |
+| `batches` | `arrayref` |  |
 | `bfid` | `string` |  |
-| `message_id` | `string` |  |
+| `messageId` | `string` |  |
 | `name` | `string` |  |
 | `reference` | `string` |  |
-| `value` | `arrayref` |  |
+| `value` | `string` |  |
+| `values` | `arrayref` |  |
 
 #### Example: List
 
@@ -393,13 +397,14 @@ Create an instance: `my $tokenize = $client->Tokenize;`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `arrayref` |  |
+| `batches` | `arrayref` |  |
 | `bfid` | `string` |  |
-| `message_id` | `string` |  |
+| `messageId` | `string` |  |
 | `name` | `string` |  |
 | `reference` | `string` |  |
-| `template_ref` | `string` |  |
-| `value` | `arrayref` |  |
+| `templateRef` | `string` |  |
+| `value` | `string` |  |
+| `values` | `arrayref` |  |
 
 #### Example: List
 
@@ -411,7 +416,7 @@ my $tokenizes = $client->Tokenize->list;
 
 ```perl
 my $tokenize = $client->Tokenize->create({
-    'template_ref' => 'example_template_ref',  # string
+    'templateRef' => 'example_templateRef',  # string
 });
 ```
 
@@ -430,8 +435,8 @@ Create an instance: `my $tokenize_batch = $client->TokenizeBatch;`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `arrayref` |  |
-| `message_id` | `string` |  |
+| `batches` | `arrayref` |  |
+| `messageId` | `string` |  |
 | `reference` | `string` |  |
 
 #### Example: Create
@@ -457,10 +462,10 @@ Create an instance: `my $tokenize_read = $client->TokenizeRead;`
 | Field | Type | Description |
 | --- | --- | --- |
 | `bfid` | `string` |  |
-| `message_id` | `string` |  |
+| `messageId` | `string` |  |
 | `reference` | `string` |  |
 | `state` | `hashref` |  |
-| `value` | `arrayref` |  |
+| `values` | `arrayref` |  |
 
 #### Example: Create
 
@@ -484,15 +489,15 @@ Create an instance: `my $validate = $client->Validate;`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `message_id` | `string` |  |
+| `messageId` | `string` |  |
 | `reference` | `string` |  |
-| `template_ref` | `string` |  |
+| `templateRef` | `string` |  |
 
 #### Example: Create
 
 ```perl
 my $validate = $client->Validate->create({
-    'template_ref' => 'example_template_ref',  # string
+    'templateRef' => 'example_templateRef',  # string
 });
 ```
 

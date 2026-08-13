@@ -109,47 +109,51 @@ Prepare a fetch definition without sending. Returns the `fetchdef` and raises on
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `[Value]` | No |  |
+| `batches` | `[Value]` | No |  |
 | `bfid` | `String` | No |  |
-| `message_id` | `String` | No |  |
+| `messageId` | `String` | No |  |
 | `name` | `String` | No |  |
 | `reference` | `String` | No |  |
-| `value` | `[Value]` | No |  |
+| `value` | `String` | No |  |
+| `values` | `[Value]` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `value` | - | Yes |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
-#### `eCreate ent data ctrl :: IO Value`
+#### `eCreate ent data ctrl :: IO Entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
 
 ```haskell
   ent <- Sdk.detokenize sdk VNoval
   d <- jo
     []
   ctrl <- emptyMap
-  result <- Sdk.eCreate ent d ctrl
+  result <- Sdk.eCreate ent d ctrl   -- the ENTITY
+  d2 <- Sdk.eDataGet result
 ```
 
-#### `eList ent match ctrl :: IO Value`
+#### `eList ent match ctrl :: IO [Entity]`
 
-List entities matching the given criteria. The match is optional — pass an empty map to list all records. Returns a list `Value` and raises on error.
+List entities matching the given criteria. The match is optional — pass an empty map to list all records. Resolves to one ENTITY per record and raises on error.
 
 ```haskell
   ent <- Sdk.detokenize sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
-  results <- Sdk.eList ent match ctrl
+  results <- Sdk.eList ent match ctrl   -- one ENTITY per record
+  datas <- mapM Sdk.eDataGet results
 ```
 
 ### Common Fields
@@ -187,50 +191,54 @@ The entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `[Value]` | No |  |
+| `batches` | `[Value]` | No |  |
 | `bfid` | `String` | No |  |
-| `message_id` | `String` | No |  |
+| `messageId` | `String` | No |  |
 | `name` | `String` | No |  |
 | `reference` | `String` | No |  |
-| `template_ref` | `String` | Yes |  |
-| `value` | `[Value]` | No |  |
+| `templateRef` | `String` | Yes |  |
+| `value` | `String` | No |  |
+| `values` | `[Value]` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `template_ref` | - | - |
-| `value` | - | Yes |
+| `templateRef` | - | - |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
-#### `eCreate ent data ctrl :: IO Value`
+#### `eCreate ent data ctrl :: IO Entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
 
 ```haskell
   ent <- Sdk.tokenize sdk VNoval
   d <- jo
-    [ ("template_ref", VStr "example_template_ref")   -- String
+    [ ("templateRef", VStr "example_templateRef")   -- String
     ]
   ctrl <- emptyMap
-  result <- Sdk.eCreate ent d ctrl
+  result <- Sdk.eCreate ent d ctrl   -- the ENTITY
+  d2 <- Sdk.eDataGet result
 ```
 
-#### `eList ent match ctrl :: IO Value`
+#### `eList ent match ctrl :: IO [Entity]`
 
-List entities matching the given criteria. The match is optional — pass an empty map to list all records. Returns a list `Value` and raises on error.
+List entities matching the given criteria. The match is optional — pass an empty map to list all records. Resolves to one ENTITY per record and raises on error.
 
 ```haskell
   ent <- Sdk.tokenize sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
-  results <- Sdk.eList ent match ctrl
+  results <- Sdk.eList ent match ctrl   -- one ENTITY per record
+  datas <- mapM Sdk.eDataGet results
 ```
 
 ### Common Fields
@@ -268,30 +276,31 @@ The entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `[Value]` | No |  |
-| `message_id` | `String` | No |  |
+| `batches` | `[Value]` | No |  |
+| `messageId` | `String` | No |  |
 | `reference` | `String` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
-| `batch` | Yes |
-| `message_id` | - |
+| `batches` | Yes |
+| `messageId` | - |
 | `reference` | - |
 
 ### Operations
 
-#### `eCreate ent data ctrl :: IO Value`
+#### `eCreate ent data ctrl :: IO Entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
 
 ```haskell
   ent <- Sdk.tokenize_batch sdk VNoval
   d <- jo
     []
   ctrl <- emptyMap
-  result <- Sdk.eCreate ent d ctrl
+  result <- Sdk.eCreate ent d ctrl   -- the ENTITY
+  d2 <- Sdk.eDataGet result
 ```
 
 ### Common Fields
@@ -330,33 +339,34 @@ The entity name.
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `bfid` | `String` | No |  |
-| `message_id` | `String` | No |  |
+| `messageId` | `String` | No |  |
 | `reference` | `String` | No |  |
 | `state` | `Value` | No |  |
-| `value` | `[Value]` | No |  |
+| `values` | `[Value]` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
 | `bfid` | Yes |
-| `message_id` | - |
+| `messageId` | - |
 | `reference` | - |
 | `state` | - |
-| `value` | - |
+| `values` | - |
 
 ### Operations
 
-#### `eCreate ent data ctrl :: IO Value`
+#### `eCreate ent data ctrl :: IO Entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
 
 ```haskell
   ent <- Sdk.tokenize_read sdk VNoval
   d <- jo
     []
   ctrl <- emptyMap
-  result <- Sdk.eCreate ent d ctrl
+  result <- Sdk.eCreate ent d ctrl   -- the ENTITY
+  d2 <- Sdk.eDataGet result
 ```
 
 ### Common Fields
@@ -394,23 +404,24 @@ The entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `message_id` | `String` | No |  |
+| `messageId` | `String` | No |  |
 | `reference` | `String` | No |  |
-| `template_ref` | `String` | Yes |  |
+| `templateRef` | `String` | Yes |  |
 
 ### Operations
 
-#### `eCreate ent data ctrl :: IO Value`
+#### `eCreate ent data ctrl :: IO Entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
 
 ```haskell
   ent <- Sdk.validate sdk VNoval
   d <- jo
-    [ ("template_ref", VStr "example_template_ref")   -- String
+    [ ("templateRef", VStr "example_templateRef")   -- String
     ]
   ctrl <- emptyMap
-  result <- Sdk.eCreate ent d ctrl
+  result <- Sdk.eCreate ent d ctrl   -- the ENTITY
+  d2 <- Sdk.eDataGet result
 ```
 
 ### Common Fields

@@ -78,24 +78,24 @@ class TokenizeDirectTest {
       val calls = mutableListOf<MutableMap<String, Any?>>()
 
       val envm = linkedMapOf<String, Any?>()
-      envm["BLUEFINSHIELDCONEX_TEST_TOKENIZE_ENTID"] = linkedMapOf<String, Any?>()
-      envm["BLUEFINSHIELDCONEX_TEST_LIVE"] = "FALSE"
-      envm["BLUEFINSHIELDCONEX_APIKEY"] = "NONE"
+      envm["BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_ENTID"] = linkedMapOf<String, Any?>()
+      envm["BLUEFIN_SHIELDCONEX_TEST_LIVE"] = "FALSE"
+      envm["BLUEFIN_SHIELDCONEX_APIKEY"] = "NONE"
       val env = RunnerSupport.envOverride(envm)
 
-      val live = "TRUE" == env["BLUEFINSHIELDCONEX_TEST_LIVE"]
+      val live = "TRUE" == env["BLUEFIN_SHIELDCONEX_TEST_LIVE"]
 
       val setup = DirectSetup()
       setup.calls = calls
 
       if (live) {
         val mergedOpts = linkedMapOf<String, Any?>()
-        mergedOpts["apikey"] = env["BLUEFINSHIELDCONEX_APIKEY"]
+        mergedOpts["apikey"] = env["BLUEFIN_SHIELDCONEX_APIKEY"]
         setup.client = BluefinShieldconexSDK(mergedOpts)
         setup.live = true
 
         var idmap: MutableMap<String, Any?> = linkedMapOf()
-        val entidRaw = env["BLUEFINSHIELDCONEX_TEST_TOKENIZE_ENTID"]
+        val entidRaw = env["BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_ENTID"]
         if (entidRaw is String && entidRaw.startsWith("{")) {
           val parsed = Helpers.toMapAny(Json.parseOrNull(entidRaw))
           if (parsed != null) {

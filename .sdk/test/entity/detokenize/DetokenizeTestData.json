@@ -2,30 +2,33 @@
   "existing": {
     "detokenize": {
       "DETOKENIZE00": {
-        "batch": [],
-        "bfid": "s3d",
-        "message_id": "MESSAGE01",
-        "name": "s3f",
-        "reference": "s40",
-        "value": [],
+        "batches": [],
+        "bfid": "s47",
+        "messageId": "s48",
+        "name": "s49",
+        "reference": "s4a",
+        "value": "s4b",
+        "values": [],
         "id": "DETOKENIZE00"
       },
       "DETOKENIZE01": {
-        "batch": [],
-        "bfid": "s79",
-        "message_id": "MESSAGE01",
-        "name": "s7b",
-        "reference": "s7c",
-        "value": [],
+        "batches": [],
+        "bfid": "s8d",
+        "messageId": "s8e",
+        "name": "s8f",
+        "reference": "s90",
+        "value": "s91",
+        "values": [],
         "id": "DETOKENIZE01"
       },
       "DETOKENIZE02": {
-        "batch": [],
-        "bfid": "sb5",
-        "message_id": "MESSAGE01",
-        "name": "sb7",
-        "reference": "sb8",
-        "value": [],
+        "batches": [],
+        "bfid": "sd3",
+        "messageId": "sd4",
+        "name": "sd5",
+        "reference": "sd6",
+        "value": "sd7",
+        "values": [],
         "id": "DETOKENIZE02"
       }
     }
@@ -33,12 +36,13 @@
   "new": {
     "detokenize": {
       "detokenize_ref01": {
-        "batch": [],
-        "bfid": "sf1",
-        "message_id": "MESSAGE01",
-        "name": "sf3",
-        "reference": "sf4",
-        "value": []
+        "batches": [],
+        "bfid": "s119",
+        "messageId": "s11a",
+        "name": "s11b",
+        "reference": "s11c",
+        "value": "s11d",
+        "values": []
       }
     }
   }

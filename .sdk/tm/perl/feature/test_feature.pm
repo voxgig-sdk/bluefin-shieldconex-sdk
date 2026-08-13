@@ -1,4 +1,4 @@
-# BluefinShieldconex SDK test feature
+# ProjectName SDK test feature
 
 use strict;
 use warnings;
@@ -13,13 +13,13 @@ require(Cwd::abs_path("$__dir/../lib/Voxgig/Struct.pm"));
 require(Cwd::abs_path("$__dir/../core/helpers.pm"));
 require(Cwd::abs_path("$__dir/base_feature.pm"));
 
-package BluefinShieldconexTestFeature;
+package ProjectNameTestFeature;
 
-our @ISA = ('BluefinShieldconexBaseFeature');
+our @ISA = ('ProjectNameBaseFeature');
 
 sub new {
   my ($class) = @_;
-  my $self = BluefinShieldconexBaseFeature::new($class);
+  my $self = ProjectNameBaseFeature::new($class);
   $self->{version} = '0.0.1';
   $self->{name} = 'test';
   $self->{active} = 1;
@@ -34,7 +34,7 @@ sub init {
   $self->{client} = $ctx->{client};
   $self->{options} = $options;
 
-  my $entity = BluefinShieldconexHelpers::gp($options, 'entity');
+  my $entity = ProjectNameHelpers::gp($options, 'entity');
   $entity = {} unless Voxgig::Struct::ismap($entity);
 
   $self->{client}{mode} = 'test';
@@ -69,7 +69,7 @@ sub init {
     my ($fctx, $_fullurl, $_fetchdef) = @_;
 
     my $op = $fctx->{op};
-    my $entmap = BluefinShieldconexHelpers::gp($entity, $op->{entity});
+    my $entmap = ProjectNameHelpers::gp($entity, $op->{entity});
     $entmap = {} unless Voxgig::Struct::ismap($entmap);
 
     # For single-entity ops (load, remove) with an empty explicit match, fall
@@ -82,7 +82,7 @@ sub init {
         if Voxgig::Struct::ismap($explicit) && !Voxgig::Struct::isempty($explicit);
       for my $src ($fctx->{match}, $fctx->{data}) {
         next unless defined $src;
-        my $v = BluefinShieldconexHelpers::gp($src, 'id');
+        my $v = ProjectNameHelpers::gp($src, 'id');
         return { 'id' => $v } if defined $v && "$v" ne '__UNDEFINED__';
       }
       return {};
@@ -91,9 +91,9 @@ sub init {
     if ('load' eq $op->{name}) {
       my $args = $test_self->build_args($fctx, $op, $resolve_match->($fctx->{reqmatch}));
       my $found = Voxgig::Struct::select($entmap, $args);
-      my $ent = BluefinShieldconexHelpers::ge($found, 0);
+      my $ent = ProjectNameHelpers::ge($found, 0);
       return $respond->(404, undef, { 'statusText' => 'Not found' })
-        unless BluefinShieldconexHelpers::rb_truthy($ent);
+        unless ProjectNameHelpers::rb_truthy($ent);
       Voxgig::Struct::delprop($ent, '$KEY');
       my $out = Voxgig::Struct::clone($ent);
       return $respond->(200, $out, undef);
@@ -120,7 +120,7 @@ sub init {
       if (Voxgig::Struct::ismap($fctx->{reqdata})) {
         $update_match->{id} = $fctx->{reqdata}{id} if exists $fctx->{reqdata}{id};
         if ($op->{alias}) {
-          my $alias_id = BluefinShieldconexHelpers::gp($op->{alias}, 'id');
+          my $alias_id = ProjectNameHelpers::gp($op->{alias}, 'id');
           if (defined $alias_id && exists $fctx->{reqdata}{$alias_id}) {
             $update_match->{$alias_id} = $fctx->{reqdata}{$alias_id};
           }
@@ -129,7 +129,7 @@ sub init {
       $update_match = $resolve_match->({}) unless keys %$update_match;
       my $args = $test_self->build_args($fctx, $op, $update_match);
       my $found = Voxgig::Struct::select($entmap, $args);
-      my $ent = BluefinShieldconexHelpers::ge($found, 0);
+      my $ent = ProjectNameHelpers::ge($found, 0);
       if (!defined $ent && Voxgig::Struct::ismap($entmap) && keys %$entmap) {
         for my $k (sort keys %$entmap) {
           if (Voxgig::Struct::ismap($entmap->{$k})) {
@@ -139,7 +139,7 @@ sub init {
         }
       }
       return $respond->(404, undef, { 'statusText' => 'Not found' })
-        unless BluefinShieldconexHelpers::rb_truthy($ent);
+        unless ProjectNameHelpers::rb_truthy($ent);
       if (Voxgig::Struct::ismap($ent) && $fctx->{reqdata}) {
         $ent->{$_} = $fctx->{reqdata}{$_} for keys %{ $fctx->{reqdata} };
       }
@@ -150,11 +150,11 @@ sub init {
     elsif ('remove' eq $op->{name}) {
       my $args = $test_self->build_args($fctx, $op, $resolve_match->($fctx->{reqmatch}));
       my $found = Voxgig::Struct::select($entmap, $args);
-      my $ent = BluefinShieldconexHelpers::ge($found, 0);
+      my $ent = ProjectNameHelpers::ge($found, 0);
       # Remove only the first matched entity. If nothing matches,
       # succeed as a no-op rather than erroring.
       if (Voxgig::Struct::ismap($ent)) {
-        my $id = BluefinShieldconexHelpers::gp($ent, 'id');
+        my $id = ProjectNameHelpers::gp($ent, 'id');
         Voxgig::Struct::delprop($entmap, $id);
       }
       return $respond->(200, undef, undef);
@@ -185,7 +185,7 @@ sub init {
   # per test via `SDK->test({ net => { latency => ..., ... } })`. When
   # "net" is absent the mock behaves exactly as before (no wrapping), so
   # existing generated tests are unaffected.
-  my $net = BluefinShieldconexHelpers::gp($options, 'net');
+  my $net = ProjectNameHelpers::gp($options, 'net');
   $net = undef unless Voxgig::Struct::ismap($net);
   $ctx->{utility}{fetcher} = defined $net
     ? $self->make_netsim($net, $test_fetcher)
@@ -220,7 +220,7 @@ sub make_netsim {
       $net->{sleep}->($ms);
     }
     else {
-      BluefinShieldconexHelpers::sleep_ms($ms);
+      ProjectNameHelpers::sleep_ms($ms);
     }
   };
 
@@ -237,7 +237,7 @@ sub make_netsim {
     $test_self->{netcalls} += 1;
     my $call = $test_self->{netcalls};
 
-    if (BluefinShieldconexHelpers::is_true($net->{offline})) {
+    if (ProjectNameHelpers::is_true($net->{offline})) {
       $do_sleep->($pick_latency->());
       return (undef, $fctx->make_error('netsim_offline',
         "Simulated network offline (URL was: \"$fullurl\")"));
@@ -270,11 +270,11 @@ sub build_args {
   my ($self, $ctx, $op, $args) = @_;
   my $opname = $op->{name};
   my $entname = $ctx->{entity}->get_name;
-  my $points = BluefinShieldconexHelpers::gpath($ctx->{config},
+  my $points = ProjectNameHelpers::gpath($ctx->{config},
     "entity.$entname.op.$opname.points");
-  my $point = BluefinShieldconexHelpers::ge($points, -1);
+  my $point = ProjectNameHelpers::ge($points, -1);
 
-  my $params_path = BluefinShieldconexHelpers::gpath($point, 'args.params');
+  my $params_path = ProjectNameHelpers::gpath($point, 'args.params');
   my $reqd_params = Voxgig::Struct::select($params_path,
     { 'reqd' => Voxgig::Struct::JTRUE() });
   my $reqd = Voxgig::Struct::transform($reqd_params, ['`$EACH`', '', '`$KEY.name`']);
@@ -292,7 +292,7 @@ sub build_args {
 
         if ($is_id || $is_reqd) {
           my $v = $ctx->{utility}{param}->($ctx, $key);
-          my $ka = $op->{alias} ? BluefinShieldconexHelpers::gp($op->{alias}, $key) : undef;
+          my $ka = $op->{alias} ? ProjectNameHelpers::gp($op->{alias}, $key) : undef;
 
           my $qor = [{ $key => $v }];
           push @$qor, { $ka => $v } if defined $ka && !ref $ka;

@@ -10,7 +10,7 @@
           (vs/jm
             "active" true
             "index$" 0
-            "name" "batch"
+            "name" "batches"
             "op" (vs/jm
               "create" (vs/jm
                 "req" true
@@ -30,7 +30,7 @@
           (vs/jm
             "active" true
             "index$" 2
-            "name" "message_id"
+            "name" "messageId"
             "req" false
             "type" "`$STRING`")
           (vs/jm
@@ -49,6 +49,12 @@
             "active" true
             "index$" 5
             "name" "value"
+            "req" false
+            "type" "`$STRING`")
+          (vs/jm
+            "active" true
+            "index$" 6
+            "name" "values"
             "op" (vs/jm
               "create" (vs/jm
                 "req" true
@@ -66,6 +72,7 @@
                 "active" true
                 "args" (vs/jm)
                 "index$" 0
+                "kind" "http"
                 "method" "POST"
                 "orig" "/tokenization/batch/detokenize"
                 "parts" (vs/jt
@@ -80,6 +87,7 @@
                 "active" true
                 "args" (vs/jm)
                 "index$" 1
+                "kind" "http"
                 "method" "POST"
                 "orig" "/tokenization/detokenize"
                 "parts" (vs/jt
@@ -127,6 +135,7 @@
                       "reqd" false
                       "type" "`$STRING`")))
                 "index$" 0
+                "kind" "http"
                 "method" "GET"
                 "orig" "/healthcheck/detokenize"
                 "parts" (vs/jt
@@ -148,7 +157,7 @@
           (vs/jm
             "active" true
             "index$" 0
-            "name" "batch"
+            "name" "batches"
             "op" (vs/jm
               "create" (vs/jm
                 "req" true
@@ -168,7 +177,7 @@
           (vs/jm
             "active" true
             "index$" 2
-            "name" "message_id"
+            "name" "messageId"
             "req" false
             "type" "`$STRING`")
           (vs/jm
@@ -186,13 +195,19 @@
           (vs/jm
             "active" true
             "index$" 5
-            "name" "template_ref"
+            "name" "templateRef"
             "req" true
             "type" "`$STRING`")
           (vs/jm
             "active" true
             "index$" 6
             "name" "value"
+            "req" false
+            "type" "`$STRING`")
+          (vs/jm
+            "active" true
+            "index$" 7
+            "name" "values"
             "op" (vs/jm
               "create" (vs/jm
                 "req" true
@@ -218,6 +233,7 @@
                       "reqd" false
                       "type" "`$NUMBER`")))
                 "index$" 0
+                "kind" "http"
                 "method" "POST"
                 "orig" "/tokenization/batch/tokenize"
                 "parts" (vs/jt
@@ -242,6 +258,7 @@
                       "reqd" false
                       "type" "`$NUMBER`")))
                 "index$" 1
+                "kind" "http"
                 "method" "POST"
                 "orig" "/tokenization/tokenize"
                 "parts" (vs/jt
@@ -257,6 +274,7 @@
                 "active" true
                 "args" (vs/jm)
                 "index$" 2
+                "kind" "http"
                 "method" "POST"
                 "orig" "/tokenization/delete"
                 "parts" (vs/jt
@@ -304,6 +322,7 @@
                       "reqd" true
                       "type" "`$STRING`")))
                 "index$" 0
+                "kind" "http"
                 "method" "GET"
                 "orig" "/healthcheck/tokenize"
                 "parts" (vs/jt
@@ -325,7 +344,7 @@
           (vs/jm
             "active" true
             "index$" 0
-            "name" "batch"
+            "name" "batches"
             "op" (vs/jm
               "create" (vs/jm
                 "req" true
@@ -335,7 +354,7 @@
           (vs/jm
             "active" true
             "index$" 1
-            "name" "message_id"
+            "name" "messageId"
             "req" false
             "type" "`$STRING`")
           (vs/jm
@@ -355,6 +374,7 @@
                 "active" true
                 "args" (vs/jm)
                 "index$" 0
+                "kind" "http"
                 "method" "POST"
                 "orig" "/tokenization/batch/delete"
                 "parts" (vs/jt
@@ -369,6 +389,7 @@
                 "active" true
                 "args" (vs/jm)
                 "index$" 1
+                "kind" "http"
                 "method" "POST"
                 "orig" "/tokenization/batch/read"
                 "parts" (vs/jt
@@ -396,7 +417,7 @@
           (vs/jm
             "active" true
             "index$" 1
-            "name" "message_id"
+            "name" "messageId"
             "req" false
             "type" "`$STRING`")
           (vs/jm
@@ -414,7 +435,7 @@
           (vs/jm
             "active" true
             "index$" 4
-            "name" "value"
+            "name" "values"
             "req" false
             "type" "`$ARRAY`"))
         "name" "tokenize_read"
@@ -428,6 +449,7 @@
                 "active" true
                 "args" (vs/jm)
                 "index$" 0
+                "kind" "http"
                 "method" "POST"
                 "orig" "/tokenization/read"
                 "parts" (vs/jt
@@ -444,7 +466,7 @@
           (vs/jm
             "active" true
             "index$" 0
-            "name" "message_id"
+            "name" "messageId"
             "req" false
             "type" "`$STRING`")
           (vs/jm
@@ -456,7 +478,7 @@
           (vs/jm
             "active" true
             "index$" 2
-            "name" "template_ref"
+            "name" "templateRef"
             "req" true
             "type" "`$STRING`"))
         "name" "validate"
@@ -470,6 +492,7 @@
                 "active" true
                 "args" (vs/jm)
                 "index$" 0
+                "kind" "http"
                 "method" "POST"
                 "orig" "/partner/validate"
                 "parts" (vs/jt
@@ -483,6 +506,7 @@
                 "active" true
                 "args" (vs/jm)
                 "index$" 1
+                "kind" "http"
                 "method" "POST"
                 "orig" "/template/validate"
                 "parts" (vs/jt

@@ -4,7 +4,7 @@ import * as Path from 'node:path'
 import {
   cmp, camelify,
   File, Content, Folder, Fragment,
-  entityClassName,
+  entityClassName, entityCollection,
 } from '@voxgig/sdkgen'
 
 import {
@@ -23,7 +23,7 @@ const Entity = cmp(function Entity(props: any) {
   // Collision-free entity CLASS name (see entityClassName): normally
   // `<Name>Entity`, but disambiguated when it would clash with another
   // entity's data-type name.
-  const entityColl = getModelPath(model, `main.${KIT}.entity`)
+  const entityColl = entityCollection(model)
   const cls = entityClassName(entity, entityColl)
 
   const entrep = {
@@ -37,7 +37,7 @@ const Entity = cmp(function Entity(props: any) {
 
     File({ name: rustVarName(entity.name) + '.' + target.ext }, () => {
 
-      const opnames = Object.keys(entity.op)
+      const opnames = Object.keys(entity.op || {})
 
       // For each CRUD op: if the spec defines it, splice in the real
       // implementation. Otherwise emit a stub that satisfies the static
@@ -53,7 +53,11 @@ const Entity = cmp(function Entity(props: any) {
               ({ indent }: any) => {
                 const arg = ('create' === opname || 'update' === opname) ?
                   'reqdata' : 'reqmatch'
-                Content({ indent }, `fn ${opname}(&self, _${arg}: Value, _ctrl: Value) -> Result<Value, ${model.const.Name}Error> {
+                // The stub mirrors the real signature: ops resolve to the
+                // ENTITY (`list` to a vector of them), so an unsupported op
+                // has to declare the same return type to satisfy the trait.
+                const ret = 'list' === opname ? 'Vec<Rc<Self>>' : 'Rc<Self>'
+                Content({ indent }, `fn ${opname}(self: &Rc<Self>, _${arg}: Value, _ctrl: Value) -> Result<${ret}, ${model.const.Name}Error> {
     Err(crate::core::helpers::unsupported_op("${opname}", &self.name))
 }
 `)

@@ -8,110 +8,116 @@
 
 /**
  * @typedef {Object} Detokenize
- * @property {Array} [batch]
+ * @property {Array} [batches]
  * @property {string} [bfid]
- * @property {string} [message_id]
+ * @property {string} [messageId]
  * @property {string} [name]
  * @property {string} [reference]
- * @property {Array} [value]
+ * @property {string} [value]
+ * @property {Array} [values]
  */
 
 /**
  * @typedef {Object} DetokenizeListMatch
- * @property {Array} [batch]
+ * @property {Array} [batches]
  * @property {string} [bfid]
- * @property {string} [message_id]
+ * @property {string} [messageId]
  * @property {string} [name]
  * @property {string} [reference]
- * @property {Array} [value]
+ * @property {string} [value]
+ * @property {Array} [values]
  */
 
 /**
  * @typedef {Object} DetokenizeCreateData
- * @property {Array} [batch]
+ * @property {Array} [batches]
  * @property {string} [bfid]
- * @property {string} [message_id]
+ * @property {string} [messageId]
  * @property {string} [name]
  * @property {string} [reference]
- * @property {Array} [value]
+ * @property {string} [value]
+ * @property {Array} [values]
  */
 
 /**
  * @typedef {Object} Tokenize
- * @property {Array} [batch]
+ * @property {Array} [batches]
  * @property {string} [bfid]
- * @property {string} [message_id]
+ * @property {string} [messageId]
  * @property {string} [name]
  * @property {string} [reference]
- * @property {string} template_ref
- * @property {Array} [value]
+ * @property {string} templateRef
+ * @property {string} [value]
+ * @property {Array} [values]
  */
 
 /**
  * @typedef {Object} TokenizeListMatch
- * @property {Array} [batch]
+ * @property {Array} [batches]
  * @property {string} [bfid]
- * @property {string} [message_id]
+ * @property {string} [messageId]
  * @property {string} [name]
  * @property {string} [reference]
- * @property {string} [template_ref]
- * @property {Array} [value]
+ * @property {string} [templateRef]
+ * @property {string} [value]
+ * @property {Array} [values]
  */
 
 /**
  * @typedef {Object} TokenizeCreateData
- * @property {Array} [batch]
+ * @property {Array} [batches]
  * @property {string} [bfid]
- * @property {string} [message_id]
+ * @property {string} [messageId]
  * @property {string} [name]
  * @property {string} [reference]
- * @property {string} template_ref
- * @property {Array} [value]
+ * @property {string} templateRef
+ * @property {string} [value]
+ * @property {Array} [values]
  */
 
 /**
  * @typedef {Object} TokenizeBatch
- * @property {Array} [batch]
- * @property {string} [message_id]
+ * @property {Array} [batches]
+ * @property {string} [messageId]
  * @property {string} [reference]
  */
 
 /**
  * @typedef {Object} TokenizeBatchCreateData
- * @property {Array} [batch]
- * @property {string} [message_id]
+ * @property {Array} [batches]
+ * @property {string} [messageId]
  * @property {string} [reference]
  */
 
 /**
  * @typedef {Object} TokenizeRead
  * @property {string} [bfid]
- * @property {string} [message_id]
+ * @property {string} [messageId]
  * @property {string} [reference]
  * @property {Object} [state]
- * @property {Array} [value]
+ * @property {Array} [values]
  */
 
 /**
  * @typedef {Object} TokenizeReadCreateData
  * @property {string} [bfid]
- * @property {string} [message_id]
+ * @property {string} [messageId]
  * @property {string} [reference]
  * @property {Object} [state]
- * @property {Array} [value]
+ * @property {Array} [values]
  */
 
 /**
  * @typedef {Object} Validate
- * @property {string} [message_id]
+ * @property {string} [messageId]
  * @property {string} [reference]
- * @property {string} template_ref
+ * @property {string} templateRef
  */
 
 /**
  * @typedef {Object} ValidateCreateData
- * @property {string} [message_id]
+ * @property {string} [messageId]
  * @property {string} [reference]
- * @property {string} template_ref
+ * @property {string} templateRef
  */
 

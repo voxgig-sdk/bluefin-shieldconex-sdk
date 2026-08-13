@@ -1,4 +1,4 @@
-# ProjectName SDK exists test
+# BluefinShieldconex SDK exists test
 
 import pytest
 from bluefinshieldconex_sdk import BluefinShieldconexSDK

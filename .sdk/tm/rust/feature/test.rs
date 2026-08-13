@@ -8,7 +8,7 @@ use std::cell::RefCell;
 use std::rc::Rc;
 
 use crate::core::context::Context;
-use crate::core::error::BluefinShieldconexError;
+use crate::core::error::ProjectNameError;
 use crate::core::helpers::{getp, ja, jo, json_thunk, rand_int, setp, to_map};
 use crate::core::types::{Feature, FetcherFn};
 use crate::feature::support::*;
@@ -136,7 +136,7 @@ fn test_fetch(
     ctx: &Rc<Context>,
     _fullurl: &str,
     _fetchdef: &Value,
-) -> Result<Value, BluefinShieldconexError> {
+) -> Result<Value, ProjectNameError> {
     let op = ctx.op.borrow().clone();
     let entmap = match to_map(&getp(entity, &op.entity)) {
         Value::Map(m) => Value::Map(m),

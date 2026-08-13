@@ -110,23 +110,25 @@ SdkEntity detokenize = client.detokenize(null);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `List<Object>` | No |  |
+| `batches` | `List<Object>` | No |  |
 | `bfid` | `String` | No |  |
-| `message_id` | `String` | No |  |
+| `messageId` | `String` | No |  |
 | `name` | `String` | No |  |
 | `reference` | `String` | No |  |
-| `value` | `List<Object>` | No |  |
+| `value` | `String` | No |  |
+| `values` | `List<Object>` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `value` | - | Yes |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
@@ -179,25 +181,27 @@ SdkEntity tokenize = client.tokenize(null);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `List<Object>` | No |  |
+| `batches` | `List<Object>` | No |  |
 | `bfid` | `String` | No |  |
-| `message_id` | `String` | No |  |
+| `messageId` | `String` | No |  |
 | `name` | `String` | No |  |
 | `reference` | `String` | No |  |
-| `template_ref` | `String` | Yes |  |
-| `value` | `List<Object>` | No |  |
+| `templateRef` | `String` | Yes |  |
+| `value` | `String` | No |  |
+| `values` | `List<Object>` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `template_ref` | - | - |
-| `value` | - | Yes |
+| `templateRef` | - | - |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
@@ -207,7 +211,7 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```java
 Object result = client.tokenize(null).create(Map.of(
-    "template_ref", "example_template_ref"  // String
+    "templateRef", "example_templateRef"  // String
 ), null);
 ```
 
@@ -251,16 +255,16 @@ SdkEntity tokenizeBatch = client.tokenizeBatch(null);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `List<Object>` | No |  |
-| `message_id` | `String` | No |  |
+| `batches` | `List<Object>` | No |  |
+| `messageId` | `String` | No |  |
 | `reference` | `String` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
-| `batch` | Yes |
-| `message_id` | - |
+| `batches` | Yes |
+| `messageId` | - |
 | `reference` | - |
 
 ### Operations
@@ -306,20 +310,20 @@ SdkEntity tokenizeRead = client.tokenizeRead(null);
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `bfid` | `String` | No |  |
-| `message_id` | `String` | No |  |
+| `messageId` | `String` | No |  |
 | `reference` | `String` | No |  |
 | `state` | `Map<String, Object>` | No |  |
-| `value` | `List<Object>` | No |  |
+| `values` | `List<Object>` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
 | `bfid` | Yes |
-| `message_id` | - |
+| `messageId` | - |
 | `reference` | - |
 | `state` | - |
-| `value` | - |
+| `values` | - |
 
 ### Operations
 
@@ -363,9 +367,9 @@ SdkEntity validate = client.validate(null);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `message_id` | `String` | No |  |
+| `messageId` | `String` | No |  |
 | `reference` | `String` | No |  |
-| `template_ref` | `String` | Yes |  |
+| `templateRef` | `String` | Yes |  |
 
 ### Operations
 
@@ -375,7 +379,7 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```java
 Object result = client.validate(null).create(Map.of(
-    "template_ref", "example_template_ref"  // String
+    "templateRef", "example_templateRef"  // String
 ), null);
 ```
 

@@ -40,7 +40,7 @@ try {
     // list() returns an array of Detokenize records — iterate directly.
     $detokenizes = $client->Detokenize()->list();
     foreach ($detokenizes as $item) {
-        echo $item["batch"] . "\n";
+        echo $item["batches"] . "\n";
     }
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
@@ -50,8 +50,8 @@ try {
 ### 4. Create, update, and remove
 
 ```php
-// create() returns the bare created Detokenize record.
-$created = $client->Detokenize()->create(["batch" => [], "bfid" => "example_bfid"]);
+// create() returns the ENTITY — call data_get() for the created Detokenize record.
+$created = $client->Detokenize()->create(["batches" => [], "bfid" => "example_bfid"]);
 
 ```
 
@@ -135,7 +135,8 @@ Create a mock client for unit testing — no server required:
 ```php
 $client = BluefinShieldconexSDK::test();
 
-// Entity ops return the bare mock record (throws on error).
+// Entity ops return the ENTITY (throws on error);
+// call data_get() for the mock record.
 $detokenize = $client->Detokenize()->list();
 print_r($detokenize);
 ```
@@ -241,7 +242,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (an `array` for single-entity
+Entity operations return the ENTITY (call data_get() for the record) (an `array` for single-entity
 ops, a `list` for `list`) and throw on error. Wrap calls in
 `try`/`catch` to handle failures.
 
@@ -263,12 +264,13 @@ On error, `ok` is `false` and `$err` contains the error value.
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: Create, List.
 
@@ -278,13 +280,14 @@ API path: `/tokenization/batch/detokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: Create, List.
 
@@ -294,8 +297,8 @@ API path: `/tokenization/batch/tokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
-| `message_id` |  |
+| `batches` |  |
+| `messageId` |  |
 | `reference` |  |
 
 Operations: Create.
@@ -307,10 +310,10 @@ API path: `/tokenization/batch/delete`
 | Field | Description |
 | --- | --- |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
 | `state` |  |
-| `value` |  |
+| `values` |  |
 
 Operations: Create.
 
@@ -320,9 +323,9 @@ API path: `/tokenization/read`
 
 | Field | Description |
 | --- | --- |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 
 Operations: Create.
 
@@ -348,12 +351,13 @@ Create an instance: `$detokenize = $client->Detokenize();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `array` |  |
+| `batches` | `array` |  |
 | `bfid` | `string` |  |
-| `message_id` | `string` |  |
+| `messageId` | `string` |  |
 | `name` | `string` |  |
 | `reference` | `string` |  |
-| `value` | `array` |  |
+| `value` | `string` |  |
+| `values` | `array` |  |
 
 #### Example: List
 
@@ -385,13 +389,14 @@ Create an instance: `$tokenize = $client->Tokenize();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `array` |  |
+| `batches` | `array` |  |
 | `bfid` | `string` |  |
-| `message_id` | `string` |  |
+| `messageId` | `string` |  |
 | `name` | `string` |  |
 | `reference` | `string` |  |
-| `template_ref` | `string` |  |
-| `value` | `array` |  |
+| `templateRef` | `string` |  |
+| `value` | `string` |  |
+| `values` | `array` |  |
 
 #### Example: List
 
@@ -404,7 +409,7 @@ $tokenizes = $client->Tokenize()->list();
 
 ```php
 $tokenize = $client->Tokenize()->create([
-    "template_ref" => null, // string
+    "templateRef" => null, // string
 ]);
 ```
 
@@ -423,8 +428,8 @@ Create an instance: `$tokenize_batch = $client->TokenizeBatch();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `array` |  |
-| `message_id` | `string` |  |
+| `batches` | `array` |  |
+| `messageId` | `string` |  |
 | `reference` | `string` |  |
 
 #### Example: Create
@@ -450,10 +455,10 @@ Create an instance: `$tokenize_read = $client->TokenizeRead();`
 | Field | Type | Description |
 | --- | --- | --- |
 | `bfid` | `string` |  |
-| `message_id` | `string` |  |
+| `messageId` | `string` |  |
 | `reference` | `string` |  |
 | `state` | `array` |  |
-| `value` | `array` |  |
+| `values` | `array` |  |
 
 #### Example: Create
 
@@ -477,15 +482,15 @@ Create an instance: `$validate = $client->Validate();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `message_id` | `string` |  |
+| `messageId` | `string` |  |
 | `reference` | `string` |  |
-| `template_ref` | `string` |  |
+| `templateRef` | `string` |  |
 
 #### Example: Create
 
 ```php
 $validate = $client->Validate()->create([
-    "template_ref" => null, // string
+    "templateRef" => null, // string
 ]);
 ```
 

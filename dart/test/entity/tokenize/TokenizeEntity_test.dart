@@ -87,14 +87,14 @@ test('stream', (t) async {
       final tokenize_ref01_ent = client.Tokenize();
       dynamic tokenize_ref01_data = setup['data']['new']['tokenize']['tokenize_ref01'];
 
-      tokenize_ref01_data = await tokenize_ref01_ent.create(tokenize_ref01_data);
+      tokenize_ref01_data = (await tokenize_ref01_ent.create(tokenize_ref01_data)).data();
       ok(null != tokenize_ref01_data);
 
 
       // LIST
       final tokenize_ref01_match = <String, dynamic>{};
 
-      final tokenize_ref01_list = await tokenize_ref01_ent.list(tokenize_ref01_match);
+      final tokenize_ref01_list = (await tokenize_ref01_ent.list(tokenize_ref01_match)).map((e) => e.data()).toList();
 
       ok(!isempty(select(
           (tokenize_ref01_list as List).map((e) => e.data()).toList(),

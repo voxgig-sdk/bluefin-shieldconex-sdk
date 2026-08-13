@@ -73,7 +73,7 @@ end
 detokenize = BluefinShieldconex.detokenize(sdk)
 
 # Create — returns the bare created record
-created = BluefinShieldconex.Entity.Detokenize.create(detokenize, H.deep(%{"batch" => [], "bfid" => "example_bfid"}))
+created = BluefinShieldconex.Entity.Detokenize.create(detokenize, H.deep(%{"batches" => [], "bfid" => "example_bfid"}))
 
 ```
 
@@ -288,12 +288,13 @@ On error, `ok` is `false` and `err` carries the error value.
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: Create, List.
 
@@ -303,13 +304,14 @@ API path: `/tokenization/batch/detokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: Create, List.
 
@@ -319,8 +321,8 @@ API path: `/tokenization/batch/tokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
-| `message_id` |  |
+| `batches` |  |
+| `messageId` |  |
 | `reference` |  |
 
 Operations: Create.
@@ -332,10 +334,10 @@ API path: `/tokenization/batch/delete`
 | Field | Description |
 | --- | --- |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
 | `state` |  |
-| `value` |  |
+| `values` |  |
 
 Operations: Create.
 
@@ -345,9 +347,9 @@ API path: `/tokenization/read`
 
 | Field | Description |
 | --- | --- |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 
 Operations: Create.
 
@@ -376,12 +378,13 @@ Create a handle: `detokenize = BluefinShieldconex.detokenize(sdk)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `list()` |  |
+| `batches` | `list()` |  |
 | `bfid` | `String.t()` |  |
-| `message_id` | `String.t()` |  |
+| `messageId` | `String.t()` |  |
 | `name` | `String.t()` |  |
 | `reference` | `String.t()` |  |
-| `value` | `list()` |  |
+| `value` | `String.t()` |  |
+| `values` | `list()` |  |
 
 #### Example: List
 
@@ -414,13 +417,14 @@ Create a handle: `tokenize = BluefinShieldconex.tokenize(sdk)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `list()` |  |
+| `batches` | `list()` |  |
 | `bfid` | `String.t()` |  |
-| `message_id` | `String.t()` |  |
+| `messageId` | `String.t()` |  |
 | `name` | `String.t()` |  |
 | `reference` | `String.t()` |  |
-| `template_ref` | `String.t()` |  |
-| `value` | `list()` |  |
+| `templateRef` | `String.t()` |  |
+| `value` | `String.t()` |  |
+| `values` | `list()` |  |
 
 #### Example: List
 
@@ -434,7 +438,7 @@ records = BluefinShieldconex.Entity.Tokenize.list(tokenize)
 ```elixir
 tokenize = BluefinShieldconex.tokenize(sdk)
 record = BluefinShieldconex.Entity.Tokenize.create(tokenize, BluefinShieldconex.Helpers.deep(%{
-  "template_ref" => "example_template_ref",  # String.t()
+  "templateRef" => "example_templateRef",  # String.t()
 }))
 ```
 
@@ -453,8 +457,8 @@ Create a handle: `tokenize_batch = BluefinShieldconex.tokenize_batch(sdk)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `list()` |  |
-| `message_id` | `String.t()` |  |
+| `batches` | `list()` |  |
+| `messageId` | `String.t()` |  |
 | `reference` | `String.t()` |  |
 
 #### Example: Create
@@ -481,10 +485,10 @@ Create a handle: `tokenize_read = BluefinShieldconex.tokenize_read(sdk)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `bfid` | `String.t()` |  |
-| `message_id` | `String.t()` |  |
+| `messageId` | `String.t()` |  |
 | `reference` | `String.t()` |  |
 | `state` | `map()` |  |
-| `value` | `list()` |  |
+| `values` | `list()` |  |
 
 #### Example: Create
 
@@ -509,16 +513,16 @@ Create a handle: `validate = BluefinShieldconex.validate(sdk)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `message_id` | `String.t()` |  |
+| `messageId` | `String.t()` |  |
 | `reference` | `String.t()` |  |
-| `template_ref` | `String.t()` |  |
+| `templateRef` | `String.t()` |  |
 
 #### Example: Create
 
 ```elixir
 validate = BluefinShieldconex.validate(sdk)
 record = BluefinShieldconex.Entity.Validate.create(validate, BluefinShieldconex.Helpers.deep(%{
-  "template_ref" => "example_template_ref",  # String.t()
+  "templateRef" => "example_templateRef",  # String.t()
 }))
 ```
 

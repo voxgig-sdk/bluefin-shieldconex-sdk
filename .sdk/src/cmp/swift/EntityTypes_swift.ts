@@ -21,11 +21,11 @@
 //     the runtime's open shape.
 
 import {
-  cmp, each, names,
+  cmp, each,
   File, Content, Folder,
 } from '@voxgig/sdkgen'
 
-import { canonToType, opTypeName, opRequestShape, warnEntityTypeCollisions } from '@voxgig/sdkgen'
+import { canonToType, opTypeName, opRequestShape, warnEntityTypeCollisions , deriveEntityNames, swiftSafeTypeName } from '@voxgig/sdkgen'
 
 import {
   KIT,
@@ -81,8 +81,7 @@ const EntityTypes = cmp(function EntityTypes(props: any) {
   // Emit for every entity that gets an entity file (filter on `name`, always
   // present; derive `Name` here so the struct set is deterministic — parity
   // with the rust/go emitter's fix).
-  const entityList = each(entity).filter((e: any) => e && null != e.name)
-  entityList.forEach((e: any) => { if (null == e.Name) names(e, e.name) })
+  const entityList = deriveEntityNames(entity)
 
   // Surface duplicate generated type names (two entities with the same
   // PascalCase Name) — they would redeclare a type in statically-typed
@@ -115,9 +114,16 @@ import Foundation
               .filter((f: any) => f.active !== false)
 
             // Entity data model: one property per field. req:false -> optional.
+            //
+            // Swift has no intra-module namespacing, so a spec schema named
+            // after one of our own runtime types (e.g. `Response`) would be a
+            // redeclaration and fail the build. swiftSafeTypeName appends
+            // `Type` on collision only — `Response` -> `ResponseType` — so
+            // non-colliding SDKs generate byte-identical output to before.
+            const TypeName = swiftSafeTypeName(Name)
             emitStruct(
-              `/// ${Name} is the typed data model for the ${ent.name} entity.`,
-              Name,
+              `/// ${TypeName} is the typed data model for the ${ent.name} entity.`,
+              TypeName,
               fields.map((f: any) => ({ name: f.name, type: f.type, optional: false === f.req }))
             )
 

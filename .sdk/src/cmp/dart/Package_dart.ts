@@ -7,6 +7,7 @@ import {
   pkgDescription,
   keywords,
   repoInfo,
+  packageVersion,
 } from '@voxgig/sdkgen'
 
 
@@ -39,7 +40,7 @@ const Package = cmp(async function Package(props: any) {
     Content(`name: ${dartPackageName(model)}
 description: >-
   ${pkgDescription(model, target.name)}
-version: 0.0.1
+version: ${packageVersion(model, target.name)}
 homepage: ${repoUrl}
 repository: ${repoUrl}
 issue_tracker: ${issuesUrl}
@@ -59,7 +60,7 @@ topics:
     // Runtime is dependency-free (dart:io + dart:convert + vendored struct);
     // target/feature deps, when declared, land here.
     const deps: Record<string, string> = {}
-    for (const d of collectDeps(model, target.name, target.deps)) {
+    for (const d of collectDeps(model, target.name, target.deps, ctx$.log)) {
       deps[d.name] = d.source === 'target' ? (d.version || 'any') : d.version
     }
 

@@ -69,7 +69,7 @@ iterate it directly.
 
 ```clojure
 ;; Create — returns the bare created record (a map)
-(def created (e-detokenize/create (api/detokenize client nil) (vs/jm "batch" (vs/jt) "bfid" "example_bfid") nil))
+(def created (e-detokenize/create (api/detokenize client nil) (vs/jm "batches" (vs/jt) "bfid" "example_bfid") nil))
 
 ```
 
@@ -280,12 +280,13 @@ On error, `ok` is `false` and `err` contains the error value.
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: Create, List.
 
@@ -295,13 +296,14 @@ API path: `/tokenization/batch/detokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: Create, List.
 
@@ -311,8 +313,8 @@ API path: `/tokenization/batch/tokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
-| `message_id` |  |
+| `batches` |  |
+| `messageId` |  |
 | `reference` |  |
 
 Operations: Create.
@@ -324,10 +326,10 @@ API path: `/tokenization/batch/delete`
 | Field | Description |
 | --- | --- |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
 | `state` |  |
-| `value` |  |
+| `values` |  |
 
 Operations: Create.
 
@@ -337,9 +339,9 @@ API path: `/tokenization/read`
 
 | Field | Description |
 | --- | --- |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 
 Operations: Create.
 
@@ -365,12 +367,13 @@ Create an instance: `(def detokenize (api/detokenize client nil))`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `vector` |  |
+| `batches` | `vector` |  |
 | `bfid` | `string` |  |
-| `message_id` | `string` |  |
+| `messageId` | `string` |  |
 | `name` | `string` |  |
 | `reference` | `string` |  |
-| `value` | `vector` |  |
+| `value` | `string` |  |
+| `values` | `vector` |  |
 
 #### Example: List
 
@@ -404,13 +407,14 @@ Create an instance: `(def tokenize (api/tokenize client nil))`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `vector` |  |
+| `batches` | `vector` |  |
 | `bfid` | `string` |  |
-| `message_id` | `string` |  |
+| `messageId` | `string` |  |
 | `name` | `string` |  |
 | `reference` | `string` |  |
-| `template_ref` | `string` |  |
-| `value` | `vector` |  |
+| `templateRef` | `string` |  |
+| `value` | `string` |  |
+| `values` | `vector` |  |
 
 #### Example: List
 
@@ -424,7 +428,7 @@ Create an instance: `(def tokenize (api/tokenize client nil))`
 (def tokenize
   (e-tokenize/create (api/tokenize client nil)
     (vs/jm
-      "template_ref" "example_template_ref"  ;; string
+      "templateRef" "example_templateRef"  ;; string
       )
     nil))
 ```
@@ -444,8 +448,8 @@ Create an instance: `(def tokenize_batch (api/tokenize_batch client nil))`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `vector` |  |
-| `message_id` | `string` |  |
+| `batches` | `vector` |  |
+| `messageId` | `string` |  |
 | `reference` | `string` |  |
 
 #### Example: Create
@@ -474,10 +478,10 @@ Create an instance: `(def tokenize_read (api/tokenize_read client nil))`
 | Field | Type | Description |
 | --- | --- | --- |
 | `bfid` | `string` |  |
-| `message_id` | `string` |  |
+| `messageId` | `string` |  |
 | `reference` | `string` |  |
 | `state` | `map` |  |
-| `value` | `vector` |  |
+| `values` | `vector` |  |
 
 #### Example: Create
 
@@ -504,9 +508,9 @@ Create an instance: `(def validate (api/validate client nil))`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `message_id` | `string` |  |
+| `messageId` | `string` |  |
 | `reference` | `string` |  |
-| `template_ref` | `string` |  |
+| `templateRef` | `string` |  |
 
 #### Example: Create
 
@@ -514,7 +518,7 @@ Create an instance: `(def validate (api/validate client nil))`
 (def validate
   (e-validate/create (api/validate client nil)
     (vs/jm
-      "template_ref" "example_template_ref"  ;; string
+      "templateRef" "example_templateRef"  ;; string
       )
     nil))
 ```

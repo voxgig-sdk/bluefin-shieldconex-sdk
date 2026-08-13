@@ -31,7 +31,8 @@ defmodule BluefinShieldconex.TokenizeReadEntityTest do
   test "should create then read back" do
     sdk = BluefinShieldconex.test(S.jm(["entity", S.jm(["tokenize_read", S.jm([])])]))
     ent = BluefinShieldconex.tokenize_read(sdk)
-    made = BluefinShieldconex.Entity.TokenizeRead.create(ent, S.jm(["name", "test-create"]))
+    created = BluefinShieldconex.Entity.TokenizeRead.create(ent, S.jm(["name", "test-create"]))
+    made = BluefinShieldconex.EntityBase.data_get(created)
     assert S.ismap(made)
     assert S.getprop(made, "id") != nil
   end

@@ -35,7 +35,7 @@ public class TokenizeEntityTest
         }
         // The basic flow consumes synthetic IDs from the fixture. In live
         // mode without an *_ENTID env override, those IDs hit the live API
-        // and 4xx; set BLUEFINSHIELDCONEX_TEST_TOKENIZE_ENTID JSON to run live.
+        // and 4xx; set BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_ENTID JSON to run live.
         if (setup.SyntheticOnly)
         {
             return;
@@ -49,7 +49,7 @@ public class TokenizeEntityTest
             "tokenize_ref01"));
 
         var tokenizeRef01DataResult = tokenizeRef01Ent.Create(tokenizeRef01Data, null);
-        tokenizeRef01Data = Helpers.ToMapAny(tokenizeRef01DataResult);
+        tokenizeRef01Data = Helpers.ToMapAny(tokenizeRef01DataResult is IEntity ce ? ce.Data() : tokenizeRef01DataResult);
         Assert.True(tokenizeRef01Data != null, "expected create result to be a map");
 
         // LIST
@@ -153,43 +153,43 @@ public class TokenizeEntityTest
         // live mode is on without a real override, the basic test runs
         // against synthetic IDs from the fixture and 4xx's.
         var entidEnvRaw = Environment.GetEnvironmentVariable(
-            "BLUEFINSHIELDCONEX_TEST_TOKENIZE_ENTID") ?? "";
+            "BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_ENTID") ?? "";
         var idmapOverridden = entidEnvRaw != "" &&
             entidEnvRaw.Trim().StartsWith("{");
 
         var env = TestRunner.EnvOverride(new Dictionary<string, object?>
         {
-            ["BLUEFINSHIELDCONEX_TEST_TOKENIZE_ENTID"] = idmap,
-            ["BLUEFINSHIELDCONEX_TEST_LIVE"] = "FALSE",
-            ["BLUEFINSHIELDCONEX_TEST_EXPLAIN"] = "FALSE",
-            ["BLUEFINSHIELDCONEX_APIKEY"] = "NONE",
+            ["BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_ENTID"] = idmap,
+            ["BLUEFIN_SHIELDCONEX_TEST_LIVE"] = "FALSE",
+            ["BLUEFIN_SHIELDCONEX_TEST_EXPLAIN"] = "FALSE",
+            ["BLUEFIN_SHIELDCONEX_APIKEY"] = "NONE",
         });
 
-        var idmapResolved = Helpers.ToMapAny(env["BLUEFINSHIELDCONEX_TEST_TOKENIZE_ENTID"])
+        var idmapResolved = Helpers.ToMapAny(env["BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_ENTID"])
             ?? Helpers.ToMapAny(idmap)
             ?? new Dictionary<string, object?>();
 
-        if (Equals(env["BLUEFINSHIELDCONEX_TEST_LIVE"], "TRUE"))
+        if (Equals(env["BLUEFIN_SHIELDCONEX_TEST_LIVE"], "TRUE"))
         {
             var mergedOpts = StructUtils.Merge(new List<object?>
             {
                 new Dictionary<string, object?>
                 {
-                    ["apikey"] = env["BLUEFINSHIELDCONEX_APIKEY"],
+                    ["apikey"] = env["BLUEFIN_SHIELDCONEX_APIKEY"],
                 },
                 extra,
             });
             client = new BluefinShieldconexSDK(Helpers.ToMapAny(mergedOpts));
         }
 
-        var live = Equals(env["BLUEFINSHIELDCONEX_TEST_LIVE"], "TRUE");
+        var live = Equals(env["BLUEFIN_SHIELDCONEX_TEST_LIVE"], "TRUE");
         return new EntityTestSetup
         {
             Client = client,
             Data = entityData,
             Idmap = idmapResolved,
             Env = env,
-            Explain = Equals(env["BLUEFINSHIELDCONEX_TEST_EXPLAIN"], "TRUE"),
+            Explain = Equals(env["BLUEFIN_SHIELDCONEX_TEST_EXPLAIN"], "TRUE"),
             Live = live,
             SyntheticOnly = live && !idmapOverridden,
             Now = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),

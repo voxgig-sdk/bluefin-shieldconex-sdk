@@ -10,13 +10,13 @@
 
 # Detokenize entity data model.
 #
-# @!attribute [rw] batch
+# @!attribute [rw] batches
 #   @return [Array, nil]
 #
 # @!attribute [rw] bfid
 #   @return [String, nil]
 #
-# @!attribute [rw] message_id
+# @!attribute [rw] messageId
 #   @return [String, nil]
 #
 # @!attribute [rw] name
@@ -26,26 +26,30 @@
 #   @return [String, nil]
 #
 # @!attribute [rw] value
+#   @return [String, nil]
+#
+# @!attribute [rw] values
 #   @return [Array, nil]
 Detokenize = Struct.new(
-  :batch,
+  :batches,
   :bfid,
-  :message_id,
+  :messageId,
   :name,
   :reference,
   :value,
+  :values,
   keyword_init: true
 )
 
 # Request payload for Detokenize#list.
 #
-# @!attribute [rw] batch
+# @!attribute [rw] batches
 #   @return [Array, nil]
 #
 # @!attribute [rw] bfid
 #   @return [String, nil]
 #
-# @!attribute [rw] message_id
+# @!attribute [rw] messageId
 #   @return [String, nil]
 #
 # @!attribute [rw] name
@@ -55,26 +59,30 @@ Detokenize = Struct.new(
 #   @return [String, nil]
 #
 # @!attribute [rw] value
+#   @return [String, nil]
+#
+# @!attribute [rw] values
 #   @return [Array, nil]
 DetokenizeListMatch = Struct.new(
-  :batch,
+  :batches,
   :bfid,
-  :message_id,
+  :messageId,
   :name,
   :reference,
   :value,
+  :values,
   keyword_init: true
 )
 
 # Request payload for Detokenize#create.
 #
-# @!attribute [rw] batch
+# @!attribute [rw] batches
 #   @return [Array, nil]
 #
 # @!attribute [rw] bfid
 #   @return [String, nil]
 #
-# @!attribute [rw] message_id
+# @!attribute [rw] messageId
 #   @return [String, nil]
 #
 # @!attribute [rw] name
@@ -84,26 +92,30 @@ DetokenizeListMatch = Struct.new(
 #   @return [String, nil]
 #
 # @!attribute [rw] value
+#   @return [String, nil]
+#
+# @!attribute [rw] values
 #   @return [Array, nil]
 DetokenizeCreateData = Struct.new(
-  :batch,
+  :batches,
   :bfid,
-  :message_id,
+  :messageId,
   :name,
   :reference,
   :value,
+  :values,
   keyword_init: true
 )
 
 # Tokenize entity data model.
 #
-# @!attribute [rw] batch
+# @!attribute [rw] batches
 #   @return [Array, nil]
 #
 # @!attribute [rw] bfid
 #   @return [String, nil]
 #
-# @!attribute [rw] message_id
+# @!attribute [rw] messageId
 #   @return [String, nil]
 #
 # @!attribute [rw] name
@@ -112,31 +124,35 @@ DetokenizeCreateData = Struct.new(
 # @!attribute [rw] reference
 #   @return [String, nil]
 #
-# @!attribute [rw] template_ref
+# @!attribute [rw] templateRef
 #   @return [String]
 #
 # @!attribute [rw] value
+#   @return [String, nil]
+#
+# @!attribute [rw] values
 #   @return [Array, nil]
 Tokenize = Struct.new(
-  :batch,
+  :batches,
   :bfid,
-  :message_id,
+  :messageId,
   :name,
   :reference,
-  :template_ref,
+  :templateRef,
   :value,
+  :values,
   keyword_init: true
 )
 
 # Request payload for Tokenize#list.
 #
-# @!attribute [rw] batch
+# @!attribute [rw] batches
 #   @return [Array, nil]
 #
 # @!attribute [rw] bfid
 #   @return [String, nil]
 #
-# @!attribute [rw] message_id
+# @!attribute [rw] messageId
 #   @return [String, nil]
 #
 # @!attribute [rw] name
@@ -145,31 +161,35 @@ Tokenize = Struct.new(
 # @!attribute [rw] reference
 #   @return [String, nil]
 #
-# @!attribute [rw] template_ref
+# @!attribute [rw] templateRef
 #   @return [String, nil]
 #
 # @!attribute [rw] value
+#   @return [String, nil]
+#
+# @!attribute [rw] values
 #   @return [Array, nil]
 TokenizeListMatch = Struct.new(
-  :batch,
+  :batches,
   :bfid,
-  :message_id,
+  :messageId,
   :name,
   :reference,
-  :template_ref,
+  :templateRef,
   :value,
+  :values,
   keyword_init: true
 )
 
 # Request payload for Tokenize#create.
 #
-# @!attribute [rw] batch
+# @!attribute [rw] batches
 #   @return [Array, nil]
 #
 # @!attribute [rw] bfid
 #   @return [String, nil]
 #
-# @!attribute [rw] message_id
+# @!attribute [rw] messageId
 #   @return [String, nil]
 #
 # @!attribute [rw] name
@@ -178,52 +198,56 @@ TokenizeListMatch = Struct.new(
 # @!attribute [rw] reference
 #   @return [String, nil]
 #
-# @!attribute [rw] template_ref
+# @!attribute [rw] templateRef
 #   @return [String]
 #
 # @!attribute [rw] value
+#   @return [String, nil]
+#
+# @!attribute [rw] values
 #   @return [Array, nil]
 TokenizeCreateData = Struct.new(
-  :batch,
+  :batches,
   :bfid,
-  :message_id,
+  :messageId,
   :name,
   :reference,
-  :template_ref,
+  :templateRef,
   :value,
+  :values,
   keyword_init: true
 )
 
 # TokenizeBatch entity data model.
 #
-# @!attribute [rw] batch
+# @!attribute [rw] batches
 #   @return [Array, nil]
 #
-# @!attribute [rw] message_id
+# @!attribute [rw] messageId
 #   @return [String, nil]
 #
 # @!attribute [rw] reference
 #   @return [String, nil]
 TokenizeBatch = Struct.new(
-  :batch,
-  :message_id,
+  :batches,
+  :messageId,
   :reference,
   keyword_init: true
 )
 
 # Request payload for TokenizeBatch#create.
 #
-# @!attribute [rw] batch
+# @!attribute [rw] batches
 #   @return [Array, nil]
 #
-# @!attribute [rw] message_id
+# @!attribute [rw] messageId
 #   @return [String, nil]
 #
 # @!attribute [rw] reference
 #   @return [String, nil]
 TokenizeBatchCreateData = Struct.new(
-  :batch,
-  :message_id,
+  :batches,
+  :messageId,
   :reference,
   keyword_init: true
 )
@@ -233,7 +257,7 @@ TokenizeBatchCreateData = Struct.new(
 # @!attribute [rw] bfid
 #   @return [String, nil]
 #
-# @!attribute [rw] message_id
+# @!attribute [rw] messageId
 #   @return [String, nil]
 #
 # @!attribute [rw] reference
@@ -242,14 +266,14 @@ TokenizeBatchCreateData = Struct.new(
 # @!attribute [rw] state
 #   @return [Hash, nil]
 #
-# @!attribute [rw] value
+# @!attribute [rw] values
 #   @return [Array, nil]
 TokenizeRead = Struct.new(
   :bfid,
-  :message_id,
+  :messageId,
   :reference,
   :state,
-  :value,
+  :values,
   keyword_init: true
 )
 
@@ -258,7 +282,7 @@ TokenizeRead = Struct.new(
 # @!attribute [rw] bfid
 #   @return [String, nil]
 #
-# @!attribute [rw] message_id
+# @!attribute [rw] messageId
 #   @return [String, nil]
 #
 # @!attribute [rw] reference
@@ -267,48 +291,48 @@ TokenizeRead = Struct.new(
 # @!attribute [rw] state
 #   @return [Hash, nil]
 #
-# @!attribute [rw] value
+# @!attribute [rw] values
 #   @return [Array, nil]
 TokenizeReadCreateData = Struct.new(
   :bfid,
-  :message_id,
+  :messageId,
   :reference,
   :state,
-  :value,
+  :values,
   keyword_init: true
 )
 
 # Validate entity data model.
 #
-# @!attribute [rw] message_id
+# @!attribute [rw] messageId
 #   @return [String, nil]
 #
 # @!attribute [rw] reference
 #   @return [String, nil]
 #
-# @!attribute [rw] template_ref
+# @!attribute [rw] templateRef
 #   @return [String]
 Validate = Struct.new(
-  :message_id,
+  :messageId,
   :reference,
-  :template_ref,
+  :templateRef,
   keyword_init: true
 )
 
 # Request payload for Validate#create.
 #
-# @!attribute [rw] message_id
+# @!attribute [rw] messageId
 #   @return [String, nil]
 #
 # @!attribute [rw] reference
 #   @return [String, nil]
 #
-# @!attribute [rw] template_ref
+# @!attribute [rw] templateRef
 #   @return [String]
 ValidateCreateData = Struct.new(
-  :message_id,
+  :messageId,
   :reference,
-  :template_ref,
+  :templateRef,
   keyword_init: true
 )
 

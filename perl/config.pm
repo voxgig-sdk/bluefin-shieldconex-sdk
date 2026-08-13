@@ -47,7 +47,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
       "fields": [
         {
           "active": true,
-          "name": "batch",
+          "name": "batches",
           "op": {
             "create": {
               "req": true,
@@ -73,7 +73,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
         },
         {
           "active": true,
-          "name": "message_id",
+          "name": "messageId",
           "req": false,
           "type": "`$STRING`",
           "index$": 2
@@ -95,6 +95,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
         {
           "active": true,
           "name": "value",
+          "req": false,
+          "type": "`$STRING`",
+          "index$": 5
+        },
+        {
+          "active": true,
+          "name": "values",
           "op": {
             "create": {
               "req": true,
@@ -103,7 +110,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           },
           "req": false,
           "type": "`$ARRAY`",
-          "index$": 5
+          "index$": 6
         }
       ],
       "name": "detokenize",
@@ -115,6 +122,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/tokenization/batch/detokenize",
               "parts": [
@@ -132,6 +140,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/tokenization/detokenize",
               "parts": [
@@ -190,6 +199,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/healthcheck/detokenize",
               "parts": [
@@ -222,7 +232,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
       "fields": [
         {
           "active": true,
-          "name": "batch",
+          "name": "batches",
           "op": {
             "create": {
               "req": true,
@@ -248,7 +258,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
         },
         {
           "active": true,
-          "name": "message_id",
+          "name": "messageId",
           "req": false,
           "type": "`$STRING`",
           "index$": 2
@@ -269,7 +279,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
         },
         {
           "active": true,
-          "name": "template_ref",
+          "name": "templateRef",
           "req": true,
           "type": "`$STRING`",
           "index$": 5
@@ -277,6 +287,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
         {
           "active": true,
           "name": "value",
+          "req": false,
+          "type": "`$STRING`",
+          "index$": 6
+        },
+        {
+          "active": true,
+          "name": "values",
           "op": {
             "create": {
               "req": true,
@@ -285,7 +302,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           },
           "req": false,
           "type": "`$ARRAY`",
-          "index$": 6
+          "index$": 7
         }
       ],
       "name": "tokenize",
@@ -308,6 +325,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
                   }
                 ]
               },
+              "kind": "http",
               "method": "POST",
               "orig": "/tokenization/batch/tokenize",
               "parts": [
@@ -340,6 +358,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
                   }
                 ]
               },
+              "kind": "http",
               "method": "POST",
               "orig": "/tokenization/tokenize",
               "parts": [
@@ -360,6 +379,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/tokenization/delete",
               "parts": [
@@ -418,6 +438,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/healthcheck/tokenize",
               "parts": [
@@ -450,7 +471,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
       "fields": [
         {
           "active": true,
-          "name": "batch",
+          "name": "batches",
           "op": {
             "create": {
               "req": true,
@@ -463,7 +484,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
         },
         {
           "active": true,
-          "name": "message_id",
+          "name": "messageId",
           "req": false,
           "type": "`$STRING`",
           "index$": 1
@@ -485,6 +506,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/tokenization/batch/delete",
               "parts": [
@@ -502,6 +524,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/tokenization/batch/read",
               "parts": [
@@ -541,7 +564,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
         },
         {
           "active": true,
-          "name": "message_id",
+          "name": "messageId",
           "req": false,
           "type": "`$STRING`",
           "index$": 1
@@ -562,7 +585,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
         },
         {
           "active": true,
-          "name": "value",
+          "name": "values",
           "req": false,
           "type": "`$ARRAY`",
           "index$": 4
@@ -577,6 +600,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/tokenization/read",
               "parts": [
@@ -602,7 +626,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
       "fields": [
         {
           "active": true,
-          "name": "message_id",
+          "name": "messageId",
           "req": false,
           "type": "`$STRING`",
           "index$": 0
@@ -616,7 +640,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
         },
         {
           "active": true,
-          "name": "template_ref",
+          "name": "templateRef",
           "req": true,
           "type": "`$STRING`",
           "index$": 2
@@ -631,6 +655,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/partner/validate",
               "parts": [
@@ -647,6 +672,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/template/validate",
               "parts": [

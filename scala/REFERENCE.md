@@ -110,23 +110,25 @@ val detokenize = client.detokenize(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `java.util.List[Object]` | No |  |
+| `batches` | `java.util.List[Object]` | No |  |
 | `bfid` | `String` | No |  |
-| `message_id` | `String` | No |  |
+| `messageId` | `String` | No |  |
 | `name` | `String` | No |  |
 | `reference` | `String` | No |  |
-| `value` | `java.util.List[Object]` | No |  |
+| `value` | `String` | No |  |
+| `values` | `java.util.List[Object]` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `value` | - | Yes |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
@@ -179,25 +181,27 @@ val tokenize = client.tokenize(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `java.util.List[Object]` | No |  |
+| `batches` | `java.util.List[Object]` | No |  |
 | `bfid` | `String` | No |  |
-| `message_id` | `String` | No |  |
+| `messageId` | `String` | No |  |
 | `name` | `String` | No |  |
 | `reference` | `String` | No |  |
-| `template_ref` | `String` | Yes |  |
-| `value` | `java.util.List[Object]` | No |  |
+| `templateRef` | `String` | Yes |  |
+| `value` | `String` | No |  |
+| `values` | `java.util.List[Object]` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `template_ref` | - | - |
-| `value` | - | Yes |
+| `templateRef` | - | - |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
@@ -207,7 +211,7 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```scala
 val result = client.tokenize(null).create(java.util.Map.of(
-    "template_ref", "example_template_ref"  // String
+    "templateRef", "example_templateRef"  // String
 ), null)
 ```
 
@@ -251,16 +255,16 @@ val tokenizeBatch = client.tokenizeBatch(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `java.util.List[Object]` | No |  |
-| `message_id` | `String` | No |  |
+| `batches` | `java.util.List[Object]` | No |  |
+| `messageId` | `String` | No |  |
 | `reference` | `String` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
-| `batch` | Yes |
-| `message_id` | - |
+| `batches` | Yes |
+| `messageId` | - |
 | `reference` | - |
 
 ### Operations
@@ -306,20 +310,20 @@ val tokenizeRead = client.tokenizeRead(null)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `bfid` | `String` | No |  |
-| `message_id` | `String` | No |  |
+| `messageId` | `String` | No |  |
 | `reference` | `String` | No |  |
 | `state` | `java.util.Map[String, Object]` | No |  |
-| `value` | `java.util.List[Object]` | No |  |
+| `values` | `java.util.List[Object]` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
 | `bfid` | Yes |
-| `message_id` | - |
+| `messageId` | - |
 | `reference` | - |
 | `state` | - |
-| `value` | - |
+| `values` | - |
 
 ### Operations
 
@@ -363,9 +367,9 @@ val validate = client.validate(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `message_id` | `String` | No |  |
+| `messageId` | `String` | No |  |
 | `reference` | `String` | No |  |
-| `template_ref` | `String` | Yes |  |
+| `templateRef` | `String` | Yes |  |
 
 ### Operations
 
@@ -375,7 +379,7 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```scala
 val result = client.validate(null).create(java.util.Map.of(
-    "template_ref", "example_template_ref"  // String
+    "templateRef", "example_templateRef"  // String
 ), null)
 ```
 

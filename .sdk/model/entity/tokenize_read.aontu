@@ -17,7 +17,7 @@ main: kit: entity: tokenize_read: {
       type: "`$STRING`"
     }
     {
-      name: "message_id"
+      name: "messageId"
       req: false
       type: "`$STRING`"
     }
@@ -32,7 +32,7 @@ main: kit: entity: tokenize_read: {
       type: "`$OBJECT`"
     }
     {
-      name: "value"
+      name: "values"
       req: false
       type: "`$ARRAY`"
     }

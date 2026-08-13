@@ -20,28 +20,28 @@ public final class BluefinShieldconexTypes {
 
   private BluefinShieldconexTypes() {}
 
-  public record Detokenize(List<Object> batch, String bfid, String message_id, String name, String reference, List<Object> value) {}
+  public record Detokenize(List<Object> batches, String bfid, String messageId, String name, String reference, String value, List<Object> values) {}
 
-  public record DetokenizeListMatch(List<Object> batch, String bfid, String message_id, String name, String reference, List<Object> value) {}
+  public record DetokenizeListMatch(List<Object> batches, String bfid, String messageId, String name, String reference, String value, List<Object> values) {}
 
-  public record DetokenizeCreateData(List<Object> batch, String bfid, String message_id, String name, String reference, List<Object> value) {}
+  public record DetokenizeCreateData(List<Object> batches, String bfid, String messageId, String name, String reference, String value, List<Object> values) {}
 
-  public record Tokenize(List<Object> batch, String bfid, String message_id, String name, String reference, String template_ref, List<Object> value) {}
+  public record Tokenize(List<Object> batches, String bfid, String messageId, String name, String reference, String templateRef, String value, List<Object> values) {}
 
-  public record TokenizeListMatch(List<Object> batch, String bfid, String message_id, String name, String reference, String template_ref, List<Object> value) {}
+  public record TokenizeListMatch(List<Object> batches, String bfid, String messageId, String name, String reference, String templateRef, String value, List<Object> values) {}
 
-  public record TokenizeCreateData(List<Object> batch, String bfid, String message_id, String name, String reference, String template_ref, List<Object> value) {}
+  public record TokenizeCreateData(List<Object> batches, String bfid, String messageId, String name, String reference, String templateRef, String value, List<Object> values) {}
 
-  public record TokenizeBatch(List<Object> batch, String message_id, String reference) {}
+  public record TokenizeBatch(List<Object> batches, String messageId, String reference) {}
 
-  public record TokenizeBatchCreateData(List<Object> batch, String message_id, String reference) {}
+  public record TokenizeBatchCreateData(List<Object> batches, String messageId, String reference) {}
 
-  public record TokenizeRead(String bfid, String message_id, String reference, Map<String, Object> state, List<Object> value) {}
+  public record TokenizeRead(String bfid, String messageId, String reference, Map<String, Object> state, List<Object> values) {}
 
-  public record TokenizeReadCreateData(String bfid, String message_id, String reference, Map<String, Object> state, List<Object> value) {}
+  public record TokenizeReadCreateData(String bfid, String messageId, String reference, Map<String, Object> state, List<Object> values) {}
 
-  public record Validate(String message_id, String reference, String template_ref) {}
+  public record Validate(String messageId, String reference, String templateRef) {}
 
-  public record ValidateCreateData(String message_id, String reference, String template_ref) {}
+  public record ValidateCreateData(String messageId, String reference, String templateRef) {}
 
 }

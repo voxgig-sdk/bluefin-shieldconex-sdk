@@ -38,7 +38,7 @@ public enum SdkConfig {
       "fields": [
         {
           "active": true,
-          "name": "batch",
+          "name": "batches",
           "op": {
             "create": {
               "req": true,
@@ -64,7 +64,7 @@ public enum SdkConfig {
         },
         {
           "active": true,
-          "name": "message_id",
+          "name": "messageId",
           "req": false,
           "type": "`$STRING`",
           "index$": 2
@@ -86,6 +86,13 @@ public enum SdkConfig {
         {
           "active": true,
           "name": "value",
+          "req": false,
+          "type": "`$STRING`",
+          "index$": 5
+        },
+        {
+          "active": true,
+          "name": "values",
           "op": {
             "create": {
               "req": true,
@@ -94,7 +101,7 @@ public enum SdkConfig {
           },
           "req": false,
           "type": "`$ARRAY`",
-          "index$": 5
+          "index$": 6
         }
       ],
       "name": "detokenize",
@@ -106,6 +113,7 @@ public enum SdkConfig {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/tokenization/batch/detokenize",
               "parts": [
@@ -123,6 +131,7 @@ public enum SdkConfig {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/tokenization/detokenize",
               "parts": [
@@ -181,6 +190,7 @@ public enum SdkConfig {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/healthcheck/detokenize",
               "parts": [
@@ -213,7 +223,7 @@ public enum SdkConfig {
       "fields": [
         {
           "active": true,
-          "name": "batch",
+          "name": "batches",
           "op": {
             "create": {
               "req": true,
@@ -239,7 +249,7 @@ public enum SdkConfig {
         },
         {
           "active": true,
-          "name": "message_id",
+          "name": "messageId",
           "req": false,
           "type": "`$STRING`",
           "index$": 2
@@ -260,7 +270,7 @@ public enum SdkConfig {
         },
         {
           "active": true,
-          "name": "template_ref",
+          "name": "templateRef",
           "req": true,
           "type": "`$STRING`",
           "index$": 5
@@ -268,6 +278,13 @@ public enum SdkConfig {
         {
           "active": true,
           "name": "value",
+          "req": false,
+          "type": "`$STRING`",
+          "index$": 6
+        },
+        {
+          "active": true,
+          "name": "values",
           "op": {
             "create": {
               "req": true,
@@ -276,7 +293,7 @@ public enum SdkConfig {
           },
           "req": false,
           "type": "`$ARRAY`",
-          "index$": 6
+          "index$": 7
         }
       ],
       "name": "tokenize",
@@ -299,6 +316,7 @@ public enum SdkConfig {
                   }
                 ]
               },
+              "kind": "http",
               "method": "POST",
               "orig": "/tokenization/batch/tokenize",
               "parts": [
@@ -331,6 +349,7 @@ public enum SdkConfig {
                   }
                 ]
               },
+              "kind": "http",
               "method": "POST",
               "orig": "/tokenization/tokenize",
               "parts": [
@@ -351,6 +370,7 @@ public enum SdkConfig {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/tokenization/delete",
               "parts": [
@@ -409,6 +429,7 @@ public enum SdkConfig {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/healthcheck/tokenize",
               "parts": [
@@ -441,7 +462,7 @@ public enum SdkConfig {
       "fields": [
         {
           "active": true,
-          "name": "batch",
+          "name": "batches",
           "op": {
             "create": {
               "req": true,
@@ -454,7 +475,7 @@ public enum SdkConfig {
         },
         {
           "active": true,
-          "name": "message_id",
+          "name": "messageId",
           "req": false,
           "type": "`$STRING`",
           "index$": 1
@@ -476,6 +497,7 @@ public enum SdkConfig {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/tokenization/batch/delete",
               "parts": [
@@ -493,6 +515,7 @@ public enum SdkConfig {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/tokenization/batch/read",
               "parts": [
@@ -532,7 +555,7 @@ public enum SdkConfig {
         },
         {
           "active": true,
-          "name": "message_id",
+          "name": "messageId",
           "req": false,
           "type": "`$STRING`",
           "index$": 1
@@ -553,7 +576,7 @@ public enum SdkConfig {
         },
         {
           "active": true,
-          "name": "value",
+          "name": "values",
           "req": false,
           "type": "`$ARRAY`",
           "index$": 4
@@ -568,6 +591,7 @@ public enum SdkConfig {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/tokenization/read",
               "parts": [
@@ -593,7 +617,7 @@ public enum SdkConfig {
       "fields": [
         {
           "active": true,
-          "name": "message_id",
+          "name": "messageId",
           "req": false,
           "type": "`$STRING`",
           "index$": 0
@@ -607,7 +631,7 @@ public enum SdkConfig {
         },
         {
           "active": true,
-          "name": "template_ref",
+          "name": "templateRef",
           "req": true,
           "type": "`$STRING`",
           "index$": 2
@@ -622,6 +646,7 @@ public enum SdkConfig {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/partner/validate",
               "parts": [
@@ -638,6 +663,7 @@ public enum SdkConfig {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/template/validate",
               "parts": [

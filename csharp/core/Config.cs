@@ -52,7 +52,7 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["active"] = true,
-                            ["name"] = "batch",
+                            ["name"] = "batches",
                             ["op"] = new Dictionary<string, object?>
                             {
                                 ["create"] = new Dictionary<string, object?>
@@ -84,7 +84,7 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["active"] = true,
-                            ["name"] = "message_id",
+                            ["name"] = "messageId",
                             ["req"] = false,
                             ["type"] = "`$STRING`",
                             ["index$"] = 2,
@@ -109,6 +109,14 @@ public static class SdkConfig
                         {
                             ["active"] = true,
                             ["name"] = "value",
+                            ["req"] = false,
+                            ["type"] = "`$STRING`",
+                            ["index$"] = 5,
+                        },
+                        new Dictionary<string, object?>
+                        {
+                            ["active"] = true,
+                            ["name"] = "values",
                             ["op"] = new Dictionary<string, object?>
                             {
                                 ["create"] = new Dictionary<string, object?>
@@ -119,7 +127,7 @@ public static class SdkConfig
                             },
                             ["req"] = false,
                             ["type"] = "`$ARRAY`",
-                            ["index$"] = 5,
+                            ["index$"] = 6,
                         },
                     },
                     ["name"] = "detokenize",
@@ -135,6 +143,7 @@ public static class SdkConfig
                                 {
                                     ["active"] = true,
                                     ["args"] = new Dictionary<string, object?>(),
+                                    ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/tokenization/batch/detokenize",
                                     ["parts"] = new List<object?>
@@ -155,6 +164,7 @@ public static class SdkConfig
                                 {
                                     ["active"] = true,
                                     ["args"] = new Dictionary<string, object?>(),
+                                    ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/tokenization/detokenize",
                                     ["parts"] = new List<object?>
@@ -224,6 +234,7 @@ public static class SdkConfig
                                             },
                                         },
                                     },
+                                    ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/healthcheck/detokenize",
                                     ["parts"] = new List<object?>
@@ -264,7 +275,7 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["active"] = true,
-                            ["name"] = "batch",
+                            ["name"] = "batches",
                             ["op"] = new Dictionary<string, object?>
                             {
                                 ["create"] = new Dictionary<string, object?>
@@ -296,7 +307,7 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["active"] = true,
-                            ["name"] = "message_id",
+                            ["name"] = "messageId",
                             ["req"] = false,
                             ["type"] = "`$STRING`",
                             ["index$"] = 2,
@@ -320,7 +331,7 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["active"] = true,
-                            ["name"] = "template_ref",
+                            ["name"] = "templateRef",
                             ["req"] = true,
                             ["type"] = "`$STRING`",
                             ["index$"] = 5,
@@ -329,6 +340,14 @@ public static class SdkConfig
                         {
                             ["active"] = true,
                             ["name"] = "value",
+                            ["req"] = false,
+                            ["type"] = "`$STRING`",
+                            ["index$"] = 6,
+                        },
+                        new Dictionary<string, object?>
+                        {
+                            ["active"] = true,
+                            ["name"] = "values",
                             ["op"] = new Dictionary<string, object?>
                             {
                                 ["create"] = new Dictionary<string, object?>
@@ -339,7 +358,7 @@ public static class SdkConfig
                             },
                             ["req"] = false,
                             ["type"] = "`$ARRAY`",
-                            ["index$"] = 6,
+                            ["index$"] = 7,
                         },
                     },
                     ["name"] = "tokenize",
@@ -369,6 +388,7 @@ public static class SdkConfig
                                             },
                                         },
                                     },
+                                    ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/tokenization/batch/tokenize",
                                     ["parts"] = new List<object?>
@@ -409,6 +429,7 @@ public static class SdkConfig
                                             },
                                         },
                                     },
+                                    ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/tokenization/tokenize",
                                     ["parts"] = new List<object?>
@@ -434,6 +455,7 @@ public static class SdkConfig
                                 {
                                     ["active"] = true,
                                     ["args"] = new Dictionary<string, object?>(),
+                                    ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/tokenization/delete",
                                     ["parts"] = new List<object?>
@@ -503,6 +525,7 @@ public static class SdkConfig
                                             },
                                         },
                                     },
+                                    ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/healthcheck/tokenize",
                                     ["parts"] = new List<object?>
@@ -543,7 +566,7 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["active"] = true,
-                            ["name"] = "batch",
+                            ["name"] = "batches",
                             ["op"] = new Dictionary<string, object?>
                             {
                                 ["create"] = new Dictionary<string, object?>
@@ -559,7 +582,7 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["active"] = true,
-                            ["name"] = "message_id",
+                            ["name"] = "messageId",
                             ["req"] = false,
                             ["type"] = "`$STRING`",
                             ["index$"] = 1,
@@ -586,6 +609,7 @@ public static class SdkConfig
                                 {
                                     ["active"] = true,
                                     ["args"] = new Dictionary<string, object?>(),
+                                    ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/tokenization/batch/delete",
                                     ["parts"] = new List<object?>
@@ -606,6 +630,7 @@ public static class SdkConfig
                                 {
                                     ["active"] = true,
                                     ["args"] = new Dictionary<string, object?>(),
+                                    ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/tokenization/batch/read",
                                     ["parts"] = new List<object?>
@@ -654,7 +679,7 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["active"] = true,
-                            ["name"] = "message_id",
+                            ["name"] = "messageId",
                             ["req"] = false,
                             ["type"] = "`$STRING`",
                             ["index$"] = 1,
@@ -678,7 +703,7 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["active"] = true,
-                            ["name"] = "value",
+                            ["name"] = "values",
                             ["req"] = false,
                             ["type"] = "`$ARRAY`",
                             ["index$"] = 4,
@@ -697,6 +722,7 @@ public static class SdkConfig
                                 {
                                     ["active"] = true,
                                     ["args"] = new Dictionary<string, object?>(),
+                                    ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/tokenization/read",
                                     ["parts"] = new List<object?>
@@ -728,7 +754,7 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["active"] = true,
-                            ["name"] = "message_id",
+                            ["name"] = "messageId",
                             ["req"] = false,
                             ["type"] = "`$STRING`",
                             ["index$"] = 0,
@@ -744,7 +770,7 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["active"] = true,
-                            ["name"] = "template_ref",
+                            ["name"] = "templateRef",
                             ["req"] = true,
                             ["type"] = "`$STRING`",
                             ["index$"] = 2,
@@ -763,6 +789,7 @@ public static class SdkConfig
                                 {
                                     ["active"] = true,
                                     ["args"] = new Dictionary<string, object?>(),
+                                    ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/partner/validate",
                                     ["parts"] = new List<object?>
@@ -782,6 +809,7 @@ public static class SdkConfig
                                 {
                                     ["active"] = true,
                                     ["args"] = new Dictionary<string, object?>(),
+                                    ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/template/validate",
                                     ["parts"] = new List<object?>

@@ -7,89 +7,95 @@
 -- edit by hand.
 
 ---@class Detokenize
----@field batch? table
+---@field batches? table
 ---@field bfid? string
----@field message_id? string
+---@field messageId? string
 ---@field name? string
 ---@field reference? string
----@field value? table
+---@field value? string
+---@field values? table
 
 ---@class DetokenizeListMatch
----@field batch? table
+---@field batches? table
 ---@field bfid? string
----@field message_id? string
+---@field messageId? string
 ---@field name? string
 ---@field reference? string
----@field value? table
+---@field value? string
+---@field values? table
 
 ---@class DetokenizeCreateData
----@field batch? table
+---@field batches? table
 ---@field bfid? string
----@field message_id? string
+---@field messageId? string
 ---@field name? string
 ---@field reference? string
----@field value? table
+---@field value? string
+---@field values? table
 
 ---@class Tokenize
----@field batch? table
+---@field batches? table
 ---@field bfid? string
----@field message_id? string
+---@field messageId? string
 ---@field name? string
 ---@field reference? string
----@field template_ref string
----@field value? table
+---@field templateRef string
+---@field value? string
+---@field values? table
 
 ---@class TokenizeListMatch
----@field batch? table
+---@field batches? table
 ---@field bfid? string
----@field message_id? string
+---@field messageId? string
 ---@field name? string
 ---@field reference? string
----@field template_ref? string
----@field value? table
+---@field templateRef? string
+---@field value? string
+---@field values? table
 
 ---@class TokenizeCreateData
----@field batch? table
+---@field batches? table
 ---@field bfid? string
----@field message_id? string
+---@field messageId? string
 ---@field name? string
 ---@field reference? string
----@field template_ref string
----@field value? table
+---@field templateRef string
+---@field value? string
+---@field values? table
 
 ---@class TokenizeBatch
----@field batch? table
----@field message_id? string
+---@field batches? table
+---@field messageId? string
 ---@field reference? string
 
 ---@class TokenizeBatchCreateData
----@field batch? table
----@field message_id? string
+---@field batches? table
+---@field messageId? string
 ---@field reference? string
 
 ---@class TokenizeRead
 ---@field bfid? string
----@field message_id? string
+---@field messageId? string
 ---@field reference? string
 ---@field state? table
----@field value? table
+---@field values? table
 
 ---@class TokenizeReadCreateData
 ---@field bfid? string
----@field message_id? string
+---@field messageId? string
 ---@field reference? string
 ---@field state? table
----@field value? table
+---@field values? table
 
 ---@class Validate
----@field message_id? string
+---@field messageId? string
 ---@field reference? string
----@field template_ref string
+---@field templateRef string
 
 ---@class ValidateCreateData
----@field message_id? string
+---@field messageId? string
 ---@field reference? string
----@field template_ref string
+---@field templateRef string
 
 local M = {}
 

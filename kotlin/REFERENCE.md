@@ -110,23 +110,25 @@ val detokenize = client.detokenize(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `List<Any?>?` | No |  |
+| `batches` | `List<Any?>?` | No |  |
 | `bfid` | `String?` | No |  |
-| `message_id` | `String?` | No |  |
+| `messageId` | `String?` | No |  |
 | `name` | `String?` | No |  |
 | `reference` | `String?` | No |  |
-| `value` | `List<Any?>?` | No |  |
+| `value` | `String?` | No |  |
+| `values` | `List<Any?>?` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `value` | - | Yes |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
@@ -179,25 +181,27 @@ val tokenize = client.tokenize(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `List<Any?>?` | No |  |
+| `batches` | `List<Any?>?` | No |  |
 | `bfid` | `String?` | No |  |
-| `message_id` | `String?` | No |  |
+| `messageId` | `String?` | No |  |
 | `name` | `String?` | No |  |
 | `reference` | `String?` | No |  |
-| `template_ref` | `String?` | Yes |  |
-| `value` | `List<Any?>?` | No |  |
+| `templateRef` | `String?` | Yes |  |
+| `value` | `String?` | No |  |
+| `values` | `List<Any?>?` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `template_ref` | - | - |
-| `value` | - | Yes |
+| `templateRef` | - | - |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
@@ -207,7 +211,7 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```kotlin
 val result = client.tokenize(null).create(mutableMapOf<String, Any?>(
-    "template_ref" to "example_template_ref"  // String?
+    "templateRef" to "example_templateRef"  // String?
 ), null)
 ```
 
@@ -251,16 +255,16 @@ val tokenizeBatch = client.tokenizeBatch(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `List<Any?>?` | No |  |
-| `message_id` | `String?` | No |  |
+| `batches` | `List<Any?>?` | No |  |
+| `messageId` | `String?` | No |  |
 | `reference` | `String?` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
-| `batch` | Yes |
-| `message_id` | - |
+| `batches` | Yes |
+| `messageId` | - |
 | `reference` | - |
 
 ### Operations
@@ -306,20 +310,20 @@ val tokenizeRead = client.tokenizeRead(null)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `bfid` | `String?` | No |  |
-| `message_id` | `String?` | No |  |
+| `messageId` | `String?` | No |  |
 | `reference` | `String?` | No |  |
 | `state` | `Map<String, Any?>?` | No |  |
-| `value` | `List<Any?>?` | No |  |
+| `values` | `List<Any?>?` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
 | `bfid` | Yes |
-| `message_id` | - |
+| `messageId` | - |
 | `reference` | - |
 | `state` | - |
-| `value` | - |
+| `values` | - |
 
 ### Operations
 
@@ -363,9 +367,9 @@ val validate = client.validate(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `message_id` | `String?` | No |  |
+| `messageId` | `String?` | No |  |
 | `reference` | `String?` | No |  |
-| `template_ref` | `String?` | Yes |  |
+| `templateRef` | `String?` | Yes |  |
 
 ### Operations
 
@@ -375,7 +379,7 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```kotlin
 val result = client.validate(null).create(mutableMapOf<String, Any?>(
-    "template_ref" to "example_template_ref"  // String?
+    "templateRef" to "example_templateRef"  // String?
 ), null)
 ```
 

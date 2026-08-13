@@ -71,8 +71,8 @@ try {
 ### 4. Create, update, and remove
 
 ```dart
-// Create — returns the bare created record (a Map)
-final created = await client.Detokenize().create({'batch': <dynamic>[], 'bfid': 'example_bfid'});
+// Create — returns the ENTITY (call data() for the record)
+final created = await client.Detokenize().create({'batches': <dynamic>[], 'bfid': 'example_bfid'});
 
 ```
 
@@ -153,7 +153,8 @@ Create a mock client for unit testing — no server required:
 ```dart
 final client = BluefinShieldconexSDK.test();
 
-// Entity ops return the bare record and throw on error.
+// Entity ops return the ENTITY and throws on error;
+// call data() for the record.
 final detokenize = await client.Detokenize().list();
 // detokenize contains the mock response record
 print(detokenize);
@@ -257,7 +258,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (a `Map` for single-entity
+Entity operations return the ENTITY (call data() for the record) (a `Map` for single-entity
 ops, a `List` of entity instances for `list`) and throw on error. Wrap calls
 in `try`/`catch` to handle failures.
 
@@ -279,12 +280,13 @@ On error, `ok` is `false` and `err` contains the error value.
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: Create, List.
 
@@ -294,13 +296,14 @@ API path: `/tokenization/batch/detokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: Create, List.
 
@@ -310,8 +313,8 @@ API path: `/tokenization/batch/tokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
-| `message_id` |  |
+| `batches` |  |
+| `messageId` |  |
 | `reference` |  |
 
 Operations: Create.
@@ -323,10 +326,10 @@ API path: `/tokenization/batch/delete`
 | Field | Description |
 | --- | --- |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
 | `state` |  |
-| `value` |  |
+| `values` |  |
 
 Operations: Create.
 
@@ -336,9 +339,9 @@ API path: `/tokenization/read`
 
 | Field | Description |
 | --- | --- |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 
 Operations: Create.
 
@@ -364,12 +367,13 @@ Create an instance: `final detokenize = client.Detokenize();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `List<dynamic>` |  |
+| `batches` | `List<dynamic>` |  |
 | `bfid` | `String` |  |
-| `message_id` | `String` |  |
+| `messageId` | `String` |  |
 | `name` | `String` |  |
 | `reference` | `String` |  |
-| `value` | `List<dynamic>` |  |
+| `value` | `String` |  |
+| `values` | `List<dynamic>` |  |
 
 #### Example: List
 
@@ -400,13 +404,14 @@ Create an instance: `final tokenize = client.Tokenize();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `List<dynamic>` |  |
+| `batches` | `List<dynamic>` |  |
 | `bfid` | `String` |  |
-| `message_id` | `String` |  |
+| `messageId` | `String` |  |
 | `name` | `String` |  |
 | `reference` | `String` |  |
-| `template_ref` | `String` |  |
-| `value` | `List<dynamic>` |  |
+| `templateRef` | `String` |  |
+| `value` | `String` |  |
+| `values` | `List<dynamic>` |  |
 
 #### Example: List
 
@@ -418,7 +423,7 @@ final tokenizes = await client.Tokenize().list();
 
 ```dart
 final tokenize = await client.Tokenize().create({
-  'template_ref': 'example_template_ref',  // String
+  'templateRef': 'example_templateRef',  // String
 });
 ```
 
@@ -437,8 +442,8 @@ Create an instance: `final tokenize_batch = client.TokenizeBatch();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `List<dynamic>` |  |
-| `message_id` | `String` |  |
+| `batches` | `List<dynamic>` |  |
+| `messageId` | `String` |  |
 | `reference` | `String` |  |
 
 #### Example: Create
@@ -464,10 +469,10 @@ Create an instance: `final tokenize_read = client.TokenizeRead();`
 | Field | Type | Description |
 | --- | --- | --- |
 | `bfid` | `String` |  |
-| `message_id` | `String` |  |
+| `messageId` | `String` |  |
 | `reference` | `String` |  |
 | `state` | `Map<String, dynamic>` |  |
-| `value` | `List<dynamic>` |  |
+| `values` | `List<dynamic>` |  |
 
 #### Example: Create
 
@@ -491,15 +496,15 @@ Create an instance: `final validate = client.Validate();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `message_id` | `String` |  |
+| `messageId` | `String` |  |
 | `reference` | `String` |  |
-| `template_ref` | `String` |  |
+| `templateRef` | `String` |  |
 
 #### Example: Create
 
 ```dart
 final validate = await client.Validate().create({
-  'template_ref': 'example_template_ref',  // String
+  'templateRef': 'example_templateRef',  // String
 });
 ```
 

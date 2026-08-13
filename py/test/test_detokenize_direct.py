@@ -3,9 +3,9 @@
 import json
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from bluefinshieldconex_sdk.utility.voxgig_struct import voxgig_struct as vs
 from bluefinshieldconex_sdk import BluefinShieldconexSDK
-from core import helpers
+from bluefinshieldconex_sdk.core import helpers
 from test import runner
 
 
@@ -58,16 +58,16 @@ def _detokenize_direct_setup(mockres):
     calls = []
 
     env = runner.env_override({
-        "BLUEFINSHIELDCONEX_TEST_DETOKENIZE_ENTID": {},
-        "BLUEFINSHIELDCONEX_TEST_LIVE": "FALSE",
-        "BLUEFINSHIELDCONEX_APIKEY": "NONE",
+        "BLUEFIN_SHIELDCONEX_TEST_DETOKENIZE_ENTID": {},
+        "BLUEFIN_SHIELDCONEX_TEST_LIVE": "FALSE",
+        "BLUEFIN_SHIELDCONEX_APIKEY": "NONE",
     })
 
-    live = env.get("BLUEFINSHIELDCONEX_TEST_LIVE") == "TRUE"
+    live = env.get("BLUEFIN_SHIELDCONEX_TEST_LIVE") == "TRUE"
 
     if live:
         merged_opts = {
-            "apikey": env.get("BLUEFINSHIELDCONEX_APIKEY"),
+            "apikey": env.get("BLUEFIN_SHIELDCONEX_APIKEY"),
         }
         client = BluefinShieldconexSDK(merged_opts)
         return {

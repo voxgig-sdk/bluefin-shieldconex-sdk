@@ -19,9 +19,11 @@ let () =
       let client = Sdk_client.test_with (jo [("entity", seed)]) Noval in
       let ent = Sdk_client.tokenize client Noval in
       ignore ent;
+      (* The op resolves to one ENTITY per record; the record is reached
+         with e_data_get. See AGENTS.md "Entity operations return ENTITIES". *)
       let listed = ent.e_list (empty_map ()) Noval in
-      check "list is a list" (islist listed);
-      check_int "list size" (size listed) 1;
+      check_int "list size" (List.length listed) 1;
+      List.iter (fun en -> check "list entry data is a map" (ismap (en.e_data_get ()))) listed;
       ())
 
 let () =

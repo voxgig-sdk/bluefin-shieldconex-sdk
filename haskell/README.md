@@ -57,24 +57,25 @@ to recover from failures.
 
 ### 2. List detokenize records
 
-`eList ent match ctrl` returns a list `Value` and raises on error.
+`eList ent match ctrl` resolves to one ENTITY per record and raises on
+error. Read a record with `eDataGet`.
 
 ```haskell
   ent <- Sdk.detokenize sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
   detokenizes <- Sdk.eList ent match ctrl
-  print detokenizes
+  mapM_ (\en -> print =<< Sdk.eDataGet en) detokenizes
 ```
 
 ### 4. Create, update, and remove
 
 ```haskell
   createEnt <- Sdk.detokenize sdk VNoval
-  d <- jo [("batch", VNoval), ("bfid", VStr "example_bfid")]
+  d <- jo [("batches", VNoval), ("bfid", VStr "example_bfid")]
   cctrl <- emptyMap
   created <- Sdk.eCreate createEnt d cctrl
-  print created
+  print =<< Sdk.eDataGet created
 ```
 
 
@@ -275,8 +276,8 @@ All entities share the same record interface (fields of the `Entity` type).
 
 | Field | Signature | Description |
 | --- | --- | --- |
-| `eList` | `Value -> Value -> IO Value` | List entities matching the criteria. Raises on error. |
-| `eCreate` | `Value -> Value -> IO Value` | Create a new entity. Raises on error. |
+| `eList` | `Value -> Value -> IO [Entity]` | List entities matching the criteria. Resolves to one entity per record. Raises on error. |
+| `eCreate` | `Value -> Value -> IO Entity` | Create a new entity. Resolves to the entity. Raises on error. |
 | `eDataGet` | `IO Value` | Get entity data. |
 | `eDataSet` | `Value -> IO ()` | Set entity data. |
 | `eStream` | `String -> Value -> Value -> IO [Value]` | Run an op as a lazy stream of items. |
@@ -285,9 +286,11 @@ All entities share the same record interface (fields of the `Entity` type).
 
 ### Result shape
 
-Entity operations return the bare result `Value` (a map for single-entity
-ops, a list for `eList`) and raise on error. Wrap calls in
-`Control.Exception.try` to handle failures.
+Entity operations resolve to the ENTITY, not the raw record — `eList` to
+one entity per record — and raise on error. The record is reached through
+`eDataGet`, which returns the entity's data container. `eRemove` resolves to
+the entity marked deleted (`eDeleted`); it keeps the data it held. Wrap calls
+in `Control.Exception.try` to handle failures.
 
 The `direct` escape hatch never raises — it returns a result `Value`
 you branch on via its `ok` field (read with `getp result "ok"`):
@@ -307,12 +310,13 @@ On error, `ok` is `False` and `err` carries the error value.
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: Create, List.
 
@@ -322,13 +326,14 @@ API path: `/tokenization/batch/detokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: Create, List.
 
@@ -338,8 +343,8 @@ API path: `/tokenization/batch/tokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
-| `message_id` |  |
+| `batches` |  |
+| `messageId` |  |
 | `reference` |  |
 
 Operations: Create.
@@ -351,10 +356,10 @@ API path: `/tokenization/batch/delete`
 | Field | Description |
 | --- | --- |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
 | `state` |  |
-| `value` |  |
+| `values` |  |
 
 Operations: Create.
 
@@ -364,9 +369,9 @@ API path: `/tokenization/read`
 
 | Field | Description |
 | --- | --- |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 
 Operations: Create.
 
@@ -385,19 +390,20 @@ Create an instance: `detokenize <- Sdk.detokenize sdk VNoval`
 
 | Method | Description |
 | --- | --- |
-| `eCreate ent data ctrl` | Create a new entity with the given data. |
-| `eList ent match ctrl` | List entities, optionally matching the given criteria. |
+| `eCreate ent data ctrl` | Create a new entity with the given data. Resolves to the entity. |
+| `eList ent match ctrl` | List entities, optionally matching the given criteria. Resolves to one entity per record. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `[Value]` |  |
+| `batches` | `[Value]` |  |
 | `bfid` | `String` |  |
-| `message_id` | `String` |  |
+| `messageId` | `String` |  |
 | `name` | `String` |  |
 | `reference` | `String` |  |
-| `value` | `[Value]` |  |
+| `value` | `String` |  |
+| `values` | `[Value]` |  |
 
 #### Example: List
 
@@ -405,7 +411,9 @@ Create an instance: `detokenize <- Sdk.detokenize sdk VNoval`
   ent <- Sdk.detokenize sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
+  -- One ENTITY per record.
   detokenizes <- Sdk.eList ent match ctrl
+  detokenizeDatas <- mapM Sdk.eDataGet detokenizes
 ```
 
 #### Example: Create
@@ -416,6 +424,7 @@ Create an instance: `detokenize <- Sdk.detokenize sdk VNoval`
     []
   ctrl <- emptyMap
   detokenize <- Sdk.eCreate ent d ctrl
+  detokenizeData <- Sdk.eDataGet detokenize
 ```
 
 
@@ -427,20 +436,21 @@ Create an instance: `tokenize <- Sdk.tokenize sdk VNoval`
 
 | Method | Description |
 | --- | --- |
-| `eCreate ent data ctrl` | Create a new entity with the given data. |
-| `eList ent match ctrl` | List entities, optionally matching the given criteria. |
+| `eCreate ent data ctrl` | Create a new entity with the given data. Resolves to the entity. |
+| `eList ent match ctrl` | List entities, optionally matching the given criteria. Resolves to one entity per record. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `[Value]` |  |
+| `batches` | `[Value]` |  |
 | `bfid` | `String` |  |
-| `message_id` | `String` |  |
+| `messageId` | `String` |  |
 | `name` | `String` |  |
 | `reference` | `String` |  |
-| `template_ref` | `String` |  |
-| `value` | `[Value]` |  |
+| `templateRef` | `String` |  |
+| `value` | `String` |  |
+| `values` | `[Value]` |  |
 
 #### Example: List
 
@@ -448,7 +458,9 @@ Create an instance: `tokenize <- Sdk.tokenize sdk VNoval`
   ent <- Sdk.tokenize sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
+  -- One ENTITY per record.
   tokenizes <- Sdk.eList ent match ctrl
+  tokenizeDatas <- mapM Sdk.eDataGet tokenizes
 ```
 
 #### Example: Create
@@ -456,10 +468,11 @@ Create an instance: `tokenize <- Sdk.tokenize sdk VNoval`
 ```haskell
   ent <- Sdk.tokenize sdk VNoval
   d <- jo
-    [ ("template_ref", VStr "example_template_ref")   -- String
+    [ ("templateRef", VStr "example_templateRef")   -- String
     ]
   ctrl <- emptyMap
   tokenize <- Sdk.eCreate ent d ctrl
+  tokenizeData <- Sdk.eDataGet tokenize
 ```
 
 
@@ -471,14 +484,14 @@ Create an instance: `tokenize_batch <- Sdk.tokenize_batch sdk VNoval`
 
 | Method | Description |
 | --- | --- |
-| `eCreate ent data ctrl` | Create a new entity with the given data. |
+| `eCreate ent data ctrl` | Create a new entity with the given data. Resolves to the entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `[Value]` |  |
-| `message_id` | `String` |  |
+| `batches` | `[Value]` |  |
+| `messageId` | `String` |  |
 | `reference` | `String` |  |
 
 #### Example: Create
@@ -489,6 +502,7 @@ Create an instance: `tokenize_batch <- Sdk.tokenize_batch sdk VNoval`
     []
   ctrl <- emptyMap
   tokenize_batch <- Sdk.eCreate ent d ctrl
+  tokenize_batchData <- Sdk.eDataGet tokenize_batch
 ```
 
 
@@ -500,17 +514,17 @@ Create an instance: `tokenize_read <- Sdk.tokenize_read sdk VNoval`
 
 | Method | Description |
 | --- | --- |
-| `eCreate ent data ctrl` | Create a new entity with the given data. |
+| `eCreate ent data ctrl` | Create a new entity with the given data. Resolves to the entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
 | `bfid` | `String` |  |
-| `message_id` | `String` |  |
+| `messageId` | `String` |  |
 | `reference` | `String` |  |
 | `state` | `Value` |  |
-| `value` | `[Value]` |  |
+| `values` | `[Value]` |  |
 
 #### Example: Create
 
@@ -520,6 +534,7 @@ Create an instance: `tokenize_read <- Sdk.tokenize_read sdk VNoval`
     []
   ctrl <- emptyMap
   tokenize_read <- Sdk.eCreate ent d ctrl
+  tokenize_readData <- Sdk.eDataGet tokenize_read
 ```
 
 
@@ -531,25 +546,26 @@ Create an instance: `validate <- Sdk.validate sdk VNoval`
 
 | Method | Description |
 | --- | --- |
-| `eCreate ent data ctrl` | Create a new entity with the given data. |
+| `eCreate ent data ctrl` | Create a new entity with the given data. Resolves to the entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `message_id` | `String` |  |
+| `messageId` | `String` |  |
 | `reference` | `String` |  |
-| `template_ref` | `String` |  |
+| `templateRef` | `String` |  |
 
 #### Example: Create
 
 ```haskell
   ent <- Sdk.validate sdk VNoval
   d <- jo
-    [ ("template_ref", VStr "example_template_ref")   -- String
+    [ ("templateRef", VStr "example_templateRef")   -- String
     ]
   ctrl <- emptyMap
   validate <- Sdk.eCreate ent d ctrl
+  validateData <- Sdk.eDataGet validate
 ```
 
 

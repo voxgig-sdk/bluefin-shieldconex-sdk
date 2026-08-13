@@ -33,7 +33,7 @@ class TokenizeBatchEntityTest extends TestCase
         // The basic flow consumes synthetic IDs from the fixture. In live mode
         // without an *_ENTID env override, those IDs hit the live API and 4xx.
         if (!empty($setup["synthetic_only"])) {
-            $this->markTestSkipped("live entity test uses synthetic IDs from fixture — set BLUEFINSHIELDCONEX_TEST_TOKENIZE_BATCH_ENTID JSON to run live");
+            $this->markTestSkipped("live entity test uses synthetic IDs from fixture — set BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_BATCH_ENTID JSON to run live");
             return;
         }
         $client = $setup["client"];
@@ -44,7 +44,7 @@ class TokenizeBatchEntityTest extends TestCase
             Vs::getpath($setup["data"], "new.tokenize_batch"), "tokenize_batch_ref01"));
 
         $tokenize_batch_ref01_data_result = $tokenize_batch_ref01_ent->create($tokenize_batch_ref01_data, null);
-        $tokenize_batch_ref01_data = Helpers::to_map($tokenize_batch_ref01_data_result);
+        $tokenize_batch_ref01_data = Helpers::to_map(is_object($tokenize_batch_ref01_data_result) && method_exists($tokenize_batch_ref01_data_result, 'data_get') ? $tokenize_batch_ref01_data_result->data_get() : $tokenize_batch_ref01_data_result);
         $this->assertNotNull($tokenize_batch_ref01_data);
 
     }
@@ -72,39 +72,39 @@ function tokenize_batch_basic_setup($extra)
     // Detect ENTID env override before envOverride consumes it. When live
     // mode is on without a real override, the basic test runs against synthetic
     // IDs from the fixture and 4xx's. Surface this so the test can skip.
-    $entid_env_raw = getenv("BLUEFINSHIELDCONEX_TEST_TOKENIZE_BATCH_ENTID");
+    $entid_env_raw = getenv("BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_BATCH_ENTID");
     $idmap_overridden = $entid_env_raw !== false && str_starts_with(trim($entid_env_raw), "{");
 
     $env = Runner::env_override([
-        "BLUEFINSHIELDCONEX_TEST_TOKENIZE_BATCH_ENTID" => $idmap,
-        "BLUEFINSHIELDCONEX_TEST_LIVE" => "FALSE",
-        "BLUEFINSHIELDCONEX_TEST_EXPLAIN" => "FALSE",
-        "BLUEFINSHIELDCONEX_APIKEY" => "NONE",
+        "BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_BATCH_ENTID" => $idmap,
+        "BLUEFIN_SHIELDCONEX_TEST_LIVE" => "FALSE",
+        "BLUEFIN_SHIELDCONEX_TEST_EXPLAIN" => "FALSE",
+        "BLUEFIN_SHIELDCONEX_APIKEY" => "NONE",
     ]);
 
     $idmap_resolved = Helpers::to_map(
-        $env["BLUEFINSHIELDCONEX_TEST_TOKENIZE_BATCH_ENTID"]);
+        $env["BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_BATCH_ENTID"]);
     if ($idmap_resolved === null) {
         $idmap_resolved = Helpers::to_map($idmap);
     }
 
-    if ($env["BLUEFINSHIELDCONEX_TEST_LIVE"] === "TRUE") {
+    if ($env["BLUEFIN_SHIELDCONEX_TEST_LIVE"] === "TRUE") {
         $merged_opts = Vs::merge([
             [
-                "apikey" => $env["BLUEFINSHIELDCONEX_APIKEY"],
+                "apikey" => $env["BLUEFIN_SHIELDCONEX_APIKEY"],
             ],
             $extra ?? [],
         ]);
         $client = new BluefinShieldconexSDK(Helpers::to_map($merged_opts));
     }
 
-    $live = $env["BLUEFINSHIELDCONEX_TEST_LIVE"] === "TRUE";
+    $live = $env["BLUEFIN_SHIELDCONEX_TEST_LIVE"] === "TRUE";
     return [
         "client" => $client,
         "data" => $entity_data,
         "idmap" => $idmap_resolved,
         "env" => $env,
-        "explain" => $env["BLUEFINSHIELDCONEX_TEST_EXPLAIN"] === "TRUE",
+        "explain" => $env["BLUEFIN_SHIELDCONEX_TEST_EXPLAIN"] === "TRUE",
         "live" => $live,
         "synthetic_only" => $live && !$idmap_overridden,
         "now" => (int)(microtime(true) * 1000),

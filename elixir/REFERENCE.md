@@ -103,12 +103,13 @@ detokenize = BluefinShieldconex.detokenize(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `list()` | No |  |
+| `batches` | `list()` | No |  |
 | `bfid` | `String.t()` | No |  |
-| `message_id` | `String.t()` | No |  |
+| `messageId` | `String.t()` | No |  |
 | `name` | `String.t()` | No |  |
 | `reference` | `String.t()` | No |  |
-| `value` | `list()` | No |  |
+| `value` | `String.t()` | No |  |
+| `values` | `list()` | No |  |
 
 ### Operations
 
@@ -168,13 +169,14 @@ tokenize = BluefinShieldconex.tokenize(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `list()` | No |  |
+| `batches` | `list()` | No |  |
 | `bfid` | `String.t()` | No |  |
-| `message_id` | `String.t()` | No |  |
+| `messageId` | `String.t()` | No |  |
 | `name` | `String.t()` | No |  |
 | `reference` | `String.t()` | No |  |
-| `template_ref` | `String.t()` | Yes |  |
-| `value` | `list()` | No |  |
+| `templateRef` | `String.t()` | Yes |  |
+| `value` | `String.t()` | No |  |
+| `values` | `list()` | No |  |
 
 ### Operations
 
@@ -184,7 +186,7 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```elixir
 record = BluefinShieldconex.Entity.Tokenize.create(tokenize, BluefinShieldconex.Helpers.deep(%{
-  "template_ref" => "example_template_ref",  # String.t()
+  "templateRef" => "example_templateRef",  # String.t()
 }))
 ```
 
@@ -235,8 +237,8 @@ tokenize_batch = BluefinShieldconex.tokenize_batch(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `list()` | No |  |
-| `message_id` | `String.t()` | No |  |
+| `batches` | `list()` | No |  |
+| `messageId` | `String.t()` | No |  |
 | `reference` | `String.t()` | No |  |
 
 ### Operations
@@ -290,10 +292,10 @@ tokenize_read = BluefinShieldconex.tokenize_read(sdk)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `bfid` | `String.t()` | No |  |
-| `message_id` | `String.t()` | No |  |
+| `messageId` | `String.t()` | No |  |
 | `reference` | `String.t()` | No |  |
 | `state` | `map()` | No |  |
-| `value` | `list()` | No |  |
+| `values` | `list()` | No |  |
 
 ### Operations
 
@@ -345,9 +347,9 @@ validate = BluefinShieldconex.validate(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `message_id` | `String.t()` | No |  |
+| `messageId` | `String.t()` | No |  |
 | `reference` | `String.t()` | No |  |
-| `template_ref` | `String.t()` | Yes |  |
+| `templateRef` | `String.t()` | Yes |  |
 
 ### Operations
 
@@ -357,7 +359,7 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```elixir
 record = BluefinShieldconex.Entity.Validate.create(validate, BluefinShieldconex.Helpers.deep(%{
-  "template_ref" => "example_template_ref",  # String.t()
+  "templateRef" => "example_templateRef",  # String.t()
 }))
 ```
 

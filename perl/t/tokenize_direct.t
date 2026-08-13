@@ -70,16 +70,16 @@ sub tokenize_direct_setup {
   my $calls = [];
 
   my $env = BluefinShieldconexTestRunner::env_override({
-    'BLUEFINSHIELDCONEX_TEST_TOKENIZE_ENTID' => {},
-    'BLUEFINSHIELDCONEX_TEST_LIVE' => 'FALSE',
-    'BLUEFINSHIELDCONEX_APIKEY' => 'NONE',
+    'BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_ENTID' => {},
+    'BLUEFIN_SHIELDCONEX_TEST_LIVE' => 'FALSE',
+    'BLUEFIN_SHIELDCONEX_APIKEY' => 'NONE',
   });
 
-  my $live = ((($env->{'BLUEFINSHIELDCONEX_TEST_LIVE'}) || '') eq 'TRUE') ? 1 : 0;
+  my $live = ((($env->{'BLUEFIN_SHIELDCONEX_TEST_LIVE'}) || '') eq 'TRUE') ? 1 : 0;
 
   if ($live) {
     my $client = BluefinShieldconexSDK->new({
-      'apikey' => $env->{'BLUEFINSHIELDCONEX_APIKEY'},
+      'apikey' => $env->{'BLUEFIN_SHIELDCONEX_APIKEY'},
     });
     return {
       'client' => $client,

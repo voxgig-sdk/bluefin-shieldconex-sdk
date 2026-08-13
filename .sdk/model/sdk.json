@@ -5,6 +5,10 @@
       "desc": ""
     },
     "kit": {
+      "author": {
+        "name": "",
+        "url": ""
+      },
       "config": {
         "docs_order": [
           "ts",
@@ -18,6 +22,7 @@
           "content-type": "application/json"
         }
       },
+      "contributor": {},
       "entity": {
         "detokenize": {
           "active": true,
@@ -27,7 +32,7 @@
           "fields": [
             {
               "active": true,
-              "name": "batch",
+              "name": "batches",
               "op": {
                 "create": {
                   "req": true,
@@ -51,7 +56,7 @@
             },
             {
               "active": true,
-              "name": "message_id",
+              "name": "messageId",
               "req": false,
               "type": "`$STRING`"
             },
@@ -70,6 +75,12 @@
             {
               "active": true,
               "name": "value",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "values",
               "op": {
                 "create": {
                   "req": true,
@@ -89,6 +100,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/tokenization/batch/detokenize",
                   "parts": [
@@ -105,6 +117,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/tokenization/detokenize",
                   "parts": [
@@ -161,6 +174,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/healthcheck/detokenize",
                   "parts": [
@@ -195,7 +209,7 @@
           "fields": [
             {
               "active": true,
-              "name": "batch",
+              "name": "batches",
               "op": {
                 "create": {
                   "req": true,
@@ -219,7 +233,7 @@
             },
             {
               "active": true,
-              "name": "message_id",
+              "name": "messageId",
               "req": false,
               "type": "`$STRING`"
             },
@@ -237,13 +251,19 @@
             },
             {
               "active": true,
-              "name": "template_ref",
+              "name": "templateRef",
               "req": true,
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "value",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "values",
               "op": {
                 "create": {
                   "req": true,
@@ -274,6 +294,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/tokenization/batch/tokenize",
                   "parts": [
@@ -305,6 +326,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/tokenization/tokenize",
                   "parts": [
@@ -324,6 +346,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/tokenization/delete",
                   "parts": [
@@ -380,6 +403,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/healthcheck/tokenize",
                   "parts": [
@@ -414,7 +438,7 @@
           "fields": [
             {
               "active": true,
-              "name": "batch",
+              "name": "batches",
               "op": {
                 "create": {
                   "req": true,
@@ -426,7 +450,7 @@
             },
             {
               "active": true,
-              "name": "message_id",
+              "name": "messageId",
               "req": false,
               "type": "`$STRING`"
             },
@@ -446,6 +470,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/tokenization/batch/delete",
                   "parts": [
@@ -462,6 +487,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/tokenization/batch/read",
                   "parts": [
@@ -502,7 +528,7 @@
             },
             {
               "active": true,
-              "name": "message_id",
+              "name": "messageId",
               "req": false,
               "type": "`$STRING`"
             },
@@ -520,7 +546,7 @@
             },
             {
               "active": true,
-              "name": "value",
+              "name": "values",
               "req": false,
               "type": "`$ARRAY`"
             }
@@ -534,6 +560,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/tokenization/read",
                   "parts": [
@@ -561,7 +588,7 @@
           "fields": [
             {
               "active": true,
-              "name": "message_id",
+              "name": "messageId",
               "req": false,
               "type": "`$STRING`"
             },
@@ -573,7 +600,7 @@
             },
             {
               "active": true,
-              "name": "template_ref",
+              "name": "templateRef",
               "req": true,
               "type": "`$STRING`"
             }
@@ -587,6 +614,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/partner/validate",
                   "parts": [
@@ -602,6 +630,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/template/validate",
                   "parts": [
@@ -922,18 +951,42 @@
         "website": "https://secure-cert.shieldconex.com"
       },
       "option": {},
+      "repo": {
+        "host": "github.com",
+        "path": ""
+      },
       "target": {
         "c": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "c",
+          "feature": {
+            "fullset": [
+              "tests/feature_test.c",
+              "tests/sdk_pipeline_test.c"
+            ],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-shieldconex"
+            "goversion": "",
+            "name": "bluefin-shieldconex",
+            "package": "",
+            "path": ""
           },
           "name": "c",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -955,22 +1008,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "C"
         },
         "clojure": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": ";"
           },
           "deps": {},
           "ext": "clj",
+          "feature": {
+            "fullset": [],
+            "trim": false
+          },
           "module": {
-            "name": "bluefin-shieldconex"
+            "goversion": "",
+            "name": "bluefin-shieldconex",
+            "package": "",
+            "path": ""
           },
           "name": "clojure",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -992,22 +1063,42 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Clojure"
         },
         "cpp": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "hpp",
+          "feature": {
+            "fullset": [
+              "test/feature_test.cpp"
+            ],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-shieldconex"
+            "goversion": "",
+            "name": "bluefin-shieldconex",
+            "package": "",
+            "path": ""
           },
           "name": "cpp",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1029,23 +1120,43 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "C++"
         },
         "csharp": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "cs",
+          "feature": {
+            "fullset": [
+              "test/FeatureTest.cs"
+            ],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-shieldconex"
+            "goversion": "",
+            "name": "bluefin-shieldconex",
+            "package": "",
+            "path": ""
           },
           "name": "csharp",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1067,22 +1178,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "C#"
         },
         "dart": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "dart",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-shieldconex"
+            "goversion": "",
+            "name": "bluefin-shieldconex",
+            "package": "",
+            "path": ""
           },
           "name": "dart",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1104,22 +1233,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Dart"
         },
         "elixir": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "#"
           },
           "deps": {},
           "ext": "ex",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-shieldconex"
+            "goversion": "",
+            "name": "bluefin-shieldconex",
+            "package": "",
+            "path": ""
           },
           "name": "elixir",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1141,22 +1288,42 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Elixir"
         },
         "go": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "go",
+          "feature": {
+            "fullset": [
+              "test/feature_test.go"
+            ],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-shieldconex"
+            "goversion": "",
+            "name": "bluefin-shieldconex",
+            "package": "",
+            "path": ""
           },
           "name": "go",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1178,22 +1345,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Golang"
         },
         "go-cli": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "go",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-shieldconex"
+            "goversion": "",
+            "name": "bluefin-shieldconex",
+            "package": "",
+            "path": ""
           },
           "name": "go-cli",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "phase": {
             "agentguide": {
               "active": false
@@ -1232,21 +1417,39 @@
                 "recipe": "github"
               },
               "via": "root"
-            }
+            },
+            "version": "0.0.1"
           },
           "title": "Go CLI"
         },
         "go-mcp": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "go",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-shieldconex"
+            "goversion": "",
+            "name": "bluefin-shieldconex",
+            "package": "",
+            "path": ""
           },
           "name": "go-mcp",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "phase": {
             "agentguide": {
               "active": false
@@ -1285,21 +1488,39 @@
                 "recipe": "github"
               },
               "via": "root"
-            }
+            },
+            "version": "0.0.1"
           },
           "title": "Go MCP server"
         },
         "haskell": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "--"
           },
           "deps": {},
           "ext": "hs",
+          "feature": {
+            "fullset": [],
+            "trim": false
+          },
           "module": {
-            "name": "bluefin-shieldconex"
+            "goversion": "",
+            "name": "bluefin-shieldconex",
+            "package": "",
+            "path": ""
           },
           "name": "haskell",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "phase": {
             "agentguide": {
               "active": true
@@ -1338,22 +1559,42 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Haskell"
         },
         "java": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "java",
+          "feature": {
+            "fullset": [
+              "test/FeatureTest.java"
+            ],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-shieldconex"
+            "goversion": "",
+            "name": "bluefin-shieldconex",
+            "package": "",
+            "path": ""
           },
           "name": "java",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1375,13 +1616,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Java"
         },
         "js": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
@@ -1393,10 +1639,23 @@
             }
           },
           "ext": "js",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-shieldconex"
+            "goversion": "",
+            "name": "bluefin-shieldconex",
+            "package": "",
+            "path": ""
           },
           "name": "js",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1418,21 +1677,41 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "title": "JavaScript"
         },
         "kotlin": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "kt",
+          "feature": {
+            "fullset": [
+              "test/FeatureTest.kt"
+            ],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-shieldconex"
+            "goversion": "",
+            "name": "bluefin-shieldconex",
+            "package": "",
+            "path": ""
           },
           "name": "kotlin",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1454,13 +1733,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Kotlin"
         },
         "lua": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "--"
           },
@@ -1472,10 +1756,23 @@
             }
           },
           "ext": "lua",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-shieldconex"
+            "goversion": "",
+            "name": "bluefin-shieldconex",
+            "package": "",
+            "path": ""
           },
           "name": "lua",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1497,22 +1794,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Lua"
         },
         "ocaml": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "ml",
+          "feature": {
+            "fullset": [],
+            "trim": false
+          },
           "module": {
-            "name": "bluefin-shieldconex"
+            "goversion": "",
+            "name": "bluefin-shieldconex",
+            "package": "",
+            "path": ""
           },
           "name": "ocaml",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1534,22 +1849,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "OCaml"
         },
         "perl": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "#"
           },
           "deps": {},
           "ext": "pl",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-shieldconex"
+            "goversion": "",
+            "name": "bluefin-shieldconex",
+            "package": "",
+            "path": ""
           },
           "name": "perl",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1571,22 +1904,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Perl"
         },
         "php": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "php",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-shieldconex"
+            "goversion": "",
+            "name": "bluefin-shieldconex",
+            "package": "",
+            "path": ""
           },
           "name": "php",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1608,13 +1959,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "PHP"
         },
         "py": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "#"
           },
@@ -1626,10 +1982,23 @@
             }
           },
           "ext": "py",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-shieldconex"
+            "goversion": "",
+            "name": "bluefin-shieldconex",
+            "package": "",
+            "path": ""
           },
           "name": "py",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1651,13 +2020,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Python"
         },
         "rb": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "#"
           },
@@ -1674,10 +2048,23 @@
             }
           },
           "ext": "rb",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-shieldconex"
+            "goversion": "",
+            "name": "bluefin-shieldconex",
+            "package": "",
+            "path": ""
           },
           "name": "rb",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1699,13 +2086,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Ruby"
         },
         "rust": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
@@ -1717,10 +2109,25 @@
             }
           },
           "ext": "rs",
+          "feature": {
+            "fullset": [
+              "tests/feature_test.rs"
+            ],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-shieldconex"
+            "goversion": "",
+            "name": "bluefin-shieldconex",
+            "package": "",
+            "path": ""
           },
           "name": "rust",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1742,22 +2149,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Rust"
         },
         "scala": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "scala",
+          "feature": {
+            "fullset": [],
+            "trim": false
+          },
           "module": {
-            "name": "bluefin-shieldconex"
+            "goversion": "",
+            "name": "bluefin-shieldconex",
+            "package": "",
+            "path": ""
           },
           "name": "scala",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1779,23 +2204,43 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Scala"
         },
         "swift": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "swift",
+          "feature": {
+            "fullset": [
+              "Tests/ProjectNameSDKTests/FeatureTest.swift"
+            ],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-shieldconex"
+            "goversion": "",
+            "name": "bluefin-shieldconex",
+            "package": "",
+            "path": ""
           },
           "name": "swift",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1817,13 +2262,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Swift"
         },
         "ts": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
@@ -1846,10 +2296,23 @@
             }
           },
           "ext": "ts",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-shieldconex"
+            "goversion": "",
+            "name": "bluefin-shieldconex",
+            "package": "",
+            "path": ""
           },
           "name": "ts",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1871,21 +2334,39 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "title": "TypeScript"
         },
         "zig": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "zig",
+          "feature": {
+            "fullset": [],
+            "trim": false
+          },
           "module": {
-            "name": "bluefin-shieldconex"
+            "goversion": "",
+            "name": "bluefin-shieldconex",
+            "package": "",
+            "path": ""
           },
           "name": "zig",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1907,10 +2388,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Zig"
+        }
+      },
+      "test": {
+        "live": {
+          "app": false,
+          "base": "",
+          "strict": false
         }
       }
     }

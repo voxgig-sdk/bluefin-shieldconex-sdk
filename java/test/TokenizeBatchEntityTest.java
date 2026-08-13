@@ -47,7 +47,7 @@ public class TokenizeBatchEntityTest {
     // The basic flow consumes synthetic IDs from the fixture. In live mode
     // without an *_ENTID env override, those IDs hit the live API and 4xx.
     Assumptions.assumeFalse(setup.syntheticOnly,
-        "live entity test uses synthetic IDs from fixture — set BLUEFINSHIELDCONEX_TEST_TOKENIZE_BATCH_ENTID JSON to run live");
+        "live entity test uses synthetic IDs from fixture — set BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_BATCH_ENTID JSON to run live");
     BluefinShieldconexSDK client = setup.client;
 
     // CREATE
@@ -56,7 +56,7 @@ public class TokenizeBatchEntityTest {
         Struct.getpath(setup.data, "new.tokenize_batch"), "tokenize_batch_ref01"));
 
     Object tokenizeBatchRef01DataResult = tokenizeBatchRef01Ent.create(tokenizeBatchRef01Data, null);
-    tokenizeBatchRef01Data = Helpers.toMapAny(tokenizeBatchRef01DataResult);
+    tokenizeBatchRef01Data = Helpers.toMapAny(tokenizeBatchRef01DataResult instanceof SdkEntity ? ((SdkEntity) tokenizeBatchRef01DataResult).data() : tokenizeBatchRef01DataResult);
     assertNotNull(tokenizeBatchRef01Data, "expected create result to be a map");
 
   }
@@ -94,26 +94,26 @@ public class TokenizeBatchEntityTest {
     // mode is on without a real override, the basic test runs against
     // synthetic IDs from the fixture and 4xx's. Surface this so the test
     // can skip.
-    String entidEnvRaw = RunnerSupport.getenv("BLUEFINSHIELDCONEX_TEST_TOKENIZE_BATCH_ENTID");
+    String entidEnvRaw = RunnerSupport.getenv("BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_BATCH_ENTID");
     boolean idmapOverridden = entidEnvRaw != null
         && entidEnvRaw.trim().startsWith("{");
 
     Map<String, Object> envm = new LinkedHashMap<>();
-    envm.put("BLUEFINSHIELDCONEX_TEST_TOKENIZE_BATCH_ENTID", idmap);
-    envm.put("BLUEFINSHIELDCONEX_TEST_LIVE", "FALSE");
-    envm.put("BLUEFINSHIELDCONEX_TEST_EXPLAIN", "FALSE");
-    envm.put("BLUEFINSHIELDCONEX_APIKEY", "NONE");
+    envm.put("BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_BATCH_ENTID", idmap);
+    envm.put("BLUEFIN_SHIELDCONEX_TEST_LIVE", "FALSE");
+    envm.put("BLUEFIN_SHIELDCONEX_TEST_EXPLAIN", "FALSE");
+    envm.put("BLUEFIN_SHIELDCONEX_APIKEY", "NONE");
     Map<String, Object> env = RunnerSupport.envOverride(envm);
 
-    Map<String, Object> idmapResolved = Helpers.toMapAny(env.get("BLUEFINSHIELDCONEX_TEST_TOKENIZE_BATCH_ENTID"));
+    Map<String, Object> idmapResolved = Helpers.toMapAny(env.get("BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_BATCH_ENTID"));
     if (idmapResolved == null) {
       idmapResolved = Helpers.toMapAny(idmap);
     }
 
-    boolean live = "TRUE".equals(env.get("BLUEFINSHIELDCONEX_TEST_LIVE"));
+    boolean live = "TRUE".equals(env.get("BLUEFIN_SHIELDCONEX_TEST_LIVE"));
     if (live) {
       Map<String, Object> liveOpts = new LinkedHashMap<>();
-      liveOpts.put("apikey", env.get("BLUEFINSHIELDCONEX_APIKEY"));
+      liveOpts.put("apikey", env.get("BLUEFIN_SHIELDCONEX_APIKEY"));
       Object mergedOpts = Struct.merge(Struct.jt(liveOpts, extra));
       client = new BluefinShieldconexSDK(Helpers.toMapAny(mergedOpts));
     }
@@ -123,7 +123,7 @@ public class TokenizeBatchEntityTest {
     setup.data = entityData;
     setup.idmap = idmapResolved;
     setup.env = env;
-    setup.explain = "TRUE".equals(env.get("BLUEFINSHIELDCONEX_TEST_EXPLAIN"));
+    setup.explain = "TRUE".equals(env.get("BLUEFIN_SHIELDCONEX_TEST_EXPLAIN"));
     setup.live = live;
     setup.syntheticOnly = live && !idmapOverridden;
     setup.now = System.currentTimeMillis();

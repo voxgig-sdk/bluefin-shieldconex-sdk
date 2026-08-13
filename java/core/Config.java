@@ -57,7 +57,7 @@ public final class Config {
     b.append("   \"fields\": [");
     b.append("    {");
     b.append("     \"active\": true,");
-    b.append("     \"name\": \"batch\",");
+    b.append("     \"name\": \"batches\",");
     b.append("     \"op\": {");
     b.append("      \"create\": {");
     b.append("       \"req\": true,");
@@ -83,7 +83,7 @@ public final class Config {
     b.append("    },");
     b.append("    {");
     b.append("     \"active\": true,");
-    b.append("     \"name\": \"message_id\",");
+    b.append("     \"name\": \"messageId\",");
     b.append("     \"req\": false,");
     b.append("     \"type\": \"`$STRING`\",");
     b.append("     \"index$\": 2");
@@ -105,6 +105,13 @@ public final class Config {
     b.append("    {");
     b.append("     \"active\": true,");
     b.append("     \"name\": \"value\",");
+    b.append("     \"req\": false,");
+    b.append("     \"type\": \"`$STRING`\",");
+    b.append("     \"index$\": 5");
+    b.append("    },");
+    b.append("    {");
+    b.append("     \"active\": true,");
+    b.append("     \"name\": \"values\",");
     b.append("     \"op\": {");
     b.append("      \"create\": {");
     b.append("       \"req\": true,");
@@ -113,7 +120,7 @@ public final class Config {
     b.append("     },");
     b.append("     \"req\": false,");
     b.append("     \"type\": \"`$ARRAY`\",");
-    b.append("     \"index$\": 5");
+    b.append("     \"index$\": 6");
     b.append("    }");
     b.append("   ],");
     b.append("   \"name\": \"detokenize\",");
@@ -125,6 +132,7 @@ public final class Config {
     b.append("      {");
     b.append("       \"active\": true,");
     b.append("       \"args\": {},");
+    b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"POST\",");
     b.append("       \"orig\": \"/tokenization/batch/detokenize\",");
     b.append("       \"parts\": [");
@@ -142,6 +150,7 @@ public final class Config {
     b.append("      {");
     b.append("       \"active\": true,");
     b.append("       \"args\": {},");
+    b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"POST\",");
     b.append("       \"orig\": \"/tokenization/detokenize\",");
     b.append("       \"parts\": [");
@@ -200,6 +209,7 @@ public final class Config {
     b.append("         }");
     b.append("        ]");
     b.append("       },");
+    b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"GET\",");
     b.append("       \"orig\": \"/healthcheck/detokenize\",");
     b.append("       \"parts\": [");
@@ -232,7 +242,7 @@ public final class Config {
     b.append("   \"fields\": [");
     b.append("    {");
     b.append("     \"active\": true,");
-    b.append("     \"name\": \"batch\",");
+    b.append("     \"name\": \"batches\",");
     b.append("     \"op\": {");
     b.append("      \"create\": {");
     b.append("       \"req\": true,");
@@ -258,7 +268,7 @@ public final class Config {
     b.append("    },");
     b.append("    {");
     b.append("     \"active\": true,");
-    b.append("     \"name\": \"message_id\",");
+    b.append("     \"name\": \"messageId\",");
     b.append("     \"req\": false,");
     b.append("     \"type\": \"`$STRING`\",");
     b.append("     \"index$\": 2");
@@ -279,7 +289,7 @@ public final class Config {
     b.append("    },");
     b.append("    {");
     b.append("     \"active\": true,");
-    b.append("     \"name\": \"template_ref\",");
+    b.append("     \"name\": \"templateRef\",");
     b.append("     \"req\": true,");
     b.append("     \"type\": \"`$STRING`\",");
     b.append("     \"index$\": 5");
@@ -287,6 +297,13 @@ public final class Config {
     b.append("    {");
     b.append("     \"active\": true,");
     b.append("     \"name\": \"value\",");
+    b.append("     \"req\": false,");
+    b.append("     \"type\": \"`$STRING`\",");
+    b.append("     \"index$\": 6");
+    b.append("    },");
+    b.append("    {");
+    b.append("     \"active\": true,");
+    b.append("     \"name\": \"values\",");
     b.append("     \"op\": {");
     b.append("      \"create\": {");
     b.append("       \"req\": true,");
@@ -295,7 +312,7 @@ public final class Config {
     b.append("     },");
     b.append("     \"req\": false,");
     b.append("     \"type\": \"`$ARRAY`\",");
-    b.append("     \"index$\": 6");
+    b.append("     \"index$\": 7");
     b.append("    }");
     b.append("   ],");
     b.append("   \"name\": \"tokenize\",");
@@ -318,6 +335,7 @@ public final class Config {
     b.append("         }");
     b.append("        ]");
     b.append("       },");
+    b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"POST\",");
     b.append("       \"orig\": \"/tokenization/batch/tokenize\",");
     b.append("       \"parts\": [");
@@ -350,6 +368,7 @@ public final class Config {
     b.append("         }");
     b.append("        ]");
     b.append("       },");
+    b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"POST\",");
     b.append("       \"orig\": \"/tokenization/tokenize\",");
     b.append("       \"parts\": [");
@@ -370,6 +389,7 @@ public final class Config {
     b.append("      {");
     b.append("       \"active\": true,");
     b.append("       \"args\": {},");
+    b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"POST\",");
     b.append("       \"orig\": \"/tokenization/delete\",");
     b.append("       \"parts\": [");
@@ -428,6 +448,7 @@ public final class Config {
     b.append("         }");
     b.append("        ]");
     b.append("       },");
+    b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"GET\",");
     b.append("       \"orig\": \"/healthcheck/tokenize\",");
     b.append("       \"parts\": [");
@@ -460,7 +481,7 @@ public final class Config {
     b.append("   \"fields\": [");
     b.append("    {");
     b.append("     \"active\": true,");
-    b.append("     \"name\": \"batch\",");
+    b.append("     \"name\": \"batches\",");
     b.append("     \"op\": {");
     b.append("      \"create\": {");
     b.append("       \"req\": true,");
@@ -473,7 +494,7 @@ public final class Config {
     b.append("    },");
     b.append("    {");
     b.append("     \"active\": true,");
-    b.append("     \"name\": \"message_id\",");
+    b.append("     \"name\": \"messageId\",");
     b.append("     \"req\": false,");
     b.append("     \"type\": \"`$STRING`\",");
     b.append("     \"index$\": 1");
@@ -495,6 +516,7 @@ public final class Config {
     b.append("      {");
     b.append("       \"active\": true,");
     b.append("       \"args\": {},");
+    b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"POST\",");
     b.append("       \"orig\": \"/tokenization/batch/delete\",");
     b.append("       \"parts\": [");
@@ -512,6 +534,7 @@ public final class Config {
     b.append("      {");
     b.append("       \"active\": true,");
     b.append("       \"args\": {},");
+    b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"POST\",");
     b.append("       \"orig\": \"/tokenization/batch/read\",");
     b.append("       \"parts\": [");
@@ -551,7 +574,7 @@ public final class Config {
     b.append("    },");
     b.append("    {");
     b.append("     \"active\": true,");
-    b.append("     \"name\": \"message_id\",");
+    b.append("     \"name\": \"messageId\",");
     b.append("     \"req\": false,");
     b.append("     \"type\": \"`$STRING`\",");
     b.append("     \"index$\": 1");
@@ -572,7 +595,7 @@ public final class Config {
     b.append("    },");
     b.append("    {");
     b.append("     \"active\": true,");
-    b.append("     \"name\": \"value\",");
+    b.append("     \"name\": \"values\",");
     b.append("     \"req\": false,");
     b.append("     \"type\": \"`$ARRAY`\",");
     b.append("     \"index$\": 4");
@@ -587,6 +610,7 @@ public final class Config {
     b.append("      {");
     b.append("       \"active\": true,");
     b.append("       \"args\": {},");
+    b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"POST\",");
     b.append("       \"orig\": \"/tokenization/read\",");
     b.append("       \"parts\": [");
@@ -612,7 +636,7 @@ public final class Config {
     b.append("   \"fields\": [");
     b.append("    {");
     b.append("     \"active\": true,");
-    b.append("     \"name\": \"message_id\",");
+    b.append("     \"name\": \"messageId\",");
     b.append("     \"req\": false,");
     b.append("     \"type\": \"`$STRING`\",");
     b.append("     \"index$\": 0");
@@ -626,7 +650,7 @@ public final class Config {
     b.append("    },");
     b.append("    {");
     b.append("     \"active\": true,");
-    b.append("     \"name\": \"template_ref\",");
+    b.append("     \"name\": \"templateRef\",");
     b.append("     \"req\": true,");
     b.append("     \"type\": \"`$STRING`\",");
     b.append("     \"index$\": 2");
@@ -641,6 +665,7 @@ public final class Config {
     b.append("      {");
     b.append("       \"active\": true,");
     b.append("       \"args\": {},");
+    b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"POST\",");
     b.append("       \"orig\": \"/partner/validate\",");
     b.append("       \"parts\": [");
@@ -657,6 +682,7 @@ public final class Config {
     b.append("      {");
     b.append("       \"active\": true,");
     b.append("       \"args\": {},");
+    b.append("       \"kind\": \"http\",");
     b.append("       \"method\": \"POST\",");
     b.append("       \"orig\": \"/template/validate\",");
     b.append("       \"parts\": [");

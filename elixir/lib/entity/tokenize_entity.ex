@@ -56,6 +56,7 @@ defmodule BluefinShieldconex.Entity.Tokenize do
       end
     end
 
+    # `list` resolves to one ENTITY per record — make_result builds them.
     Pipeline.run_op(ctx, post_done)
   end
 
@@ -88,7 +89,8 @@ defmodule BluefinShieldconex.Entity.Tokenize do
       end
     end
 
-    Pipeline.run_op(ctx, post_done)
+    out = Pipeline.run_op(ctx, post_done)
+    EntityBase.op_return(ent, ctx, out)
   end
 
 

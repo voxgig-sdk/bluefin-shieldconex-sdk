@@ -38,15 +38,15 @@ static DetokenizeSetup detokenize_basic_setup(const Value& extra) {
   if (!idmap.is_map()) idmap = vmap();
 
   Value env = env_override(vmap({
-    {"BLUEFINSHIELDCONEX_TEST_DETOKENIZE_ENTID", idmap},
-    {"BLUEFINSHIELDCONEX_TEST_LIVE", Value("FALSE")},
-    {"BLUEFINSHIELDCONEX_TEST_EXPLAIN", Value("FALSE")}
+    {"BLUEFIN_SHIELDCONEX_TEST_DETOKENIZE_ENTID", idmap},
+    {"BLUEFIN_SHIELDCONEX_TEST_LIVE", Value("FALSE")},
+    {"BLUEFIN_SHIELDCONEX_TEST_EXPLAIN", Value("FALSE")}
   }));
 
-  Value idmap_resolved = Helpers::toMapAny(getp(env, "BLUEFINSHIELDCONEX_TEST_DETOKENIZE_ENTID"));
+  Value idmap_resolved = Helpers::toMapAny(getp(env, "BLUEFIN_SHIELDCONEX_TEST_DETOKENIZE_ENTID"));
   if (!idmap_resolved.is_map()) idmap_resolved = idmap;
 
-  bool live = getp(env, "BLUEFINSHIELDCONEX_TEST_LIVE") == Value("TRUE");
+  bool live = getp(env, "BLUEFIN_SHIELDCONEX_TEST_LIVE") == Value("TRUE");
 
   DetokenizeSetup s;
   s.client = client;
@@ -64,6 +64,7 @@ static void detokenize_entity_instance() {
   auto ent = testsdk->detokenize();
   ASSERT_EQ(ent->getName(), std::string("detokenize"), "entity name");
 }
+
 
 static void detokenize_entity_stream() {
   // stream() runs the list op through the full pipeline and returns the
@@ -100,7 +101,7 @@ static void detokenize_entity_basic() {
   Value detokenize_ref01_data = Helpers::toMapAny(getp(Struct::getpath(setup.data, {"new", "detokenize"}), "detokenize_ref01"));
   if (!detokenize_ref01_data.is_map()) detokenize_ref01_data = vmap();
   {
-    Value detokenize_ref01_data_result = detokenize_ref01_ent->create(Struct::clone(detokenize_ref01_data), Value::undef());
+    Value detokenize_ref01_data_result = detokenize_ref01_ent->create(Struct::clone(detokenize_ref01_data), Value::undef())->data();
     detokenize_ref01_data = Helpers::toMapAny(detokenize_ref01_data_result);
     if (!detokenize_ref01_data.is_map()) detokenize_ref01_data = vmap();
     ASSERT_TRUE(detokenize_ref01_data.is_map(), "expected create result to be a map");
@@ -108,7 +109,10 @@ static void detokenize_entity_basic() {
 
   // LIST
   Value detokenize_ref01_match = vmap();
-  Value detokenize_ref01_list = detokenize_ref01_ent->list(Struct::clone(detokenize_ref01_match), Value::undef());
+  auto detokenize_ref01_list_ents = detokenize_ref01_ent->list(Struct::clone(detokenize_ref01_match), Value::undef());
+  // list resolves to one ENTITY per record; the flow asserts on the records.
+  Value detokenize_ref01_list = vlist();
+  for (const auto& e : detokenize_ref01_list_ents) { detokenize_ref01_list.as_list()->push_back(e->data()); }
   ASSERT_TRUE(detokenize_ref01_list.is_list(), "expected list result to be an array");
   {
     std::vector<Value> found = Struct::select(entity_list_to_data(detokenize_ref01_list), vmap({{"id", getp(detokenize_ref01_data, "id")}}));

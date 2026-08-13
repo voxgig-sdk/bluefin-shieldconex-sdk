@@ -15,85 +15,91 @@ declare(strict_types=1);
 /** Detokenize entity data model. */
 class Detokenize
 {
-    public ?array $batch = null;
+    public ?array $batches = null;
     public ?string $bfid = null;
-    public ?string $message_id = null;
+    public ?string $messageId = null;
     public ?string $name = null;
     public ?string $reference = null;
-    public ?array $value = null;
+    public ?string $value = null;
+    public ?array $values = null;
 }
 
 /** Request payload for Detokenize#list. */
 class DetokenizeListMatch
 {
-    public ?array $batch = null;
+    public ?array $batches = null;
     public ?string $bfid = null;
-    public ?string $message_id = null;
+    public ?string $messageId = null;
     public ?string $name = null;
     public ?string $reference = null;
-    public ?array $value = null;
+    public ?string $value = null;
+    public ?array $values = null;
 }
 
 /** Request payload for Detokenize#create. */
 class DetokenizeCreateData
 {
-    public ?array $batch = null;
+    public ?array $batches = null;
     public ?string $bfid = null;
-    public ?string $message_id = null;
+    public ?string $messageId = null;
     public ?string $name = null;
     public ?string $reference = null;
-    public ?array $value = null;
+    public ?string $value = null;
+    public ?array $values = null;
 }
 
 /** Tokenize entity data model. */
 class Tokenize
 {
-    public ?array $batch = null;
+    public ?array $batches = null;
     public ?string $bfid = null;
-    public ?string $message_id = null;
+    public ?string $messageId = null;
     public ?string $name = null;
     public ?string $reference = null;
-    public string $template_ref;
-    public ?array $value = null;
+    public string $templateRef;
+    public ?string $value = null;
+    public ?array $values = null;
 }
 
 /** Request payload for Tokenize#list. */
 class TokenizeListMatch
 {
-    public ?array $batch = null;
+    public ?array $batches = null;
     public ?string $bfid = null;
-    public ?string $message_id = null;
+    public ?string $messageId = null;
     public ?string $name = null;
     public ?string $reference = null;
-    public ?string $template_ref = null;
-    public ?array $value = null;
+    public ?string $templateRef = null;
+    public ?string $value = null;
+    public ?array $values = null;
 }
 
 /** Request payload for Tokenize#create. */
 class TokenizeCreateData
 {
-    public ?array $batch = null;
+    public ?array $batches = null;
     public ?string $bfid = null;
-    public ?string $message_id = null;
+    public ?string $messageId = null;
     public ?string $name = null;
     public ?string $reference = null;
-    public string $template_ref;
-    public ?array $value = null;
+    public string $templateRef;
+    public ?string $value = null;
+    public ?array $values = null;
 }
 
 /** TokenizeBatch entity data model. */
 class TokenizeBatch
 {
-    public ?array $batch = null;
-    public ?string $message_id = null;
+    public ?array $batches = null;
+    public ?string $messageId = null;
     public ?string $reference = null;
 }
 
 /** Request payload for TokenizeBatch#create. */
 class TokenizeBatchCreateData
 {
-    public ?array $batch = null;
-    public ?string $message_id = null;
+    public ?array $batches = null;
+    public ?string $messageId = null;
     public ?string $reference = null;
 }
 
@@ -101,35 +107,35 @@ class TokenizeBatchCreateData
 class TokenizeRead
 {
     public ?string $bfid = null;
-    public ?string $message_id = null;
+    public ?string $messageId = null;
     public ?string $reference = null;
     public ?array $state = null;
-    public ?array $value = null;
+    public ?array $values = null;
 }
 
 /** Request payload for TokenizeRead#create. */
 class TokenizeReadCreateData
 {
     public ?string $bfid = null;
-    public ?string $message_id = null;
+    public ?string $messageId = null;
     public ?string $reference = null;
     public ?array $state = null;
-    public ?array $value = null;
+    public ?array $values = null;
 }
 
 /** Validate entity data model. */
 class Validate
 {
-    public ?string $message_id = null;
+    public ?string $messageId = null;
     public ?string $reference = null;
-    public string $template_ref;
+    public string $templateRef;
 }
 
 /** Request payload for Validate#create. */
 class ValidateCreateData
 {
-    public ?string $message_id = null;
+    public ?string $messageId = null;
     public ?string $reference = null;
-    public string $template_ref;
+    public string $templateRef;
 }
 

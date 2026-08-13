@@ -19,7 +19,7 @@ class Config {
   }
 
   final Map<String, dynamic> main = <String, dynamic>{
-    'name': 'ProjectName',
+    'name': 'BluefinShieldconex',
   };
 
   final Map<String, dynamic> feature = <String, dynamic>{
@@ -57,7 +57,7 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'active': true,
-          'name': 'batch',
+          'name': 'batches',
           'op': <String, dynamic>{
             'create': <String, dynamic>{
               'req': true,
@@ -83,7 +83,7 @@ class Config {
         },
         <String, dynamic>{
           'active': true,
-          'name': 'message_id',
+          'name': 'messageId',
           'req': false,
           'type': '`\$STRING`',
           'index\$': 2,
@@ -105,6 +105,13 @@ class Config {
         <String, dynamic>{
           'active': true,
           'name': 'value',
+          'req': false,
+          'type': '`\$STRING`',
+          'index\$': 5,
+        },
+        <String, dynamic>{
+          'active': true,
+          'name': 'values',
           'op': <String, dynamic>{
             'create': <String, dynamic>{
               'req': true,
@@ -113,7 +120,7 @@ class Config {
           },
           'req': false,
           'type': '`\$ARRAY`',
-          'index\$': 5,
+          'index\$': 6,
         },
       ],
       'name': 'detokenize',
@@ -125,6 +132,7 @@ class Config {
             <String, dynamic>{
               'active': true,
               'args': <String, dynamic>{},
+              'kind': 'http',
               'method': 'POST',
               'orig': '/tokenization/batch/detokenize',
               'parts': <dynamic>[
@@ -142,6 +150,7 @@ class Config {
             <String, dynamic>{
               'active': true,
               'args': <String, dynamic>{},
+              'kind': 'http',
               'method': 'POST',
               'orig': '/tokenization/detokenize',
               'parts': <dynamic>[
@@ -200,6 +209,7 @@ class Config {
                   },
                 ],
               },
+              'kind': 'http',
               'method': 'GET',
               'orig': '/healthcheck/detokenize',
               'parts': <dynamic>[
@@ -232,7 +242,7 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'active': true,
-          'name': 'batch',
+          'name': 'batches',
           'op': <String, dynamic>{
             'create': <String, dynamic>{
               'req': true,
@@ -258,7 +268,7 @@ class Config {
         },
         <String, dynamic>{
           'active': true,
-          'name': 'message_id',
+          'name': 'messageId',
           'req': false,
           'type': '`\$STRING`',
           'index\$': 2,
@@ -279,7 +289,7 @@ class Config {
         },
         <String, dynamic>{
           'active': true,
-          'name': 'template_ref',
+          'name': 'templateRef',
           'req': true,
           'type': '`\$STRING`',
           'index\$': 5,
@@ -287,6 +297,13 @@ class Config {
         <String, dynamic>{
           'active': true,
           'name': 'value',
+          'req': false,
+          'type': '`\$STRING`',
+          'index\$': 6,
+        },
+        <String, dynamic>{
+          'active': true,
+          'name': 'values',
           'op': <String, dynamic>{
             'create': <String, dynamic>{
               'req': true,
@@ -295,7 +312,7 @@ class Config {
           },
           'req': false,
           'type': '`\$ARRAY`',
-          'index\$': 6,
+          'index\$': 7,
         },
       ],
       'name': 'tokenize',
@@ -318,6 +335,7 @@ class Config {
                   },
                 ],
               },
+              'kind': 'http',
               'method': 'POST',
               'orig': '/tokenization/batch/tokenize',
               'parts': <dynamic>[
@@ -350,6 +368,7 @@ class Config {
                   },
                 ],
               },
+              'kind': 'http',
               'method': 'POST',
               'orig': '/tokenization/tokenize',
               'parts': <dynamic>[
@@ -370,6 +389,7 @@ class Config {
             <String, dynamic>{
               'active': true,
               'args': <String, dynamic>{},
+              'kind': 'http',
               'method': 'POST',
               'orig': '/tokenization/delete',
               'parts': <dynamic>[
@@ -428,6 +448,7 @@ class Config {
                   },
                 ],
               },
+              'kind': 'http',
               'method': 'GET',
               'orig': '/healthcheck/tokenize',
               'parts': <dynamic>[
@@ -460,7 +481,7 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'active': true,
-          'name': 'batch',
+          'name': 'batches',
           'op': <String, dynamic>{
             'create': <String, dynamic>{
               'req': true,
@@ -473,7 +494,7 @@ class Config {
         },
         <String, dynamic>{
           'active': true,
-          'name': 'message_id',
+          'name': 'messageId',
           'req': false,
           'type': '`\$STRING`',
           'index\$': 1,
@@ -495,6 +516,7 @@ class Config {
             <String, dynamic>{
               'active': true,
               'args': <String, dynamic>{},
+              'kind': 'http',
               'method': 'POST',
               'orig': '/tokenization/batch/delete',
               'parts': <dynamic>[
@@ -512,6 +534,7 @@ class Config {
             <String, dynamic>{
               'active': true,
               'args': <String, dynamic>{},
+              'kind': 'http',
               'method': 'POST',
               'orig': '/tokenization/batch/read',
               'parts': <dynamic>[
@@ -551,7 +574,7 @@ class Config {
         },
         <String, dynamic>{
           'active': true,
-          'name': 'message_id',
+          'name': 'messageId',
           'req': false,
           'type': '`\$STRING`',
           'index\$': 1,
@@ -572,7 +595,7 @@ class Config {
         },
         <String, dynamic>{
           'active': true,
-          'name': 'value',
+          'name': 'values',
           'req': false,
           'type': '`\$ARRAY`',
           'index\$': 4,
@@ -587,6 +610,7 @@ class Config {
             <String, dynamic>{
               'active': true,
               'args': <String, dynamic>{},
+              'kind': 'http',
               'method': 'POST',
               'orig': '/tokenization/read',
               'parts': <dynamic>[
@@ -612,7 +636,7 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'active': true,
-          'name': 'message_id',
+          'name': 'messageId',
           'req': false,
           'type': '`\$STRING`',
           'index\$': 0,
@@ -626,7 +650,7 @@ class Config {
         },
         <String, dynamic>{
           'active': true,
-          'name': 'template_ref',
+          'name': 'templateRef',
           'req': true,
           'type': '`\$STRING`',
           'index\$': 2,
@@ -641,6 +665,7 @@ class Config {
             <String, dynamic>{
               'active': true,
               'args': <String, dynamic>{},
+              'kind': 'http',
               'method': 'POST',
               'orig': '/partner/validate',
               'parts': <dynamic>[
@@ -657,6 +682,7 @@ class Config {
             <String, dynamic>{
               'active': true,
               'args': <String, dynamic>{},
+              'kind': 'http',
               'method': 'POST',
               'orig': '/template/validate',
               'parts': <dynamic>[

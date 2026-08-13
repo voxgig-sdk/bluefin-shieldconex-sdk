@@ -35,7 +35,7 @@ object TokenizeEntityTest {
       var tokenizeRef01Data = Helpers.toMapAny(Struct.getprop(
           Struct.getpath(entityData, "new.tokenize"), "tokenize_ref01"))
       val tokenizeRef01DataResult = tokenizeRef01Ent.create(tokenizeRef01Data, null)
-      tokenizeRef01Data = Helpers.toMapAny(tokenizeRef01DataResult)
+      tokenizeRef01Data = Helpers.toMapAny(tokenizeRef01DataResult match { case e: SdkEntity => e.data(); case o => o })
       rep.check("tokenize.create.map", tokenizeRef01Data != null, "expected create result to be a map")
 
       // LIST

@@ -17,7 +17,7 @@ import {
   each,
   buildIdNames,
   getMatchEntries,
-  isAuthActive,
+  isAuthActive, envName, envToken
 } from '@voxgig/sdkgen'
 
 
@@ -54,8 +54,8 @@ const TestEntity = cmp(function TestEntity(props: any) {
   }
 
   const Name = model.const.Name
-  const PROJUPPER = nom(model.const, 'Name').toUpperCase().replace(/[^A-Z_]/g, '_')
-  const ENTUPPER = entity.name.toUpperCase().replace(/[^A-Z_]/g, '_')
+  const PROJUPPER = envName(model)
+  const ENTUPPER = envToken(entity.name)
 
   const authActive = isAuthActive(model)
   const apikeyEnvEntry = authActive
@@ -78,9 +78,28 @@ const TestEntity = cmp(function TestEntity(props: any) {
 
   const genCtx: GenCtx = { model, entity, flow: basicflow, PROJUPPER }
 
-  const opsList = Array.from(new Set(
+  const opNames = Array.from(new Set(
     (allSteps as any[]).map((s: any) => s.op).filter(Boolean)))
-    .map(o => `"${o}"`).join(', ')
+  const opsList = opNames.map(o => `"${o}"`).join(', ')
+
+  // An entity whose basic flow has no ops must not emit the per-op skip
+  // loop. `new[] { }` is an empty implicitly-typed array and C# cannot infer
+  // its element type — CS0826, which fails the whole test project to build.
+  // The loop is dead code in that case anyway, and so is the `_mode` local
+  // that only it reads (CS0219 unused-variable otherwise).
+  const skipBlock = 0 === opNames.length ? '' : `        // Per-op sdk-test-control.json skip - basic test exercises a flow
+        // with multiple ops; skipping any op skips the whole flow.
+        var _mode = setup.Live ? "live" : "unit";
+        foreach (var _op in new[] { ${opsList} })
+        {
+            var (_shouldSkip, _) = TestRunner.IsControlSkipped(
+                "entityOp", "${entity.name}." + _op, _mode);
+            if (_shouldSkip)
+            {
+                return; // skipped via sdk-test-control.json
+            }
+        }
+`
 
   File({ name: entity.Name + 'EntityTest.' + target.ext }, () => {
 
@@ -107,19 +126,7 @@ public class ${entity.Name}EntityTest
     public void Basic()
     {
         var setup = ${entity.Name}BasicSetup(null);
-        // Per-op sdk-test-control.json skip - basic test exercises a flow
-        // with multiple ops; skipping any op skips the whole flow.
-        var _mode = setup.Live ? "live" : "unit";
-        foreach (var _op in new[] { ${opsList} })
-        {
-            var (_shouldSkip, _) = TestRunner.IsControlSkipped(
-                "entityOp", "${entity.name}." + _op, _mode);
-            if (_shouldSkip)
-            {
-                return; // skipped via sdk-test-control.json
-            }
-        }
-        // The basic flow consumes synthetic IDs from the fixture. In live
+${skipBlock}        // The basic flow consumes synthetic IDs from the fixture. In live
         // mode without an *_ENTID env override, those IDs hit the live API
         // and 4xx; set ${PROJUPPER}_TEST_${ENTUPPER}_ENTID JSON to run live.
         if (setup.SyntheticOnly)
@@ -351,7 +358,7 @@ const generateCreate: OpGen = (ctx, step, index) => {
 
   Content(`
         var ${datavar}Result = ${entvar}.Create(${datavar}, null);
-        ${datavar} = Helpers.ToMapAny(${datavar}Result);
+        ${datavar} = Helpers.ToMapAny(${datavar}Result is IEntity ce ? ce.Data() : ${datavar}Result);
         Assert.True(${datavar} != null, "expected create result to be a map");
 `)
   if (null != ctx.entity.id) {
@@ -493,7 +500,7 @@ const generateUpdate: OpGen = (ctx, step, index) => {
 
   Content(`
         var ${resdatavar}Result = ${entvar}.Update(${datavar}Up, null);
-        var ${resdatavar} = Helpers.ToMapAny(${resdatavar}Result);
+        var ${resdatavar} = Helpers.ToMapAny(${resdatavar}Result is IEntity ue ? ue.Data() : ${resdatavar}Result);
         Assert.True(${resdatavar} != null, "expected update result to be a map");
 `)
   if (hasEntIdU) {
@@ -562,7 +569,7 @@ const generateLoad: OpGen = (ctx, step, index) => {
             ["id"] = ${srcdatavar}!["id"],
         };
         var ${datavar}Loaded = ${entvar}.Load(${matchvar}, null);
-        var ${datavar}LoadResult = Helpers.ToMapAny(${datavar}Loaded);
+        var ${datavar}LoadResult = Helpers.ToMapAny(${datavar}Loaded is IEntity le ? le.Data() : ${datavar}Loaded);
         Assert.True(${datavar}LoadResult != null, "expected load result to be a map");
         Assert.True(StructRunner.DeepEqual(${datavar}LoadResult!["id"], ${srcdatavar}["id"]),
             "expected load result id to match");

@@ -26,8 +26,8 @@ import {
 describe('TokenizeEntity', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
-  // `test.live.delayMs`; only sleeps when BLUEFINSHIELDCONEX_TEST_LIVE=TRUE.
-  afterEach(liveDelay('BLUEFINSHIELDCONEX_TEST_LIVE'))
+  // `test.live.delayMs`; only sleeps when BLUEFIN_SHIELDCONEX_TEST_LIVE=TRUE.
+  afterEach(liveDelay('BLUEFIN_SHIELDCONEX_TEST_LIVE'))
 
   test('instance', async () => {
     const testsdk = BluefinShieldconexSDK.test()
@@ -62,14 +62,14 @@ describe('TokenizeEntity', async () => {
     const tokenize_ref01_ent = client.Tokenize()
     let tokenize_ref01_data = setup.data.new.tokenize['tokenize_ref01']
 
-    tokenize_ref01_data = await tokenize_ref01_ent.create(tokenize_ref01_data)
+    tokenize_ref01_data = (await tokenize_ref01_ent.create(tokenize_ref01_data)).data()
     assert(null != tokenize_ref01_data)
 
 
     // LIST
     const tokenize_ref01_match: any = {}
 
-    const tokenize_ref01_list = await tokenize_ref01_ent.list(tokenize_ref01_match)
+    const tokenize_ref01_list = (await tokenize_ref01_ent.list(tokenize_ref01_match)).map((e: any) => e.data())
 
 
   })

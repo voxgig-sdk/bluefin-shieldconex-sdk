@@ -35,7 +35,7 @@ object ValidateEntityTest {
       var validateRef01Data = Helpers.toMapAny(Struct.getprop(
           Struct.getpath(entityData, "new.validate"), "validate_ref01"))
       val validateRef01DataResult = validateRef01Ent.create(validateRef01Data, null)
-      validateRef01Data = Helpers.toMapAny(validateRef01DataResult)
+      validateRef01Data = Helpers.toMapAny(validateRef01DataResult match { case e: SdkEntity => e.data(); case o => o })
       rep.check("validate.create.map", validateRef01Data != null, "expected create result to be a map")
     }
   }

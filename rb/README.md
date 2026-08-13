@@ -39,7 +39,7 @@ begin
   # list returns an Array of Detokenize records — iterate directly.
   detokenizes = client.Detokenize.list
   detokenizes.each do |item|
-    puts "#{item["batch"]}"
+    puts "#{item["batches"]}"
   end
 rescue => err
   warn "list failed: #{err}"
@@ -49,8 +49,8 @@ end
 ### 4. Create, update, and remove
 
 ```ruby
-# create returns the bare created Detokenize record.
-created = client.Detokenize.create({ "batch" => [], "bfid" => "example_bfid" })
+# create returns the ENTITY — call data_get for the created Detokenize record.
+created = client.Detokenize.create({ "batches" => [], "bfid" => "example_bfid" })
 
 ```
 
@@ -129,7 +129,8 @@ Create a mock client for unit testing — no server required:
 ```ruby
 client = BluefinShieldconexSDK.test
 
-# Entity ops return the bare mock record (raises on error).
+# Entity ops return the ENTITY (raises on error);
+# call data_get for the mock record.
 detokenize = client.Detokenize.list()
 puts detokenize
 ```
@@ -253,12 +254,13 @@ returns a result `Hash` with these keys:
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: Create, List.
 
@@ -268,13 +270,14 @@ API path: `/tokenization/batch/detokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: Create, List.
 
@@ -284,8 +287,8 @@ API path: `/tokenization/batch/tokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
-| `message_id` |  |
+| `batches` |  |
+| `messageId` |  |
 | `reference` |  |
 
 Operations: Create.
@@ -297,10 +300,10 @@ API path: `/tokenization/batch/delete`
 | Field | Description |
 | --- | --- |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
 | `state` |  |
-| `value` |  |
+| `values` |  |
 
 Operations: Create.
 
@@ -310,9 +313,9 @@ API path: `/tokenization/read`
 
 | Field | Description |
 | --- | --- |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 
 Operations: Create.
 
@@ -338,12 +341,13 @@ Create an instance: `detokenize = client.Detokenize`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `Array` |  |
+| `batches` | `Array` |  |
 | `bfid` | `String` |  |
-| `message_id` | `String` |  |
+| `messageId` | `String` |  |
 | `name` | `String` |  |
 | `reference` | `String` |  |
-| `value` | `Array` |  |
+| `value` | `String` |  |
+| `values` | `Array` |  |
 
 #### Example: List
 
@@ -375,13 +379,14 @@ Create an instance: `tokenize = client.Tokenize`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `Array` |  |
+| `batches` | `Array` |  |
 | `bfid` | `String` |  |
-| `message_id` | `String` |  |
+| `messageId` | `String` |  |
 | `name` | `String` |  |
 | `reference` | `String` |  |
-| `template_ref` | `String` |  |
-| `value` | `Array` |  |
+| `templateRef` | `String` |  |
+| `value` | `String` |  |
+| `values` | `Array` |  |
 
 #### Example: List
 
@@ -394,7 +399,7 @@ tokenizes = client.Tokenize.list
 
 ```ruby
 tokenize = client.Tokenize.create({
-  "template_ref" => "example_template_ref", # String
+  "templateRef" => "example_templateRef", # String
 })
 ```
 
@@ -413,8 +418,8 @@ Create an instance: `tokenize_batch = client.TokenizeBatch`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `Array` |  |
-| `message_id` | `String` |  |
+| `batches` | `Array` |  |
+| `messageId` | `String` |  |
 | `reference` | `String` |  |
 
 #### Example: Create
@@ -440,10 +445,10 @@ Create an instance: `tokenize_read = client.TokenizeRead`
 | Field | Type | Description |
 | --- | --- | --- |
 | `bfid` | `String` |  |
-| `message_id` | `String` |  |
+| `messageId` | `String` |  |
 | `reference` | `String` |  |
 | `state` | `Hash` |  |
-| `value` | `Array` |  |
+| `values` | `Array` |  |
 
 #### Example: Create
 
@@ -467,15 +472,15 @@ Create an instance: `validate = client.Validate`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `message_id` | `String` |  |
+| `messageId` | `String` |  |
 | `reference` | `String` |  |
-| `template_ref` | `String` |  |
+| `templateRef` | `String` |  |
 
 #### Example: Create
 
 ```ruby
 validate = client.Validate.create({
-  "template_ref" => "example_template_ref", # String
+  "templateRef" => "example_templateRef", # String
 })
 ```
 

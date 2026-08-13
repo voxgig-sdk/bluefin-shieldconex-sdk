@@ -56,8 +56,8 @@ catch (RuntimeException err) {
 ### 4. Create, update, and remove
 
 ```java
-// Create — returns the bare created record (as Object)
-Object created = client.detokenize(null).create(Map.of("batch", List.of(), "bfid", "example_bfid"), null);
+// Create — returns the ENTITY (call data() for the record)
+Object created = client.detokenize(null).create(Map.of("batches", List.of(), "bfid", "example_bfid"), null);
 
 ```
 
@@ -136,7 +136,8 @@ Create a mock client for unit testing — no server required:
 ```java
 BluefinShieldconexSDK client = BluefinShieldconexSDK.testSDK(null, null);
 
-// Entity ops return the bare record and raise on error.
+// Entity ops return the ENTITY and raises on error;
+// call data() for the record.
 Object detokenize = client.detokenize(null).list(null, null);
 // detokenize holds the mock response record
 System.out.println(detokenize);
@@ -237,7 +238,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (a `Map` for single-entity
+Entity operations return the ENTITY (call data() for the record) (a `Map` for single-entity
 ops, an aggregate `List` for `list`) as `Object` and raise on error. Wrap
 calls in `try`/`catch` to handle failures.
 
@@ -259,12 +260,13 @@ On error, `ok` is `false` and `err` contains the error value.
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: create, list.
 
@@ -274,13 +276,14 @@ API path: `/tokenization/batch/detokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: create, list.
 
@@ -290,8 +293,8 @@ API path: `/tokenization/batch/tokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
-| `message_id` |  |
+| `batches` |  |
+| `messageId` |  |
 | `reference` |  |
 
 Operations: create.
@@ -303,10 +306,10 @@ API path: `/tokenization/batch/delete`
 | Field | Description |
 | --- | --- |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
 | `state` |  |
-| `value` |  |
+| `values` |  |
 
 Operations: create.
 
@@ -316,9 +319,9 @@ API path: `/tokenization/read`
 
 | Field | Description |
 | --- | --- |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 
 Operations: create.
 
@@ -344,12 +347,13 @@ Create an instance: `SdkEntity detokenize = client.detokenize(null);`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `List<Object>` |  |
+| `batches` | `List<Object>` |  |
 | `bfid` | `String` |  |
-| `message_id` | `String` |  |
+| `messageId` | `String` |  |
 | `name` | `String` |  |
 | `reference` | `String` |  |
-| `value` | `List<Object>` |  |
+| `value` | `String` |  |
+| `values` | `List<Object>` |  |
 
 #### Example: List
 
@@ -380,13 +384,14 @@ Create an instance: `SdkEntity tokenize = client.tokenize(null);`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `List<Object>` |  |
+| `batches` | `List<Object>` |  |
 | `bfid` | `String` |  |
-| `message_id` | `String` |  |
+| `messageId` | `String` |  |
 | `name` | `String` |  |
 | `reference` | `String` |  |
-| `template_ref` | `String` |  |
-| `value` | `List<Object>` |  |
+| `templateRef` | `String` |  |
+| `value` | `String` |  |
+| `values` | `List<Object>` |  |
 
 #### Example: List
 
@@ -398,7 +403,7 @@ Object tokenizeList = client.tokenize(null).list(null, null);
 
 ```java
 Object tokenize = client.tokenize(null).create(Map.of(
-    "template_ref", "example_template_ref"  // String
+    "templateRef", "example_templateRef"  // String
 ), null);
 ```
 
@@ -417,8 +422,8 @@ Create an instance: `SdkEntity tokenizeBatch = client.tokenizeBatch(null);`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `List<Object>` |  |
-| `message_id` | `String` |  |
+| `batches` | `List<Object>` |  |
+| `messageId` | `String` |  |
 | `reference` | `String` |  |
 
 #### Example: Create
@@ -444,10 +449,10 @@ Create an instance: `SdkEntity tokenizeRead = client.tokenizeRead(null);`
 | Field | Type | Description |
 | --- | --- | --- |
 | `bfid` | `String` |  |
-| `message_id` | `String` |  |
+| `messageId` | `String` |  |
 | `reference` | `String` |  |
 | `state` | `Map<String, Object>` |  |
-| `value` | `List<Object>` |  |
+| `values` | `List<Object>` |  |
 
 #### Example: Create
 
@@ -471,15 +476,15 @@ Create an instance: `SdkEntity validate = client.validate(null);`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `message_id` | `String` |  |
+| `messageId` | `String` |  |
 | `reference` | `String` |  |
-| `template_ref` | `String` |  |
+| `templateRef` | `String` |  |
 
 #### Example: Create
 
 ```java
 Object validate = client.validate(null).create(Map.of(
-    "template_ref", "example_template_ref"  // String
+    "templateRef", "example_templateRef"  // String
 ), null);
 ```
 

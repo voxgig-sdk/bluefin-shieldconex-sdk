@@ -4,6 +4,7 @@ import {
   File,
   cmp,
   collectDeps,
+  packageVersion,
 } from '@voxgig/sdkgen'
 
 
@@ -30,7 +31,7 @@ const Package = cmp(async function Package(props: any) {
 
   // Dep name convention: "group:artifact" with an explicit version.
   const deps: { group: string, artifact: string, version: string, kind: string }[] = []
-  for (const d of collectDeps(model, target.name, target.deps)) {
+  for (const d of collectDeps(model, target.name, target.deps, ctx$.log)) {
     const [dgroup, dartifact] = String(d.name).split(':')
     if (dgroup && dartifact && d.version) {
       deps.push({
@@ -53,7 +54,7 @@ const Package = cmp(async function Package(props: any) {
 }
 
 group = "${group}"
-version = "0.0.1"
+version = "${packageVersion(model, target.name)}"
 
 repositories {
     mavenCentral()

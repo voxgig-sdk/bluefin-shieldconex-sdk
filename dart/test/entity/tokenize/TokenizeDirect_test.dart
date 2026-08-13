@@ -74,19 +74,19 @@ Map<String, dynamic> directSetup([dynamic mockres]) {
   final calls = <Map<String, dynamic>>[];
 
   final env = envOverride({
-    'BLUEFINSHIELDCONEX_TEST_TOKENIZE_ENTID': <String, dynamic>{},
-    'BLUEFINSHIELDCONEX_TEST_LIVE': 'FALSE',
-    'BLUEFINSHIELDCONEX_APIKEY': 'NONE',
+    'BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_ENTID': <String, dynamic>{},
+    'BLUEFIN_SHIELDCONEX_TEST_LIVE': 'FALSE',
+    'BLUEFIN_SHIELDCONEX_APIKEY': 'NONE',
   });
 
-  final live = 'TRUE' == env['BLUEFINSHIELDCONEX_TEST_LIVE'];
+  final live = 'TRUE' == env['BLUEFIN_SHIELDCONEX_TEST_LIVE'];
 
   if (live) {
     final client = BluefinShieldconexSDK({
-      'apikey': env['BLUEFINSHIELDCONEX_APIKEY'],
+      'apikey': env['BLUEFIN_SHIELDCONEX_APIKEY'],
     });
 
-    dynamic idmap = env['BLUEFINSHIELDCONEX_TEST_TOKENIZE_ENTID'];
+    dynamic idmap = env['BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_ENTID'];
     if (idmap is String && idmap.startsWith('{')) {
       idmap = jsonDecode(idmap);
     }

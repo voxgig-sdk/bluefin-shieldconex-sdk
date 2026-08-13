@@ -6,7 +6,7 @@ main: kit: entity: tokenize_batch: {
 
   fields: [
     {
-      name: "batch"
+      name: "batches"
       op: {
         create: {
           req: true
@@ -17,7 +17,7 @@ main: kit: entity: tokenize_batch: {
       type: "`$ARRAY`"
     }
     {
-      name: "message_id"
+      name: "messageId"
       req: false
       type: "`$STRING`"
     }

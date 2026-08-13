@@ -47,7 +47,7 @@ void tests() {
       final tokenize_read_ref01_ent = client.TokenizeRead();
       dynamic tokenize_read_ref01_data = setup['data']['new']['tokenize_read']['tokenize_read_ref01'];
 
-      tokenize_read_ref01_data = await tokenize_read_ref01_ent.create(tokenize_read_ref01_data);
+      tokenize_read_ref01_data = (await tokenize_read_ref01_ent.create(tokenize_read_ref01_data)).data();
       ok(null != tokenize_read_ref01_data);
 
 

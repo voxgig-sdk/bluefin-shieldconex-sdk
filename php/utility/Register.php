@@ -23,6 +23,7 @@ require_once __DIR__ . '/MakeUrl.php';
 require_once __DIR__ . '/Param.php';
 require_once __DIR__ . '/PrepareAuth.php';
 require_once __DIR__ . '/PrepareBody.php';
+require_once __DIR__ . '/Graphql.php';
 require_once __DIR__ . '/PrepareHeaders.php';
 require_once __DIR__ . '/PrepareMethod.php';
 require_once __DIR__ . '/PrepareParams.php';
@@ -59,6 +60,8 @@ BluefinShieldconexUtility::setRegistrar(function (BluefinShieldconexUtility $u):
     $u->prepare_params = [BluefinShieldconexPrepareParams::class, 'call'];
     $u->prepare_path = [BluefinShieldconexPreparePath::class, 'call'];
     $u->prepare_query = [BluefinShieldconexPrepareQuery::class, 'call'];
+    $u->graphql_body = [BluefinShieldconexGraphql::class, 'body'];
+    $u->graphql_errors = [BluefinShieldconexGraphql::class, 'errors'];
     $u->result_basic = [BluefinShieldconexResultBasic::class, 'call'];
     $u->result_body = [BluefinShieldconexResultBody::class, 'call'];
     $u->result_headers = [BluefinShieldconexResultHeaders::class, 'call'];

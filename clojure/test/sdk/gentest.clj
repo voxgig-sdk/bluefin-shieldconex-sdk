@@ -18,10 +18,13 @@
   (t/run-check rec "gen-smoke-detokenize"
     (fn [] (let [sdk (api/test-sdk nil nil)
                  ent (api/detokenize sdk nil)]
-             (let [res (e-detokenize/create ent (vs/jm "name" "smoke") nil)]
-               (t/is-true (vs/ismap res) "create returns a record map")
-               (t/is-true (some? (vs/getprop res "id")) "created record has an id"))
+             (let [res (e-detokenize/create ent (vs/jm "name" "smoke") nil)
+                   rec (if (map? res) ((:data-get res)) res)]
+               ;; create resolves to the ENTITY; the record is data-get.
+               (t/is-true (vs/ismap rec) "create resolves to an entity carrying a record")
+               (t/is-true (some? (vs/getprop rec "id")) "created record has an id"))
              (let [items (e-detokenize/list ent (vs/jm) nil)]
+               ;; list resolves to one entity per record.
                (t/is-true (sequential? items) "list returns a sequential collection"))
              )))
   (t/run-check rec "gen-stream-detokenize"
@@ -52,10 +55,13 @@
   (t/run-check rec "gen-smoke-tokenize"
     (fn [] (let [sdk (api/test-sdk nil nil)
                  ent (api/tokenize sdk nil)]
-             (let [res (e-tokenize/create ent (vs/jm "name" "smoke") nil)]
-               (t/is-true (vs/ismap res) "create returns a record map")
-               (t/is-true (some? (vs/getprop res "id")) "created record has an id"))
+             (let [res (e-tokenize/create ent (vs/jm "name" "smoke") nil)
+                   rec (if (map? res) ((:data-get res)) res)]
+               ;; create resolves to the ENTITY; the record is data-get.
+               (t/is-true (vs/ismap rec) "create resolves to an entity carrying a record")
+               (t/is-true (some? (vs/getprop rec "id")) "created record has an id"))
              (let [items (e-tokenize/list ent (vs/jm) nil)]
+               ;; list resolves to one entity per record.
                (t/is-true (sequential? items) "list returns a sequential collection"))
              )))
   (t/run-check rec "gen-stream-tokenize"
@@ -86,9 +92,11 @@
   (t/run-check rec "gen-smoke-tokenize_batch"
     (fn [] (let [sdk (api/test-sdk nil nil)
                  ent (api/tokenize_batch sdk nil)]
-             (let [res (e-tokenize_batch/create ent (vs/jm "name" "smoke") nil)]
-               (t/is-true (vs/ismap res) "create returns a record map")
-               (t/is-true (some? (vs/getprop res "id")) "created record has an id"))
+             (let [res (e-tokenize_batch/create ent (vs/jm "name" "smoke") nil)
+                   rec (if (map? res) ((:data-get res)) res)]
+               ;; create resolves to the ENTITY; the record is data-get.
+               (t/is-true (vs/ismap rec) "create resolves to an entity carrying a record")
+               (t/is-true (some? (vs/getprop rec "id")) "created record has an id"))
              )))
   (t/run-check rec "gen-exists-tokenize_read"
     (fn [] (let [sdk (api/test-sdk nil nil)]
@@ -96,9 +104,11 @@
   (t/run-check rec "gen-smoke-tokenize_read"
     (fn [] (let [sdk (api/test-sdk nil nil)
                  ent (api/tokenize_read sdk nil)]
-             (let [res (e-tokenize_read/create ent (vs/jm "name" "smoke") nil)]
-               (t/is-true (vs/ismap res) "create returns a record map")
-               (t/is-true (some? (vs/getprop res "id")) "created record has an id"))
+             (let [res (e-tokenize_read/create ent (vs/jm "name" "smoke") nil)
+                   rec (if (map? res) ((:data-get res)) res)]
+               ;; create resolves to the ENTITY; the record is data-get.
+               (t/is-true (vs/ismap rec) "create resolves to an entity carrying a record")
+               (t/is-true (some? (vs/getprop rec "id")) "created record has an id"))
              )))
   (t/run-check rec "gen-exists-validate"
     (fn [] (let [sdk (api/test-sdk nil nil)]
@@ -106,9 +116,11 @@
   (t/run-check rec "gen-smoke-validate"
     (fn [] (let [sdk (api/test-sdk nil nil)
                  ent (api/validate sdk nil)]
-             (let [res (e-validate/create ent (vs/jm "name" "smoke") nil)]
-               (t/is-true (vs/ismap res) "create returns a record map")
-               (t/is-true (some? (vs/getprop res "id")) "created record has an id"))
+             (let [res (e-validate/create ent (vs/jm "name" "smoke") nil)
+                   rec (if (map? res) ((:data-get res)) res)]
+               ;; create resolves to the ENTITY; the record is data-get.
+               (t/is-true (vs/ismap rec) "create resolves to an entity carrying a record")
+               (t/is-true (some? (vs/getprop rec "id")) "created record has an id"))
              )))
   (t/run-check rec "gen-prepare-detokenize"
     (fn [] (let [client (api/make-sdk (vs/jm "base" "http://example.test" "apikey" "test-key"))
@@ -142,9 +154,10 @@
              (t/is-true (vs/ismap result) "direct returns a result map")
              (t/is-true (vs/getprop result "ok") "direct 200 => ok true")
              (t/is-eq (vs/getprop result "status") 200 "direct surfaces the status"))))
-  (letfn [(clj-blocks [text]
-            (let [fence (apply str (repeat 3 (char 96)))
-                  parts (clojure.string/split text (re-pattern fence))]
+  (letfn [(fence-pat [] (re-pattern (apply str (repeat 3 (char 96)))))
+          (fence-count [text] (count (re-seq (fence-pat) text)))
+          (clj-blocks [text]
+            (let [parts (clojure.string/split text (fence-pat))]
               (->> parts
                    (map-indexed vector)
                    (filter (fn [[i _]] (odd? i)))
@@ -162,9 +175,19 @@
         (fn []
           (if-not (.exists (java.io.File. ^String path))
             (t/is-true true (str label " absent (skipped)"))
-            (let [blocks (clj-blocks (slurp path))]
-              (doseq [b blocks]
-                (binding [*read-eval* false]
-                  (read-string (str "[\n" b "\n]"))))
-              (t/is-true true (str label " clojure blocks parse cleanly"))))))))
+            (let [text (slurp path)]
+              ;; A code fence opened but never closed leaves an ODD number of
+              ;; fence markers; the split-on-fence then captures the trailing
+              ;; prose (everything after the last opener) as if it were a
+              ;; clojure block, which can parse cleanly and pass silently. Fail
+              ;; on the malformed doc instead. (Count markers directly rather
+              ;; than split parts: split drops trailing empty segments, so a
+              ;; closing fence at EOF would be miscounted.)
+              (t/is-true (even? (fence-count text))
+                         (str label " code fences balanced (no unclosed fence)"))
+              (let [blocks (clj-blocks text)]
+                (doseq [b blocks]
+                  (binding [*read-eval* false]
+                    (read-string (str "[\n" b "\n]"))))
+                (t/is-true true (str label " clojure blocks parse cleanly")))))))))
   nil)

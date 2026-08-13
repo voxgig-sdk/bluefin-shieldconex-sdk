@@ -7,6 +7,7 @@ import {
   collectDeps,
   pkgDescription,
   repoInfo,
+  packageVersion,
 } from '@voxgig/sdkgen'
 
 
@@ -31,7 +32,7 @@ const Package = cmp(async function Package(props: any) {
   const { repoUrl } = repoInfo(model)
 
   const deps: Record<string, string> = {}
-  for (const d of collectDeps(model, target.name, target.deps)) {
+  for (const d of collectDeps(model, target.name, target.deps, ctx$.log)) {
     deps[d.name] = d.source === 'target' ? (d.version || '0.0.0') : d.version
   }
 
@@ -56,7 +57,7 @@ const Package = cmp(async function Package(props: any) {
     <NoWarn>$(NoWarn);CS8600;CS8601;CS8602;CS8603;CS8604;CS8618;CS8625;CS1591</NoWarn>
 
     <!-- NuGet package metadata (publication pending; see Makefile). -->
-    <Version>0.0.1</Version>
+    <Version>${packageVersion(model, target.name)}</Version>
     <PackageId>${Name}.Sdk</PackageId>
     <Authors>Voxgig</Authors>
     <Description>${pkgDescription(model, 'csharp')}</Description>

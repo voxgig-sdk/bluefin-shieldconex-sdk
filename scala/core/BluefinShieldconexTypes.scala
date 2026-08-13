@@ -16,28 +16,28 @@ package voxgig.bluefinshieldconexsdk.core
 
 object BluefinShieldconexTypes {
 
-  final case class Detokenize(batch: java.util.List[Object], bfid: String, message_id: String, name: String, reference: String, value: java.util.List[Object])
+  final case class Detokenize(batches: java.util.List[Object], bfid: String, messageId: String, name: String, reference: String, value: String, values: java.util.List[Object])
 
-  final case class DetokenizeListMatch(batch: java.util.List[Object], bfid: String, message_id: String, name: String, reference: String, value: java.util.List[Object])
+  final case class DetokenizeListMatch(batches: java.util.List[Object], bfid: String, messageId: String, name: String, reference: String, value: String, values: java.util.List[Object])
 
-  final case class DetokenizeCreateData(batch: java.util.List[Object], bfid: String, message_id: String, name: String, reference: String, value: java.util.List[Object])
+  final case class DetokenizeCreateData(batches: java.util.List[Object], bfid: String, messageId: String, name: String, reference: String, value: String, values: java.util.List[Object])
 
-  final case class Tokenize(batch: java.util.List[Object], bfid: String, message_id: String, name: String, reference: String, template_ref: String, value: java.util.List[Object])
+  final case class Tokenize(batches: java.util.List[Object], bfid: String, messageId: String, name: String, reference: String, templateRef: String, value: String, values: java.util.List[Object])
 
-  final case class TokenizeListMatch(batch: java.util.List[Object], bfid: String, message_id: String, name: String, reference: String, template_ref: String, value: java.util.List[Object])
+  final case class TokenizeListMatch(batches: java.util.List[Object], bfid: String, messageId: String, name: String, reference: String, templateRef: String, value: String, values: java.util.List[Object])
 
-  final case class TokenizeCreateData(batch: java.util.List[Object], bfid: String, message_id: String, name: String, reference: String, template_ref: String, value: java.util.List[Object])
+  final case class TokenizeCreateData(batches: java.util.List[Object], bfid: String, messageId: String, name: String, reference: String, templateRef: String, value: String, values: java.util.List[Object])
 
-  final case class TokenizeBatch(batch: java.util.List[Object], message_id: String, reference: String)
+  final case class TokenizeBatch(batches: java.util.List[Object], messageId: String, reference: String)
 
-  final case class TokenizeBatchCreateData(batch: java.util.List[Object], message_id: String, reference: String)
+  final case class TokenizeBatchCreateData(batches: java.util.List[Object], messageId: String, reference: String)
 
-  final case class TokenizeRead(bfid: String, message_id: String, reference: String, state: java.util.Map[String, Object], value: java.util.List[Object])
+  final case class TokenizeRead(bfid: String, messageId: String, reference: String, state: java.util.Map[String, Object], values: java.util.List[Object])
 
-  final case class TokenizeReadCreateData(bfid: String, message_id: String, reference: String, state: java.util.Map[String, Object], value: java.util.List[Object])
+  final case class TokenizeReadCreateData(bfid: String, messageId: String, reference: String, state: java.util.Map[String, Object], values: java.util.List[Object])
 
-  final case class Validate(message_id: String, reference: String, template_ref: String)
+  final case class Validate(messageId: String, reference: String, templateRef: String)
 
-  final case class ValidateCreateData(message_id: String, reference: String, template_ref: String)
+  final case class ValidateCreateData(messageId: String, reference: String, templateRef: String)
 
 }

@@ -2,21 +2,21 @@
   "existing": {
     "validate": {
       "VALIDATE00": {
-        "message_id": "MESSAGE01",
+        "messageId": "s1e",
         "reference": "s1f",
-        "template_ref": "s20",
+        "templateRef": "s20",
         "id": "VALIDATE00"
       },
       "VALIDATE01": {
-        "message_id": "MESSAGE01",
+        "messageId": "s3c",
         "reference": "s3d",
-        "template_ref": "s3e",
+        "templateRef": "s3e",
         "id": "VALIDATE01"
       },
       "VALIDATE02": {
-        "message_id": "MESSAGE01",
+        "messageId": "s5a",
         "reference": "s5b",
-        "template_ref": "s5c",
+        "templateRef": "s5c",
         "id": "VALIDATE02"
       }
     }
@@ -24,9 +24,9 @@
   "new": {
     "validate": {
       "validate_ref01": {
-        "message_id": "MESSAGE01",
+        "messageId": "s78",
         "reference": "s79",
-        "template_ref": "s7a"
+        "templateRef": "s7a"
       }
     }
   }

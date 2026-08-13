@@ -33,7 +33,7 @@ local function make_config()
         ["fields"] = {
           {
             ["active"] = true,
-            ["name"] = "batch",
+            ["name"] = "batches",
             ["op"] = {
               ["create"] = {
                 ["req"] = true,
@@ -59,7 +59,7 @@ local function make_config()
           },
           {
             ["active"] = true,
-            ["name"] = "message_id",
+            ["name"] = "messageId",
             ["req"] = false,
             ["type"] = "`$STRING`",
             ["index$"] = 2,
@@ -81,6 +81,13 @@ local function make_config()
           {
             ["active"] = true,
             ["name"] = "value",
+            ["req"] = false,
+            ["type"] = "`$STRING`",
+            ["index$"] = 5,
+          },
+          {
+            ["active"] = true,
+            ["name"] = "values",
             ["op"] = {
               ["create"] = {
                 ["req"] = true,
@@ -89,7 +96,7 @@ local function make_config()
             },
             ["req"] = false,
             ["type"] = "`$ARRAY`",
-            ["index$"] = 5,
+            ["index$"] = 6,
           },
         },
         ["name"] = "detokenize",
@@ -101,6 +108,7 @@ local function make_config()
               {
                 ["active"] = true,
                 ["args"] = {},
+                ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/tokenization/batch/detokenize",
                 ["parts"] = {
@@ -118,6 +126,7 @@ local function make_config()
               {
                 ["active"] = true,
                 ["args"] = {},
+                ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/tokenization/detokenize",
                 ["parts"] = {
@@ -176,6 +185,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/healthcheck/detokenize",
                 ["parts"] = {
@@ -208,7 +218,7 @@ local function make_config()
         ["fields"] = {
           {
             ["active"] = true,
-            ["name"] = "batch",
+            ["name"] = "batches",
             ["op"] = {
               ["create"] = {
                 ["req"] = true,
@@ -234,7 +244,7 @@ local function make_config()
           },
           {
             ["active"] = true,
-            ["name"] = "message_id",
+            ["name"] = "messageId",
             ["req"] = false,
             ["type"] = "`$STRING`",
             ["index$"] = 2,
@@ -255,7 +265,7 @@ local function make_config()
           },
           {
             ["active"] = true,
-            ["name"] = "template_ref",
+            ["name"] = "templateRef",
             ["req"] = true,
             ["type"] = "`$STRING`",
             ["index$"] = 5,
@@ -263,6 +273,13 @@ local function make_config()
           {
             ["active"] = true,
             ["name"] = "value",
+            ["req"] = false,
+            ["type"] = "`$STRING`",
+            ["index$"] = 6,
+          },
+          {
+            ["active"] = true,
+            ["name"] = "values",
             ["op"] = {
               ["create"] = {
                 ["req"] = true,
@@ -271,7 +288,7 @@ local function make_config()
             },
             ["req"] = false,
             ["type"] = "`$ARRAY`",
-            ["index$"] = 6,
+            ["index$"] = 7,
           },
         },
         ["name"] = "tokenize",
@@ -294,6 +311,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/tokenization/batch/tokenize",
                 ["parts"] = {
@@ -326,6 +344,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/tokenization/tokenize",
                 ["parts"] = {
@@ -346,6 +365,7 @@ local function make_config()
               {
                 ["active"] = true,
                 ["args"] = {},
+                ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/tokenization/delete",
                 ["parts"] = {
@@ -404,6 +424,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/healthcheck/tokenize",
                 ["parts"] = {
@@ -436,7 +457,7 @@ local function make_config()
         ["fields"] = {
           {
             ["active"] = true,
-            ["name"] = "batch",
+            ["name"] = "batches",
             ["op"] = {
               ["create"] = {
                 ["req"] = true,
@@ -449,7 +470,7 @@ local function make_config()
           },
           {
             ["active"] = true,
-            ["name"] = "message_id",
+            ["name"] = "messageId",
             ["req"] = false,
             ["type"] = "`$STRING`",
             ["index$"] = 1,
@@ -471,6 +492,7 @@ local function make_config()
               {
                 ["active"] = true,
                 ["args"] = {},
+                ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/tokenization/batch/delete",
                 ["parts"] = {
@@ -488,6 +510,7 @@ local function make_config()
               {
                 ["active"] = true,
                 ["args"] = {},
+                ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/tokenization/batch/read",
                 ["parts"] = {
@@ -527,7 +550,7 @@ local function make_config()
           },
           {
             ["active"] = true,
-            ["name"] = "message_id",
+            ["name"] = "messageId",
             ["req"] = false,
             ["type"] = "`$STRING`",
             ["index$"] = 1,
@@ -548,7 +571,7 @@ local function make_config()
           },
           {
             ["active"] = true,
-            ["name"] = "value",
+            ["name"] = "values",
             ["req"] = false,
             ["type"] = "`$ARRAY`",
             ["index$"] = 4,
@@ -563,6 +586,7 @@ local function make_config()
               {
                 ["active"] = true,
                 ["args"] = {},
+                ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/tokenization/read",
                 ["parts"] = {
@@ -588,7 +612,7 @@ local function make_config()
         ["fields"] = {
           {
             ["active"] = true,
-            ["name"] = "message_id",
+            ["name"] = "messageId",
             ["req"] = false,
             ["type"] = "`$STRING`",
             ["index$"] = 0,
@@ -602,7 +626,7 @@ local function make_config()
           },
           {
             ["active"] = true,
-            ["name"] = "template_ref",
+            ["name"] = "templateRef",
             ["req"] = true,
             ["type"] = "`$STRING`",
             ["index$"] = 2,
@@ -617,6 +641,7 @@ local function make_config()
               {
                 ["active"] = true,
                 ["args"] = {},
+                ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/partner/validate",
                 ["parts"] = {
@@ -633,6 +658,7 @@ local function make_config()
               {
                 ["active"] = true,
                 ["args"] = {},
+                ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/template/validate",
                 ["parts"] = {

@@ -79,15 +79,19 @@ detokenizeBasicTest c = do
     ent <- C.detokenize sdk VNoval
     em1 <- emptyMap; em2 <- emptyMap
     lst <- eList ent em1 em2
-    pure (islist lst)
+    -- `list` resolves to one ENTITY per record; the record is reached
+    -- through eDataGet. See AGENTS.md "Entity operations return ENTITIES".
+    ok <- mapM (\en -> ismap <$> eDataGet en) lst
+    pure (all id ok)
   runTest c "detokenize.create" $ do
     sdk <- C.testSdk opts VNoval
     ent <- C.detokenize sdk VNoval
     d <- newRefData fixture "detokenize"
     ctrl <- emptyMap
     created <- eCreate ent d ctrl
-    cid <- getp created "id"
-    pure (ismap created && not (isNoval cid))
+    cd <- eDataGet created
+    cid <- getp cd "id"
+    pure (ismap cd && not (isNoval cid))
 
 detokenizeDirectTest :: Counters -> IO ()
 detokenizeDirectTest c = runTest c "detokenize.direct" $ do
@@ -175,15 +179,19 @@ tokenizeBasicTest c = do
     ent <- C.tokenize sdk VNoval
     em1 <- emptyMap; em2 <- emptyMap
     lst <- eList ent em1 em2
-    pure (islist lst)
+    -- `list` resolves to one ENTITY per record; the record is reached
+    -- through eDataGet. See AGENTS.md "Entity operations return ENTITIES".
+    ok <- mapM (\en -> ismap <$> eDataGet en) lst
+    pure (all id ok)
   runTest c "tokenize.create" $ do
     sdk <- C.testSdk opts VNoval
     ent <- C.tokenize sdk VNoval
     d <- newRefData fixture "tokenize"
     ctrl <- emptyMap
     created <- eCreate ent d ctrl
-    cid <- getp created "id"
-    pure (ismap created && not (isNoval cid))
+    cd <- eDataGet created
+    cid <- getp cd "id"
+    pure (ismap cd && not (isNoval cid))
 
 tokenizeDirectTest :: Counters -> IO ()
 tokenizeDirectTest c = runTest c "tokenize.direct" $ do
@@ -272,8 +280,9 @@ tokenize_batchBasicTest c = do
     d <- newRefData fixture "tokenize_batch"
     ctrl <- emptyMap
     created <- eCreate ent d ctrl
-    cid <- getp created "id"
-    pure (ismap created && not (isNoval cid))
+    cd <- eDataGet created
+    cid <- getp cd "id"
+    pure (ismap cd && not (isNoval cid))
 
 tokenize_batchDirectTest :: Counters -> IO ()
 tokenize_batchDirectTest c = runTest c "tokenize_batch.direct" $ do
@@ -311,8 +320,9 @@ tokenize_readBasicTest c = do
     d <- newRefData fixture "tokenize_read"
     ctrl <- emptyMap
     created <- eCreate ent d ctrl
-    cid <- getp created "id"
-    pure (ismap created && not (isNoval cid))
+    cd <- eDataGet created
+    cid <- getp cd "id"
+    pure (ismap cd && not (isNoval cid))
 
 tokenize_readDirectTest :: Counters -> IO ()
 tokenize_readDirectTest c = runTest c "tokenize_read.direct" $ do
@@ -350,8 +360,9 @@ validateBasicTest c = do
     d <- newRefData fixture "validate"
     ctrl <- emptyMap
     created <- eCreate ent d ctrl
-    cid <- getp created "id"
-    pure (ismap created && not (isNoval cid))
+    cd <- eDataGet created
+    cid <- getp cd "id"
+    pure (ismap cd && not (isNoval cid))
 
 validateDirectTest :: Counters -> IO ()
 validateDirectTest c = runTest c "validate.direct" $ do

@@ -65,7 +65,7 @@ match client.detokenize(Value::Noval).list(Value::Noval, Value::Noval) {
 
 ```rust
 // Create — returns the bare created record
-let created = client.detokenize(Value::Noval).create(jo(vec![("batch", Value::empty_list()), ("bfid", Value::str("example_bfid"))]), Value::Noval).unwrap();
+let created = client.detokenize(Value::Noval).create(jo(vec![("batches", Value::empty_list()), ("bfid", Value::str("example_bfid"))]), Value::Noval).unwrap();
 
 ```
 
@@ -259,12 +259,13 @@ On error, `ok` is `false` and `err` carries the error value.
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: Create, List.
 
@@ -274,13 +275,14 @@ API path: `/tokenization/batch/detokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: Create, List.
 
@@ -290,8 +292,8 @@ API path: `/tokenization/batch/tokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
-| `message_id` |  |
+| `batches` |  |
+| `messageId` |  |
 | `reference` |  |
 
 Operations: Create.
@@ -303,10 +305,10 @@ API path: `/tokenization/batch/delete`
 | Field | Description |
 | --- | --- |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
 | `state` |  |
-| `value` |  |
+| `values` |  |
 
 Operations: Create.
 
@@ -316,9 +318,9 @@ API path: `/tokenization/read`
 
 | Field | Description |
 | --- | --- |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 
 Operations: Create.
 
@@ -344,12 +346,13 @@ Create an instance: `let detokenize = client.detokenize(Value::Noval);`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `Vec<Value>` |  |
+| `batches` | `Vec<Value>` |  |
 | `bfid` | `String` |  |
-| `message_id` | `String` |  |
+| `messageId` | `String` |  |
 | `name` | `String` |  |
 | `reference` | `String` |  |
-| `value` | `Vec<Value>` |  |
+| `value` | `String` |  |
+| `values` | `Vec<Value>` |  |
 
 #### Example: List
 
@@ -380,13 +383,14 @@ Create an instance: `let tokenize = client.tokenize(Value::Noval);`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `Vec<Value>` |  |
+| `batches` | `Vec<Value>` |  |
 | `bfid` | `String` |  |
-| `message_id` | `String` |  |
+| `messageId` | `String` |  |
 | `name` | `String` |  |
 | `reference` | `String` |  |
-| `template_ref` | `String` |  |
-| `value` | `Vec<Value>` |  |
+| `templateRef` | `String` |  |
+| `value` | `String` |  |
+| `values` | `Vec<Value>` |  |
 
 #### Example: List
 
@@ -398,7 +402,7 @@ let tokenizes = client.tokenize(Value::Noval).list(Value::Noval, Value::Noval).u
 
 ```rust
 let tokenize = client.tokenize(Value::Noval).create(jo(vec![
-    ("template_ref", Value::str("example_template_ref")),  // String
+    ("templateRef", Value::str("example_templateRef")),  // String
 ]), Value::Noval).unwrap();
 ```
 
@@ -417,8 +421,8 @@ Create an instance: `let tokenize_batch = client.tokenize_batch(Value::Noval);`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `Vec<Value>` |  |
-| `message_id` | `String` |  |
+| `batches` | `Vec<Value>` |  |
+| `messageId` | `String` |  |
 | `reference` | `String` |  |
 
 #### Example: Create
@@ -444,10 +448,10 @@ Create an instance: `let tokenize_read = client.tokenize_read(Value::Noval);`
 | Field | Type | Description |
 | --- | --- | --- |
 | `bfid` | `String` |  |
-| `message_id` | `String` |  |
+| `messageId` | `String` |  |
 | `reference` | `String` |  |
 | `state` | `std::collections::HashMap<String, Value>` |  |
-| `value` | `Vec<Value>` |  |
+| `values` | `Vec<Value>` |  |
 
 #### Example: Create
 
@@ -471,15 +475,15 @@ Create an instance: `let validate = client.validate(Value::Noval);`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `message_id` | `String` |  |
+| `messageId` | `String` |  |
 | `reference` | `String` |  |
-| `template_ref` | `String` |  |
+| `templateRef` | `String` |  |
 
 #### Example: Create
 
 ```rust
 let validate = client.validate(Value::Noval).create(jo(vec![
-    ("template_ref", Value::str("example_template_ref")),  // String
+    ("templateRef", Value::str("example_templateRef")),  // String
 ]), Value::Noval).unwrap();
 ```
 

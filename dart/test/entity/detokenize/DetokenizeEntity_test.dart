@@ -87,14 +87,14 @@ test('stream', (t) async {
       final detokenize_ref01_ent = client.Detokenize();
       dynamic detokenize_ref01_data = setup['data']['new']['detokenize']['detokenize_ref01'];
 
-      detokenize_ref01_data = await detokenize_ref01_ent.create(detokenize_ref01_data);
+      detokenize_ref01_data = (await detokenize_ref01_ent.create(detokenize_ref01_data)).data();
       ok(null != detokenize_ref01_data);
 
 
       // LIST
       final detokenize_ref01_match = <String, dynamic>{};
 
-      final detokenize_ref01_list = await detokenize_ref01_ent.list(detokenize_ref01_match);
+      final detokenize_ref01_list = (await detokenize_ref01_ent.list(detokenize_ref01_match)).map((e) => e.data()).toList();
 
       ok(!isempty(select(
           (detokenize_ref01_list as List).map((e) => e.data()).toList(),

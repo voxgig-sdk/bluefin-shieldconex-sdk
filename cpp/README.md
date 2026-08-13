@@ -78,7 +78,7 @@ try {
 
 ```cpp
 // Create — returns the bare created record.
-Value created = client->detokenize()->create(vmap({{"batch", vlist()}, {"bfid", Value("example_bfid")}}), Value::undef());
+Value created = client->detokenize()->create(vmap({{"batches", vlist()}, {"bfid", Value("example_bfid")}}), Value::undef());
 
 ```
 
@@ -272,12 +272,13 @@ On error, `ok` is `false` and `err` contains the error value.
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: Create, List.
 
@@ -287,13 +288,14 @@ API path: `/tokenization/batch/detokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: Create, List.
 
@@ -303,8 +305,8 @@ API path: `/tokenization/batch/tokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
-| `message_id` |  |
+| `batches` |  |
+| `messageId` |  |
 | `reference` |  |
 
 Operations: Create.
@@ -316,10 +318,10 @@ API path: `/tokenization/batch/delete`
 | Field | Description |
 | --- | --- |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
 | `state` |  |
-| `value` |  |
+| `values` |  |
 
 Operations: Create.
 
@@ -329,9 +331,9 @@ API path: `/tokenization/read`
 
 | Field | Description |
 | --- | --- |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 
 Operations: Create.
 
@@ -357,12 +359,13 @@ Create an instance: `auto detokenize = client->detokenize();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `std::vector<Value>` |  |
+| `batches` | `std::vector<Value>` |  |
 | `bfid` | `std::string` |  |
-| `message_id` | `std::string` |  |
+| `messageId` | `std::string` |  |
 | `name` | `std::string` |  |
 | `reference` | `std::string` |  |
-| `value` | `std::vector<Value>` |  |
+| `value` | `std::string` |  |
+| `values` | `std::vector<Value>` |  |
 
 #### Example: List
 
@@ -393,13 +396,14 @@ Create an instance: `auto tokenize = client->tokenize();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `std::vector<Value>` |  |
+| `batches` | `std::vector<Value>` |  |
 | `bfid` | `std::string` |  |
-| `message_id` | `std::string` |  |
+| `messageId` | `std::string` |  |
 | `name` | `std::string` |  |
 | `reference` | `std::string` |  |
-| `template_ref` | `std::string` |  |
-| `value` | `std::vector<Value>` |  |
+| `templateRef` | `std::string` |  |
+| `value` | `std::string` |  |
+| `values` | `std::vector<Value>` |  |
 
 #### Example: List
 
@@ -411,7 +415,7 @@ Value tokenizes = client->tokenize()->list(Value::undef(), Value::undef());
 
 ```cpp
 Value tokenize = client->tokenize()->create(vmap({
-    {"template_ref", Value("example_template_ref")},  // std::string
+    {"templateRef", Value("example_templateRef")},  // std::string
 }), Value::undef());
 ```
 
@@ -430,8 +434,8 @@ Create an instance: `auto tokenize_batch = client->tokenize_batch();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `std::vector<Value>` |  |
-| `message_id` | `std::string` |  |
+| `batches` | `std::vector<Value>` |  |
+| `messageId` | `std::string` |  |
 | `reference` | `std::string` |  |
 
 #### Example: Create
@@ -457,10 +461,10 @@ Create an instance: `auto tokenize_read = client->tokenize_read();`
 | Field | Type | Description |
 | --- | --- | --- |
 | `bfid` | `std::string` |  |
-| `message_id` | `std::string` |  |
+| `messageId` | `std::string` |  |
 | `reference` | `std::string` |  |
 | `state` | `std::map<std::string, Value>` |  |
-| `value` | `std::vector<Value>` |  |
+| `values` | `std::vector<Value>` |  |
 
 #### Example: Create
 
@@ -484,15 +488,15 @@ Create an instance: `auto validate = client->validate();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `message_id` | `std::string` |  |
+| `messageId` | `std::string` |  |
 | `reference` | `std::string` |  |
-| `template_ref` | `std::string` |  |
+| `templateRef` | `std::string` |  |
 
 #### Example: Create
 
 ```cpp
 Value validate = client->validate()->create(vmap({
-    {"template_ref", Value("example_template_ref")},  // std::string
+    {"templateRef", Value("example_templateRef")},  // std::string
 }), Value::undef());
 ```
 

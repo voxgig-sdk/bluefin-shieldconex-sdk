@@ -6,99 +6,105 @@
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 
 export interface Detokenize {
-  batch?: any[]
+  batches?: any[]
   bfid?: string
-  message_id?: string
+  messageId?: string
   name?: string
   reference?: string
-  value?: any[]
+  value?: string
+  values?: any[]
 }
 
 export interface DetokenizeListMatch {
-  batch?: any[]
+  batches?: any[]
   bfid?: string
-  message_id?: string
+  messageId?: string
   name?: string
   reference?: string
-  value?: any[]
+  value?: string
+  values?: any[]
 }
 
 export interface DetokenizeCreateData {
-  batch?: any[]
+  batches?: any[]
   bfid?: string
-  message_id?: string
+  messageId?: string
   name?: string
   reference?: string
-  value?: any[]
+  value?: string
+  values?: any[]
 }
 
 export interface Tokenize {
-  batch?: any[]
+  batches?: any[]
   bfid?: string
-  message_id?: string
+  messageId?: string
   name?: string
   reference?: string
-  template_ref: string
-  value?: any[]
+  templateRef: string
+  value?: string
+  values?: any[]
 }
 
 export interface TokenizeListMatch {
-  batch?: any[]
+  batches?: any[]
   bfid?: string
-  message_id?: string
+  messageId?: string
   name?: string
   reference?: string
-  template_ref?: string
-  value?: any[]
+  templateRef?: string
+  value?: string
+  values?: any[]
 }
 
 export interface TokenizeCreateData {
-  batch?: any[]
+  batches?: any[]
   bfid?: string
-  message_id?: string
+  messageId?: string
   name?: string
   reference?: string
-  template_ref: string
-  value?: any[]
+  templateRef: string
+  value?: string
+  values?: any[]
 }
 
 export interface TokenizeBatch {
-  batch?: any[]
-  message_id?: string
+  batches?: any[]
+  messageId?: string
   reference?: string
 }
 
 export interface TokenizeBatchCreateData {
-  batch?: any[]
-  message_id?: string
+  batches?: any[]
+  messageId?: string
   reference?: string
 }
 
 export interface TokenizeRead {
   bfid?: string
-  message_id?: string
+  messageId?: string
   reference?: string
   state?: Record<string, any>
-  value?: any[]
+  values?: any[]
 }
 
 export interface TokenizeReadCreateData {
   bfid?: string
-  message_id?: string
+  messageId?: string
   reference?: string
   state?: Record<string, any>
-  value?: any[]
+  values?: any[]
 }
 
 export interface Validate {
-  message_id?: string
+  messageId?: string
   reference?: string
-  template_ref: string
+  templateRef: string
 }
 
 export interface ValidateCreateData {
-  message_id?: string
+  messageId?: string
   reference?: string
-  template_ref: string
+  templateRef: string
 }
 

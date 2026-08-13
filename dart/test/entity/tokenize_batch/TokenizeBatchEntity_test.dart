@@ -47,7 +47,7 @@ void tests() {
       final tokenize_batch_ref01_ent = client.TokenizeBatch();
       dynamic tokenize_batch_ref01_data = setup['data']['new']['tokenize_batch']['tokenize_batch_ref01'];
 
-      tokenize_batch_ref01_data = await tokenize_batch_ref01_ent.create(tokenize_batch_ref01_data);
+      tokenize_batch_ref01_data = (await tokenize_batch_ref01_ent.create(tokenize_batch_ref01_data)).data();
       ok(null != tokenize_batch_ref01_data);
 
 

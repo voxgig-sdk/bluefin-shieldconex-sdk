@@ -16,7 +16,7 @@ import {
   cmp,
   each,
   buildIdNames,
-  getMatchEntries,
+  getMatchEntries, envName, envToken
 } from '@voxgig/sdkgen'
 
 
@@ -43,7 +43,7 @@ const TestEntity = cmp(function TestEntity(props: any) {
   const entity: ModelEntity = props.entity
 
   const ProjectName = model.const.Name
-  const PROJUPPER = nom(model.const, 'Name').toUpperCase().replace(/[^A-Z_]/g, '_')
+  const PROJUPPER = envName(model)
 
   const basicflow: ModelEntityFlow | undefined =
     getModelPath(model, `main.${KIT}.flow.Basic${nom(entity, 'Name')}Flow`)
@@ -111,12 +111,12 @@ static ${entity.Name}Setup ${evar}_basic_setup(const Value& extra) {
   if (!idmap.is_map()) idmap = vmap();
 
   Value env = env_override(vmap({
-    {"${PROJUPPER}_TEST_${nom(entity, 'NAME').replace(/[^A-Z_]/g, '_')}_ENTID", idmap},
+    {"${PROJUPPER}_TEST_${envToken(entity.name)}_ENTID", idmap},
     {"${PROJUPPER}_TEST_LIVE", Value("FALSE")},
     {"${PROJUPPER}_TEST_EXPLAIN", Value("FALSE")}
   }));
 
-  Value idmap_resolved = Helpers::toMapAny(getp(env, "${PROJUPPER}_TEST_${nom(entity, 'NAME').replace(/[^A-Z_]/g, '_')}_ENTID"));
+  Value idmap_resolved = Helpers::toMapAny(getp(env, "${PROJUPPER}_TEST_${envToken(entity.name)}_ENTID"));
   if (!idmap_resolved.is_map()) idmap_resolved = idmap;
 `)
 
@@ -148,6 +148,14 @@ static void ${evar}_entity_instance() {
   ASSERT_EQ(ent->getName(), std::string("${entity.name}"), "entity name");
 }
 
+`)
+
+    // The stream test drives the list op; only emit it when the entity has a
+    // list op (a create/load-only entity has no list endpoint, so
+    // stream("list") throws "Operation \"list\" has no endpoint definitions").
+    const flowHasList = allSteps.some((s: any) => 'list' === s.op)
+    if (flowHasList) {
+      Content(`
 static void ${evar}_entity_stream() {
   // stream() runs the list op through the full pipeline and returns the
   // result items. Seed two entities via test mode; with the streaming feature
@@ -169,7 +177,10 @@ static void ${evar}_entity_stream() {
   std::vector<Value> pitems = pe->stream("list", Value::undef(), Value::undef());
   ASSERT_EQ((int)pitems.size(), 2, "fallback stream yields both items");
 }
+`)
+    }
 
+    Content(`
 static void ${evar}_entity_basic() {
   auto setup = ${evar}_basic_setup(Value::undef());
   std::string mode = setup.live ? "live" : "unit";
@@ -212,8 +223,7 @@ static void ${evar}_entity_basic() {
 
 int main() {
   T_RUN(${evar}_entity_instance);
-  T_RUN(${evar}_entity_stream);
-  T_RUN(${evar}_entity_basic);
+${flowHasList ? `  T_RUN(${evar}_entity_stream);\n` : ''}  T_RUN(${evar}_entity_basic);
   return sdktest::summary("${entity.name}_entity_test");
 }
 `)
@@ -254,7 +264,7 @@ const generateCreate: OpGen = (ctx, step: any, index) => {
   }
 
   Content(`  {
-    Value ${datavar}_result = ${entvar}->create(Struct::clone(${datavar}), Value::undef());
+    Value ${datavar}_result = ${entvar}->create(Struct::clone(${datavar}), Value::undef())->data();
     ${datavar} = Helpers::toMapAny(${datavar}_result);
     if (!${datavar}.is_map()) ${datavar} = vmap();
     ASSERT_TRUE(${datavar}.is_map(), "expected create result to be a map");
@@ -292,7 +302,10 @@ const generateList: OpGen = (ctx, step: any, index) => {
     Content(`  setp(${matchvar}, "${key}", getp(setup.idmap, "${val}"));
 `)
   }
-  Content(`  Value ${listvar} = ${entvar}->list(Struct::clone(${matchvar}), Value::undef());
+  Content(`  auto ${listvar}_ents = ${entvar}->list(Struct::clone(${matchvar}), Value::undef());
+  // list resolves to one ENTITY per record; the flow asserts on the records.
+  Value ${listvar} = vlist();
+  for (const auto& e : ${listvar}_ents) { ${listvar}.as_list()->push_back(e->data()); }
   ASSERT_TRUE(${listvar}.is_list(), "expected list result to be an array");
 `)
 
@@ -368,7 +381,7 @@ const generateUpdate: OpGen = (ctx, step: any, index) => {
       }
     }
   }
-  Content(`  Value ${resdatavar}_result = ${entvar}->update(Struct::clone(${datavar}_up), Value::undef());
+  Content(`  Value ${resdatavar}_result = ${entvar}->update(Struct::clone(${datavar}_up), Value::undef())->data();
   Value ${resdatavar} = Helpers::toMapAny(${resdatavar}_result);
   if (!${resdatavar}.is_map()) ${resdatavar} = vmap();
   ASSERT_TRUE(${resdatavar}.is_map(), "expected update result to be a map");
@@ -405,14 +418,14 @@ const generateLoad: OpGen = (ctx, step: any, index) => {
   }
   if (hasEntId) {
     Content(`  Value ${matchvar} = vmap({{"id", getp(${srcdatavar}, "id")}});
-  Value ${datavar}_loaded = ${entvar}->load(Struct::clone(${matchvar}), Value::undef());
+  Value ${datavar}_loaded = ${entvar}->load(Struct::clone(${matchvar}), Value::undef())->data();
   Value ${datavar}_load_result = Helpers::toMapAny(${datavar}_loaded);
   ASSERT_TRUE(${datavar}_load_result.is_map(), "expected load result to be a map");
   ASSERT_EQ_VAL(getp(${datavar}_load_result, "id"), getp(${srcdatavar}, "id"), "expected load result id to match");
 `)
   } else {
     Content(`  Value ${matchvar} = vmap();
-  Value ${datavar}_loaded = ${entvar}->load(${matchvar}, Value::undef());
+  Value ${datavar}_loaded = ${entvar}->load(${matchvar}, Value::undef())->data();
   ASSERT_TRUE(!${datavar}_loaded.is_undef(), "expected load result to be non-nil");
 `)
   }

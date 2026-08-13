@@ -124,12 +124,12 @@ pub fn load_env_local() {
     }
 }
 
-/// env_override (mirrors go): when PROJECTNAME_TEST_LIVE or
-/// PROJECTNAME_TEST_OVERRIDE is TRUE, environment variables replace the
+/// env_override (mirrors go): when PROJECTENV_TEST_LIVE or
+/// PROJECTENV_TEST_OVERRIDE is TRUE, environment variables replace the
 /// defaults in `m` (JSON-shaped values are parsed).
 pub fn env_override(m: Value) -> Value {
-    let live = std::env::var("PROJECTNAME_TEST_LIVE").unwrap_or_default() == "TRUE";
-    let over = std::env::var("PROJECTNAME_TEST_OVERRIDE").unwrap_or_default() == "TRUE";
+    let live = std::env::var("PROJECTENV_TEST_LIVE").unwrap_or_default() == "TRUE";
+    let over = std::env::var("PROJECTENV_TEST_OVERRIDE").unwrap_or_default() == "TRUE";
 
     if live || over {
         if let Value::Map(mm) = &m {
@@ -152,9 +152,9 @@ pub fn env_override(m: Value) -> Value {
         }
     }
 
-    if let Ok(explain) = std::env::var("PROJECTNAME_TEST_EXPLAIN") {
+    if let Ok(explain) = std::env::var("PROJECTENV_TEST_EXPLAIN") {
         if !explain.is_empty() {
-            setp(&m, "PROJECTNAME_TEST_EXPLAIN", Value::str(explain));
+            setp(&m, "PROJECTENV_TEST_EXPLAIN", Value::str(explain));
         }
     }
 
@@ -291,14 +291,50 @@ pub fn match_deep(check: &Value, base: &Value) -> Option<String> {
 
 // ---- runset (mirrors go runner_test.go runset) -----------------------------------
 
+// Sections deliberately left empty in the shared corpus
+// (.sdk/test/primary/<name>.aontu carries a PENDING header). Everything else
+// MUST contribute cases.
+pub const PENDING_SECTIONS: &[&str] = &[
+    "fetcher", "makeFetchDef", "makePoint", "makeResult", "featureAdd",
+    "featureHook", "featureInit",
+];
+
 pub fn runset(
+    testspec: &Value,
+    subject: &mut dyn FnMut(&Value) -> Result<Value, BluefinShieldconexError>,
+) {
+    runset_named("", testspec, subject)
+}
+
+/// Drive one section of the shared test corpus.
+///
+/// This used to `return` silently when "set" was missing or not a list, so a
+/// renamed section, a fixture that failed to compile, or an empty set reported
+/// PASS while running zero assertions — the whole point of a shared oracle lost
+/// without a single red test. Both conditions now panic, except for the
+/// sections explicitly marked PENDING in the corpus.
+pub fn runset_named(
+    name: &str,
     testspec: &Value,
     subject: &mut dyn FnMut(&Value) -> Result<Value, BluefinShieldconexError>,
 ) {
     let set = match getp(testspec, "set") {
         Value::List(l) => Value::List(l),
-        _ => return,
+        _ => panic!(
+            "test corpus section {:?} has no `set` list — zero cases would run",
+            name
+        ),
     };
+
+    if let Value::List(l) = &set {
+        if l.borrow().is_empty() && !PENDING_SECTIONS.contains(&name) {
+            panic!(
+                "test corpus section {:?} is EMPTY — zero cases would run; add \
+                 cases, or mark the fixture PENDING in .sdk/test/primary/",
+                name
+            );
+        }
+    }
 
     let entries: Vec<Value> = match &set {
         Value::List(l) => l.borrow().clone(),

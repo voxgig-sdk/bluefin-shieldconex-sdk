@@ -33,7 +33,7 @@ let make_config () : value =
         ("fields", (ja [
           (jo [
             ("active", (Bool true));
-            ("name", (Str "batch"));
+            ("name", (Str "batches"));
             ("op", (jo [
               ("create", (jo [
                 ("req", (Bool true));
@@ -53,7 +53,7 @@ let make_config () : value =
             ("index$", (Num (1.))) ]);
           (jo [
             ("active", (Bool true));
-            ("name", (Str "message_id"));
+            ("name", (Str "messageId"));
             ("req", (Bool false));
             ("type", (Str "`$STRING`"));
             ("index$", (Num (2.))) ]);
@@ -72,13 +72,19 @@ let make_config () : value =
           (jo [
             ("active", (Bool true));
             ("name", (Str "value"));
+            ("req", (Bool false));
+            ("type", (Str "`$STRING`"));
+            ("index$", (Num (5.))) ]);
+          (jo [
+            ("active", (Bool true));
+            ("name", (Str "values"));
             ("op", (jo [
               ("create", (jo [
                 ("req", (Bool true));
                 ("type", (Str "`$ARRAY`")) ])) ]));
             ("req", (Bool false));
             ("type", (Str "`$ARRAY`"));
-            ("index$", (Num (5.))) ]) ]));
+            ("index$", (Num (6.))) ]) ]));
         ("name", (Str "detokenize"));
         ("op", (jo [
           ("create", (jo [
@@ -88,6 +94,7 @@ let make_config () : value =
               (jo [
                 ("active", (Bool true));
                 ("args", (empty_map ()));
+                ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/tokenization/batch/detokenize"));
                 ("parts", (ja [
@@ -102,6 +109,7 @@ let make_config () : value =
               (jo [
                 ("active", (Bool true));
                 ("args", (empty_map ()));
+                ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/tokenization/detokenize"));
                 ("parts", (ja [
@@ -149,6 +157,7 @@ let make_config () : value =
                       ("orig", (Str "reference"));
                       ("reqd", (Bool false));
                       ("type", (Str "`$STRING`")) ]) ])) ]));
+                ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/healthcheck/detokenize"));
                 ("parts", (ja [
@@ -171,7 +180,7 @@ let make_config () : value =
         ("fields", (ja [
           (jo [
             ("active", (Bool true));
-            ("name", (Str "batch"));
+            ("name", (Str "batches"));
             ("op", (jo [
               ("create", (jo [
                 ("req", (Bool true));
@@ -191,7 +200,7 @@ let make_config () : value =
             ("index$", (Num (1.))) ]);
           (jo [
             ("active", (Bool true));
-            ("name", (Str "message_id"));
+            ("name", (Str "messageId"));
             ("req", (Bool false));
             ("type", (Str "`$STRING`"));
             ("index$", (Num (2.))) ]);
@@ -209,20 +218,26 @@ let make_config () : value =
             ("index$", (Num (4.))) ]);
           (jo [
             ("active", (Bool true));
-            ("name", (Str "template_ref"));
+            ("name", (Str "templateRef"));
             ("req", (Bool true));
             ("type", (Str "`$STRING`"));
             ("index$", (Num (5.))) ]);
           (jo [
             ("active", (Bool true));
             ("name", (Str "value"));
+            ("req", (Bool false));
+            ("type", (Str "`$STRING`"));
+            ("index$", (Num (6.))) ]);
+          (jo [
+            ("active", (Bool true));
+            ("name", (Str "values"));
             ("op", (jo [
               ("create", (jo [
                 ("req", (Bool true));
                 ("type", (Str "`$ARRAY`")) ])) ]));
             ("req", (Bool false));
             ("type", (Str "`$ARRAY`"));
-            ("index$", (Num (6.))) ]) ]));
+            ("index$", (Num (7.))) ]) ]));
         ("name", (Str "tokenize"));
         ("op", (jo [
           ("create", (jo [
@@ -240,6 +255,7 @@ let make_config () : value =
                       ("orig", (Str "omit"));
                       ("reqd", (Bool false));
                       ("type", (Str "`$NUMBER`")) ]) ])) ]));
+                ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/tokenization/batch/tokenize"));
                 ("parts", (ja [
@@ -264,6 +280,7 @@ let make_config () : value =
                       ("orig", (Str "omit"));
                       ("reqd", (Bool false));
                       ("type", (Str "`$NUMBER`")) ]) ])) ]));
+                ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/tokenization/tokenize"));
                 ("parts", (ja [
@@ -279,6 +296,7 @@ let make_config () : value =
               (jo [
                 ("active", (Bool true));
                 ("args", (empty_map ()));
+                ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/tokenization/delete"));
                 ("parts", (ja [
@@ -326,6 +344,7 @@ let make_config () : value =
                       ("orig", (Str "template_ref"));
                       ("reqd", (Bool true));
                       ("type", (Str "`$STRING`")) ]) ])) ]));
+                ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/healthcheck/tokenize"));
                 ("parts", (ja [
@@ -348,7 +367,7 @@ let make_config () : value =
         ("fields", (ja [
           (jo [
             ("active", (Bool true));
-            ("name", (Str "batch"));
+            ("name", (Str "batches"));
             ("op", (jo [
               ("create", (jo [
                 ("req", (Bool true));
@@ -358,7 +377,7 @@ let make_config () : value =
             ("index$", (Num (0.))) ]);
           (jo [
             ("active", (Bool true));
-            ("name", (Str "message_id"));
+            ("name", (Str "messageId"));
             ("req", (Bool false));
             ("type", (Str "`$STRING`"));
             ("index$", (Num (1.))) ]);
@@ -377,6 +396,7 @@ let make_config () : value =
               (jo [
                 ("active", (Bool true));
                 ("args", (empty_map ()));
+                ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/tokenization/batch/delete"));
                 ("parts", (ja [
@@ -391,6 +411,7 @@ let make_config () : value =
               (jo [
                 ("active", (Bool true));
                 ("args", (empty_map ()));
+                ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/tokenization/batch/read"));
                 ("parts", (ja [
@@ -419,7 +440,7 @@ let make_config () : value =
             ("index$", (Num (0.))) ]);
           (jo [
             ("active", (Bool true));
-            ("name", (Str "message_id"));
+            ("name", (Str "messageId"));
             ("req", (Bool false));
             ("type", (Str "`$STRING`"));
             ("index$", (Num (1.))) ]);
@@ -437,7 +458,7 @@ let make_config () : value =
             ("index$", (Num (3.))) ]);
           (jo [
             ("active", (Bool true));
-            ("name", (Str "value"));
+            ("name", (Str "values"));
             ("req", (Bool false));
             ("type", (Str "`$ARRAY`"));
             ("index$", (Num (4.))) ]) ]));
@@ -450,6 +471,7 @@ let make_config () : value =
               (jo [
                 ("active", (Bool true));
                 ("args", (empty_map ()));
+                ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/tokenization/read"));
                 ("parts", (ja [
@@ -467,7 +489,7 @@ let make_config () : value =
         ("fields", (ja [
           (jo [
             ("active", (Bool true));
-            ("name", (Str "message_id"));
+            ("name", (Str "messageId"));
             ("req", (Bool false));
             ("type", (Str "`$STRING`"));
             ("index$", (Num (0.))) ]);
@@ -479,7 +501,7 @@ let make_config () : value =
             ("index$", (Num (1.))) ]);
           (jo [
             ("active", (Bool true));
-            ("name", (Str "template_ref"));
+            ("name", (Str "templateRef"));
             ("req", (Bool true));
             ("type", (Str "`$STRING`"));
             ("index$", (Num (2.))) ]) ]));
@@ -492,6 +514,7 @@ let make_config () : value =
               (jo [
                 ("active", (Bool true));
                 ("args", (empty_map ()));
+                ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/partner/validate"));
                 ("parts", (ja [
@@ -505,6 +528,7 @@ let make_config () : value =
               (jo [
                 ("active", (Bool true));
                 ("args", (empty_map ()));
+                ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/template/validate"));
                 ("parts", (ja [

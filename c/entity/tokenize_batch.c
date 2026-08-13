@@ -14,6 +14,8 @@ typedef struct tokenize_batch_entity {
   voxgig_value* data;     // Map
   voxgig_value* mtch;     // Map
   Context* entctx;
+  // Set once a successful `remove` resolves on this instance.
+  bool deleted;
 } tokenize_batch_entity;
 
 typedef void (*tokenize_batch_postdone_fn)(tokenize_batch_entity* self, Context* ctx);
@@ -24,11 +26,14 @@ static const char* tokenize_batch_get_name(Entity* e);
 static Entity* tokenize_batch_make(Entity* e);
 static voxgig_value* tokenize_batch_data(Entity* e, voxgig_value* args);
 static voxgig_value* tokenize_batch_matchv(Entity* e, voxgig_value* args);
-static voxgig_value* tokenize_batch_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
-static voxgig_value* tokenize_batch_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
-static voxgig_value* tokenize_batch_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
-static voxgig_value* tokenize_batch_update(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
-static voxgig_value* tokenize_batch_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+// Ops resolve to the ENTITY (`list` to a NULL-terminated array of them).
+static Entity* tokenize_batch_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static Entity** tokenize_batch_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static Entity* tokenize_batch_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
+static Entity* tokenize_batch_update(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
+static Entity* tokenize_batch_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static void tokenize_batch_mark_deleted(Entity* e);
+static bool tokenize_batch_deleted(Entity* e);
 
 static Context* tokenize_batch_ent_ctx(tokenize_batch_entity* self) {
   return self->entctx;
@@ -236,13 +241,13 @@ static voxgig_value* tokenize_batch_matchv(Entity* e, voxgig_value* args) {
   return voxgig_clone(self->mtch);
 }
 
-static voxgig_value* tokenize_batch_load(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* tokenize_batch_load(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("load", "tokenize_batch");
   return NULL;
 }
 
-static voxgig_value* tokenize_batch_list(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity** tokenize_batch_list(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("list", "tokenize_batch");
   return NULL;
@@ -260,7 +265,7 @@ static void tokenize_batch_create_postdone(tokenize_batch_entity* self, Context*
   }
 }
 
-static voxgig_value* tokenize_batch_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err) {
+static Entity* tokenize_batch_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err) {
   tokenize_batch_entity* self = (tokenize_batch_entity*)e;
   CtxSpec cs;
   memset(&cs, 0, sizeof(cs));
@@ -270,20 +275,38 @@ static voxgig_value* tokenize_batch_create(Entity* e, voxgig_value* reqdata, vox
   cs.data = self->data;
   cs.reqdata = reqdata;
   Context* ctx = make_context_util(cs, tokenize_batch_ent_ctx(self));
-  return tokenize_batch_run_op(self, ctx, tokenize_batch_create_postdone, err);
+  tokenize_batch_run_op(self, ctx, tokenize_batch_create_postdone, err);
+  if (*err) return NULL;
+
+  // The operation resolves to THIS entity: run_op has just absorbed the
+  // result into it, and the caller reaches the record through vt->data.
+  // See AGENTS.md "Entity operations return ENTITIES".
+
+  return e;
 }
 
 
-static voxgig_value* tokenize_batch_update(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* tokenize_batch_update(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("update", "tokenize_batch");
   return NULL;
 }
 
-static voxgig_value* tokenize_batch_remove(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* tokenize_batch_remove(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("remove", "tokenize_batch");
   return NULL;
+}
+
+// `remove` resolves to the entity, marked. The instance KEEPS the data it
+// held - a caller can still read what was deleted - but it is no longer a
+// live record.
+static void tokenize_batch_mark_deleted(Entity* e) {
+  ((tokenize_batch_entity*)e)->deleted = true;
+}
+
+static bool tokenize_batch_deleted(Entity* e) {
+  return ((tokenize_batch_entity*)e)->deleted;
 }
 
 static const EntityVT tokenize_batch_VT = {
@@ -291,6 +314,8 @@ static const EntityVT tokenize_batch_VT = {
   tokenize_batch_make,
   tokenize_batch_data,
   tokenize_batch_matchv,
+  tokenize_batch_mark_deleted,
+  tokenize_batch_deleted,
   tokenize_batch_load,
   tokenize_batch_list,
   tokenize_batch_create,

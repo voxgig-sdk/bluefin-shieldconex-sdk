@@ -70,8 +70,8 @@ catch {
 ### 4. Create, update, and remove
 
 ```swift
-// Create — returns the bare created record (a Value)
-let created = try client.Detokenize().create(VMap([("batch", .list([])), ("bfid", .string("example_bfid"))]), nil)
+// Create — returns the ENTITY (call data() for the record)
+let created = try client.Detokenize().create(VMap([("batches", .list([])), ("bfid", .string("example_bfid"))]), nil)
 
 ```
 
@@ -152,7 +152,8 @@ Create a mock client for unit testing — no server required:
 ```swift
 let client = BluefinShieldconexSDK.testSDK(nil, nil)
 
-// Entity ops return the bare record and throw on error.
+// Entity ops return the ENTITY and throws on error;
+// call data() for the record.
 let detokenize = try client.Detokenize().list(nil, nil)
 // detokenize holds the mock response record
 print(detokenize)
@@ -253,7 +254,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (a `Value` map for
+Entity operations return the ENTITY (call data() for the record) (a `Value` map for
 single-entity ops, a `Value` list for `list`) and throw on error. Wrap
 calls in `do`/`catch` to handle failures.
 
@@ -275,12 +276,13 @@ On error, `ok` is `false` and `err` contains the error value.
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: Create, List.
 
@@ -290,13 +292,14 @@ API path: `/tokenization/batch/detokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: Create, List.
 
@@ -306,8 +309,8 @@ API path: `/tokenization/batch/tokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
-| `message_id` |  |
+| `batches` |  |
+| `messageId` |  |
 | `reference` |  |
 
 Operations: Create.
@@ -319,10 +322,10 @@ API path: `/tokenization/batch/delete`
 | Field | Description |
 | --- | --- |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
 | `state` |  |
-| `value` |  |
+| `values` |  |
 
 Operations: Create.
 
@@ -332,9 +335,9 @@ API path: `/tokenization/read`
 
 | Field | Description |
 | --- | --- |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 
 Operations: Create.
 
@@ -360,12 +363,13 @@ Create an instance: `let detokenize = client.Detokenize()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `[Value]` |  |
+| `batches` | `[Value]` |  |
 | `bfid` | `String` |  |
-| `message_id` | `String` |  |
+| `messageId` | `String` |  |
 | `name` | `String` |  |
 | `reference` | `String` |  |
-| `value` | `[Value]` |  |
+| `value` | `String` |  |
+| `values` | `[Value]` |  |
 
 #### Example: List
 
@@ -396,13 +400,14 @@ Create an instance: `let tokenize = client.Tokenize()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `[Value]` |  |
+| `batches` | `[Value]` |  |
 | `bfid` | `String` |  |
-| `message_id` | `String` |  |
+| `messageId` | `String` |  |
 | `name` | `String` |  |
 | `reference` | `String` |  |
-| `template_ref` | `String` |  |
-| `value` | `[Value]` |  |
+| `templateRef` | `String` |  |
+| `value` | `String` |  |
+| `values` | `[Value]` |  |
 
 #### Example: List
 
@@ -414,7 +419,7 @@ let tokenizeList = try client.Tokenize().list(nil, nil)
 
 ```swift
 let tokenize = try client.Tokenize().create(VMap([
-    ("template_ref", .string("example_template_ref"))  // String
+    ("templateRef", .string("example_templateRef"))  // String
 ]), nil)
 ```
 
@@ -433,8 +438,8 @@ Create an instance: `let tokenizeBatch = client.TokenizeBatch()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `[Value]` |  |
-| `message_id` | `String` |  |
+| `batches` | `[Value]` |  |
+| `messageId` | `String` |  |
 | `reference` | `String` |  |
 
 #### Example: Create
@@ -460,10 +465,10 @@ Create an instance: `let tokenizeRead = client.TokenizeRead()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `bfid` | `String` |  |
-| `message_id` | `String` |  |
+| `messageId` | `String` |  |
 | `reference` | `String` |  |
 | `state` | `VMap` |  |
-| `value` | `[Value]` |  |
+| `values` | `[Value]` |  |
 
 #### Example: Create
 
@@ -487,15 +492,15 @@ Create an instance: `let validate = client.Validate()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `message_id` | `String` |  |
+| `messageId` | `String` |  |
 | `reference` | `String` |  |
-| `template_ref` | `String` |  |
+| `templateRef` | `String` |  |
 
 #### Example: Create
 
 ```swift
 let validate = try client.Validate().create(VMap([
-    ("template_ref", .string("example_template_ref"))  // String
+    ("templateRef", .string("example_templateRef"))  // String
 ]), nil)
 ```
 

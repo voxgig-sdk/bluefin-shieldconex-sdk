@@ -10,6 +10,7 @@
 (def make-sdk client/make-sdk)
 (def test-sdk client/test-sdk)
 (def direct client/direct)
+(def graphql client/graphql)
 (def prepare client/prepare)
 (def options-map client/options-map)
 

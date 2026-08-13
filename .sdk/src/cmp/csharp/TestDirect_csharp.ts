@@ -11,7 +11,7 @@ import {
   File,
   cmp,
   snakify,
-  isAuthActive,
+  isAuthActive, envName, envToken
 } from '@voxgig/sdkgen'
 
 import { formatCsValue } from './utility_csharp'
@@ -62,8 +62,8 @@ const TestDirect = cmp(function TestDirect(props: any) {
   const entity: ModelEntity = props.entity
 
   const Name = model.const.Name
-  const PROJECTNAME = nom(model, 'Name').toUpperCase().replace(/[^A-Z_]/g, '_')
-  const ENTUPPER = nom(entity, 'NAME').replace(/[^A-Z_]/g, '_')
+  const PROJECTNAME = envName(model)
+  const ENTUPPER = envToken(entity.name)
 
   const authActive = isAuthActive(model)
   const apikeyEnvEntry = authActive
@@ -73,7 +73,7 @@ const TestDirect = cmp(function TestDirect(props: any) {
     ? `\n                ["apikey"] = env["${PROJECTNAME}_APIKEY"],`
     : ''
 
-  const opnames = Object.keys(entity.op)
+  const opnames = Object.keys(entity.op || {})
   const hasLoad = opnames.includes('load')
   const hasList = opnames.includes('list')
 
@@ -81,8 +81,8 @@ const TestDirect = cmp(function TestDirect(props: any) {
     return
   }
 
-  const loadOp = entity.op.load
-  const listOp = entity.op.list
+  const loadOp = entity.op?.load
+  const listOp = entity.op?.list
 
   // Get load point info
   const loadPoint = loadOp?.points?.[0]

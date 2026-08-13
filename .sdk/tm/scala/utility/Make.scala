@@ -198,7 +198,7 @@ object MakeOptions {
         + "\"headers\": { \"`$CHILD`\": \"`$STRING`\" },"
         + "\"allow\": {"
         + "  \"method\": \"GET,PUT,POST,PATCH,DELETE,OPTIONS\","
-        + "  \"op\": \"create,update,load,list,remove,command,direct\""
+        + "  \"op\": \"create,update,load,list,remove,command,direct,graphql\""
         + "},"
         + "\"entity\": { \"`$CHILD`\": {"
         + "  \"`$OPEN`\": true, \"active\": false, \"alias\": {} } },"
@@ -363,6 +363,12 @@ object MakeResponse {
     utility.resultBasic(ctx)
     utility.resultHeaders(ctx)
     utility.resultBody(ctx)
+
+    // GraphQL reports failures as a top-level `errors` array under HTTP
+    // 200, so resultBasic's status check never sees them. Lift them here,
+    // before the response transform tries to unwrap data that is not there.
+    utility.graphqlErrors(ctx)
+
     utility.transformResponse(ctx)
 
     if (result.err == null) result.ok = true

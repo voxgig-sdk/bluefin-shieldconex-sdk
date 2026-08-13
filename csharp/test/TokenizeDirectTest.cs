@@ -82,22 +82,22 @@ public class TokenizeDirectTest
 
         var env = TestRunner.EnvOverride(new Dictionary<string, object?>
         {
-            ["BLUEFINSHIELDCONEX_TEST_TOKENIZE_ENTID"] = new Dictionary<string, object?>(),
-            ["BLUEFINSHIELDCONEX_TEST_LIVE"] = "FALSE",
-            ["BLUEFINSHIELDCONEX_APIKEY"] = "NONE",
+            ["BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_ENTID"] = new Dictionary<string, object?>(),
+            ["BLUEFIN_SHIELDCONEX_TEST_LIVE"] = "FALSE",
+            ["BLUEFIN_SHIELDCONEX_APIKEY"] = "NONE",
         });
 
-        var live = Equals(env["BLUEFINSHIELDCONEX_TEST_LIVE"], "TRUE");
+        var live = Equals(env["BLUEFIN_SHIELDCONEX_TEST_LIVE"], "TRUE");
 
         if (live)
         {
             var liveClient = new BluefinShieldconexSDK(new Dictionary<string, object?>
             {
-                ["apikey"] = env["BLUEFINSHIELDCONEX_APIKEY"],
+                ["apikey"] = env["BLUEFIN_SHIELDCONEX_APIKEY"],
             });
 
             var idmap = new Dictionary<string, object?>();
-            var entidRaw = env["BLUEFINSHIELDCONEX_TEST_TOKENIZE_ENTID"];
+            var entidRaw = env["BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_ENTID"];
             if (entidRaw is string entidStr && entidStr.StartsWith("{"))
             {
                 try

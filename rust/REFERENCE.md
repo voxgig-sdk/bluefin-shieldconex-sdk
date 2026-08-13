@@ -113,23 +113,25 @@ let detokenize = client.detokenize(Value::Noval);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `Vec<Value>` | No |  |
+| `batches` | `Vec<Value>` | No |  |
 | `bfid` | `String` | No |  |
-| `message_id` | `String` | No |  |
+| `messageId` | `String` | No |  |
 | `name` | `String` | No |  |
 | `reference` | `String` | No |  |
-| `value` | `Vec<Value>` | No |  |
+| `value` | `String` | No |  |
+| `values` | `Vec<Value>` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `value` | - | Yes |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
@@ -186,25 +188,27 @@ let tokenize = client.tokenize(Value::Noval);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `Vec<Value>` | No |  |
+| `batches` | `Vec<Value>` | No |  |
 | `bfid` | `String` | No |  |
-| `message_id` | `String` | No |  |
+| `messageId` | `String` | No |  |
 | `name` | `String` | No |  |
 | `reference` | `String` | No |  |
-| `template_ref` | `String` | Yes |  |
-| `value` | `Vec<Value>` | No |  |
+| `templateRef` | `String` | Yes |  |
+| `value` | `String` | No |  |
+| `values` | `Vec<Value>` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `template_ref` | - | - |
-| `value` | - | Yes |
+| `templateRef` | - | - |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
@@ -214,7 +218,7 @@ Create a new entity with the given data. Returns the created entity data on `Ok`
 
 ```rust
 let result = client.tokenize(Value::Noval).create(jo(vec![
-    ("template_ref", Value::str("example_template_ref")),  // String
+    ("templateRef", Value::str("example_templateRef")),  // String
 ]), Value::Noval).unwrap();
 ```
 
@@ -262,16 +266,16 @@ let tokenize_batch = client.tokenize_batch(Value::Noval);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `Vec<Value>` | No |  |
-| `message_id` | `String` | No |  |
+| `batches` | `Vec<Value>` | No |  |
+| `messageId` | `String` | No |  |
 | `reference` | `String` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
-| `batch` | Yes |
-| `message_id` | - |
+| `batches` | Yes |
+| `messageId` | - |
 | `reference` | - |
 
 ### Operations
@@ -317,20 +321,20 @@ let tokenize_read = client.tokenize_read(Value::Noval);
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `bfid` | `String` | No |  |
-| `message_id` | `String` | No |  |
+| `messageId` | `String` | No |  |
 | `reference` | `String` | No |  |
 | `state` | `std::collections::HashMap<String, Value>` | No |  |
-| `value` | `Vec<Value>` | No |  |
+| `values` | `Vec<Value>` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
 | `bfid` | Yes |
-| `message_id` | - |
+| `messageId` | - |
 | `reference` | - |
 | `state` | - |
-| `value` | - |
+| `values` | - |
 
 ### Operations
 
@@ -374,9 +378,9 @@ let validate = client.validate(Value::Noval);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `message_id` | `String` | No |  |
+| `messageId` | `String` | No |  |
 | `reference` | `String` | No |  |
-| `template_ref` | `String` | Yes |  |
+| `templateRef` | `String` | Yes |  |
 
 ### Operations
 
@@ -386,7 +390,7 @@ Create a new entity with the given data. Returns the created entity data on `Ok`
 
 ```rust
 let result = client.validate(Value::Noval).create(jo(vec![
-    ("template_ref", Value::str("example_template_ref")),  // String
+    ("templateRef", Value::str("example_templateRef")),  // String
 ]), Value::Noval).unwrap();
 ```
 

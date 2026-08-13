@@ -11,7 +11,7 @@ import {
   File,
   cmp,
   snakify,
-  isAuthActive,
+  isAuthActive, envName, envToken
 } from '@voxgig/sdkgen'
 
 
@@ -67,12 +67,12 @@ const TestDirect = cmp(function TestDirect(props: any) {
   const entity: ModelEntity = props.entity
   const kotlinpackage: string = props.kotlinpackage
 
-  const PROJECTNAME = nom(model, 'Name').toUpperCase().replace(/[^A-Z_]/g, '_')
+  const PROJECTNAME = envName(model)
   const SDK = model.const.Name + 'SDK'
 
   const authActive = isAuthActive(model)
 
-  const opnames = Object.keys(entity.op)
+  const opnames = Object.keys(entity.op || {})
   const hasLoad = opnames.includes('load')
   const hasList = opnames.includes('list')
 
@@ -80,8 +80,8 @@ const TestDirect = cmp(function TestDirect(props: any) {
     return
   }
 
-  const loadOp = entity.op.load
-  const listOp = entity.op.list
+  const loadOp = entity.op?.load
+  const listOp = entity.op?.list
 
   const loadPoint = loadOp?.points?.[0]
   const loadPath = loadPoint ? normalizePathParams(loadPoint.parts || [], loadPoint?.args?.params || [], loadPoint?.rename?.param) : ''
@@ -121,7 +121,7 @@ const TestDirect = cmp(function TestDirect(props: any) {
     ? loadParams.map((p: any) => `      params["${p.name}"] = ${kotlinLiteral(p.example)}`).join('\n')
     : ''
 
-  const entidEnvVar = `${PROJECTNAME}_TEST_${nom(entity, 'NAME').replace(/[^A-Z_]/g, '_')}_ENTID`
+  const entidEnvVar = `${PROJECTNAME}_TEST_${envToken(entity.name)}_ENTID`
 
   File({ name: entity.Name + 'DirectTest.' + target.ext }, () => {
 

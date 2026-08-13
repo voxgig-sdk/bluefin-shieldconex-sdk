@@ -38,15 +38,15 @@ static TokenizeSetup tokenize_basic_setup(const Value& extra) {
   if (!idmap.is_map()) idmap = vmap();
 
   Value env = env_override(vmap({
-    {"BLUEFINSHIELDCONEX_TEST_TOKENIZE_ENTID", idmap},
-    {"BLUEFINSHIELDCONEX_TEST_LIVE", Value("FALSE")},
-    {"BLUEFINSHIELDCONEX_TEST_EXPLAIN", Value("FALSE")}
+    {"BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_ENTID", idmap},
+    {"BLUEFIN_SHIELDCONEX_TEST_LIVE", Value("FALSE")},
+    {"BLUEFIN_SHIELDCONEX_TEST_EXPLAIN", Value("FALSE")}
   }));
 
-  Value idmap_resolved = Helpers::toMapAny(getp(env, "BLUEFINSHIELDCONEX_TEST_TOKENIZE_ENTID"));
+  Value idmap_resolved = Helpers::toMapAny(getp(env, "BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_ENTID"));
   if (!idmap_resolved.is_map()) idmap_resolved = idmap;
 
-  bool live = getp(env, "BLUEFINSHIELDCONEX_TEST_LIVE") == Value("TRUE");
+  bool live = getp(env, "BLUEFIN_SHIELDCONEX_TEST_LIVE") == Value("TRUE");
 
   TokenizeSetup s;
   s.client = client;
@@ -64,6 +64,7 @@ static void tokenize_entity_instance() {
   auto ent = testsdk->tokenize();
   ASSERT_EQ(ent->getName(), std::string("tokenize"), "entity name");
 }
+
 
 static void tokenize_entity_stream() {
   // stream() runs the list op through the full pipeline and returns the
@@ -100,7 +101,7 @@ static void tokenize_entity_basic() {
   Value tokenize_ref01_data = Helpers::toMapAny(getp(Struct::getpath(setup.data, {"new", "tokenize"}), "tokenize_ref01"));
   if (!tokenize_ref01_data.is_map()) tokenize_ref01_data = vmap();
   {
-    Value tokenize_ref01_data_result = tokenize_ref01_ent->create(Struct::clone(tokenize_ref01_data), Value::undef());
+    Value tokenize_ref01_data_result = tokenize_ref01_ent->create(Struct::clone(tokenize_ref01_data), Value::undef())->data();
     tokenize_ref01_data = Helpers::toMapAny(tokenize_ref01_data_result);
     if (!tokenize_ref01_data.is_map()) tokenize_ref01_data = vmap();
     ASSERT_TRUE(tokenize_ref01_data.is_map(), "expected create result to be a map");
@@ -108,7 +109,10 @@ static void tokenize_entity_basic() {
 
   // LIST
   Value tokenize_ref01_match = vmap();
-  Value tokenize_ref01_list = tokenize_ref01_ent->list(Struct::clone(tokenize_ref01_match), Value::undef());
+  auto tokenize_ref01_list_ents = tokenize_ref01_ent->list(Struct::clone(tokenize_ref01_match), Value::undef());
+  // list resolves to one ENTITY per record; the flow asserts on the records.
+  Value tokenize_ref01_list = vlist();
+  for (const auto& e : tokenize_ref01_list_ents) { tokenize_ref01_list.as_list()->push_back(e->data()); }
   ASSERT_TRUE(tokenize_ref01_list.is_list(), "expected list result to be an array");
   {
     std::vector<Value> found = Struct::select(entity_list_to_data(tokenize_ref01_list), vmap({{"id", getp(tokenize_ref01_data, "id")}}));

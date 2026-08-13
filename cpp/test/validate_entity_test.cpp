@@ -38,15 +38,15 @@ static ValidateSetup validate_basic_setup(const Value& extra) {
   if (!idmap.is_map()) idmap = vmap();
 
   Value env = env_override(vmap({
-    {"BLUEFINSHIELDCONEX_TEST_VALIDATE_ENTID", idmap},
-    {"BLUEFINSHIELDCONEX_TEST_LIVE", Value("FALSE")},
-    {"BLUEFINSHIELDCONEX_TEST_EXPLAIN", Value("FALSE")}
+    {"BLUEFIN_SHIELDCONEX_TEST_VALIDATE_ENTID", idmap},
+    {"BLUEFIN_SHIELDCONEX_TEST_LIVE", Value("FALSE")},
+    {"BLUEFIN_SHIELDCONEX_TEST_EXPLAIN", Value("FALSE")}
   }));
 
-  Value idmap_resolved = Helpers::toMapAny(getp(env, "BLUEFINSHIELDCONEX_TEST_VALIDATE_ENTID"));
+  Value idmap_resolved = Helpers::toMapAny(getp(env, "BLUEFIN_SHIELDCONEX_TEST_VALIDATE_ENTID"));
   if (!idmap_resolved.is_map()) idmap_resolved = idmap;
 
-  bool live = getp(env, "BLUEFINSHIELDCONEX_TEST_LIVE") == Value("TRUE");
+  bool live = getp(env, "BLUEFIN_SHIELDCONEX_TEST_LIVE") == Value("TRUE");
 
   ValidateSetup s;
   s.client = client;
@@ -65,27 +65,6 @@ static void validate_entity_instance() {
   ASSERT_EQ(ent->getName(), std::string("validate"), "entity name");
 }
 
-static void validate_entity_stream() {
-  // stream() runs the list op through the full pipeline and returns the
-  // result items. Seed two entities via test mode; with the streaming feature
-  // active it yields the feature's incremental items, else it falls back to
-  // the materialised items — either way every item is yielded.
-  Value seed = vmap({{"entity", vmap({{"validate", vmap({
-      {"strm01", vmap({{"id", Value("strm01")}})},
-      {"strm02", vmap({{"id", Value("strm02")}})}})}})}});
-  Value sdkopts = vmap({{"feature",
-      vmap({{"streaming", vmap({{"active", Value(true)}})}})}});
-
-  auto strsdk = BluefinShieldconexSDK::testSDK(seed, sdkopts);
-  auto se = strsdk->validate();
-  std::vector<Value> items = se->stream("list", Value::undef(), Value::undef());
-  ASSERT_EQ((int)items.size(), 2, "stream yields both seeded items");
-
-  auto plainsdk = BluefinShieldconexSDK::testSDK(seed, Value::undef());
-  auto pe = plainsdk->validate();
-  std::vector<Value> pitems = pe->stream("list", Value::undef(), Value::undef());
-  ASSERT_EQ((int)pitems.size(), 2, "fallback stream yields both items");
-}
 
 static void validate_entity_basic() {
   auto setup = validate_basic_setup(Value::undef());
@@ -100,7 +79,7 @@ static void validate_entity_basic() {
   Value validate_ref01_data = Helpers::toMapAny(getp(Struct::getpath(setup.data, {"new", "validate"}), "validate_ref01"));
   if (!validate_ref01_data.is_map()) validate_ref01_data = vmap();
   {
-    Value validate_ref01_data_result = validate_ref01_ent->create(Struct::clone(validate_ref01_data), Value::undef());
+    Value validate_ref01_data_result = validate_ref01_ent->create(Struct::clone(validate_ref01_data), Value::undef())->data();
     validate_ref01_data = Helpers::toMapAny(validate_ref01_data_result);
     if (!validate_ref01_data.is_map()) validate_ref01_data = vmap();
     ASSERT_TRUE(validate_ref01_data.is_map(), "expected create result to be a map");
@@ -110,7 +89,6 @@ static void validate_entity_basic() {
 
 int main() {
   T_RUN(validate_entity_instance);
-  T_RUN(validate_entity_stream);
   T_RUN(validate_entity_basic);
   return sdktest::summary("validate_entity_test");
 }

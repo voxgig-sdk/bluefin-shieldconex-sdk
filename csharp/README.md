@@ -60,7 +60,7 @@ catch (Exception err)
 
 ```csharp
 // Create — returns the bare created record (as object?)
-var created = client.Detokenize().Create(new Dictionary<string, object?> { ["batch"] = new List<object?>(), ["bfid"] = "example_bfid" });
+var created = client.Detokenize().Create(new Dictionary<string, object?> { ["batches"] = new List<object?>(), ["bfid"] = "example_bfid" });
 
 ```
 
@@ -274,12 +274,13 @@ On error, `ok` is `false` and `err` contains the error value.
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: Create, List.
 
@@ -289,13 +290,14 @@ API path: `/tokenization/batch/detokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: Create, List.
 
@@ -305,8 +307,8 @@ API path: `/tokenization/batch/tokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
-| `message_id` |  |
+| `batches` |  |
+| `messageId` |  |
 | `reference` |  |
 
 Operations: Create.
@@ -318,10 +320,10 @@ API path: `/tokenization/batch/delete`
 | Field | Description |
 | --- | --- |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
 | `state` |  |
-| `value` |  |
+| `values` |  |
 
 Operations: Create.
 
@@ -331,9 +333,9 @@ API path: `/tokenization/read`
 
 | Field | Description |
 | --- | --- |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 
 Operations: Create.
 
@@ -359,12 +361,13 @@ Create an instance: `var detokenize = client.Detokenize();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `List<object?>` |  |
+| `batches` | `List<object?>` |  |
 | `bfid` | `string` |  |
-| `message_id` | `string` |  |
+| `messageId` | `string` |  |
 | `name` | `string` |  |
 | `reference` | `string` |  |
-| `value` | `List<object?>` |  |
+| `value` | `string` |  |
+| `values` | `List<object?>` |  |
 
 #### Example: List
 
@@ -396,13 +399,14 @@ Create an instance: `var tokenize = client.Tokenize();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `List<object?>` |  |
+| `batches` | `List<object?>` |  |
 | `bfid` | `string` |  |
-| `message_id` | `string` |  |
+| `messageId` | `string` |  |
 | `name` | `string` |  |
 | `reference` | `string` |  |
-| `template_ref` | `string` |  |
-| `value` | `List<object?>` |  |
+| `templateRef` | `string` |  |
+| `value` | `string` |  |
+| `values` | `List<object?>` |  |
 
 #### Example: List
 
@@ -415,7 +419,7 @@ var tokenizeList = client.Tokenize().List(null);
 ```csharp
 var tokenize = client.Tokenize().Create(new Dictionary<string, object?>
 {
-    ["template_ref"] = "example_template_ref",  // string
+    ["templateRef"] = "example_templateRef",  // string
 });
 ```
 
@@ -434,8 +438,8 @@ Create an instance: `var tokenizeBatch = client.TokenizeBatch();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `List<object?>` |  |
-| `message_id` | `string` |  |
+| `batches` | `List<object?>` |  |
+| `messageId` | `string` |  |
 | `reference` | `string` |  |
 
 #### Example: Create
@@ -462,10 +466,10 @@ Create an instance: `var tokenizeRead = client.TokenizeRead();`
 | Field | Type | Description |
 | --- | --- | --- |
 | `bfid` | `string` |  |
-| `message_id` | `string` |  |
+| `messageId` | `string` |  |
 | `reference` | `string` |  |
 | `state` | `Dictionary<string, object?>` |  |
-| `value` | `List<object?>` |  |
+| `values` | `List<object?>` |  |
 
 #### Example: Create
 
@@ -490,16 +494,16 @@ Create an instance: `var validate = client.Validate();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `message_id` | `string` |  |
+| `messageId` | `string` |  |
 | `reference` | `string` |  |
-| `template_ref` | `string` |  |
+| `templateRef` | `string` |  |
 
 #### Example: Create
 
 ```csharp
 var validate = client.Validate().Create(new Dictionary<string, object?>
 {
-    ["template_ref"] = "example_template_ref",  // string
+    ["templateRef"] = "example_templateRef",  // string
 });
 ```
 

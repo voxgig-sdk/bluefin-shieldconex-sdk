@@ -56,7 +56,8 @@ defmodule BluefinShieldconex.Entity.Validate do
       end
     end
 
-    Pipeline.run_op(ctx, post_done)
+    out = Pipeline.run_op(ctx, post_done)
+    EntityBase.op_return(ent, ctx, out)
   end
 
 

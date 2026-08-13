@@ -42,24 +42,22 @@ let client = Sdk_client.make (jo [("apikey", Str (Sys.getenv "BLUEFIN_SHIELDCONE
 
 ### 2. List detokenize records
 
-`e_list` returns a `List` value of records (each a `Map`) and raises on
-error — iterate it directly.
+`e_list` resolves to one ENTITY per record and raises on error. Read a
+record with `e_data_get`.
 
 ```ocaml
 (try
    let detokenizes = (Sdk_client.detokenize client Noval).e_list (empty_map ()) Noval in
-   (match detokenizes with
-    | List items -> List.iter (fun r -> print_endline (stringify r)) !items
-    | _ -> ())
+   List.iter (fun e -> print_endline (stringify (e.e_data_get ()))) detokenizes
  with Sdk_error.E err -> Printf.eprintf "list failed: %s\n" (Sdk_error.message err))
 ```
 
 ### 4. Create, update, and remove
 
 ```ocaml
-(* Create — returns the bare created record (a Map) *)
-let created = (Sdk_client.detokenize client Noval).e_create (jo [("batch", (empty_list ())); ("bfid", (Str "example_bfid"))]) Noval in
-ignore created;
+(* Create — resolves to the ENTITY; e_data_get gives the record *)
+let created = (Sdk_client.detokenize client Noval).e_create (jo [("batches", (empty_list ())); ("bfid", (Str "example_bfid"))]) Noval in
+print_endline (stringify (created.e_data_get ()));
 
 ```
 
@@ -137,9 +135,9 @@ Create a mock client for unit testing — no server required:
 ```ocaml
 let () =
   let client = Sdk_client.test () in
-  (* Entity ops return the bare record and raise on error. *)
-  let detokenize = (Sdk_client.detokenize client Noval).e_list (empty_map ()) Noval in
-  print_endline (stringify detokenize)  (* the mock response record *)
+  (* Entity ops resolve to the ENTITY (list: one per record) and raise on error. *)
+  let detokenizes = (Sdk_client.detokenize client Noval).e_list (empty_map ()) Noval in
+  List.iter (fun e -> print_endline (stringify (e.e_data_get ()))) detokenizes  (* the mock records *)
 ```
 
 ### Use a custom fetch function
@@ -226,8 +224,8 @@ All entities are `entity_obj` records sharing the same fields.
 
 | Field | Signature | Description |
 | --- | --- | --- |
-| `e_list` | `value -> value -> value` | List entities matching the criteria (returns a List). Raises on error. |
-| `e_create` | `value -> value -> value` | Create a new entity. Raises on error. |
+| `e_list` | `value -> value -> entity_obj list` | List entities matching the criteria. Resolves to one entity per record. Raises on error. |
+| `e_create` | `value -> value -> entity_obj` | Create a new entity. Resolves to the entity. Raises on error. |
 | `e_data_get` | `unit -> value` | Get entity data. |
 | `e_data_set` | `value -> unit` | Set entity data. |
 | `e_match_get` | `unit -> value` | Get entity match criteria. |
@@ -237,9 +235,11 @@ All entities are `entity_obj` records sharing the same fields.
 
 ### Result shape
 
-Entity operations return the bare result value (a `Map` for single-entity
-ops, a `List` for `e_list`) and raise `Sdk_error.E` on error. Wrap calls
-in `try`/`with` to handle failures.
+Entity operations resolve to the ENTITY, not the raw record — `e_list` to
+one entity per record — and raise `Sdk_error.E` on error. The record is
+reached through `e_data_get`, which returns the entity's data container.
+`e_remove` resolves to the entity marked deleted (`e_deleted`); it keeps the
+data it held. Wrap calls in `try`/`with` to handle failures.
 
 The `direct` escape hatch never raises — it returns a result `value` map
 you branch on via `getp result "ok"`:
@@ -259,12 +259,13 @@ On error, `ok` is `Bool false` and `err` carries the error value.
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: Create, List.
 
@@ -274,13 +275,14 @@ API path: `/tokenization/batch/detokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: Create, List.
 
@@ -290,8 +292,8 @@ API path: `/tokenization/batch/tokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
-| `message_id` |  |
+| `batches` |  |
+| `messageId` |  |
 | `reference` |  |
 
 Operations: Create.
@@ -303,10 +305,10 @@ API path: `/tokenization/batch/delete`
 | Field | Description |
 | --- | --- |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
 | `state` |  |
-| `value` |  |
+| `values` |  |
 
 Operations: Create.
 
@@ -316,9 +318,9 @@ API path: `/tokenization/read`
 
 | Field | Description |
 | --- | --- |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 
 Operations: Create.
 
@@ -337,24 +339,27 @@ Create an instance: `let detokenize = Sdk_client.detokenize client Noval`
 
 | Method | Description |
 | --- | --- |
-| `e_create reqdata ctrl` | Create a new entity with the given data. |
-| `e_list reqmatch ctrl` | List entities, optionally matching the given criteria. |
+| `e_create reqdata ctrl` | Create a new entity with the given data. Resolves to the entity. |
+| `e_list reqmatch ctrl` | List entities, optionally matching the given criteria. Resolves to one entity per record. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `value list` |  |
+| `batches` | `value list` |  |
 | `bfid` | `string` |  |
-| `message_id` | `string` |  |
+| `messageId` | `string` |  |
 | `name` | `string` |  |
 | `reference` | `string` |  |
-| `value` | `value list` |  |
+| `value` | `string` |  |
+| `values` | `value list` |  |
 
 #### Example: List
 
 ```ocaml
+(* One ENTITY per record. *)
 let detokenizes = (Sdk_client.detokenize client Noval).e_list (empty_map ()) Noval
+let detokenize_datas = List.map (fun e -> e.e_data_get ()) detokenizes
 ```
 
 #### Example: Create
@@ -362,6 +367,7 @@ let detokenizes = (Sdk_client.detokenize client Noval).e_list (empty_map ()) Nov
 ```ocaml
 let detokenize = (Sdk_client.detokenize client Noval).e_create (jo [
 ]) Noval
+let detokenize_data = detokenize.e_data_get ()
 ```
 
 
@@ -373,33 +379,37 @@ Create an instance: `let tokenize = Sdk_client.tokenize client Noval`
 
 | Method | Description |
 | --- | --- |
-| `e_create reqdata ctrl` | Create a new entity with the given data. |
-| `e_list reqmatch ctrl` | List entities, optionally matching the given criteria. |
+| `e_create reqdata ctrl` | Create a new entity with the given data. Resolves to the entity. |
+| `e_list reqmatch ctrl` | List entities, optionally matching the given criteria. Resolves to one entity per record. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `value list` |  |
+| `batches` | `value list` |  |
 | `bfid` | `string` |  |
-| `message_id` | `string` |  |
+| `messageId` | `string` |  |
 | `name` | `string` |  |
 | `reference` | `string` |  |
-| `template_ref` | `string` |  |
-| `value` | `value list` |  |
+| `templateRef` | `string` |  |
+| `value` | `string` |  |
+| `values` | `value list` |  |
 
 #### Example: List
 
 ```ocaml
+(* One ENTITY per record. *)
 let tokenizes = (Sdk_client.tokenize client Noval).e_list (empty_map ()) Noval
+let tokenize_datas = List.map (fun e -> e.e_data_get ()) tokenizes
 ```
 
 #### Example: Create
 
 ```ocaml
 let tokenize = (Sdk_client.tokenize client Noval).e_create (jo [
-    ("template_ref", (Str "example_template_ref"));  (* string *)
+    ("templateRef", (Str "example_templateRef"));  (* string *)
 ]) Noval
+let tokenize_data = tokenize.e_data_get ()
 ```
 
 
@@ -411,14 +421,14 @@ Create an instance: `let tokenize_batch = Sdk_client.tokenize_batch client Noval
 
 | Method | Description |
 | --- | --- |
-| `e_create reqdata ctrl` | Create a new entity with the given data. |
+| `e_create reqdata ctrl` | Create a new entity with the given data. Resolves to the entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `value list` |  |
-| `message_id` | `string` |  |
+| `batches` | `value list` |  |
+| `messageId` | `string` |  |
 | `reference` | `string` |  |
 
 #### Example: Create
@@ -426,6 +436,7 @@ Create an instance: `let tokenize_batch = Sdk_client.tokenize_batch client Noval
 ```ocaml
 let tokenize_batch = (Sdk_client.tokenize_batch client Noval).e_create (jo [
 ]) Noval
+let tokenize_batch_data = tokenize_batch.e_data_get ()
 ```
 
 
@@ -437,23 +448,24 @@ Create an instance: `let tokenize_read = Sdk_client.tokenize_read client Noval`
 
 | Method | Description |
 | --- | --- |
-| `e_create reqdata ctrl` | Create a new entity with the given data. |
+| `e_create reqdata ctrl` | Create a new entity with the given data. Resolves to the entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
 | `bfid` | `string` |  |
-| `message_id` | `string` |  |
+| `messageId` | `string` |  |
 | `reference` | `string` |  |
 | `state` | `value map` |  |
-| `value` | `value list` |  |
+| `values` | `value list` |  |
 
 #### Example: Create
 
 ```ocaml
 let tokenize_read = (Sdk_client.tokenize_read client Noval).e_create (jo [
 ]) Noval
+let tokenize_read_data = tokenize_read.e_data_get ()
 ```
 
 
@@ -465,22 +477,23 @@ Create an instance: `let validate = Sdk_client.validate client Noval`
 
 | Method | Description |
 | --- | --- |
-| `e_create reqdata ctrl` | Create a new entity with the given data. |
+| `e_create reqdata ctrl` | Create a new entity with the given data. Resolves to the entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `message_id` | `string` |  |
+| `messageId` | `string` |  |
 | `reference` | `string` |  |
-| `template_ref` | `string` |  |
+| `templateRef` | `string` |  |
 
 #### Example: Create
 
 ```ocaml
 let validate = (Sdk_client.validate client Noval).e_create (jo [
-    ("template_ref", (Str "example_template_ref"));  (* string *)
+    ("templateRef", (Str "example_templateRef"));  (* string *)
 ]) Noval
+let validate_data = validate.e_data_get ()
 ```
 
 

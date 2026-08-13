@@ -16,111 +16,117 @@
 
 // Detokenize is the typed data model for the detokenize entity.
 typedef struct {
-  voxgig_value*batch;  // optional
+  voxgig_value*batches;  // optional
   char*bfid;  // optional
-  char*message_id;  // optional
+  char*messageid;  // optional
   char*name;  // optional
   char*reference;  // optional
-  voxgig_value*value;  // optional
+  char*value;  // optional
+  voxgig_value*values;  // optional
 } Detokenize;
 
 // DetokenizeListMatch is the typed request payload for Detokenize.list.
 typedef struct {
-  voxgig_value*batch;  // optional
+  voxgig_value*batches;  // optional
   char*bfid;  // optional
-  char*message_id;  // optional
+  char*messageid;  // optional
   char*name;  // optional
   char*reference;  // optional
-  voxgig_value*value;  // optional
+  char*value;  // optional
+  voxgig_value*values;  // optional
 } DetokenizeListMatch;
 
 // DetokenizeCreateData is the typed request payload for Detokenize.create.
 typedef struct {
-  voxgig_value*batch;  // optional
+  voxgig_value*batches;  // optional
   char*bfid;  // optional
-  char*message_id;  // optional
+  char*messageid;  // optional
   char*name;  // optional
   char*reference;  // optional
-  voxgig_value*value;  // optional
+  char*value;  // optional
+  voxgig_value*values;  // optional
 } DetokenizeCreateData;
 
 // Tokenize is the typed data model for the tokenize entity.
 typedef struct {
-  voxgig_value*batch;  // optional
+  voxgig_value*batches;  // optional
   char*bfid;  // optional
-  char*message_id;  // optional
+  char*messageid;  // optional
   char*name;  // optional
   char*reference;  // optional
-  char*template_ref;
-  voxgig_value*value;  // optional
+  char*templateref;
+  char*value;  // optional
+  voxgig_value*values;  // optional
 } Tokenize;
 
 // TokenizeListMatch is the typed request payload for Tokenize.list.
 typedef struct {
-  voxgig_value*batch;  // optional
+  voxgig_value*batches;  // optional
   char*bfid;  // optional
-  char*message_id;  // optional
+  char*messageid;  // optional
   char*name;  // optional
   char*reference;  // optional
-  char*template_ref;  // optional
-  voxgig_value*value;  // optional
+  char*templateref;  // optional
+  char*value;  // optional
+  voxgig_value*values;  // optional
 } TokenizeListMatch;
 
 // TokenizeCreateData is the typed request payload for Tokenize.create.
 typedef struct {
-  voxgig_value*batch;  // optional
+  voxgig_value*batches;  // optional
   char*bfid;  // optional
-  char*message_id;  // optional
+  char*messageid;  // optional
   char*name;  // optional
   char*reference;  // optional
-  char*template_ref;
-  voxgig_value*value;  // optional
+  char*templateref;
+  char*value;  // optional
+  voxgig_value*values;  // optional
 } TokenizeCreateData;
 
 // TokenizeBatch is the typed data model for the tokenize_batch entity.
 typedef struct {
-  voxgig_value*batch;  // optional
-  char*message_id;  // optional
+  voxgig_value*batches;  // optional
+  char*messageid;  // optional
   char*reference;  // optional
 } TokenizeBatch;
 
 // TokenizeBatchCreateData is the typed request payload for TokenizeBatch.create.
 typedef struct {
-  voxgig_value*batch;  // optional
-  char*message_id;  // optional
+  voxgig_value*batches;  // optional
+  char*messageid;  // optional
   char*reference;  // optional
 } TokenizeBatchCreateData;
 
 // TokenizeRead is the typed data model for the tokenize_read entity.
 typedef struct {
   char*bfid;  // optional
-  char*message_id;  // optional
+  char*messageid;  // optional
   char*reference;  // optional
   voxgig_value*state;  // optional
-  voxgig_value*value;  // optional
+  voxgig_value*values;  // optional
 } TokenizeRead;
 
 // TokenizeReadCreateData is the typed request payload for TokenizeRead.create.
 typedef struct {
   char*bfid;  // optional
-  char*message_id;  // optional
+  char*messageid;  // optional
   char*reference;  // optional
   voxgig_value*state;  // optional
-  voxgig_value*value;  // optional
+  voxgig_value*values;  // optional
 } TokenizeReadCreateData;
 
 // Validate is the typed data model for the validate entity.
 typedef struct {
-  char*message_id;  // optional
+  char*messageid;  // optional
   char*reference;  // optional
-  char*template_ref;
+  char*templateref;
 } Validate;
 
 // ValidateCreateData is the typed request payload for Validate.create.
 typedef struct {
-  char*message_id;  // optional
+  char*messageid;  // optional
   char*reference;  // optional
-  char*template_ref;
+  char*templateref;
 } ValidateCreateData;
 
 #endif // BLUEFINSHIELDCONEX_ENTITY_TYPES_H

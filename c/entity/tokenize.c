@@ -14,6 +14,8 @@ typedef struct tokenize_entity {
   voxgig_value* data;     // Map
   voxgig_value* mtch;     // Map
   Context* entctx;
+  // Set once a successful `remove` resolves on this instance.
+  bool deleted;
 } tokenize_entity;
 
 typedef void (*tokenize_postdone_fn)(tokenize_entity* self, Context* ctx);
@@ -24,11 +26,14 @@ static const char* tokenize_get_name(Entity* e);
 static Entity* tokenize_make(Entity* e);
 static voxgig_value* tokenize_data(Entity* e, voxgig_value* args);
 static voxgig_value* tokenize_matchv(Entity* e, voxgig_value* args);
-static voxgig_value* tokenize_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
-static voxgig_value* tokenize_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
-static voxgig_value* tokenize_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
-static voxgig_value* tokenize_update(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
-static voxgig_value* tokenize_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+// Ops resolve to the ENTITY (`list` to a NULL-terminated array of them).
+static Entity* tokenize_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static Entity** tokenize_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static Entity* tokenize_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
+static Entity* tokenize_update(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
+static Entity* tokenize_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static void tokenize_mark_deleted(Entity* e);
+static bool tokenize_deleted(Entity* e);
 
 static Context* tokenize_ent_ctx(tokenize_entity* self) {
   return self->entctx;
@@ -236,7 +241,7 @@ static voxgig_value* tokenize_matchv(Entity* e, voxgig_value* args) {
   return voxgig_clone(self->mtch);
 }
 
-static voxgig_value* tokenize_load(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* tokenize_load(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("load", "tokenize");
   return NULL;
@@ -251,7 +256,7 @@ static void tokenize_list_postdone(tokenize_entity* self, Context* ctx) {
   }
 }
 
-static voxgig_value* tokenize_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err) {
+static Entity** tokenize_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err) {
   tokenize_entity* self = (tokenize_entity*)e;
   CtxSpec cs;
   memset(&cs, 0, sizeof(cs));
@@ -261,7 +266,24 @@ static voxgig_value* tokenize_list(Entity* e, voxgig_value* reqmatch, voxgig_val
   cs.data = self->data;
   cs.reqmatch = reqmatch;
   Context* ctx = make_context_util(cs, tokenize_ent_ctx(self));
-  return tokenize_run_op(self, ctx, tokenize_list_postdone, err);
+  voxgig_value* out = tokenize_run_op(self, ctx, tokenize_list_postdone, err);
+  if (*err) return NULL;
+
+  // `list` resolves to one ENTITY per record. make_result cannot build them
+  // here - it works in voxgig_value, which has no slot for an entity - so the
+  // op does, mirroring what the dynamic targets get from make_result. The
+  // array is NULL-terminated.
+  size_t n = voxgig_is_list(out) ? voxgig_as_list(out)->len : 0;
+  Entity** items = (Entity**)calloc(n + 1, sizeof(Entity*));
+  for (size_t i = 0; i < n; i++) {
+    voxgig_value* entry = voxgig_as_list(out)->items[i];
+    Entity* ent = e->vt->make(e);
+    if (voxgig_is_map(entry)) ent->vt->data(ent, entry);
+    items[i] = ent;
+  }
+  items[n] = NULL;
+
+  return items;
 }
 
 
@@ -277,7 +299,7 @@ static void tokenize_create_postdone(tokenize_entity* self, Context* ctx) {
   }
 }
 
-static voxgig_value* tokenize_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err) {
+static Entity* tokenize_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err) {
   tokenize_entity* self = (tokenize_entity*)e;
   CtxSpec cs;
   memset(&cs, 0, sizeof(cs));
@@ -287,20 +309,38 @@ static voxgig_value* tokenize_create(Entity* e, voxgig_value* reqdata, voxgig_va
   cs.data = self->data;
   cs.reqdata = reqdata;
   Context* ctx = make_context_util(cs, tokenize_ent_ctx(self));
-  return tokenize_run_op(self, ctx, tokenize_create_postdone, err);
+  tokenize_run_op(self, ctx, tokenize_create_postdone, err);
+  if (*err) return NULL;
+
+  // The operation resolves to THIS entity: run_op has just absorbed the
+  // result into it, and the caller reaches the record through vt->data.
+  // See AGENTS.md "Entity operations return ENTITIES".
+
+  return e;
 }
 
 
-static voxgig_value* tokenize_update(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* tokenize_update(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("update", "tokenize");
   return NULL;
 }
 
-static voxgig_value* tokenize_remove(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* tokenize_remove(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("remove", "tokenize");
   return NULL;
+}
+
+// `remove` resolves to the entity, marked. The instance KEEPS the data it
+// held - a caller can still read what was deleted - but it is no longer a
+// live record.
+static void tokenize_mark_deleted(Entity* e) {
+  ((tokenize_entity*)e)->deleted = true;
+}
+
+static bool tokenize_deleted(Entity* e) {
+  return ((tokenize_entity*)e)->deleted;
 }
 
 static const EntityVT tokenize_VT = {
@@ -308,6 +348,8 @@ static const EntityVT tokenize_VT = {
   tokenize_make,
   tokenize_data,
   tokenize_matchv,
+  tokenize_mark_deleted,
+  tokenize_deleted,
   tokenize_load,
   tokenize_list,
   tokenize_create,

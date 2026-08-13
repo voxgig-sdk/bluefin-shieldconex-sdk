@@ -26,8 +26,8 @@ import {
 describe('ValidateEntity', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
-  // `test.live.delayMs`; only sleeps when BLUEFINSHIELDCONEX_TEST_LIVE=TRUE.
-  afterEach(liveDelay('BLUEFINSHIELDCONEX_TEST_LIVE'))
+  // `test.live.delayMs`; only sleeps when BLUEFIN_SHIELDCONEX_TEST_LIVE=TRUE.
+  afterEach(liveDelay('BLUEFIN_SHIELDCONEX_TEST_LIVE'))
 
   test('instance', async () => {
     const testsdk = BluefinShieldconexSDK.test()
@@ -62,7 +62,7 @@ describe('ValidateEntity', async () => {
     const validate_ref01_ent = client.Validate()
     let validate_ref01_data = setup.data.new.validate['validate_ref01']
 
-    validate_ref01_data = await validate_ref01_ent.create(validate_ref01_data)
+    validate_ref01_data = (await validate_ref01_ent.create(validate_ref01_data)).data()
     assert(null != validate_ref01_data)
 
 

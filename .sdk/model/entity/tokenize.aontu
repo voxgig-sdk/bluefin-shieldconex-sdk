@@ -6,7 +6,7 @@ main: kit: entity: tokenize: {
 
   fields: [
     {
-      name: "batch"
+      name: "batches"
       op: {
         create: {
           req: true
@@ -28,7 +28,7 @@ main: kit: entity: tokenize: {
       type: "`$STRING`"
     }
     {
-      name: "message_id"
+      name: "messageId"
       req: false
       type: "`$STRING`"
     }
@@ -43,12 +43,17 @@ main: kit: entity: tokenize: {
       type: "`$STRING`"
     }
     {
-      name: "template_ref"
+      name: "templateRef"
       req: true
       type: "`$STRING`"
     }
     {
       name: "value"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "values"
       op: {
         create: {
           req: true

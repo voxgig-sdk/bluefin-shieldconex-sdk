@@ -2,33 +2,36 @@
   "existing": {
     "tokenize": {
       "TOKENIZE00": {
-        "batch": [],
-        "bfid": "s47",
-        "message_id": "MESSAGE01",
-        "name": "s49",
-        "reference": "s4a",
-        "template_ref": "s4b",
-        "value": [],
+        "batches": [],
+        "bfid": "s51",
+        "messageId": "s52",
+        "name": "s53",
+        "reference": "s54",
+        "templateRef": "s55",
+        "value": "s56",
+        "values": [],
         "id": "TOKENIZE00"
       },
       "TOKENIZE01": {
-        "batch": [],
-        "bfid": "s8d",
-        "message_id": "MESSAGE01",
-        "name": "s8f",
-        "reference": "s90",
-        "template_ref": "s91",
-        "value": [],
+        "batches": [],
+        "bfid": "sa1",
+        "messageId": "sa2",
+        "name": "sa3",
+        "reference": "sa4",
+        "templateRef": "sa5",
+        "value": "sa6",
+        "values": [],
         "id": "TOKENIZE01"
       },
       "TOKENIZE02": {
-        "batch": [],
-        "bfid": "sd3",
-        "message_id": "MESSAGE01",
-        "name": "sd5",
-        "reference": "sd6",
-        "template_ref": "sd7",
-        "value": [],
+        "batches": [],
+        "bfid": "sf1",
+        "messageId": "sf2",
+        "name": "sf3",
+        "reference": "sf4",
+        "templateRef": "sf5",
+        "value": "sf6",
+        "values": [],
         "id": "TOKENIZE02"
       }
     }
@@ -36,13 +39,14 @@
   "new": {
     "tokenize": {
       "tokenize_ref01": {
-        "batch": [],
-        "bfid": "s119",
-        "message_id": "MESSAGE01",
-        "name": "s11b",
-        "reference": "s11c",
-        "template_ref": "s11d",
-        "value": []
+        "batches": [],
+        "bfid": "s141",
+        "messageId": "s142",
+        "name": "s143",
+        "reference": "s144",
+        "templateRef": "s145",
+        "value": "s146",
+        "values": []
       }
     }
   }

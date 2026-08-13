@@ -115,23 +115,25 @@ fmt.Println(detokenize.GetName()) // "detokenize"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `[]any` | No |  |
+| `batches` | `[]any` | No |  |
 | `bfid` | `string` | No |  |
-| `message_id` | `string` | No |  |
+| `messageId` | `string` | No |  |
 | `name` | `string` | No |  |
 | `reference` | `string` | No |  |
-| `value` | `[]any` | No |  |
+| `value` | `string` | No |  |
+| `values` | `[]any` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `value` | - | Yes |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
@@ -195,25 +197,27 @@ fmt.Println(tokenize.GetName()) // "tokenize"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `[]any` | No |  |
+| `batches` | `[]any` | No |  |
 | `bfid` | `string` | No |  |
-| `message_id` | `string` | No |  |
+| `messageId` | `string` | No |  |
 | `name` | `string` | No |  |
 | `reference` | `string` | No |  |
-| `template_ref` | `string` | Yes |  |
-| `value` | `[]any` | No |  |
+| `templateRef` | `string` | Yes |  |
+| `value` | `string` | No |  |
+| `values` | `[]any` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `template_ref` | - | - |
-| `value` | - | Yes |
+| `templateRef` | - | - |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
@@ -235,7 +239,7 @@ Create a new entity with the given data.
 
 ```go
 result, err := client.Tokenize(nil).Create(map[string]any{
-    "template_ref": "example_template_ref",
+    "templateRef": "example_templateRef",
 }, nil)
 if err != nil {
     panic(err)
@@ -278,16 +282,16 @@ fmt.Println(tokenizeBatch.GetName()) // "tokenize_batch"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `[]any` | No |  |
-| `message_id` | `string` | No |  |
+| `batches` | `[]any` | No |  |
+| `messageId` | `string` | No |  |
 | `reference` | `string` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
-| `batch` | Yes |
-| `message_id` | - |
+| `batches` | Yes |
+| `messageId` | - |
 | `reference` | - |
 
 ### Operations
@@ -341,20 +345,20 @@ fmt.Println(tokenizeRead.GetName()) // "tokenize_read"
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `bfid` | `string` | No |  |
-| `message_id` | `string` | No |  |
+| `messageId` | `string` | No |  |
 | `reference` | `string` | No |  |
 | `state` | `map[string]any` | No |  |
-| `value` | `[]any` | No |  |
+| `values` | `[]any` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
 | `bfid` | Yes |
-| `message_id` | - |
+| `messageId` | - |
 | `reference` | - |
 | `state` | - |
-| `value` | - |
+| `values` | - |
 
 ### Operations
 
@@ -406,9 +410,9 @@ fmt.Println(validate.GetName()) // "validate"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `message_id` | `string` | No |  |
+| `messageId` | `string` | No |  |
 | `reference` | `string` | No |  |
-| `template_ref` | `string` | Yes |  |
+| `templateRef` | `string` | Yes |  |
 
 ### Operations
 
@@ -418,7 +422,7 @@ Create a new entity with the given data.
 
 ```go
 result, err := client.Validate(nil).Create(map[string]any{
-    "template_ref": "example_template_ref",
+    "templateRef": "example_templateRef",
 }, nil)
 if err != nil {
     panic(err)

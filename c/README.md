@@ -69,7 +69,7 @@ if (err) {
 
 ```c
 // Create — returns the bare created record
-voxgig_value* created = detokenize->vt->create(detokenize, cmap(2, "batch", v_list(), "bfid", v_str("example_bfid")), NULL, &err);
+voxgig_value* created = detokenize->vt->create(detokenize, cmap(2, "batches", v_list(), "bfid", v_str("example_bfid")), NULL, &err);
 
 ```
 
@@ -283,12 +283,13 @@ On error, `ok` is `false` and `err` carries the error value.
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: Create, List.
 
@@ -298,13 +299,14 @@ API path: `/tokenization/batch/detokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: Create, List.
 
@@ -314,8 +316,8 @@ API path: `/tokenization/batch/tokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
-| `message_id` |  |
+| `batches` |  |
+| `messageId` |  |
 | `reference` |  |
 
 Operations: Create.
@@ -327,10 +329,10 @@ API path: `/tokenization/batch/delete`
 | Field | Description |
 | --- | --- |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
 | `state` |  |
-| `value` |  |
+| `values` |  |
 
 Operations: Create.
 
@@ -340,9 +342,9 @@ API path: `/tokenization/read`
 
 | Field | Description |
 | --- | --- |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 
 Operations: Create.
 
@@ -368,12 +370,13 @@ Create an instance: `Entity* detokenize = bluefinshieldconex_detokenize(client, 
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `voxgig_value* (list)` |  |
+| `batches` | `voxgig_value* (list)` |  |
 | `bfid` | `char*` |  |
-| `message_id` | `char*` |  |
+| `messageId` | `char*` |  |
 | `name` | `char*` |  |
 | `reference` | `char*` |  |
-| `value` | `voxgig_value* (list)` |  |
+| `value` | `char*` |  |
+| `values` | `voxgig_value* (list)` |  |
 
 #### Example: List
 
@@ -405,13 +408,14 @@ Create an instance: `Entity* tokenize = bluefinshieldconex_tokenize(client, NULL
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `voxgig_value* (list)` |  |
+| `batches` | `voxgig_value* (list)` |  |
 | `bfid` | `char*` |  |
-| `message_id` | `char*` |  |
+| `messageId` | `char*` |  |
 | `name` | `char*` |  |
 | `reference` | `char*` |  |
-| `template_ref` | `char*` |  |
-| `value` | `voxgig_value* (list)` |  |
+| `templateRef` | `char*` |  |
+| `value` | `char*` |  |
+| `values` | `voxgig_value* (list)` |  |
 
 #### Example: List
 
@@ -425,7 +429,7 @@ voxgig_value* tokenizes = tokenize->vt->list(tokenize, NULL, NULL, &err);
 ```c
 Entity* tokenize = bluefinshieldconex_tokenize(client, NULL);
 voxgig_value* tokenize_rec = tokenize->vt->create(tokenize, cmap(1,
-    "template_ref", v_str("example_template_ref"))  // char*
+    "templateRef", v_str("example_templateRef"))  // char*
 , NULL, &err);
 ```
 
@@ -444,8 +448,8 @@ Create an instance: `Entity* tokenize_batch = bluefinshieldconex_tokenize_batch(
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `voxgig_value* (list)` |  |
-| `message_id` | `char*` |  |
+| `batches` | `voxgig_value* (list)` |  |
+| `messageId` | `char*` |  |
 | `reference` | `char*` |  |
 
 #### Example: Create
@@ -471,10 +475,10 @@ Create an instance: `Entity* tokenize_read = bluefinshieldconex_tokenize_read(cl
 | Field | Type | Description |
 | --- | --- | --- |
 | `bfid` | `char*` |  |
-| `message_id` | `char*` |  |
+| `messageId` | `char*` |  |
 | `reference` | `char*` |  |
 | `state` | `voxgig_value* (map)` |  |
-| `value` | `voxgig_value* (list)` |  |
+| `values` | `voxgig_value* (list)` |  |
 
 #### Example: Create
 
@@ -498,16 +502,16 @@ Create an instance: `Entity* validate = bluefinshieldconex_validate(client, NULL
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `message_id` | `char*` |  |
+| `messageId` | `char*` |  |
 | `reference` | `char*` |  |
-| `template_ref` | `char*` |  |
+| `templateRef` | `char*` |  |
 
 #### Example: Create
 
 ```c
 Entity* validate = bluefinshieldconex_validate(client, NULL);
 voxgig_value* validate_rec = validate->vt->create(validate, cmap(1,
-    "template_ref", v_str("example_template_ref"))  // char*
+    "templateRef", v_str("example_templateRef"))  // char*
 , NULL, &err);
 ```
 

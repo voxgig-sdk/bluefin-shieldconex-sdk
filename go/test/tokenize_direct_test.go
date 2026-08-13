@@ -36,9 +36,10 @@ func TestTokenizeDirect(t *testing.T) {
 			"params": map[string]any{},
 		})
 		if setup.live {
-			// Live mode is lenient: synthetic IDs frequently 4xx and the
-			// list-response shape varies wildly across public APIs. Skip
-			// rather than fail when the call doesn't return a usable list.
+			// Live-mode leniency is a model decision
+			// (main.kit.test.live.strict): synthetic IDs 4xx constantly
+			// against an arbitrary public API, so the default SKIPS here.
+			// A project that owns its test server sets strict and FAILS.
 			if err != nil {
 				t.Skipf("list call failed (likely synthetic IDs against live API): %v", err)
 			}
@@ -91,21 +92,21 @@ func tokenizeDirectSetup(mockres any) *tokenizeDirectSetupResult {
 	calls := &[]map[string]any{}
 
 	env := envOverride(map[string]any{
-		"BLUEFINSHIELDCONEX_TEST_TOKENIZE_ENTID": map[string]any{},
-		"BLUEFINSHIELDCONEX_TEST_LIVE":    "FALSE",
-		"BLUEFINSHIELDCONEX_APIKEY":       "NONE",
+		"BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_ENTID": map[string]any{},
+		"BLUEFIN_SHIELDCONEX_TEST_LIVE":    "FALSE",
+		"BLUEFIN_SHIELDCONEX_APIKEY":       "NONE",
 	})
 
-	live := env["BLUEFINSHIELDCONEX_TEST_LIVE"] == "TRUE"
+	live := env["BLUEFIN_SHIELDCONEX_TEST_LIVE"] == "TRUE"
 
 	if live {
 		mergedOpts := map[string]any{
-			"apikey": env["BLUEFINSHIELDCONEX_APIKEY"],
+			"apikey": env["BLUEFIN_SHIELDCONEX_APIKEY"],
 		}
 		client := sdk.NewBluefinShieldconexSDK(mergedOpts)
 
 		idmap := map[string]any{}
-		if entidRaw, ok := env["BLUEFINSHIELDCONEX_TEST_TOKENIZE_ENTID"]; ok {
+		if entidRaw, ok := env["BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_ENTID"]; ok {
 			if entidStr, ok := entidRaw.(string); ok && strings.HasPrefix(entidStr, "{") {
 				json.Unmarshal([]byte(entidStr), &idmap)
 			} else if entidMap, ok := entidRaw.(map[string]any); ok {

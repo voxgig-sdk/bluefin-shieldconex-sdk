@@ -61,16 +61,16 @@ function tokenize_direct_setup(mockres)
   local calls = {}
 
   local env = runner.env_override({
-    ["BLUEFINSHIELDCONEX_TEST_TOKENIZE_ENTID"] = {},
-    ["BLUEFINSHIELDCONEX_TEST_LIVE"] = "FALSE",
-    ["BLUEFINSHIELDCONEX_APIKEY"] = "NONE",
+    ["BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_ENTID"] = {},
+    ["BLUEFIN_SHIELDCONEX_TEST_LIVE"] = "FALSE",
+    ["BLUEFIN_SHIELDCONEX_APIKEY"] = "NONE",
   })
 
-  local live = env["BLUEFINSHIELDCONEX_TEST_LIVE"] == "TRUE"
+  local live = env["BLUEFIN_SHIELDCONEX_TEST_LIVE"] == "TRUE"
 
   if live then
     local merged_opts = {
-      apikey = env["BLUEFINSHIELDCONEX_APIKEY"],
+      apikey = env["BLUEFIN_SHIELDCONEX_APIKEY"],
     }
     local client = sdk.new(merged_opts)
     return {

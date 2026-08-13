@@ -66,16 +66,16 @@ function tokenize_direct_setup($mockres)
     $calls = new \ArrayObject();
 
     $env = Runner::env_override([
-        "BLUEFINSHIELDCONEX_TEST_TOKENIZE_ENTID" => [],
-        "BLUEFINSHIELDCONEX_TEST_LIVE" => "FALSE",
-        "BLUEFINSHIELDCONEX_APIKEY" => "NONE",
+        "BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_ENTID" => [],
+        "BLUEFIN_SHIELDCONEX_TEST_LIVE" => "FALSE",
+        "BLUEFIN_SHIELDCONEX_APIKEY" => "NONE",
     ]);
 
-    $live = $env["BLUEFINSHIELDCONEX_TEST_LIVE"] === "TRUE";
+    $live = $env["BLUEFIN_SHIELDCONEX_TEST_LIVE"] === "TRUE";
 
     if ($live) {
         $merged_opts = [
-            "apikey" => $env["BLUEFINSHIELDCONEX_APIKEY"],
+            "apikey" => $env["BLUEFIN_SHIELDCONEX_APIKEY"],
         ];
         $client = new BluefinShieldconexSDK($merged_opts);
         return [

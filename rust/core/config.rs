@@ -39,7 +39,7 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("batch")),
+                        ("name".to_string(), Value::str("batches")),
                         ("op".to_string(), Value::map_of([
                             ("create".to_string(), Value::map_of([
                                 ("req".to_string(), Value::Bool(true)),
@@ -65,7 +65,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("message_id")),
+                        ("name".to_string(), Value::str("messageId")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(2f64)),
@@ -87,6 +87,13 @@ pub fn make_config() -> Value {
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
                         ("name".to_string(), Value::str("value")),
+                        ("req".to_string(), Value::Bool(false)),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("index$".to_string(), Value::Num(5f64)),
+                    ]),
+                    Value::map_of([
+                        ("active".to_string(), Value::Bool(true)),
+                        ("name".to_string(), Value::str("values")),
                         ("op".to_string(), Value::map_of([
                             ("create".to_string(), Value::map_of([
                                 ("req".to_string(), Value::Bool(true)),
@@ -95,7 +102,7 @@ pub fn make_config() -> Value {
                         ])),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$ARRAY`")),
-                        ("index$".to_string(), Value::Num(5f64)),
+                        ("index$".to_string(), Value::Num(6f64)),
                     ]),
                 ])),
                 ("name".to_string(), Value::str("detokenize")),
@@ -107,6 +114,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/tokenization/batch/detokenize")),
                                 ("parts".to_string(), Value::list(vec![
@@ -124,6 +132,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/tokenization/detokenize")),
                                 ("parts".to_string(), Value::list(vec![
@@ -182,6 +191,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/healthcheck/detokenize")),
                                 ("parts".to_string(), Value::list(vec![
@@ -214,7 +224,7 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("batch")),
+                        ("name".to_string(), Value::str("batches")),
                         ("op".to_string(), Value::map_of([
                             ("create".to_string(), Value::map_of([
                                 ("req".to_string(), Value::Bool(true)),
@@ -240,7 +250,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("message_id")),
+                        ("name".to_string(), Value::str("messageId")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(2f64)),
@@ -261,7 +271,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("template_ref")),
+                        ("name".to_string(), Value::str("templateRef")),
                         ("req".to_string(), Value::Bool(true)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(5f64)),
@@ -269,6 +279,13 @@ pub fn make_config() -> Value {
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
                         ("name".to_string(), Value::str("value")),
+                        ("req".to_string(), Value::Bool(false)),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("index$".to_string(), Value::Num(6f64)),
+                    ]),
+                    Value::map_of([
+                        ("active".to_string(), Value::Bool(true)),
+                        ("name".to_string(), Value::str("values")),
                         ("op".to_string(), Value::map_of([
                             ("create".to_string(), Value::map_of([
                                 ("req".to_string(), Value::Bool(true)),
@@ -277,7 +294,7 @@ pub fn make_config() -> Value {
                         ])),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$ARRAY`")),
-                        ("index$".to_string(), Value::Num(6f64)),
+                        ("index$".to_string(), Value::Num(7f64)),
                     ]),
                 ])),
                 ("name".to_string(), Value::str("tokenize")),
@@ -300,6 +317,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/tokenization/batch/tokenize")),
                                 ("parts".to_string(), Value::list(vec![
@@ -332,6 +350,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/tokenization/tokenize")),
                                 ("parts".to_string(), Value::list(vec![
@@ -352,6 +371,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/tokenization/delete")),
                                 ("parts".to_string(), Value::list(vec![
@@ -410,6 +430,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/healthcheck/tokenize")),
                                 ("parts".to_string(), Value::list(vec![
@@ -442,7 +463,7 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("batch")),
+                        ("name".to_string(), Value::str("batches")),
                         ("op".to_string(), Value::map_of([
                             ("create".to_string(), Value::map_of([
                                 ("req".to_string(), Value::Bool(true)),
@@ -455,7 +476,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("message_id")),
+                        ("name".to_string(), Value::str("messageId")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(1f64)),
@@ -477,6 +498,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/tokenization/batch/delete")),
                                 ("parts".to_string(), Value::list(vec![
@@ -494,6 +516,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/tokenization/batch/read")),
                                 ("parts".to_string(), Value::list(vec![
@@ -533,7 +556,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("message_id")),
+                        ("name".to_string(), Value::str("messageId")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(1f64)),
@@ -554,7 +577,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("value")),
+                        ("name".to_string(), Value::str("values")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$ARRAY`")),
                         ("index$".to_string(), Value::Num(4f64)),
@@ -569,6 +592,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/tokenization/read")),
                                 ("parts".to_string(), Value::list(vec![
@@ -594,7 +618,7 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("message_id")),
+                        ("name".to_string(), Value::str("messageId")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(0f64)),
@@ -608,7 +632,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("template_ref")),
+                        ("name".to_string(), Value::str("templateRef")),
                         ("req".to_string(), Value::Bool(true)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(2f64)),
@@ -623,6 +647,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/partner/validate")),
                                 ("parts".to_string(), Value::list(vec![
@@ -639,6 +664,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/template/validate")),
                                 ("parts".to_string(), Value::list(vec![

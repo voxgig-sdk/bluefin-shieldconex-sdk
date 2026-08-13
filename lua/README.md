@@ -53,7 +53,7 @@ end
 
 ```lua
 -- Create
-local created, err = client:Detokenize():create({ batch = {}, bfid = "example_bfid" })
+local created, err = client:Detokenize():create({ batches = {}, bfid = "example_bfid" })
 if err then error(err) end
 
 ```
@@ -237,9 +237,9 @@ data **directly** — there is no wrapper:
 
 Check `err` first (it is non-`nil` on failure), then use `value`:
 
-    local detokenize, err = client:Detokenize():load()
+    local detokenize, err = client:Detokenize():list()
     if err then error(err) end
-    -- detokenize is the loaded record
+    -- detokenize is the record list
 
 Only `direct()` returns a response envelope — a `table` with `ok`,
 `status`, `headers`, and `data` keys.
@@ -250,12 +250,13 @@ Only `direct()` returns a response envelope — a `table` with `ok`,
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: Create, List.
 
@@ -265,13 +266,14 @@ API path: `/tokenization/batch/detokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: Create, List.
 
@@ -281,8 +283,8 @@ API path: `/tokenization/batch/tokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
-| `message_id` |  |
+| `batches` |  |
+| `messageId` |  |
 | `reference` |  |
 
 Operations: Create.
@@ -294,10 +296,10 @@ API path: `/tokenization/batch/delete`
 | Field | Description |
 | --- | --- |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
 | `state` |  |
-| `value` |  |
+| `values` |  |
 
 Operations: Create.
 
@@ -307,9 +309,9 @@ API path: `/tokenization/read`
 
 | Field | Description |
 | --- | --- |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 
 Operations: Create.
 
@@ -335,12 +337,13 @@ Create an instance: `local detokenize = client:Detokenize(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `table` |  |
+| `batches` | `table` |  |
 | `bfid` | `string` |  |
-| `message_id` | `string` |  |
+| `messageId` | `string` |  |
 | `name` | `string` |  |
 | `reference` | `string` |  |
-| `value` | `table` |  |
+| `value` | `string` |  |
+| `values` | `table` |  |
 
 #### Example: List
 
@@ -371,13 +374,14 @@ Create an instance: `local tokenize = client:Tokenize(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `table` |  |
+| `batches` | `table` |  |
 | `bfid` | `string` |  |
-| `message_id` | `string` |  |
+| `messageId` | `string` |  |
 | `name` | `string` |  |
 | `reference` | `string` |  |
-| `template_ref` | `string` |  |
-| `value` | `table` |  |
+| `templateRef` | `string` |  |
+| `value` | `string` |  |
+| `values` | `table` |  |
 
 #### Example: List
 
@@ -389,7 +393,7 @@ local tokenizes, err = client:Tokenize():list()
 
 ```lua
 local tokenize, err = client:Tokenize():create({
-  template_ref = "example_template_ref", -- string
+  templateRef = "example_templateRef", -- string
 })
 ```
 
@@ -408,8 +412,8 @@ Create an instance: `local tokenize_batch = client:TokenizeBatch(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `table` |  |
-| `message_id` | `string` |  |
+| `batches` | `table` |  |
+| `messageId` | `string` |  |
 | `reference` | `string` |  |
 
 #### Example: Create
@@ -435,10 +439,10 @@ Create an instance: `local tokenize_read = client:TokenizeRead(nil)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `bfid` | `string` |  |
-| `message_id` | `string` |  |
+| `messageId` | `string` |  |
 | `reference` | `string` |  |
 | `state` | `table` |  |
-| `value` | `table` |  |
+| `values` | `table` |  |
 
 #### Example: Create
 
@@ -462,15 +466,15 @@ Create an instance: `local validate = client:Validate(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `message_id` | `string` |  |
+| `messageId` | `string` |  |
 | `reference` | `string` |  |
-| `template_ref` | `string` |  |
+| `templateRef` | `string` |  |
 
 #### Example: Create
 
 ```lua
 local validate, err = client:Validate():create({
-  template_ref = "example_template_ref", -- string
+  templateRef = "example_templateRef", -- string
 })
 ```
 

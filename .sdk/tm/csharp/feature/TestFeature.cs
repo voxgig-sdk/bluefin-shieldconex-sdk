@@ -6,13 +6,13 @@
 
 using Voxgig.Struct;
 
-using static BluefinShieldconexSdk.Feature.FeatureOptions;
+using static ProjectNameSdk.Feature.FeatureOptions;
 
-namespace BluefinShieldconexSdk.Feature;
+namespace ProjectNameSdk.Feature;
 
 public class TestFeature : BaseFeature
 {
-    private BluefinShieldconexSDK? _client;
+    private ProjectNameSDK? _client;
     private Dictionary<string, object?>? _options;
     private int _netcalls;
 

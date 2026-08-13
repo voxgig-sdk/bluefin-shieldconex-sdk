@@ -35,7 +35,7 @@ object DetokenizeEntityTest {
       var detokenizeRef01Data = Helpers.toMapAny(Struct.getprop(
           Struct.getpath(entityData, "new.detokenize"), "detokenize_ref01"))
       val detokenizeRef01DataResult = detokenizeRef01Ent.create(detokenizeRef01Data, null)
-      detokenizeRef01Data = Helpers.toMapAny(detokenizeRef01DataResult)
+      detokenizeRef01Data = Helpers.toMapAny(detokenizeRef01DataResult match { case e: SdkEntity => e.data(); case o => o })
       rep.check("detokenize.create.map", detokenizeRef01Data != null, "expected create result to be a map")
 
       // LIST

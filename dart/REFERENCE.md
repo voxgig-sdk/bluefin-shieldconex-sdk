@@ -103,23 +103,25 @@ final detokenize = client.Detokenize();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `List<dynamic>` | No |  |
+| `batches` | `List<dynamic>` | No |  |
 | `bfid` | `String` | No |  |
-| `message_id` | `String` | No |  |
+| `messageId` | `String` | No |  |
 | `name` | `String` | No |  |
 | `reference` | `String` | No |  |
-| `value` | `List<dynamic>` | No |  |
+| `value` | `String` | No |  |
+| `values` | `List<dynamic>` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `value` | - | Yes |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
@@ -174,25 +176,27 @@ final tokenize = client.Tokenize();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `List<dynamic>` | No |  |
+| `batches` | `List<dynamic>` | No |  |
 | `bfid` | `String` | No |  |
-| `message_id` | `String` | No |  |
+| `messageId` | `String` | No |  |
 | `name` | `String` | No |  |
 | `reference` | `String` | No |  |
-| `template_ref` | `String` | Yes |  |
-| `value` | `List<dynamic>` | No |  |
+| `templateRef` | `String` | Yes |  |
+| `value` | `String` | No |  |
+| `values` | `List<dynamic>` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `template_ref` | - | - |
-| `value` | - | Yes |
+| `templateRef` | - | - |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
@@ -202,7 +206,7 @@ Create a new entity with the given data. Returns the created entity data and thr
 
 ```dart
 final result = await client.Tokenize().create({
-  'template_ref': 'example_template_ref',  // String
+  'templateRef': 'example_templateRef',  // String
 });
 ```
 
@@ -248,16 +252,16 @@ final tokenize_batch = client.TokenizeBatch();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `List<dynamic>` | No |  |
-| `message_id` | `String` | No |  |
+| `batches` | `List<dynamic>` | No |  |
+| `messageId` | `String` | No |  |
 | `reference` | `String` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
-| `batch` | Yes |
-| `message_id` | - |
+| `batches` | Yes |
+| `messageId` | - |
 | `reference` | - |
 
 ### Operations
@@ -303,20 +307,20 @@ final tokenize_read = client.TokenizeRead();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `bfid` | `String` | No |  |
-| `message_id` | `String` | No |  |
+| `messageId` | `String` | No |  |
 | `reference` | `String` | No |  |
 | `state` | `Map<String, dynamic>` | No |  |
-| `value` | `List<dynamic>` | No |  |
+| `values` | `List<dynamic>` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
 | `bfid` | Yes |
-| `message_id` | - |
+| `messageId` | - |
 | `reference` | - |
 | `state` | - |
-| `value` | - |
+| `values` | - |
 
 ### Operations
 
@@ -360,9 +364,9 @@ final validate = client.Validate();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `message_id` | `String` | No |  |
+| `messageId` | `String` | No |  |
 | `reference` | `String` | No |  |
-| `template_ref` | `String` | Yes |  |
+| `templateRef` | `String` | Yes |  |
 
 ### Operations
 
@@ -372,7 +376,7 @@ Create a new entity with the given data. Returns the created entity data and thr
 
 ```dart
 final result = await client.Validate().create({
-  'template_ref': 'example_template_ref',  // String
+  'templateRef': 'example_templateRef',  // String
 });
 ```
 

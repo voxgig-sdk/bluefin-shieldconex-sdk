@@ -113,23 +113,25 @@ const detokenize = client.detokenize(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `Value (array)` | No |  |
+| `batches` | `Value (array)` | No |  |
 | `bfid` | `[]const u8` | No |  |
-| `message_id` | `[]const u8` | No |  |
+| `messageId` | `[]const u8` | No |  |
 | `name` | `[]const u8` | No |  |
 | `reference` | `[]const u8` | No |  |
-| `value` | `Value (array)` | No |  |
+| `value` | `[]const u8` | No |  |
+| `values` | `Value (array)` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `value` | - | Yes |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
@@ -187,25 +189,27 @@ const tokenize = client.tokenize(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `Value (array)` | No |  |
+| `batches` | `Value (array)` | No |  |
 | `bfid` | `[]const u8` | No |  |
-| `message_id` | `[]const u8` | No |  |
+| `messageId` | `[]const u8` | No |  |
 | `name` | `[]const u8` | No |  |
 | `reference` | `[]const u8` | No |  |
-| `template_ref` | `[]const u8` | Yes |  |
-| `value` | `Value (array)` | No |  |
+| `templateRef` | `[]const u8` | Yes |  |
+| `value` | `[]const u8` | No |  |
+| `values` | `Value (array)` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `template_ref` | - | - |
-| `value` | - | Yes |
+| `templateRef` | - | - |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
@@ -215,7 +219,7 @@ Create a new entity with the given data. `.ok` carries the created entity data.
 
 ```zig
 switch (client.tokenize(h.vnull()).create(h.jo(&.{
-    .{ "template_ref", h.vstr("example_template_ref") }, // []const u8
+    .{ "templateRef", h.vstr("example_templateRef") }, // []const u8
 }), h.vnull())) {
     .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
@@ -264,16 +268,16 @@ const tokenize_batch = client.tokenize_batch(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `Value (array)` | No |  |
-| `message_id` | `[]const u8` | No |  |
+| `batches` | `Value (array)` | No |  |
+| `messageId` | `[]const u8` | No |  |
 | `reference` | `[]const u8` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
-| `batch` | Yes |
-| `message_id` | - |
+| `batches` | Yes |
+| `messageId` | - |
 | `reference` | - |
 
 ### Operations
@@ -322,20 +326,20 @@ const tokenize_read = client.tokenize_read(h.vnull());
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `bfid` | `[]const u8` | No |  |
-| `message_id` | `[]const u8` | No |  |
+| `messageId` | `[]const u8` | No |  |
 | `reference` | `[]const u8` | No |  |
 | `state` | `Value (object)` | No |  |
-| `value` | `Value (array)` | No |  |
+| `values` | `Value (array)` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
 | `bfid` | Yes |
-| `message_id` | - |
+| `messageId` | - |
 | `reference` | - |
 | `state` | - |
-| `value` | - |
+| `values` | - |
 
 ### Operations
 
@@ -382,9 +386,9 @@ const validate = client.validate(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `message_id` | `[]const u8` | No |  |
+| `messageId` | `[]const u8` | No |  |
 | `reference` | `[]const u8` | No |  |
-| `template_ref` | `[]const u8` | Yes |  |
+| `templateRef` | `[]const u8` | Yes |  |
 
 ### Operations
 
@@ -394,7 +398,7 @@ Create a new entity with the given data. `.ok` carries the created entity data.
 
 ```zig
 switch (client.validate(h.vnull()).create(h.jo(&.{
-    .{ "template_ref", h.vstr("example_template_ref") }, // []const u8
+    .{ "templateRef", h.vstr("example_templateRef") }, // []const u8
 }), h.vnull())) {
     .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),

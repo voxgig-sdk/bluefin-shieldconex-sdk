@@ -24,6 +24,8 @@ pub struct DetokenizeEntity {
     data: RefCell<Value>,
     mtch: RefCell<Value>,
     entctx: RefCell<Option<Rc<Context>>>,
+    // Set once a successful `remove` resolves on this instance.
+    deleted: RefCell<bool>,
 }
 
 impl DetokenizeEntity {
@@ -46,6 +48,7 @@ impl DetokenizeEntity {
             data: RefCell::new(Value::empty_map()),
             mtch: RefCell::new(Value::empty_map()),
             entctx: RefCell::new(None),
+            deleted: RefCell::new(false),
         });
 
         let entctx = e.utility.make_context(
@@ -71,6 +74,10 @@ impl DetokenizeEntity {
             .expect("entity context not initialised")
     }
 
+    // Runs the pipeline and returns the terminal result VALUE. The entity
+    // contract lives one level up, in the op methods below: they call this,
+    // then hand back the entity (see AGENTS.md). It is split that way because
+    // `Value` is a closed data union that cannot carry an entity.
     fn run_op(
         &self,
         ctx: &Rc<Context>,
@@ -226,6 +233,17 @@ impl Entity for DetokenizeEntity {
         self.name.clone()
     }
 
+    // `remove` resolves to the entity, marked. The instance KEEPS the data
+    // it held — a caller can still read what was deleted — but it is no
+    // longer a live record.
+    fn mark_deleted(&self) {
+        *self.deleted.borrow_mut() = true;
+    }
+
+    fn deleted(&self) -> bool {
+        *self.deleted.borrow()
+    }
+
     fn make(&self) -> Rc<dyn Entity> {
         let opts = Value::empty_map();
         if let Value::Map(m) = &self.entopts {
@@ -270,12 +288,12 @@ impl Entity for DetokenizeEntity {
 }
 
 impl BluefinShieldconexEntity for DetokenizeEntity {
-    fn load(&self, _reqmatch: Value, _ctrl: Value) -> Result<Value, BluefinShieldconexError> {
+    fn load(self: &Rc<Self>, _reqmatch: Value, _ctrl: Value) -> Result<Rc<Self>, BluefinShieldconexError> {
         Err(crate::core::helpers::unsupported_op("load", &self.name))
     }
 
 
-    fn list(&self, reqmatch: Value, ctrl: Value) -> Result<Value, BluefinShieldconexError> {
+    fn list(self: &Rc<Self>, reqmatch: Value, ctrl: Value) -> Result<Vec<Rc<Self>>, BluefinShieldconexError> {
         let ctx = self.utility.make_context(
             CtxSpec {
                 opname: Some("list".to_string()),
@@ -288,19 +306,36 @@ impl BluefinShieldconexEntity for DetokenizeEntity {
             Some(&self.ent_ctx()),
         );
     
-        self.run_op(&ctx, &|ctx| {
+        let out = self.run_op(&ctx, &|ctx| {
             if let Some(result) = ctx.result.borrow().clone() {
                 let resmatch = result.borrow().resmatch.clone();
                 if let Value::Map(_) = resmatch {
                     *self.mtch.borrow_mut() = resmatch;
                 }
             }
-        })
+        })?;
+    
+        // `list` resolves to one ENTITY per record. makeResult cannot build them
+        // here — it works in `Value`, which is a closed data union with no slot
+        // for an entity — so the op does, mirroring what the dynamic targets get
+        // from makeResult. See AGENTS.md "Entity operations return ENTITIES".
+        let mut items: Vec<Rc<Self>> = Vec::new();
+        if let Value::List(list) = &out {
+            for entry in list.borrow().iter() {
+                let ent = DetokenizeEntity::new(&self.client, vs::clone(&self.entopts));
+                if let Value::Map(_) = entry {
+                    ent.data(Some(entry));
+                }
+                items.push(ent);
+            }
+        }
+    
+        Ok(items)
     }
     
 
 
-    fn create(&self, reqdata: Value, ctrl: Value) -> Result<Value, BluefinShieldconexError> {
+    fn create(self: &Rc<Self>, reqdata: Value, ctrl: Value) -> Result<Rc<Self>, BluefinShieldconexError> {
         let ctx = self.utility.make_context(
             CtxSpec {
                 opname: Some("create".to_string()),
@@ -323,15 +358,21 @@ impl BluefinShieldconexEntity for DetokenizeEntity {
                     };
                 }
             }
-        })
+        })?;
+    
+        // The operation resolves to THIS entity: `run_op` has just absorbed the
+        // result into it, and the caller reaches the record through `.data(None)`.
+        // See AGENTS.md "Entity operations return ENTITIES".
+    
+        Ok(self.clone())
     }
     
 
-    fn update(&self, _reqdata: Value, _ctrl: Value) -> Result<Value, BluefinShieldconexError> {
+    fn update(self: &Rc<Self>, _reqdata: Value, _ctrl: Value) -> Result<Rc<Self>, BluefinShieldconexError> {
         Err(crate::core::helpers::unsupported_op("update", &self.name))
     }
 
-    fn remove(&self, _reqmatch: Value, _ctrl: Value) -> Result<Value, BluefinShieldconexError> {
+    fn remove(self: &Rc<Self>, _reqmatch: Value, _ctrl: Value) -> Result<Rc<Self>, BluefinShieldconexError> {
         Err(crate::core::helpers::unsupported_op("remove", &self.name))
     }
 }

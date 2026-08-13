@@ -110,23 +110,25 @@ detokenize = client.Detokenize
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `Array` | No |  |
+| `batches` | `Array` | No |  |
 | `bfid` | `String` | No |  |
-| `message_id` | `String` | No |  |
+| `messageId` | `String` | No |  |
 | `name` | `String` | No |  |
 | `reference` | `String` | No |  |
-| `value` | `Array` | No |  |
+| `value` | `String` | No |  |
+| `values` | `Array` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `value` | - | Yes |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
@@ -187,25 +189,27 @@ tokenize = client.Tokenize
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `Array` | No |  |
+| `batches` | `Array` | No |  |
 | `bfid` | `String` | No |  |
-| `message_id` | `String` | No |  |
+| `messageId` | `String` | No |  |
 | `name` | `String` | No |  |
 | `reference` | `String` | No |  |
-| `template_ref` | `String` | Yes |  |
-| `value` | `Array` | No |  |
+| `templateRef` | `String` | Yes |  |
+| `value` | `String` | No |  |
+| `values` | `Array` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `template_ref` | - | - |
-| `value` | - | Yes |
+| `templateRef` | - | - |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
@@ -215,7 +219,7 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.Tokenize.create({
-  "template_ref" => "example_template_ref", # String
+  "templateRef" => "example_templateRef", # String
 })
 ```
 
@@ -267,16 +271,16 @@ tokenize_batch = client.TokenizeBatch
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `Array` | No |  |
-| `message_id` | `String` | No |  |
+| `batches` | `Array` | No |  |
+| `messageId` | `String` | No |  |
 | `reference` | `String` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
-| `batch` | Yes |
-| `message_id` | - |
+| `batches` | Yes |
+| `messageId` | - |
 | `reference` | - |
 
 ### Operations
@@ -331,20 +335,20 @@ tokenize_read = client.TokenizeRead
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `bfid` | `String` | No |  |
-| `message_id` | `String` | No |  |
+| `messageId` | `String` | No |  |
 | `reference` | `String` | No |  |
 | `state` | `Hash` | No |  |
-| `value` | `Array` | No |  |
+| `values` | `Array` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
 | `bfid` | Yes |
-| `message_id` | - |
+| `messageId` | - |
 | `reference` | - |
 | `state` | - |
-| `value` | - |
+| `values` | - |
 
 ### Operations
 
@@ -397,9 +401,9 @@ validate = client.Validate
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `message_id` | `String` | No |  |
+| `messageId` | `String` | No |  |
 | `reference` | `String` | No |  |
-| `template_ref` | `String` | Yes |  |
+| `templateRef` | `String` | Yes |  |
 
 ### Operations
 
@@ -409,7 +413,7 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.Validate.create({
-  "template_ref" => "example_template_ref", # String
+  "templateRef" => "example_templateRef", # String
 })
 ```
 

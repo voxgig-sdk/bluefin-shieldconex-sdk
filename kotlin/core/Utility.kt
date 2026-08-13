@@ -37,6 +37,8 @@ class Utility private constructor(register: Boolean) {
   lateinit var prepareParams: (Context) -> MutableMap<String, Any?>
   lateinit var preparePath: (Context) -> String
   lateinit var prepareQuery: (Context) -> MutableMap<String, Any?>
+  lateinit var graphqlBody: (Context) -> Any?
+  lateinit var graphqlErrors: (Context) -> Boolean
   lateinit var resultBasic: (Context) -> Result
   lateinit var resultBody: (Context) -> Result
   lateinit var resultHeaders: (Context) -> Result
@@ -80,6 +82,8 @@ class Utility private constructor(register: Boolean) {
     u.prepareParams = this.prepareParams
     u.preparePath = this.preparePath
     u.prepareQuery = this.prepareQuery
+    u.graphqlBody = this.graphqlBody
+    u.graphqlErrors = this.graphqlErrors
     u.resultBasic = this.resultBasic
     u.resultBody = this.resultBody
     u.resultHeaders = this.resultHeaders

@@ -40,7 +40,7 @@ class TokenizeReadEntityTest {
     }
     Assumptions.assumeFalse(
       setup.syntheticOnly,
-      "live entity test uses synthetic IDs from fixture — set BLUEFINSHIELDCONEX_TEST_TOKENIZE_READ_ENTID JSON to run live",
+      "live entity test uses synthetic IDs from fixture — set BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_READ_ENTID JSON to run live",
     )
     val client = setup.client
 
@@ -50,7 +50,7 @@ class TokenizeReadEntityTest {
         Struct.getpath(setup.data, "new.tokenize_read"), "tokenize_read_ref01")) ?: linkedMapOf())
 
     val tokenizeReadRef01DataResult = tokenizeReadRef01Ent.create(tokenizeReadRef01Data, null)
-    tokenizeReadRef01Data = Helpers.toMapAny(tokenizeReadRef01DataResult) ?: linkedMapOf()
+    tokenizeReadRef01Data = Helpers.toMapAny(if (tokenizeReadRef01DataResult is SdkEntity) tokenizeReadRef01DataResult.data() else tokenizeReadRef01DataResult) ?: linkedMapOf()
     assertNotNull(tokenizeReadRef01Data, "expected create result to be a map")
 
   }
@@ -85,25 +85,25 @@ class TokenizeReadEntityTest {
           "}]}"))
 
       // Detect ENTID env override before envOverride consumes it.
-      val entidEnvRaw = RunnerSupport.getenv("BLUEFINSHIELDCONEX_TEST_TOKENIZE_READ_ENTID")
+      val entidEnvRaw = RunnerSupport.getenv("BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_READ_ENTID")
       val idmapOverridden = entidEnvRaw != null && entidEnvRaw.trim().startsWith("{")
 
       val envm = linkedMapOf<String, Any?>()
-      envm["BLUEFINSHIELDCONEX_TEST_TOKENIZE_READ_ENTID"] = idmap
-      envm["BLUEFINSHIELDCONEX_TEST_LIVE"] = "FALSE"
-      envm["BLUEFINSHIELDCONEX_TEST_EXPLAIN"] = "FALSE"
-      envm["BLUEFINSHIELDCONEX_APIKEY"] = "NONE"
+      envm["BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_READ_ENTID"] = idmap
+      envm["BLUEFIN_SHIELDCONEX_TEST_LIVE"] = "FALSE"
+      envm["BLUEFIN_SHIELDCONEX_TEST_EXPLAIN"] = "FALSE"
+      envm["BLUEFIN_SHIELDCONEX_APIKEY"] = "NONE"
       val env = RunnerSupport.envOverride(envm)
 
-      var idmapResolved = Helpers.toMapAny(env["BLUEFINSHIELDCONEX_TEST_TOKENIZE_READ_ENTID"])
+      var idmapResolved = Helpers.toMapAny(env["BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_READ_ENTID"])
       if (idmapResolved == null) {
         idmapResolved = Helpers.toMapAny(idmap) ?: linkedMapOf()
       }
 
-      val live = "TRUE" == env["BLUEFINSHIELDCONEX_TEST_LIVE"]
+      val live = "TRUE" == env["BLUEFIN_SHIELDCONEX_TEST_LIVE"]
       if (live) {
         val liveOpts = linkedMapOf<String, Any?>()
-        liveOpts["apikey"] = env["BLUEFINSHIELDCONEX_APIKEY"]
+        liveOpts["apikey"] = env["BLUEFIN_SHIELDCONEX_APIKEY"]
         val mergedOpts = Struct.merge(Struct.jt(liveOpts, extra))
         client = BluefinShieldconexSDK(Helpers.toMapAny(mergedOpts))
       }
@@ -113,7 +113,7 @@ class TokenizeReadEntityTest {
       setup.data = entityData
       setup.idmap = idmapResolved
       setup.env = env
-      setup.explain = "TRUE" == env["BLUEFINSHIELDCONEX_TEST_EXPLAIN"]
+      setup.explain = "TRUE" == env["BLUEFIN_SHIELDCONEX_TEST_EXPLAIN"]
       setup.live = live
       setup.syntheticOnly = live && !idmapOverridden
       setup.now = System.currentTimeMillis()

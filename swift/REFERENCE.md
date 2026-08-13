@@ -109,23 +109,25 @@ let detokenize = client.Detokenize()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `[Value]` | No |  |
+| `batches` | `[Value]` | No |  |
 | `bfid` | `String` | No |  |
-| `message_id` | `String` | No |  |
+| `messageId` | `String` | No |  |
 | `name` | `String` | No |  |
 | `reference` | `String` | No |  |
-| `value` | `[Value]` | No |  |
+| `value` | `String` | No |  |
+| `values` | `[Value]` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `value` | - | Yes |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
@@ -178,25 +180,27 @@ let tokenize = client.Tokenize()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `[Value]` | No |  |
+| `batches` | `[Value]` | No |  |
 | `bfid` | `String` | No |  |
-| `message_id` | `String` | No |  |
+| `messageId` | `String` | No |  |
 | `name` | `String` | No |  |
 | `reference` | `String` | No |  |
-| `template_ref` | `String` | Yes |  |
-| `value` | `[Value]` | No |  |
+| `templateRef` | `String` | Yes |  |
+| `value` | `String` | No |  |
+| `values` | `[Value]` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `template_ref` | - | - |
-| `value` | - | Yes |
+| `templateRef` | - | - |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
@@ -206,7 +210,7 @@ Create a new entity with the given data. Returns the created entity data and thr
 
 ```swift
 let result = try client.Tokenize().create(VMap([
-    ("template_ref", .string("example_template_ref"))  // String
+    ("templateRef", .string("example_templateRef"))  // String
 ]), nil)
 ```
 
@@ -250,16 +254,16 @@ let tokenizeBatch = client.TokenizeBatch()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `[Value]` | No |  |
-| `message_id` | `String` | No |  |
+| `batches` | `[Value]` | No |  |
+| `messageId` | `String` | No |  |
 | `reference` | `String` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
-| `batch` | Yes |
-| `message_id` | - |
+| `batches` | Yes |
+| `messageId` | - |
 | `reference` | - |
 
 ### Operations
@@ -305,20 +309,20 @@ let tokenizeRead = client.TokenizeRead()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `bfid` | `String` | No |  |
-| `message_id` | `String` | No |  |
+| `messageId` | `String` | No |  |
 | `reference` | `String` | No |  |
 | `state` | `VMap` | No |  |
-| `value` | `[Value]` | No |  |
+| `values` | `[Value]` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
 | `bfid` | Yes |
-| `message_id` | - |
+| `messageId` | - |
 | `reference` | - |
 | `state` | - |
-| `value` | - |
+| `values` | - |
 
 ### Operations
 
@@ -362,9 +366,9 @@ let validate = client.Validate()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `message_id` | `String` | No |  |
+| `messageId` | `String` | No |  |
 | `reference` | `String` | No |  |
-| `template_ref` | `String` | Yes |  |
+| `templateRef` | `String` | Yes |  |
 
 ### Operations
 
@@ -374,7 +378,7 @@ Create a new entity with the given data. Returns the created entity data and thr
 
 ```swift
 let result = try client.Validate().create(VMap([
-    ("template_ref", .string("example_template_ref"))  // String
+    ("templateRef", .string("example_templateRef"))  // String
 ]), nil)
 ```
 

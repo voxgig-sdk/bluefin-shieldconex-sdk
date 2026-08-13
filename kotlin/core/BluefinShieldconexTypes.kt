@@ -16,28 +16,28 @@ package voxgig.bluefinshieldconexsdk.core
 @Suppress("unused")
 object BluefinShieldconexTypes {
 
-  data class Detokenize(val batch: List<Any?>?, val bfid: String?, val message_id: String?, val name: String?, val reference: String?, val value: List<Any?>?)
+  data class Detokenize(val batches: List<Any?>?, val bfid: String?, val messageId: String?, val name: String?, val reference: String?, val value: String?, val values: List<Any?>?)
 
-  data class DetokenizeListMatch(val batch: List<Any?>?, val bfid: String?, val message_id: String?, val name: String?, val reference: String?, val value: List<Any?>?)
+  data class DetokenizeListMatch(val batches: List<Any?>?, val bfid: String?, val messageId: String?, val name: String?, val reference: String?, val value: String?, val values: List<Any?>?)
 
-  data class DetokenizeCreateData(val batch: List<Any?>?, val bfid: String?, val message_id: String?, val name: String?, val reference: String?, val value: List<Any?>?)
+  data class DetokenizeCreateData(val batches: List<Any?>?, val bfid: String?, val messageId: String?, val name: String?, val reference: String?, val value: String?, val values: List<Any?>?)
 
-  data class Tokenize(val batch: List<Any?>?, val bfid: String?, val message_id: String?, val name: String?, val reference: String?, val template_ref: String?, val value: List<Any?>?)
+  data class Tokenize(val batches: List<Any?>?, val bfid: String?, val messageId: String?, val name: String?, val reference: String?, val templateRef: String?, val value: String?, val values: List<Any?>?)
 
-  data class TokenizeListMatch(val batch: List<Any?>?, val bfid: String?, val message_id: String?, val name: String?, val reference: String?, val template_ref: String?, val value: List<Any?>?)
+  data class TokenizeListMatch(val batches: List<Any?>?, val bfid: String?, val messageId: String?, val name: String?, val reference: String?, val templateRef: String?, val value: String?, val values: List<Any?>?)
 
-  data class TokenizeCreateData(val batch: List<Any?>?, val bfid: String?, val message_id: String?, val name: String?, val reference: String?, val template_ref: String?, val value: List<Any?>?)
+  data class TokenizeCreateData(val batches: List<Any?>?, val bfid: String?, val messageId: String?, val name: String?, val reference: String?, val templateRef: String?, val value: String?, val values: List<Any?>?)
 
-  data class TokenizeBatch(val batch: List<Any?>?, val message_id: String?, val reference: String?)
+  data class TokenizeBatch(val batches: List<Any?>?, val messageId: String?, val reference: String?)
 
-  data class TokenizeBatchCreateData(val batch: List<Any?>?, val message_id: String?, val reference: String?)
+  data class TokenizeBatchCreateData(val batches: List<Any?>?, val messageId: String?, val reference: String?)
 
-  data class TokenizeRead(val bfid: String?, val message_id: String?, val reference: String?, val state: Map<String, Any?>?, val value: List<Any?>?)
+  data class TokenizeRead(val bfid: String?, val messageId: String?, val reference: String?, val state: Map<String, Any?>?, val values: List<Any?>?)
 
-  data class TokenizeReadCreateData(val bfid: String?, val message_id: String?, val reference: String?, val state: Map<String, Any?>?, val value: List<Any?>?)
+  data class TokenizeReadCreateData(val bfid: String?, val messageId: String?, val reference: String?, val state: Map<String, Any?>?, val values: List<Any?>?)
 
-  data class Validate(val message_id: String?, val reference: String?, val template_ref: String?)
+  data class Validate(val messageId: String?, val reference: String?, val templateRef: String?)
 
-  data class ValidateCreateData(val message_id: String?, val reference: String?, val template_ref: String?)
+  data class ValidateCreateData(val messageId: String?, val reference: String?, val templateRef: String?)
 
 }

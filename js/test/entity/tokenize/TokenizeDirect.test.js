@@ -17,6 +17,10 @@ describe('TokenizeDirect', async () => {
 
   test('direct-exists', async () => {
     const sdk = new BluefinShieldconexSDK({
+      // Concrete base: a live construction must satisfy any server
+      // variables a templated base URL declares; overriding base with a
+      // literal (as the direct flow tests do) sidesteps the requirement.
+      base: 'http://localhost:8080',
       system: { fetch: async () => ({}) }
     })
     assert('function' === typeof sdk.direct)
@@ -55,19 +59,19 @@ function directSetup(mockres) {
   const calls = []
 
   const env = envOverride({
-    'BLUEFINSHIELDCONEX_TEST_TOKENIZE_ENTID': {},
-    'BLUEFINSHIELDCONEX_TEST_LIVE': 'FALSE',
-    'BLUEFINSHIELDCONEX_APIKEY': 'NONE',
+    'BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_ENTID': {},
+    'BLUEFIN_SHIELDCONEX_TEST_LIVE': 'FALSE',
+    'BLUEFIN_SHIELDCONEX_APIKEY': 'NONE',
   })
 
-  const live = 'TRUE' === env.BLUEFINSHIELDCONEX_TEST_LIVE
+  const live = 'TRUE' === env.BLUEFIN_SHIELDCONEX_TEST_LIVE
 
   if (live) {
     const client = new BluefinShieldconexSDK({
-      apikey: env.BLUEFINSHIELDCONEX_APIKEY,
+      apikey: env.BLUEFIN_SHIELDCONEX_APIKEY,
     })
 
-    let idmap = env['BLUEFINSHIELDCONEX_TEST_TOKENIZE_ENTID']
+    let idmap = env['BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_ENTID']
     if ('string' === typeof idmap && idmap.startsWith('{')) {
       idmap = JSON.parse(idmap)
     }

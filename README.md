@@ -36,9 +36,18 @@ network, and no credentials:
 ### TypeScript
 
 ```ts
-const client = BluefinShieldconexSDK.test()
+// The offline mock starts EMPTY — seed it with the records the test needs.
+// Shape: { entity: { <entity-name>: { <id>: <record> } } }
+const client = BluefinShieldconexSDK.test({
+  entity: {
+    detokenize: {
+      test01: { id: 'test01' },
+    },
+  },
+})
 const detokenizes = await client.Detokenize().list()
-// detokenizes is an array of bare Detokenize records populated with mock data
+// detokenizes is an array of Detokenize entities, populated with mock data
+// — call detokenizes[0].data() for the record itself
 console.log(detokenizes)
 ```
 
@@ -179,7 +188,8 @@ System.out.println(detokenizeList);
 ```js
 const client = BluefinShieldconexSDK.test()
 const detokenizes = await client.Detokenize().list()
-// detokenizes is an array of bare entities populated with mock data
+// detokenizes is an array of entities, populated with mock data
+// — call detokenizes[0].data() for the record itself
 console.log(detokenizes)
 ```
 
@@ -196,8 +206,8 @@ println(detokenizeList)
 ```ocaml
 let () =
   let client = Sdk_client.test () in
-  let result = (Sdk_client.detokenize client Noval).e_list (empty_map ()) Noval in
-  print_endline (stringify result)
+  let results = (Sdk_client.detokenize client Noval).e_list (empty_map ()) Noval in
+  List.iter (fun e -> print_endline (stringify (e.e_data_get ()))) results
 ```
 
 ### Perl
@@ -291,7 +301,7 @@ const client = new BluefinShieldconexSDK({
   apikey: process.env.BLUEFIN_SHIELDCONEX_APIKEY,
 })
 
-// List all detokenizes (returns Detokenize[])
+// List all detokenizes (returns DetokenizeEntity[] — .data() for the record)
 const detokenizes = await client.Detokenize().list()
 for (const detokenize of detokenizes) {
   console.log(detokenize)
@@ -336,8 +346,8 @@ The API exposes 5 entities:
 
 | Entity | Description | API path |
 | --- | --- | --- |
-| **Detokenize** | The Detokenize entity (create, list). | `/tokenization/batch/detokenize` |
-| **Tokenize** | The Tokenize entity (create, list). | `/tokenization/batch/tokenize` |
+| **Detokenize** | The Detokenize entity (create, list). | `/healthcheck/detokenize` |
+| **Tokenize** | The Tokenize entity (create, list). | `/healthcheck/tokenize` |
 | **TokenizeBatch** | The TokenizeBatch entity (create). | `/tokenization/batch/delete` |
 | **TokenizeRead** | The TokenizeRead entity (create). | `/tokenization/read` |
 | **Validate** | The Validate entity (create). | `/partner/validate` |
@@ -537,12 +547,12 @@ main = do
   opts <- jo [("apikey", maybe VNoval VStr mkey)]
   sdk <- Sdk.newSdk opts
 
-  -- List all detokenizes (returns a list Value, raises on error)
+  -- List all detokenizes (one ENTITY per record, raises on error)
   ent <- Sdk.detokenize sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
   detokenizes <- Sdk.eList ent match ctrl
-  print detokenizes
+  mapM_ (\en -> print =<< Sdk.eDataGet en) detokenizes
 ```
 
 ### Java
@@ -597,9 +607,9 @@ open Sdk_helpers
 
 let () =
   let client = Sdk_client.make (jo [("apikey", Str (Sys.getenv "BLUEFIN_SHIELDCONEX_APIKEY"))]) in
-  (* List all detokenize records (returns a List value; raises on error) *)
+  (* List all detokenize records (one ENTITY per record; raises on error) *)
   let detokenizes = (Sdk_client.detokenize client Noval).e_list (empty_map ()) Noval in
-  (match detokenizes with List items -> List.iter (fun r -> print_endline (stringify r)) !items | _ -> ());
+  List.iter (fun e -> print_endline (stringify (e.e_data_get ()))) detokenizes;
 ```
 
 ### Perl
@@ -972,6 +982,9 @@ Pass custom features via the `extend` option at construction time.
 
 This SDK is generated from the upstream OpenAPI specification. It is an
 unofficial client and is not affiliated with the API provider.
+
+The OpenAPI spec(s) this SDK was generated from are kept in the
+[`.sdk/def/`](.sdk/def/) folder.
 
 - Upstream API: [https://secure-cert.shieldconex.com/api](https://secure-cert.shieldconex.com/api)
 

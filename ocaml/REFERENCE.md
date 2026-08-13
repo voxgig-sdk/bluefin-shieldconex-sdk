@@ -103,44 +103,46 @@ let detokenize = Sdk_client.detokenize client Noval
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `value list` | No |  |
+| `batches` | `value list` | No |  |
 | `bfid` | `string` | No |  |
-| `message_id` | `string` | No |  |
+| `messageId` | `string` | No |  |
 | `name` | `string` | No |  |
 | `reference` | `string` | No |  |
-| `value` | `value list` | No |  |
+| `value` | `string` | No |  |
+| `values` | `value list` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `value` | - | Yes |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
-#### `e_create reqdata ctrl : value`
+#### `e_create reqdata ctrl : entity_obj`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Resolves to the ENTITY (read the record with `e_data_get`) and raises on error.
 
 ```ocaml
 let result = (Sdk_client.detokenize client Noval).e_create (jo [
 ]) Noval
+let result_data = result.e_data_get ()
 ```
 
-#### `e_list reqmatch ctrl : value`
+#### `e_list reqmatch ctrl : entity_obj list`
 
-List entities matching the given criteria. The match is optional — pass `(empty_map ())` to list all records. Returns a List and raises on error.
+List entities matching the given criteria. The match is optional — pass `(empty_map ())` to list all records. Resolves to one ENTITY per record and raises on error.
 
 ```ocaml
+(* One ENTITY per record; the record is reached with e_data_get. *)
 let results = (Sdk_client.detokenize client Noval).e_list (empty_map ()) Noval in
-(match results with
- | List items -> List.iter (fun r -> print_endline (stringify r)) !items
- | _ -> ())
+List.iter (fun e -> print_endline (stringify (e.e_data_get ()))) results
 ```
 
 ### Common Fields
@@ -182,47 +184,49 @@ let tokenize = Sdk_client.tokenize client Noval
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `value list` | No |  |
+| `batches` | `value list` | No |  |
 | `bfid` | `string` | No |  |
-| `message_id` | `string` | No |  |
+| `messageId` | `string` | No |  |
 | `name` | `string` | No |  |
 | `reference` | `string` | No |  |
-| `template_ref` | `string` | Yes |  |
-| `value` | `value list` | No |  |
+| `templateRef` | `string` | Yes |  |
+| `value` | `string` | No |  |
+| `values` | `value list` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `template_ref` | - | - |
-| `value` | - | Yes |
+| `templateRef` | - | - |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
-#### `e_create reqdata ctrl : value`
+#### `e_create reqdata ctrl : entity_obj`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Resolves to the ENTITY (read the record with `e_data_get`) and raises on error.
 
 ```ocaml
 let result = (Sdk_client.tokenize client Noval).e_create (jo [
-    ("template_ref", (Str "example_template_ref"));  (* string *)
+    ("templateRef", (Str "example_templateRef"));  (* string *)
 ]) Noval
+let result_data = result.e_data_get ()
 ```
 
-#### `e_list reqmatch ctrl : value`
+#### `e_list reqmatch ctrl : entity_obj list`
 
-List entities matching the given criteria. The match is optional — pass `(empty_map ())` to list all records. Returns a List and raises on error.
+List entities matching the given criteria. The match is optional — pass `(empty_map ())` to list all records. Resolves to one ENTITY per record and raises on error.
 
 ```ocaml
+(* One ENTITY per record; the record is reached with e_data_get. *)
 let results = (Sdk_client.tokenize client Noval).e_list (empty_map ()) Noval in
-(match results with
- | List items -> List.iter (fun r -> print_endline (stringify r)) !items
- | _ -> ())
+List.iter (fun e -> print_endline (stringify (e.e_data_get ()))) results
 ```
 
 ### Common Fields
@@ -264,27 +268,28 @@ let tokenize_batch = Sdk_client.tokenize_batch client Noval
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `value list` | No |  |
-| `message_id` | `string` | No |  |
+| `batches` | `value list` | No |  |
+| `messageId` | `string` | No |  |
 | `reference` | `string` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
-| `batch` | Yes |
-| `message_id` | - |
+| `batches` | Yes |
+| `messageId` | - |
 | `reference` | - |
 
 ### Operations
 
-#### `e_create reqdata ctrl : value`
+#### `e_create reqdata ctrl : entity_obj`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Resolves to the ENTITY (read the record with `e_data_get`) and raises on error.
 
 ```ocaml
 let result = (Sdk_client.tokenize_batch client Noval).e_create (jo [
 ]) Noval
+let result_data = result.e_data_get ()
 ```
 
 ### Common Fields
@@ -327,30 +332,31 @@ let tokenize_read = Sdk_client.tokenize_read client Noval
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `bfid` | `string` | No |  |
-| `message_id` | `string` | No |  |
+| `messageId` | `string` | No |  |
 | `reference` | `string` | No |  |
 | `state` | `value map` | No |  |
-| `value` | `value list` | No |  |
+| `values` | `value list` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
 | `bfid` | Yes |
-| `message_id` | - |
+| `messageId` | - |
 | `reference` | - |
 | `state` | - |
-| `value` | - |
+| `values` | - |
 
 ### Operations
 
-#### `e_create reqdata ctrl : value`
+#### `e_create reqdata ctrl : entity_obj`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Resolves to the ENTITY (read the record with `e_data_get`) and raises on error.
 
 ```ocaml
 let result = (Sdk_client.tokenize_read client Noval).e_create (jo [
 ]) Noval
+let result_data = result.e_data_get ()
 ```
 
 ### Common Fields
@@ -392,20 +398,21 @@ let validate = Sdk_client.validate client Noval
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `message_id` | `string` | No |  |
+| `messageId` | `string` | No |  |
 | `reference` | `string` | No |  |
-| `template_ref` | `string` | Yes |  |
+| `templateRef` | `string` | Yes |  |
 
 ### Operations
 
-#### `e_create reqdata ctrl : value`
+#### `e_create reqdata ctrl : entity_obj`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Resolves to the ENTITY (read the record with `e_data_get`) and raises on error.
 
 ```ocaml
 let result = (Sdk_client.validate client Noval).e_create (jo [
-    ("template_ref", (Str "example_template_ref"));  (* string *)
+    ("templateRef", (Str "example_templateRef"));  (* string *)
 ]) Noval
+let result_data = result.e_data_get ()
 ```
 
 ### Common Fields

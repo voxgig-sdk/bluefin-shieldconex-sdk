@@ -1,4 +1,4 @@
-// BluefinShieldconex SDK — test feature: in-memory mock transport (mirrors java
+// ProjectName SDK — test feature: in-memory mock transport (mirrors java
 // feature/TestFeature.java). Serves entity fixtures (options.entity) through
 // the normal pipeline, and optionally simulates network conditions via the
 // `net` block (latency / failures / outages) over the mock.

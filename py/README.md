@@ -56,8 +56,8 @@ except Exception as err:
 ### 4. Create, update, and remove
 
 ```python
-# Create — returns the bare created record (a dict)
-created = client.Detokenize().create({"batch": [], "bfid": "example_bfid"})
+# Create — returns the ENTITY (call data_get() for the record)
+created = client.Detokenize().create({"batches": [], "bfid": "example_bfid"})
 
 ```
 
@@ -135,7 +135,8 @@ Create a mock client for unit testing — no server required:
 ```python
 client = BluefinShieldconexSDK.test()
 
-# Entity ops return the bare record and raise on error.
+# Entity ops return the ENTITY and raises on error;
+# call data_get() for the record.
 detokenize = client.Detokenize().list()
 # detokenize contains the mock response record
 ```
@@ -238,7 +239,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (a `dict` for single-entity
+Entity operations return the ENTITY (call data_get() for the record) (a `dict` for single-entity
 ops, a `list` for `list`) and raise on error. Wrap calls in
 `try`/`except` to handle failures.
 
@@ -260,12 +261,13 @@ On error, `ok` is `False` and `err` contains the error value.
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: Create, List.
 
@@ -275,13 +277,14 @@ API path: `/tokenization/batch/detokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
+| `batches` |  |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `name` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 | `value` |  |
+| `values` |  |
 
 Operations: Create, List.
 
@@ -291,8 +294,8 @@ API path: `/tokenization/batch/tokenize`
 
 | Field | Description |
 | --- | --- |
-| `batch` |  |
-| `message_id` |  |
+| `batches` |  |
+| `messageId` |  |
 | `reference` |  |
 
 Operations: Create.
@@ -304,10 +307,10 @@ API path: `/tokenization/batch/delete`
 | Field | Description |
 | --- | --- |
 | `bfid` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
 | `state` |  |
-| `value` |  |
+| `values` |  |
 
 Operations: Create.
 
@@ -317,9 +320,9 @@ API path: `/tokenization/read`
 
 | Field | Description |
 | --- | --- |
-| `message_id` |  |
+| `messageId` |  |
 | `reference` |  |
-| `template_ref` |  |
+| `templateRef` |  |
 
 Operations: Create.
 
@@ -345,12 +348,13 @@ Create an instance: `detokenize = client.Detokenize()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `list` |  |
+| `batches` | `list` |  |
 | `bfid` | `str` |  |
-| `message_id` | `str` |  |
+| `messageId` | `str` |  |
 | `name` | `str` |  |
 | `reference` | `str` |  |
-| `value` | `list` |  |
+| `value` | `str` |  |
+| `values` | `list` |  |
 
 #### Example: List
 
@@ -381,13 +385,14 @@ Create an instance: `tokenize = client.Tokenize()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `list` |  |
+| `batches` | `list` |  |
 | `bfid` | `str` |  |
-| `message_id` | `str` |  |
+| `messageId` | `str` |  |
 | `name` | `str` |  |
 | `reference` | `str` |  |
-| `template_ref` | `str` |  |
-| `value` | `list` |  |
+| `templateRef` | `str` |  |
+| `value` | `str` |  |
+| `values` | `list` |  |
 
 #### Example: List
 
@@ -399,7 +404,7 @@ tokenizes = client.Tokenize().list()
 
 ```python
 tokenize = client.Tokenize().create({
-    "template_ref": "example_template_ref",  # str
+    "templateRef": "example_templateRef",  # str
 })
 ```
 
@@ -418,8 +423,8 @@ Create an instance: `tokenize_batch = client.TokenizeBatch()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `batch` | `list` |  |
-| `message_id` | `str` |  |
+| `batches` | `list` |  |
+| `messageId` | `str` |  |
 | `reference` | `str` |  |
 
 #### Example: Create
@@ -445,10 +450,10 @@ Create an instance: `tokenize_read = client.TokenizeRead()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `bfid` | `str` |  |
-| `message_id` | `str` |  |
+| `messageId` | `str` |  |
 | `reference` | `str` |  |
 | `state` | `dict` |  |
-| `value` | `list` |  |
+| `values` | `list` |  |
 
 #### Example: Create
 
@@ -472,15 +477,15 @@ Create an instance: `validate = client.Validate()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `message_id` | `str` |  |
+| `messageId` | `str` |  |
 | `reference` | `str` |  |
-| `template_ref` | `str` |  |
+| `templateRef` | `str` |  |
 
 #### Example: Create
 
 ```python
 validate = client.Validate().create({
-    "template_ref": "example_template_ref",  # str
+    "templateRef": "example_templateRef",  # str
 })
 ```
 

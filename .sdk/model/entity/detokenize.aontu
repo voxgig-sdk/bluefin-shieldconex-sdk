@@ -6,7 +6,7 @@ main: kit: entity: detokenize: {
 
   fields: [
     {
-      name: "batch"
+      name: "batches"
       op: {
         create: {
           req: true
@@ -28,7 +28,7 @@ main: kit: entity: detokenize: {
       type: "`$STRING`"
     }
     {
-      name: "message_id"
+      name: "messageId"
       req: false
       type: "`$STRING`"
     }
@@ -44,6 +44,11 @@ main: kit: entity: detokenize: {
     }
     {
       name: "value"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "values"
       op: {
         create: {
           req: true

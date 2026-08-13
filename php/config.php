@@ -39,7 +39,7 @@ class BluefinShieldconexConfig
           'fields' => [
             [
               'active' => true,
-              'name' => 'batch',
+              'name' => 'batches',
               'op' => [
                 'create' => [
                   'req' => true,
@@ -65,7 +65,7 @@ class BluefinShieldconexConfig
             ],
             [
               'active' => true,
-              'name' => 'message_id',
+              'name' => 'messageId',
               'req' => false,
               'type' => '`$STRING`',
               'index$' => 2,
@@ -87,6 +87,13 @@ class BluefinShieldconexConfig
             [
               'active' => true,
               'name' => 'value',
+              'req' => false,
+              'type' => '`$STRING`',
+              'index$' => 5,
+            ],
+            [
+              'active' => true,
+              'name' => 'values',
               'op' => [
                 'create' => [
                   'req' => true,
@@ -95,7 +102,7 @@ class BluefinShieldconexConfig
               ],
               'req' => false,
               'type' => '`$ARRAY`',
-              'index$' => 5,
+              'index$' => 6,
             ],
           ],
           'name' => 'detokenize',
@@ -107,6 +114,7 @@ class BluefinShieldconexConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/tokenization/batch/detokenize',
                   'parts' => [
@@ -124,6 +132,7 @@ class BluefinShieldconexConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/tokenization/detokenize',
                   'parts' => [
@@ -182,6 +191,7 @@ class BluefinShieldconexConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/healthcheck/detokenize',
                   'parts' => [
@@ -214,7 +224,7 @@ class BluefinShieldconexConfig
           'fields' => [
             [
               'active' => true,
-              'name' => 'batch',
+              'name' => 'batches',
               'op' => [
                 'create' => [
                   'req' => true,
@@ -240,7 +250,7 @@ class BluefinShieldconexConfig
             ],
             [
               'active' => true,
-              'name' => 'message_id',
+              'name' => 'messageId',
               'req' => false,
               'type' => '`$STRING`',
               'index$' => 2,
@@ -261,7 +271,7 @@ class BluefinShieldconexConfig
             ],
             [
               'active' => true,
-              'name' => 'template_ref',
+              'name' => 'templateRef',
               'req' => true,
               'type' => '`$STRING`',
               'index$' => 5,
@@ -269,6 +279,13 @@ class BluefinShieldconexConfig
             [
               'active' => true,
               'name' => 'value',
+              'req' => false,
+              'type' => '`$STRING`',
+              'index$' => 6,
+            ],
+            [
+              'active' => true,
+              'name' => 'values',
               'op' => [
                 'create' => [
                   'req' => true,
@@ -277,7 +294,7 @@ class BluefinShieldconexConfig
               ],
               'req' => false,
               'type' => '`$ARRAY`',
-              'index$' => 6,
+              'index$' => 7,
             ],
           ],
           'name' => 'tokenize',
@@ -300,6 +317,7 @@ class BluefinShieldconexConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/tokenization/batch/tokenize',
                   'parts' => [
@@ -332,6 +350,7 @@ class BluefinShieldconexConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/tokenization/tokenize',
                   'parts' => [
@@ -352,6 +371,7 @@ class BluefinShieldconexConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/tokenization/delete',
                   'parts' => [
@@ -410,6 +430,7 @@ class BluefinShieldconexConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/healthcheck/tokenize',
                   'parts' => [
@@ -442,7 +463,7 @@ class BluefinShieldconexConfig
           'fields' => [
             [
               'active' => true,
-              'name' => 'batch',
+              'name' => 'batches',
               'op' => [
                 'create' => [
                   'req' => true,
@@ -455,7 +476,7 @@ class BluefinShieldconexConfig
             ],
             [
               'active' => true,
-              'name' => 'message_id',
+              'name' => 'messageId',
               'req' => false,
               'type' => '`$STRING`',
               'index$' => 1,
@@ -477,6 +498,7 @@ class BluefinShieldconexConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/tokenization/batch/delete',
                   'parts' => [
@@ -494,6 +516,7 @@ class BluefinShieldconexConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/tokenization/batch/read',
                   'parts' => [
@@ -533,7 +556,7 @@ class BluefinShieldconexConfig
             ],
             [
               'active' => true,
-              'name' => 'message_id',
+              'name' => 'messageId',
               'req' => false,
               'type' => '`$STRING`',
               'index$' => 1,
@@ -554,7 +577,7 @@ class BluefinShieldconexConfig
             ],
             [
               'active' => true,
-              'name' => 'value',
+              'name' => 'values',
               'req' => false,
               'type' => '`$ARRAY`',
               'index$' => 4,
@@ -569,6 +592,7 @@ class BluefinShieldconexConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/tokenization/read',
                   'parts' => [
@@ -594,7 +618,7 @@ class BluefinShieldconexConfig
           'fields' => [
             [
               'active' => true,
-              'name' => 'message_id',
+              'name' => 'messageId',
               'req' => false,
               'type' => '`$STRING`',
               'index$' => 0,
@@ -608,7 +632,7 @@ class BluefinShieldconexConfig
             ],
             [
               'active' => true,
-              'name' => 'template_ref',
+              'name' => 'templateRef',
               'req' => true,
               'type' => '`$STRING`',
               'index$' => 2,
@@ -623,6 +647,7 @@ class BluefinShieldconexConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/partner/validate',
                   'parts' => [
@@ -639,6 +664,7 @@ class BluefinShieldconexConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/template/validate',
                   'parts' => [

@@ -107,23 +107,25 @@ auto detokenize = client->detokenize();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `std::vector<Value>` | No |  |
+| `batches` | `std::vector<Value>` | No |  |
 | `bfid` | `std::string` | No |  |
-| `message_id` | `std::string` | No |  |
+| `messageId` | `std::string` | No |  |
 | `name` | `std::string` | No |  |
 | `reference` | `std::string` | No |  |
-| `value` | `std::vector<Value>` | No |  |
+| `value` | `std::string` | No |  |
+| `values` | `std::vector<Value>` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `value` | - | Yes |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
@@ -178,25 +180,27 @@ auto tokenize = client->tokenize();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `std::vector<Value>` | No |  |
+| `batches` | `std::vector<Value>` | No |  |
 | `bfid` | `std::string` | No |  |
-| `message_id` | `std::string` | No |  |
+| `messageId` | `std::string` | No |  |
 | `name` | `std::string` | No |  |
 | `reference` | `std::string` | No |  |
-| `template_ref` | `std::string` | Yes |  |
-| `value` | `std::vector<Value>` | No |  |
+| `templateRef` | `std::string` | Yes |  |
+| `value` | `std::string` | No |  |
+| `values` | `std::vector<Value>` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `template_ref` | - | - |
-| `value` | - | Yes |
+| `templateRef` | - | - |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
@@ -206,7 +210,7 @@ Create a new entity with the given data. Returns the created entity data and thr
 
 ```cpp
 Value result = client->tokenize()->create(vmap({
-    {"template_ref", Value("example_template_ref")},  // std::string
+    {"templateRef", Value("example_templateRef")},  // std::string
 }), Value::undef());
 ```
 
@@ -252,16 +256,16 @@ auto tokenize_batch = client->tokenize_batch();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `std::vector<Value>` | No |  |
-| `message_id` | `std::string` | No |  |
+| `batches` | `std::vector<Value>` | No |  |
+| `messageId` | `std::string` | No |  |
 | `reference` | `std::string` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
-| `batch` | Yes |
-| `message_id` | - |
+| `batches` | Yes |
+| `messageId` | - |
 | `reference` | - |
 
 ### Operations
@@ -307,20 +311,20 @@ auto tokenize_read = client->tokenize_read();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `bfid` | `std::string` | No |  |
-| `message_id` | `std::string` | No |  |
+| `messageId` | `std::string` | No |  |
 | `reference` | `std::string` | No |  |
 | `state` | `std::map<std::string, Value>` | No |  |
-| `value` | `std::vector<Value>` | No |  |
+| `values` | `std::vector<Value>` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
 | `bfid` | Yes |
-| `message_id` | - |
+| `messageId` | - |
 | `reference` | - |
 | `state` | - |
-| `value` | - |
+| `values` | - |
 
 ### Operations
 
@@ -364,9 +368,9 @@ auto validate = client->validate();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `message_id` | `std::string` | No |  |
+| `messageId` | `std::string` | No |  |
 | `reference` | `std::string` | No |  |
-| `template_ref` | `std::string` | Yes |  |
+| `templateRef` | `std::string` | Yes |  |
 
 ### Operations
 
@@ -376,7 +380,7 @@ Create a new entity with the given data. Returns the created entity data and thr
 
 ```cpp
 Value result = client->validate()->create(vmap({
-    {"template_ref", Value("example_template_ref")},  // std::string
+    {"templateRef", Value("example_templateRef")},  // std::string
 }), Value::undef());
 ```
 

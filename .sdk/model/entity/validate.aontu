@@ -6,7 +6,7 @@ main: kit: entity: validate: {
 
   fields: [
     {
-      name: "message_id"
+      name: "messageId"
       req: false
       type: "`$STRING`"
     }
@@ -16,7 +16,7 @@ main: kit: entity: validate: {
       type: "`$STRING`"
     }
     {
-      name: "template_ref"
+      name: "templateRef"
       req: true
       type: "`$STRING`"
     }

@@ -47,7 +47,7 @@ void tests() {
       final validate_ref01_ent = client.Validate();
       dynamic validate_ref01_data = setup['data']['new']['validate']['validate_ref01'];
 
-      validate_ref01_data = await validate_ref01_ent.create(validate_ref01_data);
+      validate_ref01_data = (await validate_ref01_ent.create(validate_ref01_data)).data();
       ok(null != validate_ref01_data);
 
 

@@ -104,23 +104,25 @@ Entity* detokenize = bluefinshieldconex_detokenize(client, NULL);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `voxgig_value* (list)` | No |  |
+| `batches` | `voxgig_value* (list)` | No |  |
 | `bfid` | `char*` | No |  |
-| `message_id` | `char*` | No |  |
+| `messageId` | `char*` | No |  |
 | `name` | `char*` | No |  |
 | `reference` | `char*` | No |  |
-| `value` | `voxgig_value* (list)` | No |  |
+| `value` | `char*` | No |  |
+| `values` | `voxgig_value* (list)` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `value` | - | Yes |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
@@ -176,25 +178,27 @@ Entity* tokenize = bluefinshieldconex_tokenize(client, NULL);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `voxgig_value* (list)` | No |  |
+| `batches` | `voxgig_value* (list)` | No |  |
 | `bfid` | `char*` | No |  |
-| `message_id` | `char*` | No |  |
+| `messageId` | `char*` | No |  |
 | `name` | `char*` | No |  |
 | `reference` | `char*` | No |  |
-| `template_ref` | `char*` | Yes |  |
-| `value` | `voxgig_value* (list)` | No |  |
+| `templateRef` | `char*` | Yes |  |
+| `value` | `char*` | No |  |
+| `values` | `voxgig_value* (list)` | No |  |
 
 ### Field Usage by Operation
 
 | Field | list | create |
 | --- | --- | --- |
-| `batch` | - | Yes |
+| `batches` | - | Yes |
 | `bfid` | - | Yes |
-| `message_id` | - | - |
+| `messageId` | - | - |
 | `name` | - | - |
 | `reference` | - | - |
-| `template_ref` | - | - |
-| `value` | - | Yes |
+| `templateRef` | - | - |
+| `value` | - | - |
+| `values` | - | Yes |
 
 ### Operations
 
@@ -205,7 +209,7 @@ Create a new entity with the given data. Returns the created entity data and set
 ```c
 Entity* tokenize = bluefinshieldconex_tokenize(client, NULL);
 voxgig_value* result = tokenize->vt->create(tokenize, cmap(1,
-    "template_ref", v_str("example_template_ref"))  // char*
+    "templateRef", v_str("example_templateRef"))  // char*
 , NULL, &err);
 ```
 
@@ -252,16 +256,16 @@ Entity* tokenize_batch = bluefinshieldconex_tokenize_batch(client, NULL);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `batch` | `voxgig_value* (list)` | No |  |
-| `message_id` | `char*` | No |  |
+| `batches` | `voxgig_value* (list)` | No |  |
+| `messageId` | `char*` | No |  |
 | `reference` | `char*` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
-| `batch` | Yes |
-| `message_id` | - |
+| `batches` | Yes |
+| `messageId` | - |
 | `reference` | - |
 
 ### Operations
@@ -307,20 +311,20 @@ Entity* tokenize_read = bluefinshieldconex_tokenize_read(client, NULL);
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `bfid` | `char*` | No |  |
-| `message_id` | `char*` | No |  |
+| `messageId` | `char*` | No |  |
 | `reference` | `char*` | No |  |
 | `state` | `voxgig_value* (map)` | No |  |
-| `value` | `voxgig_value* (list)` | No |  |
+| `values` | `voxgig_value* (list)` | No |  |
 
 ### Field Usage by Operation
 
 | Field | create |
 | --- | --- |
 | `bfid` | Yes |
-| `message_id` | - |
+| `messageId` | - |
 | `reference` | - |
 | `state` | - |
-| `value` | - |
+| `values` | - |
 
 ### Operations
 
@@ -364,9 +368,9 @@ Entity* validate = bluefinshieldconex_validate(client, NULL);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `message_id` | `char*` | No |  |
+| `messageId` | `char*` | No |  |
 | `reference` | `char*` | No |  |
-| `template_ref` | `char*` | Yes |  |
+| `templateRef` | `char*` | Yes |  |
 
 ### Operations
 
@@ -377,7 +381,7 @@ Create a new entity with the given data. Returns the created entity data and set
 ```c
 Entity* validate = bluefinshieldconex_validate(client, NULL);
 voxgig_value* result = validate->vt->create(validate, cmap(1,
-    "template_ref", v_str("example_template_ref"))  // char*
+    "templateRef", v_str("example_templateRef"))  // char*
 , NULL, &err);
 ```
 

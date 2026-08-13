@@ -40,7 +40,7 @@ class DetokenizeEntityTest {
     }
     Assumptions.assumeFalse(
       setup.syntheticOnly,
-      "live entity test uses synthetic IDs from fixture — set BLUEFINSHIELDCONEX_TEST_DETOKENIZE_ENTID JSON to run live",
+      "live entity test uses synthetic IDs from fixture — set BLUEFIN_SHIELDCONEX_TEST_DETOKENIZE_ENTID JSON to run live",
     )
     val client = setup.client
 
@@ -50,7 +50,7 @@ class DetokenizeEntityTest {
         Struct.getpath(setup.data, "new.detokenize"), "detokenize_ref01")) ?: linkedMapOf())
 
     val detokenizeRef01DataResult = detokenizeRef01Ent.create(detokenizeRef01Data, null)
-    detokenizeRef01Data = Helpers.toMapAny(detokenizeRef01DataResult) ?: linkedMapOf()
+    detokenizeRef01Data = Helpers.toMapAny(if (detokenizeRef01DataResult is SdkEntity) detokenizeRef01DataResult.data() else detokenizeRef01DataResult) ?: linkedMapOf()
     assertNotNull(detokenizeRef01Data, "expected create result to be a map")
 
     // LIST
@@ -131,25 +131,25 @@ class DetokenizeEntityTest {
           "}]}"))
 
       // Detect ENTID env override before envOverride consumes it.
-      val entidEnvRaw = RunnerSupport.getenv("BLUEFINSHIELDCONEX_TEST_DETOKENIZE_ENTID")
+      val entidEnvRaw = RunnerSupport.getenv("BLUEFIN_SHIELDCONEX_TEST_DETOKENIZE_ENTID")
       val idmapOverridden = entidEnvRaw != null && entidEnvRaw.trim().startsWith("{")
 
       val envm = linkedMapOf<String, Any?>()
-      envm["BLUEFINSHIELDCONEX_TEST_DETOKENIZE_ENTID"] = idmap
-      envm["BLUEFINSHIELDCONEX_TEST_LIVE"] = "FALSE"
-      envm["BLUEFINSHIELDCONEX_TEST_EXPLAIN"] = "FALSE"
-      envm["BLUEFINSHIELDCONEX_APIKEY"] = "NONE"
+      envm["BLUEFIN_SHIELDCONEX_TEST_DETOKENIZE_ENTID"] = idmap
+      envm["BLUEFIN_SHIELDCONEX_TEST_LIVE"] = "FALSE"
+      envm["BLUEFIN_SHIELDCONEX_TEST_EXPLAIN"] = "FALSE"
+      envm["BLUEFIN_SHIELDCONEX_APIKEY"] = "NONE"
       val env = RunnerSupport.envOverride(envm)
 
-      var idmapResolved = Helpers.toMapAny(env["BLUEFINSHIELDCONEX_TEST_DETOKENIZE_ENTID"])
+      var idmapResolved = Helpers.toMapAny(env["BLUEFIN_SHIELDCONEX_TEST_DETOKENIZE_ENTID"])
       if (idmapResolved == null) {
         idmapResolved = Helpers.toMapAny(idmap) ?: linkedMapOf()
       }
 
-      val live = "TRUE" == env["BLUEFINSHIELDCONEX_TEST_LIVE"]
+      val live = "TRUE" == env["BLUEFIN_SHIELDCONEX_TEST_LIVE"]
       if (live) {
         val liveOpts = linkedMapOf<String, Any?>()
-        liveOpts["apikey"] = env["BLUEFINSHIELDCONEX_APIKEY"]
+        liveOpts["apikey"] = env["BLUEFIN_SHIELDCONEX_APIKEY"]
         val mergedOpts = Struct.merge(Struct.jt(liveOpts, extra))
         client = BluefinShieldconexSDK(Helpers.toMapAny(mergedOpts))
       }
@@ -159,7 +159,7 @@ class DetokenizeEntityTest {
       setup.data = entityData
       setup.idmap = idmapResolved
       setup.env = env
-      setup.explain = "TRUE" == env["BLUEFINSHIELDCONEX_TEST_EXPLAIN"]
+      setup.explain = "TRUE" == env["BLUEFIN_SHIELDCONEX_TEST_EXPLAIN"]
       setup.live = live
       setup.syntheticOnly = live && !idmapOverridden
       setup.now = System.currentTimeMillis()

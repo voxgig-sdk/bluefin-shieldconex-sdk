@@ -6,9 +6,9 @@ import time
 
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from bluefinshieldconex_sdk.utility.voxgig_struct import voxgig_struct as vs
 from bluefinshieldconex_sdk import BluefinShieldconexSDK
-from core import helpers
+from bluefinshieldconex_sdk.core import helpers
 
 _TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 from test import runner
@@ -36,7 +36,7 @@ class TestTokenizeReadEntity:
         # without an *_ENTID env override, those IDs hit the live API and 4xx.
         if setup.get("synthetic_only"):
             pytest.skip("live entity test uses synthetic IDs from fixture — "
-                        "set BLUEFINSHIELDCONEX_TEST_TOKENIZE_READ_ENTID JSON to run live")
+                        "set BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_READ_ENTID JSON to run live")
         client = setup["client"]
 
         # CREATE
@@ -44,7 +44,7 @@ class TestTokenizeReadEntity:
         tokenize_read_ref01_data = helpers.to_map(vs.getprop(
             vs.getpath(setup["data"], "new.tokenize_read"), "tokenize_read_ref01"))
 
-        tokenize_read_ref01_data = helpers.to_map(tokenize_read_ref01_ent.create(tokenize_read_ref01_data, None))
+        tokenize_read_ref01_data = helpers.to_map(runner.entity_data(tokenize_read_ref01_ent.create(tokenize_read_ref01_data, None)))
         assert tokenize_read_ref01_data is not None
 
 
@@ -78,37 +78,37 @@ def _tokenize_read_basic_setup(extra):
     # mode is on without a real override, the basic test runs against synthetic
     # IDs from the fixture and 4xx's. We surface this so the test can skip.
     _entid_env_raw = os.environ.get(
-        "BLUEFINSHIELDCONEX_TEST_TOKENIZE_READ_ENTID")
+        "BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_READ_ENTID")
     _idmap_overridden = _entid_env_raw is not None and _entid_env_raw.strip().startswith("{")
 
     env = runner.env_override({
-        "BLUEFINSHIELDCONEX_TEST_TOKENIZE_READ_ENTID": idmap,
-        "BLUEFINSHIELDCONEX_TEST_LIVE": "FALSE",
-        "BLUEFINSHIELDCONEX_TEST_EXPLAIN": "FALSE",
-        "BLUEFINSHIELDCONEX_APIKEY": "NONE",
+        "BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_READ_ENTID": idmap,
+        "BLUEFIN_SHIELDCONEX_TEST_LIVE": "FALSE",
+        "BLUEFIN_SHIELDCONEX_TEST_EXPLAIN": "FALSE",
+        "BLUEFIN_SHIELDCONEX_APIKEY": "NONE",
     })
 
     idmap_resolved = helpers.to_map(
-        env.get("BLUEFINSHIELDCONEX_TEST_TOKENIZE_READ_ENTID"))
+        env.get("BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_READ_ENTID"))
     if idmap_resolved is None:
         idmap_resolved = helpers.to_map(idmap)
 
-    if env.get("BLUEFINSHIELDCONEX_TEST_LIVE") == "TRUE":
+    if env.get("BLUEFIN_SHIELDCONEX_TEST_LIVE") == "TRUE":
         merged_opts = vs.merge([
             {
-                "apikey": env.get("BLUEFINSHIELDCONEX_APIKEY"),
+                "apikey": env.get("BLUEFIN_SHIELDCONEX_APIKEY"),
             },
             extra or {},
         ])
         client = BluefinShieldconexSDK(helpers.to_map(merged_opts))
 
-    _live = env.get("BLUEFINSHIELDCONEX_TEST_LIVE") == "TRUE"
+    _live = env.get("BLUEFIN_SHIELDCONEX_TEST_LIVE") == "TRUE"
     return {
         "client": client,
         "data": entity_data,
         "idmap": idmap_resolved,
         "env": env,
-        "explain": env.get("BLUEFINSHIELDCONEX_TEST_EXPLAIN") == "TRUE",
+        "explain": env.get("BLUEFIN_SHIELDCONEX_TEST_EXPLAIN") == "TRUE",
         "live": _live,
         "synthetic_only": _live and not _idmap_overridden,
         "now": int(time.time() * 1000),
