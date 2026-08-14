@@ -46,7 +46,6 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
     "detokenize": {
       "fields": [
         {
-          "active": true,
           "name": "batches",
           "op": {
             "create": {
@@ -54,12 +53,9 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "type": "`$ARRAY`"
             }
           },
-          "req": false,
-          "type": "`$ARRAY`",
-          "index$": 0
+          "type": "`$ARRAY`"
         },
         {
-          "active": true,
           "name": "bfid",
           "op": {
             "create": {
@@ -67,40 +63,25 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "type": "`$STRING`"
             }
           },
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 1
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "messageId",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 2
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "name",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 3
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "reference",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 4
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "value",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 5
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "values",
           "op": {
             "create": {
@@ -108,9 +89,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "type": "`$ARRAY`"
             }
           },
-          "req": false,
-          "type": "`$ARRAY`",
-          "index$": 6
+          "type": "`$ARRAY`"
         }
       ],
       "name": "detokenize",
@@ -120,7 +99,6 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "name": "create",
           "points": [
             {
-              "active": true,
               "args": {},
               "kind": "http",
               "method": "POST",
@@ -134,11 +112,9 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              },
-              "index$": 0
+              }
             },
             {
-              "active": true,
               "args": {},
               "kind": "http",
               "method": "POST",
@@ -151,22 +127,18 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              },
-              "index$": 1
+              }
             }
-          ],
-          "key$": "create"
+          ]
         },
         "list": {
           "input": "data",
           "name": "list",
           "points": [
             {
-              "active": true,
               "args": {
                 "query": [
                   {
-                    "active": true,
                     "kind": "query",
                     "name": "bfid",
                     "orig": "bfid",
@@ -174,27 +146,21 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
                     "type": "`$STRING`"
                   },
                   {
-                    "active": true,
                     "kind": "query",
                     "name": "field_name",
                     "orig": "field_name",
-                    "reqd": false,
                     "type": "`$STRING`"
                   },
                   {
-                    "active": true,
                     "kind": "query",
                     "name": "field_value",
                     "orig": "field_value",
-                    "reqd": false,
                     "type": "`$STRING`"
                   },
                   {
-                    "active": true,
                     "kind": "query",
                     "name": "reference",
                     "orig": "reference",
-                    "reqd": false,
                     "type": "`$STRING`"
                   }
                 ]
@@ -217,11 +183,9 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              },
-              "index$": 0
+              }
             }
-          ],
-          "key$": "list"
+          ]
         }
       },
       "relations": {
@@ -231,7 +195,6 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
     "tokenize": {
       "fields": [
         {
-          "active": true,
           "name": "batches",
           "op": {
             "create": {
@@ -239,12 +202,9 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "type": "`$ARRAY`"
             }
           },
-          "req": false,
-          "type": "`$ARRAY`",
-          "index$": 0
+          "type": "`$ARRAY`"
         },
         {
-          "active": true,
           "name": "bfid",
           "op": {
             "create": {
@@ -252,47 +212,30 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "type": "`$STRING`"
             }
           },
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 1
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "messageId",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 2
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "name",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 3
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "reference",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 4
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "templateRef",
           "req": true,
-          "type": "`$STRING`",
-          "index$": 5
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "value",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 6
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "values",
           "op": {
             "create": {
@@ -300,9 +243,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "type": "`$ARRAY`"
             }
           },
-          "req": false,
-          "type": "`$ARRAY`",
-          "index$": 7
+          "type": "`$ARRAY`"
         }
       ],
       "name": "tokenize",
@@ -312,15 +253,12 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "name": "create",
           "points": [
             {
-              "active": true,
               "args": {
                 "query": [
                   {
-                    "active": true,
                     "kind": "query",
                     "name": "omit",
                     "orig": "omit",
-                    "reqd": false,
                     "type": "`$NUMBER`"
                   }
                 ]
@@ -341,19 +279,15 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              },
-              "index$": 0
+              }
             },
             {
-              "active": true,
               "args": {
                 "query": [
                   {
-                    "active": true,
                     "kind": "query",
                     "name": "omit",
                     "orig": "omit",
-                    "reqd": false,
                     "type": "`$NUMBER`"
                   }
                 ]
@@ -373,11 +307,9 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              },
-              "index$": 1
+              }
             },
             {
-              "active": true,
               "args": {},
               "kind": "http",
               "method": "POST",
@@ -390,46 +322,36 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              },
-              "index$": 2
+              }
             }
-          ],
-          "key$": "create"
+          ]
         },
         "list": {
           "input": "data",
           "name": "list",
           "points": [
             {
-              "active": true,
               "args": {
                 "query": [
                   {
-                    "active": true,
                     "kind": "query",
                     "name": "field_name",
                     "orig": "field_name",
-                    "reqd": false,
                     "type": "`$STRING`"
                   },
                   {
-                    "active": true,
                     "kind": "query",
                     "name": "field_value",
                     "orig": "field_value",
-                    "reqd": false,
                     "type": "`$STRING`"
                   },
                   {
-                    "active": true,
                     "kind": "query",
                     "name": "reference",
                     "orig": "reference",
-                    "reqd": false,
                     "type": "`$STRING`"
                   },
                   {
-                    "active": true,
                     "kind": "query",
                     "name": "template_ref",
                     "orig": "template_ref",
@@ -456,11 +378,9 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              },
-              "index$": 0
+              }
             }
-          ],
-          "key$": "list"
+          ]
         }
       },
       "relations": {
@@ -470,7 +390,6 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
     "tokenize_batch": {
       "fields": [
         {
-          "active": true,
           "name": "batches",
           "op": {
             "create": {
@@ -478,23 +397,15 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "type": "`$ARRAY`"
             }
           },
-          "req": false,
-          "type": "`$ARRAY`",
-          "index$": 0
+          "type": "`$ARRAY`"
         },
         {
-          "active": true,
           "name": "messageId",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 1
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "reference",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 2
+          "type": "`$STRING`"
         }
       ],
       "name": "tokenize_batch",
@@ -504,7 +415,6 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "name": "create",
           "points": [
             {
-              "active": true,
               "args": {},
               "kind": "http",
               "method": "POST",
@@ -518,11 +428,9 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              },
-              "index$": 0
+              }
             },
             {
-              "active": true,
               "args": {},
               "kind": "http",
               "method": "POST",
@@ -536,11 +444,9 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              },
-              "index$": 1
+              }
             }
-          ],
-          "key$": "create"
+          ]
         }
       },
       "relations": {
@@ -550,7 +456,6 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
     "tokenize_read": {
       "fields": [
         {
-          "active": true,
           "name": "bfid",
           "op": {
             "create": {
@@ -558,37 +463,23 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "type": "`$STRING`"
             }
           },
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 0
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "messageId",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 1
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "reference",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 2
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "state",
-          "req": false,
-          "type": "`$OBJECT`",
-          "index$": 3
+          "type": "`$OBJECT`"
         },
         {
-          "active": true,
           "name": "values",
-          "req": false,
-          "type": "`$ARRAY`",
-          "index$": 4
+          "type": "`$ARRAY`"
         }
       ],
       "name": "tokenize_read",
@@ -598,7 +489,6 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "name": "create",
           "points": [
             {
-              "active": true,
               "args": {},
               "kind": "http",
               "method": "POST",
@@ -611,11 +501,9 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              },
-              "index$": 0
+              }
             }
-          ],
-          "key$": "create"
+          ]
         }
       },
       "relations": {
@@ -625,25 +513,17 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
     "validate": {
       "fields": [
         {
-          "active": true,
           "name": "messageId",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 0
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "reference",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 1
+          "type": "`$STRING`"
         },
         {
-          "active": true,
           "name": "templateRef",
           "req": true,
-          "type": "`$STRING`",
-          "index$": 2
+          "type": "`$STRING`"
         }
       ],
       "name": "validate",
@@ -653,7 +533,6 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "name": "create",
           "points": [
             {
-              "active": true,
               "args": {},
               "kind": "http",
               "method": "POST",
@@ -666,11 +545,9 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              },
-              "index$": 0
+              }
             },
             {
-              "active": true,
               "args": {},
               "kind": "http",
               "method": "POST",
@@ -683,11 +560,9 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              },
-              "index$": 1
+              }
             }
-          ],
-          "key$": "create"
+          ]
         }
       },
       "relations": {

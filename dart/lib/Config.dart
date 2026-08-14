@@ -56,7 +56,6 @@ class Config {
     'detokenize': <String, dynamic>{
       'fields': <dynamic>[
         <String, dynamic>{
-          'active': true,
           'name': 'batches',
           'op': <String, dynamic>{
             'create': <String, dynamic>{
@@ -64,12 +63,9 @@ class Config {
               'type': '`\$ARRAY`',
             },
           },
-          'req': false,
           'type': '`\$ARRAY`',
-          'index\$': 0,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'bfid',
           'op': <String, dynamic>{
             'create': <String, dynamic>{
@@ -77,40 +73,25 @@ class Config {
               'type': '`\$STRING`',
             },
           },
-          'req': false,
           'type': '`\$STRING`',
-          'index\$': 1,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'messageId',
-          'req': false,
           'type': '`\$STRING`',
-          'index\$': 2,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'name',
-          'req': false,
           'type': '`\$STRING`',
-          'index\$': 3,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'reference',
-          'req': false,
           'type': '`\$STRING`',
-          'index\$': 4,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'value',
-          'req': false,
           'type': '`\$STRING`',
-          'index\$': 5,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'values',
           'op': <String, dynamic>{
             'create': <String, dynamic>{
@@ -118,9 +99,7 @@ class Config {
               'type': '`\$ARRAY`',
             },
           },
-          'req': false,
           'type': '`\$ARRAY`',
-          'index\$': 6,
         },
       ],
       'name': 'detokenize',
@@ -130,7 +109,6 @@ class Config {
           'name': 'create',
           'points': <dynamic>[
             <String, dynamic>{
-              'active': true,
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
@@ -145,10 +123,8 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'index\$': 0,
             },
             <String, dynamic>{
-              'active': true,
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
@@ -162,21 +138,17 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'index\$': 1,
             },
           ],
-          'key\$': 'create',
         },
         'list': <String, dynamic>{
           'input': 'data',
           'name': 'list',
           'points': <dynamic>[
             <String, dynamic>{
-              'active': true,
               'args': <String, dynamic>{
                 'query': <dynamic>[
                   <String, dynamic>{
-                    'active': true,
                     'kind': 'query',
                     'name': 'bfid',
                     'orig': 'bfid',
@@ -184,27 +156,21 @@ class Config {
                     'type': '`\$STRING`',
                   },
                   <String, dynamic>{
-                    'active': true,
                     'kind': 'query',
                     'name': 'field_name',
                     'orig': 'field_name',
-                    'reqd': false,
                     'type': '`\$STRING`',
                   },
                   <String, dynamic>{
-                    'active': true,
                     'kind': 'query',
                     'name': 'field_value',
                     'orig': 'field_value',
-                    'reqd': false,
                     'type': '`\$STRING`',
                   },
                   <String, dynamic>{
-                    'active': true,
                     'kind': 'query',
                     'name': 'reference',
                     'orig': 'reference',
-                    'reqd': false,
                     'type': '`\$STRING`',
                   },
                 ],
@@ -228,10 +194,8 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'index\$': 0,
             },
           ],
-          'key\$': 'list',
         },
       },
       'relations': <String, dynamic>{
@@ -241,7 +205,6 @@ class Config {
     'tokenize': <String, dynamic>{
       'fields': <dynamic>[
         <String, dynamic>{
-          'active': true,
           'name': 'batches',
           'op': <String, dynamic>{
             'create': <String, dynamic>{
@@ -249,12 +212,9 @@ class Config {
               'type': '`\$ARRAY`',
             },
           },
-          'req': false,
           'type': '`\$ARRAY`',
-          'index\$': 0,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'bfid',
           'op': <String, dynamic>{
             'create': <String, dynamic>{
@@ -262,47 +222,30 @@ class Config {
               'type': '`\$STRING`',
             },
           },
-          'req': false,
           'type': '`\$STRING`',
-          'index\$': 1,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'messageId',
-          'req': false,
           'type': '`\$STRING`',
-          'index\$': 2,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'name',
-          'req': false,
           'type': '`\$STRING`',
-          'index\$': 3,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'reference',
-          'req': false,
           'type': '`\$STRING`',
-          'index\$': 4,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'templateRef',
           'req': true,
           'type': '`\$STRING`',
-          'index\$': 5,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'value',
-          'req': false,
           'type': '`\$STRING`',
-          'index\$': 6,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'values',
           'op': <String, dynamic>{
             'create': <String, dynamic>{
@@ -310,9 +253,7 @@ class Config {
               'type': '`\$ARRAY`',
             },
           },
-          'req': false,
           'type': '`\$ARRAY`',
-          'index\$': 7,
         },
       ],
       'name': 'tokenize',
@@ -322,15 +263,12 @@ class Config {
           'name': 'create',
           'points': <dynamic>[
             <String, dynamic>{
-              'active': true,
               'args': <String, dynamic>{
                 'query': <dynamic>[
                   <String, dynamic>{
-                    'active': true,
                     'kind': 'query',
                     'name': 'omit',
                     'orig': 'omit',
-                    'reqd': false,
                     'type': '`\$NUMBER`',
                   },
                 ],
@@ -352,18 +290,14 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'index\$': 0,
             },
             <String, dynamic>{
-              'active': true,
               'args': <String, dynamic>{
                 'query': <dynamic>[
                   <String, dynamic>{
-                    'active': true,
                     'kind': 'query',
                     'name': 'omit',
                     'orig': 'omit',
-                    'reqd': false,
                     'type': '`\$NUMBER`',
                   },
                 ],
@@ -384,10 +318,8 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'index\$': 1,
             },
             <String, dynamic>{
-              'active': true,
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
@@ -401,45 +333,35 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'index\$': 2,
             },
           ],
-          'key\$': 'create',
         },
         'list': <String, dynamic>{
           'input': 'data',
           'name': 'list',
           'points': <dynamic>[
             <String, dynamic>{
-              'active': true,
               'args': <String, dynamic>{
                 'query': <dynamic>[
                   <String, dynamic>{
-                    'active': true,
                     'kind': 'query',
                     'name': 'field_name',
                     'orig': 'field_name',
-                    'reqd': false,
                     'type': '`\$STRING`',
                   },
                   <String, dynamic>{
-                    'active': true,
                     'kind': 'query',
                     'name': 'field_value',
                     'orig': 'field_value',
-                    'reqd': false,
                     'type': '`\$STRING`',
                   },
                   <String, dynamic>{
-                    'active': true,
                     'kind': 'query',
                     'name': 'reference',
                     'orig': 'reference',
-                    'reqd': false,
                     'type': '`\$STRING`',
                   },
                   <String, dynamic>{
-                    'active': true,
                     'kind': 'query',
                     'name': 'template_ref',
                     'orig': 'template_ref',
@@ -467,10 +389,8 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'index\$': 0,
             },
           ],
-          'key\$': 'list',
         },
       },
       'relations': <String, dynamic>{
@@ -480,7 +400,6 @@ class Config {
     'tokenize_batch': <String, dynamic>{
       'fields': <dynamic>[
         <String, dynamic>{
-          'active': true,
           'name': 'batches',
           'op': <String, dynamic>{
             'create': <String, dynamic>{
@@ -488,23 +407,15 @@ class Config {
               'type': '`\$ARRAY`',
             },
           },
-          'req': false,
           'type': '`\$ARRAY`',
-          'index\$': 0,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'messageId',
-          'req': false,
           'type': '`\$STRING`',
-          'index\$': 1,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'reference',
-          'req': false,
           'type': '`\$STRING`',
-          'index\$': 2,
         },
       ],
       'name': 'tokenize_batch',
@@ -514,7 +425,6 @@ class Config {
           'name': 'create',
           'points': <dynamic>[
             <String, dynamic>{
-              'active': true,
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
@@ -529,10 +439,8 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'index\$': 0,
             },
             <String, dynamic>{
-              'active': true,
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
@@ -547,10 +455,8 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'index\$': 1,
             },
           ],
-          'key\$': 'create',
         },
       },
       'relations': <String, dynamic>{
@@ -560,7 +466,6 @@ class Config {
     'tokenize_read': <String, dynamic>{
       'fields': <dynamic>[
         <String, dynamic>{
-          'active': true,
           'name': 'bfid',
           'op': <String, dynamic>{
             'create': <String, dynamic>{
@@ -568,37 +473,23 @@ class Config {
               'type': '`\$STRING`',
             },
           },
-          'req': false,
           'type': '`\$STRING`',
-          'index\$': 0,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'messageId',
-          'req': false,
           'type': '`\$STRING`',
-          'index\$': 1,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'reference',
-          'req': false,
           'type': '`\$STRING`',
-          'index\$': 2,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'state',
-          'req': false,
           'type': '`\$OBJECT`',
-          'index\$': 3,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'values',
-          'req': false,
           'type': '`\$ARRAY`',
-          'index\$': 4,
         },
       ],
       'name': 'tokenize_read',
@@ -608,7 +499,6 @@ class Config {
           'name': 'create',
           'points': <dynamic>[
             <String, dynamic>{
-              'active': true,
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
@@ -622,10 +512,8 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'index\$': 0,
             },
           ],
-          'key\$': 'create',
         },
       },
       'relations': <String, dynamic>{
@@ -635,25 +523,17 @@ class Config {
     'validate': <String, dynamic>{
       'fields': <dynamic>[
         <String, dynamic>{
-          'active': true,
           'name': 'messageId',
-          'req': false,
           'type': '`\$STRING`',
-          'index\$': 0,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'reference',
-          'req': false,
           'type': '`\$STRING`',
-          'index\$': 1,
         },
         <String, dynamic>{
-          'active': true,
           'name': 'templateRef',
           'req': true,
           'type': '`\$STRING`',
-          'index\$': 2,
         },
       ],
       'name': 'validate',
@@ -663,7 +543,6 @@ class Config {
           'name': 'create',
           'points': <dynamic>[
             <String, dynamic>{
-              'active': true,
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
@@ -677,10 +556,8 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'index\$': 0,
             },
             <String, dynamic>{
-              'active': true,
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
@@ -694,10 +571,8 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'index\$': 1,
             },
           ],
-          'key\$': 'create',
         },
       },
       'relations': <String, dynamic>{

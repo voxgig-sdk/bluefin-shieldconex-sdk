@@ -8,70 +8,46 @@
       "detokenize" (vs/jm
         "fields" (vs/jt
           (vs/jm
-            "active" true
-            "index$" 0
             "name" "batches"
             "op" (vs/jm
               "create" (vs/jm
                 "req" true
                 "type" "`$ARRAY`"))
-            "req" false
             "type" "`$ARRAY`")
           (vs/jm
-            "active" true
-            "index$" 1
             "name" "bfid"
             "op" (vs/jm
               "create" (vs/jm
                 "req" true
                 "type" "`$STRING`"))
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 2
             "name" "messageId"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 3
             "name" "name"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 4
             "name" "reference"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 5
             "name" "value"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 6
             "name" "values"
             "op" (vs/jm
               "create" (vs/jm
                 "req" true
                 "type" "`$ARRAY`"))
-            "req" false
             "type" "`$ARRAY`"))
         "name" "detokenize"
         "op" (vs/jm
           "create" (vs/jm
             "input" "data"
-            "key$" "create"
             "name" "create"
             "points" (vs/jt
               (vs/jm
-                "active" true
                 "args" (vs/jm)
-                "index$" 0
                 "kind" "http"
                 "method" "POST"
                 "orig" "/tokenization/batch/detokenize"
@@ -84,9 +60,7 @@
                   "req" "`reqdata`"
                   "res" "`body`"))
               (vs/jm
-                "active" true
                 "args" (vs/jm)
-                "index$" 1
                 "kind" "http"
                 "method" "POST"
                 "orig" "/tokenization/detokenize"
@@ -99,42 +73,32 @@
                   "res" "`body`"))))
           "list" (vs/jm
             "input" "data"
-            "key$" "list"
             "name" "list"
             "points" (vs/jt
               (vs/jm
-                "active" true
                 "args" (vs/jm
                   "query" (vs/jt
                     (vs/jm
-                      "active" true
                       "kind" "query"
                       "name" "bfid"
                       "orig" "bfid"
                       "reqd" true
                       "type" "`$STRING`")
                     (vs/jm
-                      "active" true
                       "kind" "query"
                       "name" "field_name"
                       "orig" "field_name"
-                      "reqd" false
                       "type" "`$STRING`")
                     (vs/jm
-                      "active" true
                       "kind" "query"
                       "name" "field_value"
                       "orig" "field_value"
-                      "reqd" false
                       "type" "`$STRING`")
                     (vs/jm
-                      "active" true
                       "kind" "query"
                       "name" "reference"
                       "orig" "reference"
-                      "reqd" false
                       "type" "`$STRING`")))
-                "index$" 0
                 "kind" "http"
                 "method" "GET"
                 "orig" "/healthcheck/detokenize"
@@ -155,84 +119,56 @@
       "tokenize" (vs/jm
         "fields" (vs/jt
           (vs/jm
-            "active" true
-            "index$" 0
             "name" "batches"
             "op" (vs/jm
               "create" (vs/jm
                 "req" true
                 "type" "`$ARRAY`"))
-            "req" false
             "type" "`$ARRAY`")
           (vs/jm
-            "active" true
-            "index$" 1
             "name" "bfid"
             "op" (vs/jm
               "create" (vs/jm
                 "req" true
                 "type" "`$STRING`"))
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 2
             "name" "messageId"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 3
             "name" "name"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 4
             "name" "reference"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 5
             "name" "templateRef"
             "req" true
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 6
             "name" "value"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 7
             "name" "values"
             "op" (vs/jm
               "create" (vs/jm
                 "req" true
                 "type" "`$ARRAY`"))
-            "req" false
             "type" "`$ARRAY`"))
         "name" "tokenize"
         "op" (vs/jm
           "create" (vs/jm
             "input" "data"
-            "key$" "create"
             "name" "create"
             "points" (vs/jt
               (vs/jm
-                "active" true
                 "args" (vs/jm
                   "query" (vs/jt
                     (vs/jm
-                      "active" true
                       "kind" "query"
                       "name" "omit"
                       "orig" "omit"
-                      "reqd" false
                       "type" "`$NUMBER`")))
-                "index$" 0
                 "kind" "http"
                 "method" "POST"
                 "orig" "/tokenization/batch/tokenize"
@@ -247,17 +183,13 @@
                   "req" "`reqdata`"
                   "res" "`body`"))
               (vs/jm
-                "active" true
                 "args" (vs/jm
                   "query" (vs/jt
                     (vs/jm
-                      "active" true
                       "kind" "query"
                       "name" "omit"
                       "orig" "omit"
-                      "reqd" false
                       "type" "`$NUMBER`")))
-                "index$" 1
                 "kind" "http"
                 "method" "POST"
                 "orig" "/tokenization/tokenize"
@@ -271,9 +203,7 @@
                   "req" "`reqdata`"
                   "res" "`body`"))
               (vs/jm
-                "active" true
                 "args" (vs/jm)
-                "index$" 2
                 "kind" "http"
                 "method" "POST"
                 "orig" "/tokenization/delete"
@@ -286,42 +216,32 @@
                   "res" "`body`"))))
           "list" (vs/jm
             "input" "data"
-            "key$" "list"
             "name" "list"
             "points" (vs/jt
               (vs/jm
-                "active" true
                 "args" (vs/jm
                   "query" (vs/jt
                     (vs/jm
-                      "active" true
                       "kind" "query"
                       "name" "field_name"
                       "orig" "field_name"
-                      "reqd" false
                       "type" "`$STRING`")
                     (vs/jm
-                      "active" true
                       "kind" "query"
                       "name" "field_value"
                       "orig" "field_value"
-                      "reqd" false
                       "type" "`$STRING`")
                     (vs/jm
-                      "active" true
                       "kind" "query"
                       "name" "reference"
                       "orig" "reference"
-                      "reqd" false
                       "type" "`$STRING`")
                     (vs/jm
-                      "active" true
                       "kind" "query"
                       "name" "template_ref"
                       "orig" "template_ref"
                       "reqd" true
                       "type" "`$STRING`")))
-                "index$" 0
                 "kind" "http"
                 "method" "GET"
                 "orig" "/healthcheck/tokenize"
@@ -342,38 +262,26 @@
       "tokenize_batch" (vs/jm
         "fields" (vs/jt
           (vs/jm
-            "active" true
-            "index$" 0
             "name" "batches"
             "op" (vs/jm
               "create" (vs/jm
                 "req" true
                 "type" "`$ARRAY`"))
-            "req" false
             "type" "`$ARRAY`")
           (vs/jm
-            "active" true
-            "index$" 1
             "name" "messageId"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 2
             "name" "reference"
-            "req" false
             "type" "`$STRING`"))
         "name" "tokenize_batch"
         "op" (vs/jm
           "create" (vs/jm
             "input" "data"
-            "key$" "create"
             "name" "create"
             "points" (vs/jt
               (vs/jm
-                "active" true
                 "args" (vs/jm)
-                "index$" 0
                 "kind" "http"
                 "method" "POST"
                 "orig" "/tokenization/batch/delete"
@@ -386,9 +294,7 @@
                   "req" "`reqdata`"
                   "res" "`body`"))
               (vs/jm
-                "active" true
                 "args" (vs/jm)
-                "index$" 1
                 "kind" "http"
                 "method" "POST"
                 "orig" "/tokenization/batch/read"
@@ -405,50 +311,32 @@
       "tokenize_read" (vs/jm
         "fields" (vs/jt
           (vs/jm
-            "active" true
-            "index$" 0
             "name" "bfid"
             "op" (vs/jm
               "create" (vs/jm
                 "req" true
                 "type" "`$STRING`"))
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 1
             "name" "messageId"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 2
             "name" "reference"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 3
             "name" "state"
-            "req" false
             "type" "`$OBJECT`")
           (vs/jm
-            "active" true
-            "index$" 4
             "name" "values"
-            "req" false
             "type" "`$ARRAY`"))
         "name" "tokenize_read"
         "op" (vs/jm
           "create" (vs/jm
             "input" "data"
-            "key$" "create"
             "name" "create"
             "points" (vs/jt
               (vs/jm
-                "active" true
                 "args" (vs/jm)
-                "index$" 0
                 "kind" "http"
                 "method" "POST"
                 "orig" "/tokenization/read"
@@ -464,20 +352,12 @@
       "validate" (vs/jm
         "fields" (vs/jt
           (vs/jm
-            "active" true
-            "index$" 0
             "name" "messageId"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 1
             "name" "reference"
-            "req" false
             "type" "`$STRING`")
           (vs/jm
-            "active" true
-            "index$" 2
             "name" "templateRef"
             "req" true
             "type" "`$STRING`"))
@@ -485,13 +365,10 @@
         "op" (vs/jm
           "create" (vs/jm
             "input" "data"
-            "key$" "create"
             "name" "create"
             "points" (vs/jt
               (vs/jm
-                "active" true
                 "args" (vs/jm)
-                "index$" 0
                 "kind" "http"
                 "method" "POST"
                 "orig" "/partner/validate"
@@ -503,9 +380,7 @@
                   "req" "`reqdata`"
                   "res" "`body`"))
               (vs/jm
-                "active" true
                 "args" (vs/jm)
-                "index$" 1
                 "kind" "http"
                 "method" "POST"
                 "orig" "/template/validate"

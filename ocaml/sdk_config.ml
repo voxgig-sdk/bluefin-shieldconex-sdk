@@ -32,59 +32,38 @@ let make_config () : value =
       ("detokenize", (jo [
         ("fields", (ja [
           (jo [
-            ("active", (Bool true));
             ("name", (Str "batches"));
             ("op", (jo [
               ("create", (jo [
                 ("req", (Bool true));
                 ("type", (Str "`$ARRAY`")) ])) ]));
-            ("req", (Bool false));
-            ("type", (Str "`$ARRAY`"));
-            ("index$", (Num (0.))) ]);
+            ("type", (Str "`$ARRAY`")) ]);
           (jo [
-            ("active", (Bool true));
             ("name", (Str "bfid"));
             ("op", (jo [
               ("create", (jo [
                 ("req", (Bool true));
                 ("type", (Str "`$STRING`")) ])) ]));
-            ("req", (Bool false));
-            ("type", (Str "`$STRING`"));
-            ("index$", (Num (1.))) ]);
+            ("type", (Str "`$STRING`")) ]);
           (jo [
-            ("active", (Bool true));
             ("name", (Str "messageId"));
-            ("req", (Bool false));
-            ("type", (Str "`$STRING`"));
-            ("index$", (Num (2.))) ]);
+            ("type", (Str "`$STRING`")) ]);
           (jo [
-            ("active", (Bool true));
             ("name", (Str "name"));
-            ("req", (Bool false));
-            ("type", (Str "`$STRING`"));
-            ("index$", (Num (3.))) ]);
+            ("type", (Str "`$STRING`")) ]);
           (jo [
-            ("active", (Bool true));
             ("name", (Str "reference"));
-            ("req", (Bool false));
-            ("type", (Str "`$STRING`"));
-            ("index$", (Num (4.))) ]);
+            ("type", (Str "`$STRING`")) ]);
           (jo [
-            ("active", (Bool true));
             ("name", (Str "value"));
-            ("req", (Bool false));
-            ("type", (Str "`$STRING`"));
-            ("index$", (Num (5.))) ]);
+            ("type", (Str "`$STRING`")) ]);
           (jo [
-            ("active", (Bool true));
             ("name", (Str "values"));
             ("op", (jo [
               ("create", (jo [
                 ("req", (Bool true));
                 ("type", (Str "`$ARRAY`")) ])) ]));
-            ("req", (Bool false));
-            ("type", (Str "`$ARRAY`"));
-            ("index$", (Num (6.))) ]) ]));
+            ("type", (Str "`$ARRAY`")) ]) ]));
         ("name", (Str "detokenize"));
         ("op", (jo [
           ("create", (jo [
@@ -92,7 +71,6 @@ let make_config () : value =
             ("name", (Str "create"));
             ("points", (ja [
               (jo [
-                ("active", (Bool true));
                 ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
@@ -104,10 +82,8 @@ let make_config () : value =
                 ("select", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ]));
-                ("index$", (Num (0.))) ]);
+                  ("res", (Str "`body`")) ])) ]);
               (jo [
-                ("active", (Bool true));
                 ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
@@ -118,44 +94,34 @@ let make_config () : value =
                 ("select", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ]));
-                ("index$", (Num (1.))) ]) ]));
-            ("key$", (Str "create")) ]));
+                  ("res", (Str "`body`")) ])) ]) ])) ]));
           ("list", (jo [
             ("input", (Str "data"));
             ("name", (Str "list"));
             ("points", (ja [
               (jo [
-                ("active", (Bool true));
                 ("args", (jo [
                   ("query", (ja [
                     (jo [
-                      ("active", (Bool true));
                       ("kind", (Str "query"));
                       ("name", (Str "bfid"));
                       ("orig", (Str "bfid"));
                       ("reqd", (Bool true));
                       ("type", (Str "`$STRING`")) ]);
                     (jo [
-                      ("active", (Bool true));
                       ("kind", (Str "query"));
                       ("name", (Str "field_name"));
                       ("orig", (Str "field_name"));
-                      ("reqd", (Bool false));
                       ("type", (Str "`$STRING`")) ]);
                     (jo [
-                      ("active", (Bool true));
                       ("kind", (Str "query"));
                       ("name", (Str "field_value"));
                       ("orig", (Str "field_value"));
-                      ("reqd", (Bool false));
                       ("type", (Str "`$STRING`")) ]);
                     (jo [
-                      ("active", (Bool true));
                       ("kind", (Str "query"));
                       ("name", (Str "reference"));
                       ("orig", (Str "reference"));
-                      ("reqd", (Bool false));
                       ("type", (Str "`$STRING`")) ]) ])) ]));
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
@@ -171,73 +137,48 @@ let make_config () : value =
                     (Str "reference") ])) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ]));
-                ("index$", (Num (0.))) ]) ]));
-            ("key$", (Str "list")) ])) ]));
+                  ("res", (Str "`body`")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("tokenize", (jo [
         ("fields", (ja [
           (jo [
-            ("active", (Bool true));
             ("name", (Str "batches"));
             ("op", (jo [
               ("create", (jo [
                 ("req", (Bool true));
                 ("type", (Str "`$ARRAY`")) ])) ]));
-            ("req", (Bool false));
-            ("type", (Str "`$ARRAY`"));
-            ("index$", (Num (0.))) ]);
+            ("type", (Str "`$ARRAY`")) ]);
           (jo [
-            ("active", (Bool true));
             ("name", (Str "bfid"));
             ("op", (jo [
               ("create", (jo [
                 ("req", (Bool true));
                 ("type", (Str "`$STRING`")) ])) ]));
-            ("req", (Bool false));
-            ("type", (Str "`$STRING`"));
-            ("index$", (Num (1.))) ]);
+            ("type", (Str "`$STRING`")) ]);
           (jo [
-            ("active", (Bool true));
             ("name", (Str "messageId"));
-            ("req", (Bool false));
-            ("type", (Str "`$STRING`"));
-            ("index$", (Num (2.))) ]);
+            ("type", (Str "`$STRING`")) ]);
           (jo [
-            ("active", (Bool true));
             ("name", (Str "name"));
-            ("req", (Bool false));
-            ("type", (Str "`$STRING`"));
-            ("index$", (Num (3.))) ]);
+            ("type", (Str "`$STRING`")) ]);
           (jo [
-            ("active", (Bool true));
             ("name", (Str "reference"));
-            ("req", (Bool false));
-            ("type", (Str "`$STRING`"));
-            ("index$", (Num (4.))) ]);
+            ("type", (Str "`$STRING`")) ]);
           (jo [
-            ("active", (Bool true));
             ("name", (Str "templateRef"));
             ("req", (Bool true));
-            ("type", (Str "`$STRING`"));
-            ("index$", (Num (5.))) ]);
+            ("type", (Str "`$STRING`")) ]);
           (jo [
-            ("active", (Bool true));
             ("name", (Str "value"));
-            ("req", (Bool false));
-            ("type", (Str "`$STRING`"));
-            ("index$", (Num (6.))) ]);
+            ("type", (Str "`$STRING`")) ]);
           (jo [
-            ("active", (Bool true));
             ("name", (Str "values"));
             ("op", (jo [
               ("create", (jo [
                 ("req", (Bool true));
                 ("type", (Str "`$ARRAY`")) ])) ]));
-            ("req", (Bool false));
-            ("type", (Str "`$ARRAY`"));
-            ("index$", (Num (7.))) ]) ]));
+            ("type", (Str "`$ARRAY`")) ]) ]));
         ("name", (Str "tokenize"));
         ("op", (jo [
           ("create", (jo [
@@ -245,15 +186,12 @@ let make_config () : value =
             ("name", (Str "create"));
             ("points", (ja [
               (jo [
-                ("active", (Bool true));
                 ("args", (jo [
                   ("query", (ja [
                     (jo [
-                      ("active", (Bool true));
                       ("kind", (Str "query"));
                       ("name", (Str "omit"));
                       ("orig", (Str "omit"));
-                      ("reqd", (Bool false));
                       ("type", (Str "`$NUMBER`")) ]) ])) ]));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
@@ -267,18 +205,14 @@ let make_config () : value =
                     (Str "omit") ])) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ]));
-                ("index$", (Num (0.))) ]);
+                  ("res", (Str "`body`")) ])) ]);
               (jo [
-                ("active", (Bool true));
                 ("args", (jo [
                   ("query", (ja [
                     (jo [
-                      ("active", (Bool true));
                       ("kind", (Str "query"));
                       ("name", (Str "omit"));
                       ("orig", (Str "omit"));
-                      ("reqd", (Bool false));
                       ("type", (Str "`$NUMBER`")) ]) ])) ]));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
@@ -291,10 +225,8 @@ let make_config () : value =
                     (Str "omit") ])) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ]));
-                ("index$", (Num (1.))) ]);
+                  ("res", (Str "`body`")) ])) ]);
               (jo [
-                ("active", (Bool true));
                 ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
@@ -305,40 +237,30 @@ let make_config () : value =
                 ("select", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ]));
-                ("index$", (Num (2.))) ]) ]));
-            ("key$", (Str "create")) ]));
+                  ("res", (Str "`body`")) ])) ]) ])) ]));
           ("list", (jo [
             ("input", (Str "data"));
             ("name", (Str "list"));
             ("points", (ja [
               (jo [
-                ("active", (Bool true));
                 ("args", (jo [
                   ("query", (ja [
                     (jo [
-                      ("active", (Bool true));
                       ("kind", (Str "query"));
                       ("name", (Str "field_name"));
                       ("orig", (Str "field_name"));
-                      ("reqd", (Bool false));
                       ("type", (Str "`$STRING`")) ]);
                     (jo [
-                      ("active", (Bool true));
                       ("kind", (Str "query"));
                       ("name", (Str "field_value"));
                       ("orig", (Str "field_value"));
-                      ("reqd", (Bool false));
                       ("type", (Str "`$STRING`")) ]);
                     (jo [
-                      ("active", (Bool true));
                       ("kind", (Str "query"));
                       ("name", (Str "reference"));
                       ("orig", (Str "reference"));
-                      ("reqd", (Bool false));
                       ("type", (Str "`$STRING`")) ]);
                     (jo [
-                      ("active", (Bool true));
                       ("kind", (Str "query"));
                       ("name", (Str "template_ref"));
                       ("orig", (Str "template_ref"));
@@ -358,35 +280,24 @@ let make_config () : value =
                     (Str "template_ref") ])) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ]));
-                ("index$", (Num (0.))) ]) ]));
-            ("key$", (Str "list")) ])) ]));
+                  ("res", (Str "`body`")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("tokenize_batch", (jo [
         ("fields", (ja [
           (jo [
-            ("active", (Bool true));
             ("name", (Str "batches"));
             ("op", (jo [
               ("create", (jo [
                 ("req", (Bool true));
                 ("type", (Str "`$ARRAY`")) ])) ]));
-            ("req", (Bool false));
-            ("type", (Str "`$ARRAY`"));
-            ("index$", (Num (0.))) ]);
+            ("type", (Str "`$ARRAY`")) ]);
           (jo [
-            ("active", (Bool true));
             ("name", (Str "messageId"));
-            ("req", (Bool false));
-            ("type", (Str "`$STRING`"));
-            ("index$", (Num (1.))) ]);
+            ("type", (Str "`$STRING`")) ]);
           (jo [
-            ("active", (Bool true));
             ("name", (Str "reference"));
-            ("req", (Bool false));
-            ("type", (Str "`$STRING`"));
-            ("index$", (Num (2.))) ]) ]));
+            ("type", (Str "`$STRING`")) ]) ]));
         ("name", (Str "tokenize_batch"));
         ("op", (jo [
           ("create", (jo [
@@ -394,7 +305,6 @@ let make_config () : value =
             ("name", (Str "create"));
             ("points", (ja [
               (jo [
-                ("active", (Bool true));
                 ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
@@ -406,10 +316,8 @@ let make_config () : value =
                 ("select", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ]));
-                ("index$", (Num (0.))) ]);
+                  ("res", (Str "`body`")) ])) ]);
               (jo [
-                ("active", (Bool true));
                 ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
@@ -421,47 +329,30 @@ let make_config () : value =
                 ("select", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ]));
-                ("index$", (Num (1.))) ]) ]));
-            ("key$", (Str "create")) ])) ]));
+                  ("res", (Str "`body`")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("tokenize_read", (jo [
         ("fields", (ja [
           (jo [
-            ("active", (Bool true));
             ("name", (Str "bfid"));
             ("op", (jo [
               ("create", (jo [
                 ("req", (Bool true));
                 ("type", (Str "`$STRING`")) ])) ]));
-            ("req", (Bool false));
-            ("type", (Str "`$STRING`"));
-            ("index$", (Num (0.))) ]);
+            ("type", (Str "`$STRING`")) ]);
           (jo [
-            ("active", (Bool true));
             ("name", (Str "messageId"));
-            ("req", (Bool false));
-            ("type", (Str "`$STRING`"));
-            ("index$", (Num (1.))) ]);
+            ("type", (Str "`$STRING`")) ]);
           (jo [
-            ("active", (Bool true));
             ("name", (Str "reference"));
-            ("req", (Bool false));
-            ("type", (Str "`$STRING`"));
-            ("index$", (Num (2.))) ]);
+            ("type", (Str "`$STRING`")) ]);
           (jo [
-            ("active", (Bool true));
             ("name", (Str "state"));
-            ("req", (Bool false));
-            ("type", (Str "`$OBJECT`"));
-            ("index$", (Num (3.))) ]);
+            ("type", (Str "`$OBJECT`")) ]);
           (jo [
-            ("active", (Bool true));
             ("name", (Str "values"));
-            ("req", (Bool false));
-            ("type", (Str "`$ARRAY`"));
-            ("index$", (Num (4.))) ]) ]));
+            ("type", (Str "`$ARRAY`")) ]) ]));
         ("name", (Str "tokenize_read"));
         ("op", (jo [
           ("create", (jo [
@@ -469,7 +360,6 @@ let make_config () : value =
             ("name", (Str "create"));
             ("points", (ja [
               (jo [
-                ("active", (Bool true));
                 ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
@@ -480,31 +370,21 @@ let make_config () : value =
                 ("select", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ]));
-                ("index$", (Num (0.))) ]) ]));
-            ("key$", (Str "create")) ])) ]));
+                  ("res", (Str "`body`")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("validate", (jo [
         ("fields", (ja [
           (jo [
-            ("active", (Bool true));
             ("name", (Str "messageId"));
-            ("req", (Bool false));
-            ("type", (Str "`$STRING`"));
-            ("index$", (Num (0.))) ]);
+            ("type", (Str "`$STRING`")) ]);
           (jo [
-            ("active", (Bool true));
             ("name", (Str "reference"));
-            ("req", (Bool false));
-            ("type", (Str "`$STRING`"));
-            ("index$", (Num (1.))) ]);
+            ("type", (Str "`$STRING`")) ]);
           (jo [
-            ("active", (Bool true));
             ("name", (Str "templateRef"));
             ("req", (Bool true));
-            ("type", (Str "`$STRING`"));
-            ("index$", (Num (2.))) ]) ]));
+            ("type", (Str "`$STRING`")) ]) ]));
         ("name", (Str "validate"));
         ("op", (jo [
           ("create", (jo [
@@ -512,7 +392,6 @@ let make_config () : value =
             ("name", (Str "create"));
             ("points", (ja [
               (jo [
-                ("active", (Bool true));
                 ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
@@ -523,10 +402,8 @@ let make_config () : value =
                 ("select", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ]));
-                ("index$", (Num (0.))) ]);
+                  ("res", (Str "`body`")) ])) ]);
               (jo [
-                ("active", (Bool true));
                 ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
@@ -537,9 +414,7 @@ let make_config () : value =
                 ("select", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ]));
-                ("index$", (Num (1.))) ]) ]));
-            ("key$", (Str "create")) ])) ]));
+                  ("res", (Str "`body`")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ])) ])) ])
 

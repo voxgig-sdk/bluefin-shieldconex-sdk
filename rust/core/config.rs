@@ -38,7 +38,6 @@ pub fn make_config() -> Value {
             ("detokenize".to_string(), Value::map_of([
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
-                        ("active".to_string(), Value::Bool(true)),
                         ("name".to_string(), Value::str("batches")),
                         ("op".to_string(), Value::map_of([
                             ("create".to_string(), Value::map_of([
@@ -46,12 +45,9 @@ pub fn make_config() -> Value {
                                 ("type".to_string(), Value::str("`$ARRAY`")),
                             ])),
                         ])),
-                        ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$ARRAY`")),
-                        ("index$".to_string(), Value::Num(0f64)),
                     ]),
                     Value::map_of([
-                        ("active".to_string(), Value::Bool(true)),
                         ("name".to_string(), Value::str("bfid")),
                         ("op".to_string(), Value::map_of([
                             ("create".to_string(), Value::map_of([
@@ -59,40 +55,25 @@ pub fn make_config() -> Value {
                                 ("type".to_string(), Value::str("`$STRING`")),
                             ])),
                         ])),
-                        ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
-                        ("index$".to_string(), Value::Num(1f64)),
                     ]),
                     Value::map_of([
-                        ("active".to_string(), Value::Bool(true)),
                         ("name".to_string(), Value::str("messageId")),
-                        ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
-                        ("index$".to_string(), Value::Num(2f64)),
                     ]),
                     Value::map_of([
-                        ("active".to_string(), Value::Bool(true)),
                         ("name".to_string(), Value::str("name")),
-                        ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
-                        ("index$".to_string(), Value::Num(3f64)),
                     ]),
                     Value::map_of([
-                        ("active".to_string(), Value::Bool(true)),
                         ("name".to_string(), Value::str("reference")),
-                        ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
-                        ("index$".to_string(), Value::Num(4f64)),
                     ]),
                     Value::map_of([
-                        ("active".to_string(), Value::Bool(true)),
                         ("name".to_string(), Value::str("value")),
-                        ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
-                        ("index$".to_string(), Value::Num(5f64)),
                     ]),
                     Value::map_of([
-                        ("active".to_string(), Value::Bool(true)),
                         ("name".to_string(), Value::str("values")),
                         ("op".to_string(), Value::map_of([
                             ("create".to_string(), Value::map_of([
@@ -100,9 +81,7 @@ pub fn make_config() -> Value {
                                 ("type".to_string(), Value::str("`$ARRAY`")),
                             ])),
                         ])),
-                        ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$ARRAY`")),
-                        ("index$".to_string(), Value::Num(6f64)),
                     ]),
                 ])),
                 ("name".to_string(), Value::str("detokenize")),
@@ -112,7 +91,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("create")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
@@ -127,10 +105,8 @@ pub fn make_config() -> Value {
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("index$".to_string(), Value::Num(0f64)),
                             ]),
                             Value::map_of([
-                                ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
@@ -144,21 +120,17 @@ pub fn make_config() -> Value {
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("index$".to_string(), Value::Num(1f64)),
                             ]),
                         ])),
-                        ("key$".to_string(), Value::str("create")),
                     ])),
                     ("list".to_string(), Value::map_of([
                         ("input".to_string(), Value::str("data")),
                         ("name".to_string(), Value::str("list")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::map_of([
                                     ("query".to_string(), Value::list(vec![
                                         Value::map_of([
-                                            ("active".to_string(), Value::Bool(true)),
                                             ("kind".to_string(), Value::str("query")),
                                             ("name".to_string(), Value::str("bfid")),
                                             ("orig".to_string(), Value::str("bfid")),
@@ -166,27 +138,21 @@ pub fn make_config() -> Value {
                                             ("type".to_string(), Value::str("`$STRING`")),
                                         ]),
                                         Value::map_of([
-                                            ("active".to_string(), Value::Bool(true)),
                                             ("kind".to_string(), Value::str("query")),
                                             ("name".to_string(), Value::str("field_name")),
                                             ("orig".to_string(), Value::str("field_name")),
-                                            ("reqd".to_string(), Value::Bool(false)),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                         ]),
                                         Value::map_of([
-                                            ("active".to_string(), Value::Bool(true)),
                                             ("kind".to_string(), Value::str("query")),
                                             ("name".to_string(), Value::str("field_value")),
                                             ("orig".to_string(), Value::str("field_value")),
-                                            ("reqd".to_string(), Value::Bool(false)),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                         ]),
                                         Value::map_of([
-                                            ("active".to_string(), Value::Bool(true)),
                                             ("kind".to_string(), Value::str("query")),
                                             ("name".to_string(), Value::str("reference")),
                                             ("orig".to_string(), Value::str("reference")),
-                                            ("reqd".to_string(), Value::Bool(false)),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                         ]),
                                     ])),
@@ -210,10 +176,8 @@ pub fn make_config() -> Value {
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("index$".to_string(), Value::Num(0f64)),
                             ]),
                         ])),
-                        ("key$".to_string(), Value::str("list")),
                     ])),
                 ])),
                 ("relations".to_string(), Value::map_of([
@@ -223,7 +187,6 @@ pub fn make_config() -> Value {
             ("tokenize".to_string(), Value::map_of([
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
-                        ("active".to_string(), Value::Bool(true)),
                         ("name".to_string(), Value::str("batches")),
                         ("op".to_string(), Value::map_of([
                             ("create".to_string(), Value::map_of([
@@ -231,12 +194,9 @@ pub fn make_config() -> Value {
                                 ("type".to_string(), Value::str("`$ARRAY`")),
                             ])),
                         ])),
-                        ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$ARRAY`")),
-                        ("index$".to_string(), Value::Num(0f64)),
                     ]),
                     Value::map_of([
-                        ("active".to_string(), Value::Bool(true)),
                         ("name".to_string(), Value::str("bfid")),
                         ("op".to_string(), Value::map_of([
                             ("create".to_string(), Value::map_of([
@@ -244,47 +204,30 @@ pub fn make_config() -> Value {
                                 ("type".to_string(), Value::str("`$STRING`")),
                             ])),
                         ])),
-                        ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
-                        ("index$".to_string(), Value::Num(1f64)),
                     ]),
                     Value::map_of([
-                        ("active".to_string(), Value::Bool(true)),
                         ("name".to_string(), Value::str("messageId")),
-                        ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
-                        ("index$".to_string(), Value::Num(2f64)),
                     ]),
                     Value::map_of([
-                        ("active".to_string(), Value::Bool(true)),
                         ("name".to_string(), Value::str("name")),
-                        ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
-                        ("index$".to_string(), Value::Num(3f64)),
                     ]),
                     Value::map_of([
-                        ("active".to_string(), Value::Bool(true)),
                         ("name".to_string(), Value::str("reference")),
-                        ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
-                        ("index$".to_string(), Value::Num(4f64)),
                     ]),
                     Value::map_of([
-                        ("active".to_string(), Value::Bool(true)),
                         ("name".to_string(), Value::str("templateRef")),
                         ("req".to_string(), Value::Bool(true)),
                         ("type".to_string(), Value::str("`$STRING`")),
-                        ("index$".to_string(), Value::Num(5f64)),
                     ]),
                     Value::map_of([
-                        ("active".to_string(), Value::Bool(true)),
                         ("name".to_string(), Value::str("value")),
-                        ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
-                        ("index$".to_string(), Value::Num(6f64)),
                     ]),
                     Value::map_of([
-                        ("active".to_string(), Value::Bool(true)),
                         ("name".to_string(), Value::str("values")),
                         ("op".to_string(), Value::map_of([
                             ("create".to_string(), Value::map_of([
@@ -292,9 +235,7 @@ pub fn make_config() -> Value {
                                 ("type".to_string(), Value::str("`$ARRAY`")),
                             ])),
                         ])),
-                        ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$ARRAY`")),
-                        ("index$".to_string(), Value::Num(7f64)),
                     ]),
                 ])),
                 ("name".to_string(), Value::str("tokenize")),
@@ -304,15 +245,12 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("create")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::map_of([
                                     ("query".to_string(), Value::list(vec![
                                         Value::map_of([
-                                            ("active".to_string(), Value::Bool(true)),
                                             ("kind".to_string(), Value::str("query")),
                                             ("name".to_string(), Value::str("omit")),
                                             ("orig".to_string(), Value::str("omit")),
-                                            ("reqd".to_string(), Value::Bool(false)),
                                             ("type".to_string(), Value::str("`$NUMBER`")),
                                         ]),
                                     ])),
@@ -334,18 +272,14 @@ pub fn make_config() -> Value {
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("index$".to_string(), Value::Num(0f64)),
                             ]),
                             Value::map_of([
-                                ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::map_of([
                                     ("query".to_string(), Value::list(vec![
                                         Value::map_of([
-                                            ("active".to_string(), Value::Bool(true)),
                                             ("kind".to_string(), Value::str("query")),
                                             ("name".to_string(), Value::str("omit")),
                                             ("orig".to_string(), Value::str("omit")),
-                                            ("reqd".to_string(), Value::Bool(false)),
                                             ("type".to_string(), Value::str("`$NUMBER`")),
                                         ]),
                                     ])),
@@ -366,10 +300,8 @@ pub fn make_config() -> Value {
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("index$".to_string(), Value::Num(1f64)),
                             ]),
                             Value::map_of([
-                                ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
@@ -383,45 +315,35 @@ pub fn make_config() -> Value {
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("index$".to_string(), Value::Num(2f64)),
                             ]),
                         ])),
-                        ("key$".to_string(), Value::str("create")),
                     ])),
                     ("list".to_string(), Value::map_of([
                         ("input".to_string(), Value::str("data")),
                         ("name".to_string(), Value::str("list")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::map_of([
                                     ("query".to_string(), Value::list(vec![
                                         Value::map_of([
-                                            ("active".to_string(), Value::Bool(true)),
                                             ("kind".to_string(), Value::str("query")),
                                             ("name".to_string(), Value::str("field_name")),
                                             ("orig".to_string(), Value::str("field_name")),
-                                            ("reqd".to_string(), Value::Bool(false)),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                         ]),
                                         Value::map_of([
-                                            ("active".to_string(), Value::Bool(true)),
                                             ("kind".to_string(), Value::str("query")),
                                             ("name".to_string(), Value::str("field_value")),
                                             ("orig".to_string(), Value::str("field_value")),
-                                            ("reqd".to_string(), Value::Bool(false)),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                         ]),
                                         Value::map_of([
-                                            ("active".to_string(), Value::Bool(true)),
                                             ("kind".to_string(), Value::str("query")),
                                             ("name".to_string(), Value::str("reference")),
                                             ("orig".to_string(), Value::str("reference")),
-                                            ("reqd".to_string(), Value::Bool(false)),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                         ]),
                                         Value::map_of([
-                                            ("active".to_string(), Value::Bool(true)),
                                             ("kind".to_string(), Value::str("query")),
                                             ("name".to_string(), Value::str("template_ref")),
                                             ("orig".to_string(), Value::str("template_ref")),
@@ -449,10 +371,8 @@ pub fn make_config() -> Value {
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("index$".to_string(), Value::Num(0f64)),
                             ]),
                         ])),
-                        ("key$".to_string(), Value::str("list")),
                     ])),
                 ])),
                 ("relations".to_string(), Value::map_of([
@@ -462,7 +382,6 @@ pub fn make_config() -> Value {
             ("tokenize_batch".to_string(), Value::map_of([
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
-                        ("active".to_string(), Value::Bool(true)),
                         ("name".to_string(), Value::str("batches")),
                         ("op".to_string(), Value::map_of([
                             ("create".to_string(), Value::map_of([
@@ -470,23 +389,15 @@ pub fn make_config() -> Value {
                                 ("type".to_string(), Value::str("`$ARRAY`")),
                             ])),
                         ])),
-                        ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$ARRAY`")),
-                        ("index$".to_string(), Value::Num(0f64)),
                     ]),
                     Value::map_of([
-                        ("active".to_string(), Value::Bool(true)),
                         ("name".to_string(), Value::str("messageId")),
-                        ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
-                        ("index$".to_string(), Value::Num(1f64)),
                     ]),
                     Value::map_of([
-                        ("active".to_string(), Value::Bool(true)),
                         ("name".to_string(), Value::str("reference")),
-                        ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
-                        ("index$".to_string(), Value::Num(2f64)),
                     ]),
                 ])),
                 ("name".to_string(), Value::str("tokenize_batch")),
@@ -496,7 +407,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("create")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
@@ -511,10 +421,8 @@ pub fn make_config() -> Value {
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("index$".to_string(), Value::Num(0f64)),
                             ]),
                             Value::map_of([
-                                ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
@@ -529,10 +437,8 @@ pub fn make_config() -> Value {
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("index$".to_string(), Value::Num(1f64)),
                             ]),
                         ])),
-                        ("key$".to_string(), Value::str("create")),
                     ])),
                 ])),
                 ("relations".to_string(), Value::map_of([
@@ -542,7 +448,6 @@ pub fn make_config() -> Value {
             ("tokenize_read".to_string(), Value::map_of([
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
-                        ("active".to_string(), Value::Bool(true)),
                         ("name".to_string(), Value::str("bfid")),
                         ("op".to_string(), Value::map_of([
                             ("create".to_string(), Value::map_of([
@@ -550,37 +455,23 @@ pub fn make_config() -> Value {
                                 ("type".to_string(), Value::str("`$STRING`")),
                             ])),
                         ])),
-                        ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
-                        ("index$".to_string(), Value::Num(0f64)),
                     ]),
                     Value::map_of([
-                        ("active".to_string(), Value::Bool(true)),
                         ("name".to_string(), Value::str("messageId")),
-                        ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
-                        ("index$".to_string(), Value::Num(1f64)),
                     ]),
                     Value::map_of([
-                        ("active".to_string(), Value::Bool(true)),
                         ("name".to_string(), Value::str("reference")),
-                        ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
-                        ("index$".to_string(), Value::Num(2f64)),
                     ]),
                     Value::map_of([
-                        ("active".to_string(), Value::Bool(true)),
                         ("name".to_string(), Value::str("state")),
-                        ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$OBJECT`")),
-                        ("index$".to_string(), Value::Num(3f64)),
                     ]),
                     Value::map_of([
-                        ("active".to_string(), Value::Bool(true)),
                         ("name".to_string(), Value::str("values")),
-                        ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$ARRAY`")),
-                        ("index$".to_string(), Value::Num(4f64)),
                     ]),
                 ])),
                 ("name".to_string(), Value::str("tokenize_read")),
@@ -590,7 +481,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("create")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
@@ -604,10 +494,8 @@ pub fn make_config() -> Value {
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("index$".to_string(), Value::Num(0f64)),
                             ]),
                         ])),
-                        ("key$".to_string(), Value::str("create")),
                     ])),
                 ])),
                 ("relations".to_string(), Value::map_of([
@@ -617,25 +505,17 @@ pub fn make_config() -> Value {
             ("validate".to_string(), Value::map_of([
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
-                        ("active".to_string(), Value::Bool(true)),
                         ("name".to_string(), Value::str("messageId")),
-                        ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
-                        ("index$".to_string(), Value::Num(0f64)),
                     ]),
                     Value::map_of([
-                        ("active".to_string(), Value::Bool(true)),
                         ("name".to_string(), Value::str("reference")),
-                        ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
-                        ("index$".to_string(), Value::Num(1f64)),
                     ]),
                     Value::map_of([
-                        ("active".to_string(), Value::Bool(true)),
                         ("name".to_string(), Value::str("templateRef")),
                         ("req".to_string(), Value::Bool(true)),
                         ("type".to_string(), Value::str("`$STRING`")),
-                        ("index$".to_string(), Value::Num(2f64)),
                     ]),
                 ])),
                 ("name".to_string(), Value::str("validate")),
@@ -645,7 +525,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("create")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
@@ -659,10 +538,8 @@ pub fn make_config() -> Value {
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("index$".to_string(), Value::Num(0f64)),
                             ]),
                             Value::map_of([
-                                ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
@@ -676,10 +553,8 @@ pub fn make_config() -> Value {
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("index$".to_string(), Value::Num(1f64)),
                             ]),
                         ])),
-                        ("key$".to_string(), Value::str("create")),
                     ])),
                 ])),
                 ("relations".to_string(), Value::map_of([
