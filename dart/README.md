@@ -24,7 +24,7 @@ dependencies:
     git:
       url: https://github.com/voxgig-sdk/bluefin-shieldconex-sdk
       path: dart
-      ref: dart/v0.0.1
+      ref: dart/v0.1.1
 ```
 
 Or depend on a local source checkout:

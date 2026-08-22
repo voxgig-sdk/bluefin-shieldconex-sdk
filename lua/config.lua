@@ -8,7 +8,7 @@ local function make_config()
     main = {
       name = "BluefinShieldconex",
       slug = "bluefin-shieldconex",
-      version = "0.0.1",
+      version = "0.1.1",
       target = "lua",
     },
     feature = {
@@ -179,7 +179,7 @@ local function make_config()
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.values`",
                 },
               },
             },
@@ -380,7 +380,7 @@ local function make_config()
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.values`",
                 },
               },
             },

@@ -20,7 +20,7 @@ module BluefinShieldconexConfig
       "main" => {
         "name" => "BluefinShieldconex",
         "slug" => "bluefin-shieldconex",
-        "version" => "0.0.1",
+        "version" => "0.1.1",
         "target" => "rb",
       },
       "feature" => {
@@ -191,7 +191,7 @@ module BluefinShieldconexConfig
                   },
                   "transform" => {
                     "req" => "`reqdata`",
-                    "res" => "`body`",
+                    "res" => "`body.values`",
                   },
                 },
               ],
@@ -392,7 +392,7 @@ module BluefinShieldconexConfig
                   },
                   "transform" => {
                     "req" => "`reqdata`",
-                    "res" => "`body`",
+                    "res" => "`body.values`",
                   },
                 },
               ],

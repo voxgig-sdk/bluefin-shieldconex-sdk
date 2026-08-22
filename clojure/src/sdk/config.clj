@@ -118,7 +118,7 @@
                     "reference"))
                 "transform" (vs/jm
                   "req" "`reqdata`"
-                  "res" "`body`")))))
+                  "res" "`body.values`")))))
         "relations" (vs/jm
           "ancestors" (vs/jt)))
       "tokenize" (vs/jm
@@ -267,7 +267,7 @@
                     "template_ref"))
                 "transform" (vs/jm
                   "req" "`reqdata`"
-                  "res" "`body`")))))
+                  "res" "`body.values`")))))
         "relations" (vs/jm
           "ancestors" (vs/jt)))
       "tokenize_batch" (vs/jm

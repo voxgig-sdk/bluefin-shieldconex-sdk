@@ -179,7 +179,7 @@ pub fn make_config() Value {
                                 }) },
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
-                                    .{ "res", h.vstr("`body`") },
+                                    .{ "res", h.vstr("`body.values`") },
                                 }) },
                             }),
                         }) },
@@ -380,7 +380,7 @@ pub fn make_config() Value {
                                 }) },
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
-                                    .{ "res", h.vstr("`body`") },
+                                    .{ "res", h.vstr("`body.values`") },
                                 }) },
                             }),
                         }) },

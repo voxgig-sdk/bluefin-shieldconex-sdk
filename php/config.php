@@ -34,7 +34,7 @@ class BluefinShieldconexConfig
             "main" => [
                 "name" => "BluefinShieldconex",
                 "slug" => "bluefin-shieldconex",
-                "version" => "0.0.1",
+                "version" => "0.1.1",
                 "target" => "php",
             ],
             "feature" => [
@@ -205,7 +205,7 @@ class BluefinShieldconexConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.values`',
                   ],
                 ],
               ],
@@ -406,7 +406,7 @@ class BluefinShieldconexConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.values`',
                   ],
                 ],
               ],

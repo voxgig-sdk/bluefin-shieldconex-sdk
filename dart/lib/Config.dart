@@ -26,7 +26,7 @@ class Config {
   final Map<String, dynamic> main = <String, dynamic>{
     'name': 'BluefinShieldconex',
         'slug': 'bluefin-shieldconex',
-    'version': '0.0.1',
+    'version': '0.1.1',
     'target': 'dart',
 
   };
@@ -207,7 +207,7 @@ class Config {
               },
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
-                'res': '`body`',
+                'res': '`body.values`',
               },
             },
           ],
@@ -408,7 +408,7 @@ class Config {
               },
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
-                'res': '`body`',
+                'res': '`body.values`',
               },
             },
           ],

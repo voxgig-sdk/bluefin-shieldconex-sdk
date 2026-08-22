@@ -30,7 +30,7 @@ class Config {
   main = {
     name: 'BluefinShieldconex',
         slug: "bluefin-shieldconex",
-    version: "0.0.1",
+    version: "0.1.1",
     target: "js",
 
   }
@@ -223,7 +223,7 @@ class Config {
               },
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body`"
+                "res": "`body.values`"
               }
             }
           ]
@@ -424,7 +424,7 @@ class Config {
               },
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body`"
+                "res": "`body.values`"
               }
             }
           ]

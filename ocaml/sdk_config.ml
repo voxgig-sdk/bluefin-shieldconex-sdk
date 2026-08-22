@@ -142,7 +142,7 @@ let make_config () : value =
                     (Str "reference") ])) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]) ])) ])) ]));
+                  ("res", (Str "`body.values`")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("tokenize", (jo [
@@ -291,7 +291,7 @@ let make_config () : value =
                     (Str "template_ref") ])) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]) ])) ])) ]));
+                  ("res", (Str "`body.values`")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("tokenize_batch", (jo [

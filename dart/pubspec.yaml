@@ -1,7 +1,7 @@
 name: bluefin_shieldconex_sdk
 description: >-
   Unofficial generated dart SDK for the ShieldConex public API. Not affiliated with or endorsed by the upstream API provider.
-version: 0.0.1
+version: 0.1.1
 homepage: https://github.com/voxgig-sdk/bluefin-shieldconex-sdk
 repository: https://github.com/voxgig-sdk/bluefin-shieldconex-sdk
 issue_tracker: https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/issues
