@@ -14,21 +14,25 @@ main: kit: entity: tokenize_read: {
         }
       }
       req: false
+      short: "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request)."
       type: "`$STRING`"
     }
     {
       name: "messageId"
       req: false
+      short: "Message Id"
       type: "`$STRING`"
     }
     {
       name: "reference"
       req: false
+      short: "Request Reference."
       type: "`$STRING`"
     }
     {
       name: "state"
       req: false
+      short: "Tokenized State Data (if available)"
       type: "`$OBJECT`"
     }
     {

@@ -20,18 +20,23 @@
               "create" (vs/jm
                 "req" true
                 "type" "`$STRING`"))
+            "short" "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request)."
             "type" "`$STRING`")
           (vs/jm
             "name" "messageId"
+            "short" "Message Id"
             "type" "`$STRING`")
           (vs/jm
             "name" "name"
+            "short" "Field Name."
             "type" "`$STRING`")
           (vs/jm
             "name" "reference"
+            "short" "Request Reference."
             "type" "`$STRING`")
           (vs/jm
             "name" "value"
+            "short" "Field Value."
             "type" "`$STRING`")
           (vs/jm
             "name" "values"
@@ -131,22 +136,28 @@
               "create" (vs/jm
                 "req" true
                 "type" "`$STRING`"))
+            "short" "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request)."
             "type" "`$STRING`")
           (vs/jm
             "name" "messageId"
+            "short" "Message Id"
             "type" "`$STRING`")
           (vs/jm
             "name" "name"
+            "short" "Field Name."
             "type" "`$STRING`")
           (vs/jm
             "name" "reference"
+            "short" "Request Reference."
             "type" "`$STRING`")
           (vs/jm
             "name" "templateRef"
             "req" true
+            "short" "Template Reference"
             "type" "`$STRING`")
           (vs/jm
             "name" "value"
+            "short" "Field Value."
             "type" "`$STRING`")
           (vs/jm
             "name" "values"
@@ -270,9 +281,11 @@
             "type" "`$ARRAY`")
           (vs/jm
             "name" "messageId"
+            "short" "Message Id"
             "type" "`$STRING`")
           (vs/jm
             "name" "reference"
+            "short" "Request Reference."
             "type" "`$STRING`"))
         "name" "tokenize_batch"
         "op" (vs/jm
@@ -316,15 +329,19 @@
               "create" (vs/jm
                 "req" true
                 "type" "`$STRING`"))
+            "short" "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request)."
             "type" "`$STRING`")
           (vs/jm
             "name" "messageId"
+            "short" "Message Id"
             "type" "`$STRING`")
           (vs/jm
             "name" "reference"
+            "short" "Request Reference."
             "type" "`$STRING`")
           (vs/jm
             "name" "state"
+            "short" "Tokenized State Data (if available)"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "values"
@@ -353,13 +370,16 @@
         "fields" (vs/jt
           (vs/jm
             "name" "messageId"
+            "short" "Message Id"
             "type" "`$STRING`")
           (vs/jm
             "name" "reference"
+            "short" "Request Reference."
             "type" "`$STRING`")
           (vs/jm
             "name" "templateRef"
             "req" true
+            "short" "Template Reference."
             "type" "`$STRING`"))
         "name" "validate"
         "op" (vs/jm

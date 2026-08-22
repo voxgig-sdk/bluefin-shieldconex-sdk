@@ -330,9 +330,10 @@ inline Value makePoint(CtxPtr ctx) {
     }
 
     Value point;
+    bool matched = false;
     for (size_t i = 0; i < op->points.size(); i++) {
-      point = op->points[i];
-      Value selectDef = Helpers::toMapAny(getp(point, "select"));
+      Value cand = op->points[i];
+      Value selectDef = Helpers::toMapAny(getp(cand, "select"));
       bool found = true;
 
       if (selector.is_map() && selectDef.is_map()) {
@@ -356,7 +357,58 @@ inline Value makePoint(CtxPtr ctx) {
         if (reqAction != selectAction) found = false;
       }
 
-      if (found) break;
+      if (found) {
+        point = cand;
+        matched = true;
+        break;
+      }
+    }
+
+    // select.exist can list more than the params needed to pick a point (for
+    // /boards/{id} it is Trello's 17 optional query-includes), so a plain
+    // {id} call matches NOTHING. Fall back to the entity's own route rather
+    // than whichever point came last.
+    if (!matched) {
+      // A request naming an action reaches here only because that action's
+      // own point failed its exist test, so it is unbuildable whatever we
+      // pick. Refuse it BEFORE choosing a fallback: the guard below compares
+      // the chosen point's $action and would wave the request through
+      // whenever the fallback lands on the action point itself.
+      Value unmatchedAction = getp(reqselector, "$action", Value(nullptr));
+      if (!unmatchedAction.is_null()) {
+        throw ctx->makeError("point_action_invalid",
+            "Operation \"" + op->name + "\" action \"" +
+            Struct::stringify(unmatchedAction) + "\" is not valid.");
+      }
+
+      // A terminal parameter marks a record route (/boards/{id}); a
+      // cross-reference ends in the relationship's name (/posts/{id}/author).
+      // Failing that, the shallower path wins. The same rule runs at
+      // generation time, in helpers/opShape.ts — both sides must move
+      // together.
+      auto partsLen = [](const Value& p) -> size_t {
+        Value parts = getp(p, "parts");
+        return parts.is_list() ? parts.as_list()->size() : 0;
+      };
+      auto terminalParam = [](const Value& p) -> bool {
+        Value parts = getp(p, "parts");
+        if (!parts.is_list() || parts.as_list()->empty()) return false;
+        const Value& last = parts.as_list()->back();
+        return last.is_string() && 0 == last.as_string().rfind("{", 0);
+      };
+
+      point = op->points[0];
+      for (size_t i = 0; i < op->points.size(); i++) {
+        const Value& cand = op->points[i];
+        bool candTerm = terminalParam(cand);
+        bool bestTerm = terminalParam(point);
+        if (candTerm != bestTerm) {
+          if (candTerm) point = cand;
+        }
+        else if (partsLen(cand) < partsLen(point)) {
+          point = cand;
+        }
+      }
     }
 
     if (reqselector.is_map()) {
@@ -1095,7 +1147,11 @@ inline Value makeOptions(CtxPtr ctx) {
   // dropped by validate).
   Value sysFetch = Struct::getpath(opts, {"system", "fetch"});
 
-  Value mergeList = vlist({vmap(), cfgopts, opts});
+  // CLONE the config side: `config` is a process-wide singleton (sharedConfig)
+  // and merge uses its nested maps as merge TARGETS, so without this one
+  // client's options (headers, server, ...) are written into the shared config
+  // and inherited by every client constructed afterwards.
+  Value mergeList = vlist({vmap(), Struct::clone(cfgopts), opts});
   Value merged = Struct::merge(mergeList);
 
   Value vopts = vmap();
@@ -1155,8 +1211,16 @@ inline Value makeOptions(CtxPtr ctx) {
       std::sort(names.begin(), names.end());
       bool hasTest = std::find(names.begin(), names.end(), "test") != names.end();
       if (hasTest) featureOrder.push_back("test");
+      // Station special case, mirroring test's: its transport wrap must
+      // sit immediately outside the base transport (inside retry/cache/
+      // netsim), so map-form activation hoists it to just after test -
+      // or first, when no test entry exists. Without this the sorted
+      // default would init station last and wrap OUTSIDE the recording
+      // features, turning its wire-truth events into fiction.
+      bool hasStation = std::find(names.begin(), names.end(), "station") != names.end();
+      if (hasStation) featureOrder.push_back("station");
       for (const auto& n : names) {
-        if (n != "test") featureOrder.push_back(n);
+        if (n != "test" && n != "station") featureOrder.push_back(n);
       }
     }
   }

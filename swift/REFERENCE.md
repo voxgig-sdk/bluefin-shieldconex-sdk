@@ -110,11 +110,11 @@ let detokenize = client.Detokenize()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `batches` | `[Value]` | No |  |
-| `bfid` | `String` | No |  |
-| `messageId` | `String` | No |  |
-| `name` | `String` | No |  |
-| `reference` | `String` | No |  |
-| `value` | `String` | No |  |
+| `bfid` | `String` | No | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | `String` | No | Message Id |
+| `name` | `String` | No | Field Name. |
+| `reference` | `String` | No | Request Reference. |
+| `value` | `String` | No | Field Value. |
 | `values` | `[Value]` | No |  |
 
 ### Field Usage by Operation
@@ -181,12 +181,12 @@ let tokenize = client.Tokenize()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `batches` | `[Value]` | No |  |
-| `bfid` | `String` | No |  |
-| `messageId` | `String` | No |  |
-| `name` | `String` | No |  |
-| `reference` | `String` | No |  |
-| `templateRef` | `String` | Yes |  |
-| `value` | `String` | No |  |
+| `bfid` | `String` | No | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | `String` | No | Message Id |
+| `name` | `String` | No | Field Name. |
+| `reference` | `String` | No | Request Reference. |
+| `templateRef` | `String` | Yes | Template Reference |
+| `value` | `String` | No | Field Value. |
 | `values` | `[Value]` | No |  |
 
 ### Field Usage by Operation
@@ -255,8 +255,8 @@ let tokenizeBatch = client.TokenizeBatch()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `batches` | `[Value]` | No |  |
-| `messageId` | `String` | No |  |
-| `reference` | `String` | No |  |
+| `messageId` | `String` | No | Message Id |
+| `reference` | `String` | No | Request Reference. |
 
 ### Field Usage by Operation
 
@@ -308,10 +308,10 @@ let tokenizeRead = client.TokenizeRead()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `bfid` | `String` | No |  |
-| `messageId` | `String` | No |  |
-| `reference` | `String` | No |  |
-| `state` | `VMap` | No |  |
+| `bfid` | `String` | No | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | `String` | No | Message Id |
+| `reference` | `String` | No | Request Reference. |
+| `state` | `VMap` | No | Tokenized State Data (if available) |
 | `values` | `[Value]` | No |  |
 
 ### Field Usage by Operation
@@ -366,9 +366,9 @@ let validate = client.Validate()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `messageId` | `String` | No |  |
-| `reference` | `String` | No |  |
-| `templateRef` | `String` | Yes |  |
+| `messageId` | `String` | No | Message Id |
+| `reference` | `String` | No | Request Reference. |
+| `templateRef` | `String` | Yes | Template Reference. |
 
 ### Operations
 

@@ -5,6 +5,7 @@ main: kit: target: csharp: {
   comment: line: "//"
   module: name: 'bluefin-shieldconex'
   base: 'node_modules/@voxgig/sdkgen/project/.sdk'
+  package: '@voxgig/sdkgen'
   srcfeature: false
 
   deps: &: {

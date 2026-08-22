@@ -105,11 +105,11 @@ Entity* detokenize = bluefinshieldconex_detokenize(client, NULL);
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `batches` | `voxgig_value* (list)` | No |  |
-| `bfid` | `char*` | No |  |
-| `messageId` | `char*` | No |  |
-| `name` | `char*` | No |  |
-| `reference` | `char*` | No |  |
-| `value` | `char*` | No |  |
+| `bfid` | `char*` | No | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | `char*` | No | Message Id |
+| `name` | `char*` | No | Field Name. |
+| `reference` | `char*` | No | Request Reference. |
+| `value` | `char*` | No | Field Value. |
 | `values` | `voxgig_value* (list)` | No |  |
 
 ### Field Usage by Operation
@@ -179,12 +179,12 @@ Entity* tokenize = bluefinshieldconex_tokenize(client, NULL);
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `batches` | `voxgig_value* (list)` | No |  |
-| `bfid` | `char*` | No |  |
-| `messageId` | `char*` | No |  |
-| `name` | `char*` | No |  |
-| `reference` | `char*` | No |  |
-| `templateRef` | `char*` | Yes |  |
-| `value` | `char*` | No |  |
+| `bfid` | `char*` | No | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | `char*` | No | Message Id |
+| `name` | `char*` | No | Field Name. |
+| `reference` | `char*` | No | Request Reference. |
+| `templateRef` | `char*` | Yes | Template Reference |
+| `value` | `char*` | No | Field Value. |
 | `values` | `voxgig_value* (list)` | No |  |
 
 ### Field Usage by Operation
@@ -257,8 +257,8 @@ Entity* tokenize_batch = bluefinshieldconex_tokenize_batch(client, NULL);
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `batches` | `voxgig_value* (list)` | No |  |
-| `messageId` | `char*` | No |  |
-| `reference` | `char*` | No |  |
+| `messageId` | `char*` | No | Message Id |
+| `reference` | `char*` | No | Request Reference. |
 
 ### Field Usage by Operation
 
@@ -310,10 +310,10 @@ Entity* tokenize_read = bluefinshieldconex_tokenize_read(client, NULL);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `bfid` | `char*` | No |  |
-| `messageId` | `char*` | No |  |
-| `reference` | `char*` | No |  |
-| `state` | `voxgig_value* (map)` | No |  |
+| `bfid` | `char*` | No | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | `char*` | No | Message Id |
+| `reference` | `char*` | No | Request Reference. |
+| `state` | `voxgig_value* (map)` | No | Tokenized State Data (if available) |
 | `values` | `voxgig_value* (list)` | No |  |
 
 ### Field Usage by Operation
@@ -368,9 +368,9 @@ Entity* validate = bluefinshieldconex_validate(client, NULL);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `messageId` | `char*` | No |  |
-| `reference` | `char*` | No |  |
-| `templateRef` | `char*` | Yes |  |
+| `messageId` | `char*` | No | Message Id |
+| `reference` | `char*` | No | Request Reference. |
+| `templateRef` | `char*` | Yes | Template Reference. |
 
 ### Operations
 

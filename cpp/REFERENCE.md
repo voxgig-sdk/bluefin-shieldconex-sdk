@@ -108,11 +108,11 @@ auto detokenize = client->detokenize();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `batches` | `std::vector<Value>` | No |  |
-| `bfid` | `std::string` | No |  |
-| `messageId` | `std::string` | No |  |
-| `name` | `std::string` | No |  |
-| `reference` | `std::string` | No |  |
-| `value` | `std::string` | No |  |
+| `bfid` | `std::string` | No | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | `std::string` | No | Message Id |
+| `name` | `std::string` | No | Field Name. |
+| `reference` | `std::string` | No | Request Reference. |
+| `value` | `std::string` | No | Field Value. |
 | `values` | `std::vector<Value>` | No |  |
 
 ### Field Usage by Operation
@@ -181,12 +181,12 @@ auto tokenize = client->tokenize();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `batches` | `std::vector<Value>` | No |  |
-| `bfid` | `std::string` | No |  |
-| `messageId` | `std::string` | No |  |
-| `name` | `std::string` | No |  |
-| `reference` | `std::string` | No |  |
-| `templateRef` | `std::string` | Yes |  |
-| `value` | `std::string` | No |  |
+| `bfid` | `std::string` | No | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | `std::string` | No | Message Id |
+| `name` | `std::string` | No | Field Name. |
+| `reference` | `std::string` | No | Request Reference. |
+| `templateRef` | `std::string` | Yes | Template Reference |
+| `value` | `std::string` | No | Field Value. |
 | `values` | `std::vector<Value>` | No |  |
 
 ### Field Usage by Operation
@@ -257,8 +257,8 @@ auto tokenize_batch = client->tokenize_batch();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `batches` | `std::vector<Value>` | No |  |
-| `messageId` | `std::string` | No |  |
-| `reference` | `std::string` | No |  |
+| `messageId` | `std::string` | No | Message Id |
+| `reference` | `std::string` | No | Request Reference. |
 
 ### Field Usage by Operation
 
@@ -310,10 +310,10 @@ auto tokenize_read = client->tokenize_read();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `bfid` | `std::string` | No |  |
-| `messageId` | `std::string` | No |  |
-| `reference` | `std::string` | No |  |
-| `state` | `std::map<std::string, Value>` | No |  |
+| `bfid` | `std::string` | No | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | `std::string` | No | Message Id |
+| `reference` | `std::string` | No | Request Reference. |
+| `state` | `std::map<std::string, Value>` | No | Tokenized State Data (if available) |
 | `values` | `std::vector<Value>` | No |  |
 
 ### Field Usage by Operation
@@ -368,9 +368,9 @@ auto validate = client->validate();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `messageId` | `std::string` | No |  |
-| `reference` | `std::string` | No |  |
-| `templateRef` | `std::string` | Yes |  |
+| `messageId` | `std::string` | No | Message Id |
+| `reference` | `std::string` | No | Request Reference. |
+| `templateRef` | `std::string` | Yes | Template Reference. |
 
 ### Operations
 

@@ -80,7 +80,16 @@
                   (aset pos 0 (inc (aget pos 0))))
                 (let [tok (subs s start (aget pos 0))]
                   (if (or (.contains tok ".") (.contains tok "e") (.contains tok "E"))
-                    (Double/parseDouble tok) (Long/parseLong tok)))))]
+                    (Double/parseDouble tok)
+                    ;; A JSON integer may exceed the signed 64-bit range - an
+                    ;; OpenAPI `default`/`example` can carry any integer. The
+                    ;; Clojure reader gives the literal branch a BigInt for
+                    ;; such a token, so parseLong alone would make the two
+                    ;; representations disagree by throwing on input the
+                    ;; literal accepts.
+                    (try (Long/parseLong tok)
+                         (catch NumberFormatException _
+                           (bigint (java.math.BigInteger. tok))))))))]
       (parse-val))))
 
 ;; ---------------------------------------------------------------------------
@@ -632,21 +641,56 @@
                             sa (vs/getprop select-def "$action")]
                         (when (not= ra sa) (reset! found false))))
                     @found))
-                ;; "first matching point, else the last point" (mirrors the
-                ;; reference loop that keeps the last-visited point).
-                chosen (loop [ps (vec (op-points op)) last nil]
-                         (if (empty? ps) last
-                             (let [p (first ps)]
-                               (if (point-matches? p) p (recur (rest ps) p)))))
+                ;; How many path segments a point has, and whether its path
+                ;; ends in a parameter. A record route ends in the record's
+                ;; identifier (/boards/{id}); a cross-reference that also
+                ;; returns the entity ends in the relationship's name
+                ;; (/posts/{id}/author). That, then fewest segments, is what
+                ;; tells the entity's own route from a cross-reference. The
+                ;; same rule runs at generation time, in helpers/opShape.ts —
+                ;; both sides must move together.
+                parts-len (fn [p]
+                            (let [parts (vs/getprop p "parts")]
+                              (if (vs/islist parts) (vs/size parts) 0)))
+                terminal-param? (fn [p]
+                                  (let [parts (vs/getprop p "parts")]
+                                    (and (vs/islist parts)
+                                         (pos? (vs/size parts))
+                                         (let [last-part (vs/getelem parts (dec (vs/size parts)))]
+                                           (and (string? last-part)
+                                                (str/starts-with? last-part "{"))))))
+                own-point (fn [ps]
+                            (reduce (fn [best cand]
+                                      (let [ct (terminal-param? cand)
+                                            bt (terminal-param? best)]
+                                        (if (not= ct bt)
+                                          (if ct cand best)
+                                          (if (< (parts-len cand) (parts-len best)) cand best))))
+                                    (first ps) ps))
+                matched (first (filter point-matches? (vec (op-points op))))
                 req-action (vs/getprop reqselector "$action")]
-            (if (and reqselector req-action chosen)
-              (let [point-select (to-map (vs/getprop chosen "select"))
-                    point-action (vs/getprop point-select "$action")]
-                (if (not= req-action point-action)
-                  [nil (ctx-error ctx "point_action_invalid"
-                                  (str "Operation \"" (op-name op) "\" action \"" (vs/stringify req-action) "\" is not valid."))]
-                  (do (oset! ctx :point chosen) [(oget ctx :point) nil])))
-              (do (oset! ctx :point chosen) [(oget ctx :point) nil]))))))))
+            (cond
+              ;; select.exist can list more than the params needed to pick a
+              ;; point, so nothing matches. A request naming an action reaches
+              ;; here only because that action's own point failed its exist
+              ;; test, so it is unbuildable whatever we pick — refuse it
+              ;; BEFORE falling back, since the guard below compares the
+              ;; chosen point's $action and would wave the request through
+              ;; whenever the fallback lands on the action point itself.
+              (and (nil? matched) reqselector req-action)
+              [nil (ctx-error ctx "point_action_invalid"
+                              (str "Operation \"" (op-name op) "\" action \"" (vs/stringify req-action) "\" is not valid."))]
+
+              :else
+              (let [chosen (or matched (own-point (vec (op-points op))))]
+                (if (and reqselector req-action chosen)
+                  (let [point-select (to-map (vs/getprop chosen "select"))
+                        point-action (vs/getprop point-select "$action")]
+                    (if (not= req-action point-action)
+                      [nil (ctx-error ctx "point_action_invalid"
+                                      (str "Operation \"" (op-name op) "\" action \"" (vs/stringify req-action) "\" is not valid."))]
+                      (do (oset! ctx :point chosen) [(oget ctx :point) nil])))
+                  (do (oset! ctx :point chosen) [(oget ctx :point) nil]))))))))))
 
 (defn u-make-spec [ctx]
   (if (some? (out-get ctx "spec"))
@@ -928,11 +972,50 @@
                    "utility" (vs/jm)
                    "system" (vs/jm)
                    "test" (vs/jm "active" false "entity" (vs/jm "`$OPEN`" true))
-                   "clean" (vs/jm "keys" "key,token,id"))
+                   "clean" (vs/jm "keys" "key,token,id")
+                   ;; Server-variable values for a templated base URL (OpenAPI
+                   ;; server variables): {name} placeholders in "base" are
+                   ;; substituted from this map at construction. Spec defaults
+                   ;; arrive via the generated config; user values override
+                   ;; them. Mirrors go's make_options optspec.
+                   "server" (vs/jm "`$CHILD`" ""))
           sys-fetch (vs/getpath opts0 "system.fetch")
           merged (vs/merge (vs/jt (vs/jm) cfgopts opts0))
           validated (vs/validate merged optspec)
-          opts (if (vs/ismap validated) validated (vs/jm))]
+          opts (if (vs/ismap validated) validated (vs/jm))
+          ;; Resolve a templated base URL (e.g. https://{tenant_id}.hanko.io).
+          ;; Every placeholder must resolve to a non-empty value: from
+          ;; options["server"] (user), else the config default. A placeholder
+          ;; that resolves to "" is a construction ERROR in live mode - the URL
+          ;; cannot work - but in test mode substitutes the deterministic value
+          ;; "test-<name>" so offline tests need no configuration.
+          ;;
+          ;; Accepting `server` in the option spec without this is a trap: the
+          ;; option validates and is then ignored, so a templated URL still
+          ;; reaches the wire with a literal {name} in it.
+          base (vs/getprop opts "base")
+          _ (when (and (string? base) (.contains ^String base "{"))
+              (let [testmode (or (true? (vs/getpath opts "test.active"))
+                                 (true? (vs/getpath opts "feature.test.active")))
+                    server (let [s (vs/getprop opts "server")]
+                             (if (vs/ismap s) s (vs/jm)))
+                    sdkname (let [n (vs/getpath config "main.name")]
+                              (if (and (string? n) (seq n)) n "SDK"))
+                    resolved (clojure.string/replace
+                               base #"\{([A-Za-z0-9_]+)\}"
+                               (fn [[_ name]]
+                                 (let [v (vs/getprop server name)
+                                       v (if (string? v) v "")]
+                                   (cond
+                                     (seq v) v
+                                     testmode (str "test-" name)
+                                     :else
+                                     (throw (IllegalArgumentException.
+                                              (str sdkname ": the server variable '" name
+                                                   "' is required: the API base URL is '" base
+                                                   "' - pass {\"server\" {\"" name "\" \"...\"}}"
+                                                   " in the SDK options")))))))]
+                (vs/setprop opts "base" resolved)))]
       (when sys-fetch
         (when (not (vs/ismap (vs/getprop opts "system"))) (.put ^java.util.Map opts "system" (vs/jm)))
         (.put ^java.util.Map (vs/getprop opts "system") "fetch" sys-fetch))

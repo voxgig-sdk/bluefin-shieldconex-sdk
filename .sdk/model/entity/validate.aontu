@@ -8,16 +8,19 @@ main: kit: entity: validate: {
     {
       name: "messageId"
       req: false
+      short: "Message Id"
       type: "`$STRING`"
     }
     {
       name: "reference"
       req: false
+      short: "Request Reference."
       type: "`$STRING`"
     }
     {
       name: "templateRef"
       req: true
+      short: "Template Reference."
       type: "`$STRING`"
     }
   ]

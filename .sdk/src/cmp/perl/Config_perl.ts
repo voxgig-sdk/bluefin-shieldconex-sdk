@@ -3,22 +3,13 @@ import {
   Content,
   File,
   cmp,
-  each,
-  isAuthActive,
-  resolveAuthPrefix,
+  configDefinition,
 } from '@voxgig/sdkgen'
 
 
 import {
-  KIT,
   Model,
-  getModelPath,
 } from '@voxgig/apidef'
-
-
-import {
-  clean,
-} from './utility_perl'
 
 
 // The config is emitted as a JSON heredoc parsed at load time by the
@@ -32,57 +23,14 @@ const Config = cmp(async function Config(props: any) {
 
   const model: Model = ctx$.model
 
-  const entity = getModelPath(model, `main.${KIT}.entity`)
-  const feature = getModelPath(model, `main.${KIT}.feature`)
+  // THE canonical config object, from the shared helper - this component
+  // used to hand-assemble its own (and had already drifted: no server
+  // block, no identity beyond main.name). Passing the target name opts
+  // in to the main slug/version/target identity fields (station
+  // descriptor inputs), matching the ts/js/rb targets.
+  const { def: configDef } = configDefinition(model, target.name)
 
-  const headers = getModelPath(model, `main.${KIT}.config.headers`) || {}
-
-  const authActive = isAuthActive(model)
-  // config.auth.prefix override -> spec-derived info.security.prefix -> 'Bearer'
-  const authPrefix = resolveAuthPrefix(model)
-
-  let baseUrl = ''
-  try { baseUrl = getModelPath(model, `main.${KIT}.info.servers.0.url`) } catch (_e) { }
-
-  // Build the config structure with deterministic (sorted) key order for
-  // the model-derived collections (each() iterates sorted).
-  const featureBlock: any = {}
-  each(feature, (f: any) => {
-    featureBlock[f.name] = clean(f.config || {})
-  })
-
-  const entityOptions: any = {}
-  each(entity, (ent: any) => {
-    entityOptions[ent.name] = {}
-  })
-
-  const entityBlock: any = {}
-  each(entity, (ent: any) => {
-    entityBlock[ent.name] = clean({
-      fields: ent.fields,
-      name: ent.name,
-      op: ent.op,
-      relations: ent.relations,
-    }, true)
-  })
-
-  const options: any = {
-    base: baseUrl,
-  }
-  if (authActive) {
-    options.auth = { prefix: authPrefix }
-  }
-  options.headers = headers
-  options.entity = entityOptions
-
-  const config = {
-    main: { name: model.const.Name },
-    feature: featureBlock,
-    options,
-    entity: entityBlock,
-  }
-
-  const configJson = JSON.stringify(config, null, 2)
+  const configJson = JSON.stringify(configDef, null, 2)
 
   File({ name: 'config.pm' }, () => {
 
@@ -108,6 +56,21 @@ END_CONFIG_JSON
 
 sub make_config {
   return Voxgig::Struct::parse_json($CONFIG_JSON);
+}
+
+# SHARED CONFIG (sdkgen rung L2).
+#
+# The SDK reads the config on every request and never writes to it, so one
+# instance is shared by every client rather than rebuilt per client - the
+# difference between parsing the embedded JSON once and once per client.
+#
+# The returned structure is SHARED: treat it as read-only. Callers that need to
+# mutate should use make_config, which always parses a fresh copy.
+my $SHARED_CONFIG;
+
+sub shared_config {
+  $SHARED_CONFIG = make_config() unless defined $SHARED_CONFIG;
+  return $SHARED_CONFIG;
 }
 
 sub make_feature {

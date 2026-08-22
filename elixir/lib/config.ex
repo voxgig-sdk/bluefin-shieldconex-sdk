@@ -6,7 +6,12 @@
 defmodule BluefinShieldconex.Config do
   def make_config do
     BluefinShieldconex.Helpers.deep(%{
-      "main" => %{"name" => "BluefinShieldconex"},
+      "main" => %{
+        "name" => "BluefinShieldconex",
+        "slug" => "bluefin-shieldconex",
+        "version" => "0.0.1",
+        "target" => "elixir"
+      },
       "feature" => %{
         "test" => %{
           "options" => %{
@@ -16,7 +21,9 @@ defmodule BluefinShieldconex.Config do
       },
       "options" => %{
         "base" => "https://secure-cert.shieldconex.com/api",
-        "auth" => %{"prefix" => "Basic"},
+        "auth" => %{
+          "prefix" => "Basic"
+        },
         "headers" => %{
           "content-type" => "application/json"
         },
@@ -25,7 +32,7 @@ defmodule BluefinShieldconex.Config do
           "tokenize" => %{},
           "tokenize_batch" => %{},
           "tokenize_read" => %{},
-          "validate" => %{},
+          "validate" => %{}
         }
       },
       "entity" => %{
@@ -49,22 +56,27 @@ defmodule BluefinShieldconex.Config do
                   "type" => "`$STRING`"
                 }
               },
+              "short" => "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).",
               "type" => "`$STRING`"
             },
             %{
               "name" => "messageId",
+              "short" => "Message Id",
               "type" => "`$STRING`"
             },
             %{
               "name" => "name",
+              "short" => "Field Name.",
               "type" => "`$STRING`"
             },
             %{
               "name" => "reference",
+              "short" => "Request Reference.",
               "type" => "`$STRING`"
             },
             %{
               "name" => "value",
+              "short" => "Field Value.",
               "type" => "`$STRING`"
             },
             %{
@@ -198,27 +210,33 @@ defmodule BluefinShieldconex.Config do
                   "type" => "`$STRING`"
                 }
               },
+              "short" => "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).",
               "type" => "`$STRING`"
             },
             %{
               "name" => "messageId",
+              "short" => "Message Id",
               "type" => "`$STRING`"
             },
             %{
               "name" => "name",
+              "short" => "Field Name.",
               "type" => "`$STRING`"
             },
             %{
               "name" => "reference",
+              "short" => "Request Reference.",
               "type" => "`$STRING`"
             },
             %{
               "name" => "templateRef",
               "req" => true,
+              "short" => "Template Reference",
               "type" => "`$STRING`"
             },
             %{
               "name" => "value",
+              "short" => "Field Value.",
               "type" => "`$STRING`"
             },
             %{
@@ -387,10 +405,12 @@ defmodule BluefinShieldconex.Config do
             },
             %{
               "name" => "messageId",
+              "short" => "Message Id",
               "type" => "`$STRING`"
             },
             %{
               "name" => "reference",
+              "short" => "Request Reference.",
               "type" => "`$STRING`"
             }
           ],
@@ -449,18 +469,22 @@ defmodule BluefinShieldconex.Config do
                   "type" => "`$STRING`"
                 }
               },
+              "short" => "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).",
               "type" => "`$STRING`"
             },
             %{
               "name" => "messageId",
+              "short" => "Message Id",
               "type" => "`$STRING`"
             },
             %{
               "name" => "reference",
+              "short" => "Request Reference.",
               "type" => "`$STRING`"
             },
             %{
               "name" => "state",
+              "short" => "Tokenized State Data (if available)",
               "type" => "`$OBJECT`"
             },
             %{
@@ -500,15 +524,18 @@ defmodule BluefinShieldconex.Config do
           "fields" => [
             %{
               "name" => "messageId",
+              "short" => "Message Id",
               "type" => "`$STRING`"
             },
             %{
               "name" => "reference",
+              "short" => "Request Reference.",
               "type" => "`$STRING`"
             },
             %{
               "name" => "templateRef",
               "req" => true,
+              "short" => "Template Reference.",
               "type" => "`$STRING`"
             }
           ],
@@ -557,5 +584,31 @@ defmodule BluefinShieldconex.Config do
         }
       }
     })
+  end
+
+  # SHARED CONFIG (sdkgen rung L2). See the data branch for the rationale, and
+  # for why the cached handle is validated on read.
+  @shared_key {__MODULE__, :shared_config}
+
+  # The process-wide config, built once on first use. The returned node is
+  # SHARED: treat it as read-only. Callers that need to mutate should use
+  # make_config, which always returns a fresh copy.
+  def shared_config do
+    cached = :persistent_term.get(@shared_key, nil)
+
+    if cached != nil and usable?(cached) do
+      cached
+    else
+      cfg = make_config()
+      :persistent_term.put(@shared_key, cfg)
+      cfg
+    end
+  end
+
+  defp usable?(cfg) do
+    Voxgig.Struct.getprop(cfg, "main")
+    true
+  rescue
+    ArgumentError -> false
   end
 end

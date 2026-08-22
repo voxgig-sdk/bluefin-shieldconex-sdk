@@ -108,11 +108,11 @@ local detokenize = client:Detokenize(nil)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `batches` | `table` | No |  |
-| `bfid` | `string` | No |  |
-| `messageId` | `string` | No |  |
-| `name` | `string` | No |  |
-| `reference` | `string` | No |  |
-| `value` | `string` | No |  |
+| `bfid` | `string` | No | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | `string` | No | Message Id |
+| `name` | `string` | No | Field Name. |
+| `reference` | `string` | No | Request Reference. |
+| `value` | `string` | No | Field Value. |
 | `values` | `table` | No |  |
 
 ### Field Usage by Operation
@@ -187,12 +187,12 @@ local tokenize = client:Tokenize(nil)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `batches` | `table` | No |  |
-| `bfid` | `string` | No |  |
-| `messageId` | `string` | No |  |
-| `name` | `string` | No |  |
-| `reference` | `string` | No |  |
-| `templateRef` | `string` | Yes |  |
-| `value` | `string` | No |  |
+| `bfid` | `string` | No | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | `string` | No | Message Id |
+| `name` | `string` | No | Field Name. |
+| `reference` | `string` | No | Request Reference. |
+| `templateRef` | `string` | Yes | Template Reference |
+| `value` | `string` | No | Field Value. |
 | `values` | `table` | No |  |
 
 ### Field Usage by Operation
@@ -269,8 +269,8 @@ local tokenize_batch = client:TokenizeBatch(nil)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `batches` | `table` | No |  |
-| `messageId` | `string` | No |  |
-| `reference` | `string` | No |  |
+| `messageId` | `string` | No | Message Id |
+| `reference` | `string` | No | Request Reference. |
 
 ### Field Usage by Operation
 
@@ -331,10 +331,10 @@ local tokenize_read = client:TokenizeRead(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `bfid` | `string` | No |  |
-| `messageId` | `string` | No |  |
-| `reference` | `string` | No |  |
-| `state` | `table` | No |  |
+| `bfid` | `string` | No | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | `string` | No | Message Id |
+| `reference` | `string` | No | Request Reference. |
+| `state` | `table` | No | Tokenized State Data (if available) |
 | `values` | `table` | No |  |
 
 ### Field Usage by Operation
@@ -398,9 +398,9 @@ local validate = client:Validate(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `messageId` | `string` | No |  |
-| `reference` | `string` | No |  |
-| `templateRef` | `string` | Yes |  |
+| `messageId` | `string` | No | Message Id |
+| `reference` | `string` | No | Request Reference. |
+| `templateRef` | `string` | Yes | Template Reference. |
 
 ### Operations
 

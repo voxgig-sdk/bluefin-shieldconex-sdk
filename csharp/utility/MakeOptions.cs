@@ -1,12 +1,20 @@
 // BluefinShieldconex SDK utility: makeOptions - merge, validate and derive the
 // client options.
 
+using System.Text.RegularExpressions;
+
 using Voxgig.Struct;
 
 namespace BluefinShieldconexSdk.Util;
 
 public static partial class SdkUtility
 {
+    // {name} placeholders in a templated server URL (OpenAPI server
+    // variables). Compiled once: MakeOptions runs per client construction.
+    private static readonly Regex ServerVarRe =
+        new(@"\{([A-Za-z0-9_]+)\}", RegexOptions.Compiled);
+
+
     internal static Dictionary<string, object?> MakeOptionsUtil(Context ctx)
     {
         var options = ctx.Options ?? new Dictionary<string, object?>();
@@ -73,6 +81,14 @@ public static partial class SdkUtility
             {
                 ["`$CHILD`"] = "`$STRING`",
             },
+            // OpenAPI server-variable defaults, carried by the generated
+            // config whenever the spec's server URL is templated. Accepted
+            // here so validation does not reject the SDK's own config; the
+            // {name} substitution into base is a separate concern.
+            ["server"] = new Dictionary<string, object?>
+            {
+                ["`$CHILD`"] = "",
+            },
             ["allow"] = new Dictionary<string, object?>
             {
                 ["method"] = "GET,PUT,POST,PATCH,DELETE,OPTIONS",
@@ -118,11 +134,61 @@ public static partial class SdkUtility
         var merged = StructUtils.Merge(new List<object?>
         {
             new Dictionary<string, object?>(),
-            cfgopts,
+            // CLONE the config side. `config` is a process-wide singleton
+            // (SdkConfig.SharedConfig), and Merge uses its nested maps as
+            // merge TARGETS - without this, one client's options (headers,
+            // server, ...) are written into the shared config and inherited by
+            // every client constructed afterwards.
+            StructUtils.Clone(cfgopts),
             opts,
         });
         var validated = StructUtils.Validate(merged, optspec);
         opts = validated as Dictionary<string, object?> ?? new Dictionary<string, object?>();
+
+        // Resolve a templated base URL (e.g. https://{tenant_id}.hanko.io).
+        // Every placeholder must resolve to a non-empty value: from
+        // options.server (user), else the Config default. A placeholder that
+        // resolves to "" is a construction ERROR in live mode - the URL cannot
+        // work - but in test mode substitutes the deterministic value
+        // "test-<name>" so offline tests need no configuration. The SDK
+        // constructor has no error return, so a missing required variable
+        // THROWS: this is construction-time misconfiguration.
+        if (opts.TryGetValue("base", out var baseRaw) && baseRaw is string baseUrl &&
+            baseUrl.Contains('{'))
+        {
+            var testmode =
+                StructUtils.GetPath(opts, StructUtils.Jt("test", "active")) is bool ta && ta ||
+                StructUtils.GetPath(opts, StructUtils.Jt("feature", "test", "active"))
+                    is bool fa && fa;
+
+            var server = opts.TryGetValue("server", out var sv) &&
+                sv is Dictionary<string, object?> svm
+                ? svm : new Dictionary<string, object?>();
+
+            var sdkname = StructUtils.GetPath(config, StructUtils.Jt("main", "name"))
+                is string mn && mn != "" ? mn : "SDK";
+
+            opts["base"] = ServerVarRe.Replace(baseUrl, m =>
+            {
+                var name = m.Groups[1].Value;
+                var val = server.TryGetValue(name, out var v) && v is string s ? s : "";
+                if (val == "")
+                {
+                    if (testmode)
+                    {
+                        return "test-" + name;
+                    }
+                    throw new BluefinShieldconexError("server_var_required",
+                        sdkname + ": the server variable '" + name + "' is required: " +
+                        "the API base URL is '" + baseUrl + "' - pass " +
+                        "new Dictionary<string, object?> { [\"server\"] = new " +
+                        "Dictionary<string, object?> { [\"" + name + "\"] = \"...\" } } " +
+                        "in the SDK options",
+                        ctx);
+                }
+                return val;
+            });
+        }
 
         // Restore system.fetch.
         if (sysFetch != null)
@@ -181,6 +247,19 @@ public static partial class SdkUtility
                 {
                     featureorder.Add(n);
                 }
+            }
+
+            // Station special case, mirroring test's: its transport wrap must
+            // sit immediately outside the base transport (inside retry/cache/
+            // netsim), so map-form activation hoists it to just after test -
+            // or first, when no test entry exists. Without this the sorted
+            // default would init station last and wrap OUTSIDE the recording
+            // features, turning its wire-truth events into fiction.
+            var si = featureorder.IndexOf("station");
+            if (si >= 0)
+            {
+                featureorder.RemoveAt(si);
+                featureorder.Insert(featureorder.IndexOf("test") + 1, "station");
             }
         }
 

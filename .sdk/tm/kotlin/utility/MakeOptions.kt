@@ -84,7 +84,11 @@ fun makeOptions(ctx: Context): MutableMap<String, Any?> {
 
   val mergeList = mutableListOf<Any?>()
   mergeList.add(linkedMapOf<String, Any?>())
-  mergeList.add(cfgopts)
+  // CLONE the config side: `config` is a process-wide singleton
+  // (Config.sharedConfig) and merge uses its nested maps as merge TARGETS, so
+  // without this one client's options (headers, server, ...) are written into
+  // the shared config and inherited by every client constructed afterwards.
+  mergeList.add(Struct.clone(cfgopts))
   mergeList.add(opts)
   val merged = Struct.merge(mergeList)
 
@@ -136,6 +140,17 @@ fun makeOptions(ctx: Context): MutableMap<String, Any?> {
       }
     } else {
       featureorder.addAll(names)
+    }
+    // Station special case, mirroring test's: its transport wrap must
+    // sit immediately outside the base transport (inside retry/cache/
+    // netsim), so map-form activation hoists it to just after test -
+    // or first, when no test entry exists. Without this the sorted
+    // default would init station last and wrap OUTSIDE the recording
+    // features, turning its wire-truth events into fiction.
+    val si = featureorder.indexOf("station")
+    if (0 <= si) {
+      featureorder.removeAt(si)
+      featureorder.add(featureorder.indexOf("test") + 1, "station")
     }
   }
 

@@ -14,6 +14,27 @@ public final class Config {
     return (Map<String, Object>) Json.parse(configJson());
   }
 
+  // SHARED CONFIG (sdkgen rung L2).
+  //
+  // The SDK reads the config on every request and never writes to it, so one
+  // instance is shared by every client rather than rebuilt per client - the
+  // difference between parsing the embedded JSON once and once per client.
+  //
+  // Initialization-on-demand holder: the JLS guarantees the class initializer
+  // runs once, lazily, and safely under concurrency, with no locking on the
+  // read path.
+  private static final class SharedHolder {
+    static final Map<String, Object> VALUE = makeConfig();
+  }
+
+  // The process-wide config, built once on first use.
+  //
+  // The returned map is SHARED: treat it as read-only. Callers that need to
+  // mutate should use makeConfig, which always parses a fresh copy.
+  public static Map<String, Object> sharedConfig() {
+    return SharedHolder.VALUE;
+  }
+
   public static Feature makeFeature(String name) {
     switch (name) {
       case "test":
@@ -27,7 +48,10 @@ public final class Config {
     StringBuilder b = new StringBuilder();
     b.append("{");
     b.append(" \"main\": {");
-    b.append("  \"name\": \"BluefinShieldconex\"");
+    b.append("  \"name\": \"BluefinShieldconex\",");
+    b.append("  \"slug\": \"bluefin-shieldconex\",");
+    b.append("  \"version\": \"0.0.1\",");
+    b.append("  \"target\": \"java\"");
     b.append(" },");
     b.append(" \"feature\": {");
     b.append("  \"test\": {");
@@ -73,22 +97,27 @@ public final class Config {
     b.append("       \"type\": \"`$STRING`\"");
     b.append("      }");
     b.append("     },");
+    b.append("     \"short\": \"The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"messageId\",");
+    b.append("     \"short\": \"Message Id\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"name\",");
+    b.append("     \"short\": \"Field Name.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"reference\",");
+    b.append("     \"short\": \"Request Reference.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"value\",");
+    b.append("     \"short\": \"Field Value.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
@@ -222,27 +251,33 @@ public final class Config {
     b.append("       \"type\": \"`$STRING`\"");
     b.append("      }");
     b.append("     },");
+    b.append("     \"short\": \"The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"messageId\",");
+    b.append("     \"short\": \"Message Id\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"name\",");
+    b.append("     \"short\": \"Field Name.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"reference\",");
+    b.append("     \"short\": \"Request Reference.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"templateRef\",");
     b.append("     \"req\": true,");
+    b.append("     \"short\": \"Template Reference\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"value\",");
+    b.append("     \"short\": \"Field Value.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
@@ -411,10 +446,12 @@ public final class Config {
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"messageId\",");
+    b.append("     \"short\": \"Message Id\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"reference\",");
+    b.append("     \"short\": \"Request Reference.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    }");
     b.append("   ],");
@@ -473,18 +510,22 @@ public final class Config {
     b.append("       \"type\": \"`$STRING`\"");
     b.append("      }");
     b.append("     },");
+    b.append("     \"short\": \"The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"messageId\",");
+    b.append("     \"short\": \"Message Id\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"reference\",");
+    b.append("     \"short\": \"Request Reference.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"state\",");
+    b.append("     \"short\": \"Tokenized State Data (if available)\",");
     b.append("     \"type\": \"`$OBJECT`\"");
     b.append("    },");
     b.append("    {");
@@ -524,15 +565,18 @@ public final class Config {
     b.append("   \"fields\": [");
     b.append("    {");
     b.append("     \"name\": \"messageId\",");
+    b.append("     \"short\": \"Message Id\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"reference\",");
+    b.append("     \"short\": \"Request Reference.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    },");
     b.append("    {");
     b.append("     \"name\": \"templateRef\",");
     b.append("     \"req\": true,");
+    b.append("     \"short\": \"Template Reference.\",");
     b.append("     \"type\": \"`$STRING`\"");
     b.append("    }");
     b.append("   ],");

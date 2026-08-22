@@ -98,7 +98,11 @@ func makeOptionsUtil(_ ctx: Context) -> VMap {
   // validation reshapes the system block).
   let sysFetch = gpath(opts, "system", "fetch")
 
-  let merged = merge(.list([.map(VMap()), .map(cfgopts), .map(opts)]))
+  // CLONE the config side: `config` is a process-wide singleton
+  // (SdkConfig.sharedConfig) and merge uses its nested maps as merge TARGETS,
+  // so without this one client's options (headers, server, ...) are written
+  // into the shared config and inherited by every client built afterwards.
+  let merged = merge(.list([.map(VMap()), clone(.map(cfgopts)), .map(opts)]))
   let validated = validate(merged, optspec)
   let result = validated.asMap ?? VMap()
 
@@ -134,6 +138,18 @@ func makeOptionsUtil(_ ctx: Context) -> VMap {
       for n in names where n != "test" { featureorder.append(.string(n)) }
     } else {
       for n in names { featureorder.append(.string(n)) }
+    }
+
+    // Station special case, mirroring test's: its transport wrap must
+    // sit immediately outside the base transport (inside retry/cache/
+    // netsim), so map-form activation hoists it to just after test -
+    // or first, when no test entry exists. Without this the sorted
+    // default would init station last and wrap OUTSIDE the recording
+    // features, turning its wire-truth events into fiction.
+    if let si = featureorder.firstIndex(where: { $0.asString == "station" }) {
+      featureorder.remove(at: si)
+      let ti = featureorder.firstIndex(where: { $0.asString == "test" })
+      featureorder.insert(.string("station"), at: (ti ?? -1) + 1)
     }
   }
 

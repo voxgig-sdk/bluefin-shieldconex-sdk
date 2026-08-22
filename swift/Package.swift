@@ -1,7 +1,9 @@
 // swift-tools-version:5.9
 //
-// BluefinShieldconex SDK - SwiftPM manifest. Zero runtime dependencies (Foundation +
-// the vendored Voxgig Struct port under Sources/ProjectNameSDK/Struct).
+// BluefinShieldconex SDK - SwiftPM manifest. The runtime itself is dependency-free
+// (Foundation + the vendored Voxgig Struct port under
+// Sources/ProjectNameSDK/Struct); declared feature/target deps (if any)
+// appear below.
 import PackageDescription
 
 let package = Package(

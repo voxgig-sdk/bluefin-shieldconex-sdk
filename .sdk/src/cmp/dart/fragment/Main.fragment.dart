@@ -9,20 +9,31 @@ import 'Spec.dart';
 // a Dart `export` needs no matching `import`, so importing them here too is an
 // unused_import. Keep only the imports actually referenced in this file.
 import 'utility/ErrUtility.dart';
-import 'utility/Utility.dart';
+// PREFIXED, and deliberately not re-exported. The runtime helper class is
+// named `Utility`, and so is the generated data class for an entity named
+// `utility` (ProjectNameTypes.dart) — exporting both from this library makes
+// the name ambiguous and NO dart SDK for such an API compiles:
+//
+//   Error: 'Utility' is exported from both 'lib/ProjectNameTypes.dart'
+//          and 'lib/utility/Utility.dart'
+//
+// The entity type is the user-facing name, so it keeps the plain one; the
+// runtime helper is internal plumbing and is reached through the prefix. Any
+// entity name can collide with an internal class, so the prefix — not a
+// rename — is what makes this safe for every API.
+import 'utility/Utility.dart' as sdkutil;
 
 export 'Config.dart' show Config, config;
 export 'ProjectNameEntityBase.dart' show ProjectNameEntityBase;
 export 'ProjectNameError.dart' show ProjectNameError;
 export 'feature/base/BaseFeature.dart' show BaseFeature;
-export 'utility/Utility.dart' show Utility;
 
-final Utility stdutil = Utility();
+final sdkutil.Utility stdutil = sdkutil.Utility();
 
 class ProjectNameSDK {
   String mode = 'live';
   dynamic _options;
-  final Utility _utility = Utility();
+  final sdkutil.Utility _utility = sdkutil.Utility();
   List<dynamic> features = [];
   dynamic rootctx;
 
@@ -58,19 +69,28 @@ class ProjectNameSDK {
     // `test` feature installs the base mock transport and the transport
     // features (retry/cache/netsim/proxy/ratelimit) wrap whatever is current,
     // so `test` must be added before them to sit at the base of the chain.
+    final List extendList =
+        _options['extend'] is List ? _options['extend'] : [];
+
     final featureorder =
         struct.getpath(_options, '__derived__.featureorder') ?? [];
     for (final fname in featureorder) {
       final fopts = _options['feature'][fname];
       if (fopts is Map && true == fopts['active']) {
+        // An active name with no generated class is legal when an
+        // extend-supplied instance carries that name (station's adopt
+        // path): the instance is added below, positioned by its own
+        // __after__ entry, so skip it here rather than fail construction.
+        if (!config.hasFeature(fname.toString()) &&
+            extendList.any((f) => fname.toString() == f.name.toString())) {
+          continue;
+        }
         featureAdd(rootctx, config.makeFeature(fname.toString()));
       }
     }
 
-    if (null != _options['extend']) {
-      for (final f in _options['extend']) {
-        featureAdd(rootctx, f);
-      }
+    for (final f in extendList) {
+      featureAdd(rootctx, f);
     }
 
     for (final f in features) {
@@ -85,7 +105,7 @@ class ProjectNameSDK {
     return _utility.struct.clone(_options);
   }
 
-  Utility utility() {
+  sdkutil.Utility utility() {
     return _utility;
   }
 

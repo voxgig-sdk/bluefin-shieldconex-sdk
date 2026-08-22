@@ -1,3 +1,5 @@
+import '../BluefinShieldconexError.dart';
+
 import 'voxgig_struct.dart' as vs;
 
 import 'FetcherUtility.dart';
@@ -45,6 +47,12 @@ dynamic makeOptions(dynamic ctx) {
       },
     },
     'utility': {},
+    // Feature INSTANCES supplied at construction (the station adopt
+    // path): consumed by the constructor's featureAdd loop, so they are
+    // class instances, not data - `$ANY` accepts them verbatim. Without
+    // this entry the seam is dead: the constructor reads
+    // options.extend, but validate rejected the key.
+    'extend': '`\$ANY`',
     'system': {},
     'test': {
       'active': false,
@@ -55,6 +63,11 @@ dynamic makeOptions(dynamic ctx) {
     'clean': {
       'keys': 'key,token,id',
     },
+    // Server-variable values for a templated base URL (OpenAPI server
+    // variables): {name} placeholders in "base" are substituted from this
+    // map at construction. Spec defaults arrive via the generated config;
+    // user values override them. Mirrors go's make_options optspec.
+    'server': {'`\$CHILD`': ''},
   };
 
   // Dart specific: preserve the (function-valued) system.fetch across
@@ -95,6 +108,42 @@ dynamic makeOptions(dynamic ctx) {
 
   opts = vs.validate(opts, optspec);
 
+  // Resolve a templated base URL (e.g. https://{tenant_id}.hanko.io).
+  // Every placeholder must resolve to a non-empty value: from options.server
+  // (user), else the Config default. A placeholder that resolves to '' is a
+  // construction ERROR in live mode — the URL cannot work — but in test mode
+  // substitutes the deterministic value `test-<name>` so offline tests need no
+  // configuration. The SDK constructor has no error return, so a missing
+  // required variable THROWS: construction-time misconfiguration.
+  final baseVal = vs.getprop(opts, 'base');
+  if (baseVal is String && baseVal.contains('{')) {
+    final testmode = true == vs.getpath(opts, 'test.active') ||
+        true == vs.getpath(opts, 'feature.test.active');
+    final server = vs.getprop(opts, 'server') ?? {};
+    final sdkname = (vs.getpath(config, 'main.name') ?? 'SDK').toString();
+
+    opts['base'] = baseVal.replaceAllMapped(
+      RegExp(r'\{([A-Za-z0-9_]+)\}'),
+      (m) {
+        final name = m.group(1) as String;
+        final raw = vs.getprop(server, name);
+        final val = raw is String ? raw : '';
+        if ('' == val) {
+          if (testmode) {
+            return 'test-' + name;
+          }
+          throw BluefinShieldconexError(
+            'server_var_required',
+            "$sdkname: the server variable '$name' is required: the API base "
+            "URL is '$baseVal' — pass { 'server': { '$name': '...' } } in the "
+            'SDK options',
+          );
+        }
+        return val;
+      },
+    );
+  }
+
   final sys = vs.getprop(opts, 'system');
   if (sys is Map) {
     sys['fetch'] = sysFetch;
@@ -133,6 +182,17 @@ dynamic makeOptions(dynamic ctx) {
       }
     } else {
       featureorder.addAll(names);
+    }
+    // Station special case, mirroring test's: its transport wrap must
+    // sit immediately outside the base transport (inside retry/cache/
+    // netsim), so map-form activation hoists it to just after test -
+    // or first, when no test entry exists. Without this the sorted
+    // default would init station last and wrap OUTSIDE the recording
+    // features, turning its wire-truth events into fiction.
+    if (featureorder.contains('station')) {
+      featureorder.remove('station');
+      final ti = featureorder.indexOf('test');
+      featureorder.insert(-1 == ti ? 0 : ti + 1, 'station');
     }
   }
 

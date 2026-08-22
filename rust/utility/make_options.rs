@@ -98,15 +98,93 @@ pub fn make_options_util(ctx: &Rc<Context>) -> Value {
             ]),
         ),
         ("clean", jo(vec![("keys", Value::str("key,token,id"))])),
+        // Server-variable values for a templated base URL (OpenAPI server
+        // variables): {name} placeholders in "base" are substituted from this
+        // map at construction. Spec defaults arrive via the generated config;
+        // user values override them. Mirrors go's make_options optspec.
+        ("server", jo(vec![("`$CHILD`", Value::str(""))])),
     ]);
 
     // Preserve system.fetch before merge/validate (validation strips it).
     let sys_fetch = getpath(&["system", "fetch"], &opts);
 
-    let merged = vs::merge(&ja(vec![Value::empty_map(), cfgopts, opts.clone()]), None);
+    // CLONE the config side: `config` is a per-thread singleton
+    // (core::config::shared_config) and merge uses its nested maps as merge
+    // TARGETS, so without this one client's options (headers, server, ...) are
+    // written into the shared config and inherited by every client after it.
+    let merged = vs::merge(
+        &ja(vec![Value::empty_map(), vs::clone(&cfgopts), opts.clone()]), None);
     if let Ok(validated) = vs::validate(&merged, &optspec, None) {
         if let Value::Map(_) = validated {
             opts = validated;
+        }
+    }
+
+    // Resolve a templated base URL (e.g. https://{tenant_id}.hanko.io).
+    // Every placeholder must resolve to a non-empty value: from options.server
+    // (user), else the Config default. A placeholder that resolves to "" is a
+    // construction ERROR in live mode - the URL cannot work - but in test mode
+    // substitutes the deterministic value "test-<name>" so offline tests need
+    // no configuration. The SDK constructor has no error return, so a missing
+    // required variable PANICS: construction-time misconfiguration.
+    //
+    // Scanned by hand rather than with vs::re_replace, whose replacement is a
+    // fixed string and cannot vary per placeholder.
+    if let Value::Str(base) = getp(&opts, "base") {
+        if base.contains('{') {
+            let testmode = matches!(getpath(&["test", "active"], &opts), Value::Bool(true))
+                || matches!(
+                    getpath(&["feature", "test", "active"], &opts),
+                    Value::Bool(true)
+                );
+            let server = getp(&opts, "server");
+            let sdkname = match getpath(&["main", "name"], &config) {
+                Value::Str(s) if !s.is_empty() => s,
+                _ => "SDK".to_string(),
+            };
+
+            let mut resolved = String::with_capacity(base.len());
+            let bytes: Vec<char> = base.chars().collect();
+            let mut i = 0usize;
+            while i < bytes.len() {
+                if '{' != bytes[i] {
+                    resolved.push(bytes[i]);
+                    i += 1;
+                    continue;
+                }
+                // A placeholder only when it closes and the name is
+                // [A-Za-z0-9_]+; anything else is literal text.
+                let mut j = i + 1;
+                while j < bytes.len() && (bytes[j].is_ascii_alphanumeric() || '_' == bytes[j]) {
+                    j += 1;
+                }
+                if j >= bytes.len() || '}' != bytes[j] || j == i + 1 {
+                    resolved.push(bytes[i]);
+                    i += 1;
+                    continue;
+                }
+                let name: String = bytes[i + 1..j].iter().collect();
+                let val = match getp(&server, &name) {
+                    Value::Str(s) => s,
+                    _ => String::new(),
+                };
+                if val.is_empty() {
+                    if testmode {
+                        resolved.push_str(&format!("test-{}", name));
+                    } else {
+                        panic!(
+                            "{}: the server variable '{}' is required: the API base \
+                             URL is '{}' - pass server: {{ \"{}\": \"...\" }} in the \
+                             SDK options",
+                            sdkname, name, base, name
+                        );
+                    }
+                } else {
+                    resolved.push_str(&val);
+                }
+                i = j + 1;
+            }
+            setp(&opts, "base", Value::str(&resolved));
         }
     }
 
@@ -149,6 +227,21 @@ pub fn make_options_util(ctx: &Rc<Context>) -> Value {
                 }
             } else {
                 feature_order = names;
+            }
+            // Station special case, mirroring test's: its transport wrap must
+            // sit immediately outside the base transport (inside retry/cache/
+            // netsim), so map-form activation hoists it to just after test -
+            // or first, when no test entry exists. Without this the sorted
+            // default would init station last and wrap OUTSIDE the recording
+            // features, turning its wire-truth events into fiction.
+            if let Some(si) = feature_order.iter().position(|n| n == "station") {
+                feature_order.remove(si);
+                let at = feature_order
+                    .iter()
+                    .position(|n| n == "test")
+                    .map(|ti| ti + 1)
+                    .unwrap_or(0);
+                feature_order.insert(at, "station".to_string());
             }
         }
     }

@@ -111,11 +111,11 @@ val detokenize = client.detokenize(null)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `batches` | `List<Any?>?` | No |  |
-| `bfid` | `String?` | No |  |
-| `messageId` | `String?` | No |  |
-| `name` | `String?` | No |  |
-| `reference` | `String?` | No |  |
-| `value` | `String?` | No |  |
+| `bfid` | `String?` | No | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | `String?` | No | Message Id |
+| `name` | `String?` | No | Field Name. |
+| `reference` | `String?` | No | Request Reference. |
+| `value` | `String?` | No | Field Value. |
 | `values` | `List<Any?>?` | No |  |
 
 ### Field Usage by Operation
@@ -182,12 +182,12 @@ val tokenize = client.tokenize(null)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `batches` | `List<Any?>?` | No |  |
-| `bfid` | `String?` | No |  |
-| `messageId` | `String?` | No |  |
-| `name` | `String?` | No |  |
-| `reference` | `String?` | No |  |
-| `templateRef` | `String?` | Yes |  |
-| `value` | `String?` | No |  |
+| `bfid` | `String?` | No | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | `String?` | No | Message Id |
+| `name` | `String?` | No | Field Name. |
+| `reference` | `String?` | No | Request Reference. |
+| `templateRef` | `String?` | Yes | Template Reference |
+| `value` | `String?` | No | Field Value. |
 | `values` | `List<Any?>?` | No |  |
 
 ### Field Usage by Operation
@@ -256,8 +256,8 @@ val tokenizeBatch = client.tokenizeBatch(null)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `batches` | `List<Any?>?` | No |  |
-| `messageId` | `String?` | No |  |
-| `reference` | `String?` | No |  |
+| `messageId` | `String?` | No | Message Id |
+| `reference` | `String?` | No | Request Reference. |
 
 ### Field Usage by Operation
 
@@ -309,10 +309,10 @@ val tokenizeRead = client.tokenizeRead(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `bfid` | `String?` | No |  |
-| `messageId` | `String?` | No |  |
-| `reference` | `String?` | No |  |
-| `state` | `Map<String, Any?>?` | No |  |
+| `bfid` | `String?` | No | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | `String?` | No | Message Id |
+| `reference` | `String?` | No | Request Reference. |
+| `state` | `Map<String, Any?>?` | No | Tokenized State Data (if available) |
 | `values` | `List<Any?>?` | No |  |
 
 ### Field Usage by Operation
@@ -367,9 +367,9 @@ val validate = client.validate(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `messageId` | `String?` | No |  |
-| `reference` | `String?` | No |  |
-| `templateRef` | `String?` | Yes |  |
+| `messageId` | `String?` | No | Message Id |
+| `reference` | `String?` | No | Request Reference. |
+| `templateRef` | `String?` | Yes | Template Reference. |
 
 ### Operations
 

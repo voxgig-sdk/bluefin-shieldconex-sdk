@@ -114,11 +114,11 @@ let detokenize = client.detokenize(Value::Noval);
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `batches` | `Vec<Value>` | No |  |
-| `bfid` | `String` | No |  |
-| `messageId` | `String` | No |  |
-| `name` | `String` | No |  |
-| `reference` | `String` | No |  |
-| `value` | `String` | No |  |
+| `bfid` | `String` | No | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | `String` | No | Message Id |
+| `name` | `String` | No | Field Name. |
+| `reference` | `String` | No | Request Reference. |
+| `value` | `String` | No | Field Value. |
 | `values` | `Vec<Value>` | No |  |
 
 ### Field Usage by Operation
@@ -189,12 +189,12 @@ let tokenize = client.tokenize(Value::Noval);
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `batches` | `Vec<Value>` | No |  |
-| `bfid` | `String` | No |  |
-| `messageId` | `String` | No |  |
-| `name` | `String` | No |  |
-| `reference` | `String` | No |  |
-| `templateRef` | `String` | Yes |  |
-| `value` | `String` | No |  |
+| `bfid` | `String` | No | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | `String` | No | Message Id |
+| `name` | `String` | No | Field Name. |
+| `reference` | `String` | No | Request Reference. |
+| `templateRef` | `String` | Yes | Template Reference |
+| `value` | `String` | No | Field Value. |
 | `values` | `Vec<Value>` | No |  |
 
 ### Field Usage by Operation
@@ -267,8 +267,8 @@ let tokenize_batch = client.tokenize_batch(Value::Noval);
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `batches` | `Vec<Value>` | No |  |
-| `messageId` | `String` | No |  |
-| `reference` | `String` | No |  |
+| `messageId` | `String` | No | Message Id |
+| `reference` | `String` | No | Request Reference. |
 
 ### Field Usage by Operation
 
@@ -320,10 +320,10 @@ let tokenize_read = client.tokenize_read(Value::Noval);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `bfid` | `String` | No |  |
-| `messageId` | `String` | No |  |
-| `reference` | `String` | No |  |
-| `state` | `std::collections::HashMap<String, Value>` | No |  |
+| `bfid` | `String` | No | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | `String` | No | Message Id |
+| `reference` | `String` | No | Request Reference. |
+| `state` | `std::collections::HashMap<String, Value>` | No | Tokenized State Data (if available) |
 | `values` | `Vec<Value>` | No |  |
 
 ### Field Usage by Operation
@@ -378,9 +378,9 @@ let validate = client.validate(Value::Noval);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `messageId` | `String` | No |  |
-| `reference` | `String` | No |  |
-| `templateRef` | `String` | Yes |  |
+| `messageId` | `String` | No | Message Id |
+| `reference` | `String` | No | Request Reference. |
+| `templateRef` | `String` | Yes | Template Reference. |
 
 ### Operations
 

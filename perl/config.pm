@@ -17,7 +17,10 @@ package BluefinShieldconexConfig;
 my $CONFIG_JSON = <<'END_CONFIG_JSON';
 {
   "main": {
-    "name": "BluefinShieldconex"
+    "name": "BluefinShieldconex",
+    "slug": "bluefin-shieldconex",
+    "version": "0.0.1",
+    "target": "perl"
   },
   "feature": {
     "test": {
@@ -63,22 +66,27 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "type": "`$STRING`"
             }
           },
+          "short": "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).",
           "type": "`$STRING`"
         },
         {
           "name": "messageId",
+          "short": "Message Id",
           "type": "`$STRING`"
         },
         {
           "name": "name",
+          "short": "Field Name.",
           "type": "`$STRING`"
         },
         {
           "name": "reference",
+          "short": "Request Reference.",
           "type": "`$STRING`"
         },
         {
           "name": "value",
+          "short": "Field Value.",
           "type": "`$STRING`"
         },
         {
@@ -212,27 +220,33 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "type": "`$STRING`"
             }
           },
+          "short": "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).",
           "type": "`$STRING`"
         },
         {
           "name": "messageId",
+          "short": "Message Id",
           "type": "`$STRING`"
         },
         {
           "name": "name",
+          "short": "Field Name.",
           "type": "`$STRING`"
         },
         {
           "name": "reference",
+          "short": "Request Reference.",
           "type": "`$STRING`"
         },
         {
           "name": "templateRef",
           "req": true,
+          "short": "Template Reference",
           "type": "`$STRING`"
         },
         {
           "name": "value",
+          "short": "Field Value.",
           "type": "`$STRING`"
         },
         {
@@ -401,10 +415,12 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
         },
         {
           "name": "messageId",
+          "short": "Message Id",
           "type": "`$STRING`"
         },
         {
           "name": "reference",
+          "short": "Request Reference.",
           "type": "`$STRING`"
         }
       ],
@@ -463,18 +479,22 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "type": "`$STRING`"
             }
           },
+          "short": "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).",
           "type": "`$STRING`"
         },
         {
           "name": "messageId",
+          "short": "Message Id",
           "type": "`$STRING`"
         },
         {
           "name": "reference",
+          "short": "Request Reference.",
           "type": "`$STRING`"
         },
         {
           "name": "state",
+          "short": "Tokenized State Data (if available)",
           "type": "`$OBJECT`"
         },
         {
@@ -514,15 +534,18 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
       "fields": [
         {
           "name": "messageId",
+          "short": "Message Id",
           "type": "`$STRING`"
         },
         {
           "name": "reference",
+          "short": "Request Reference.",
           "type": "`$STRING`"
         },
         {
           "name": "templateRef",
           "req": true,
+          "short": "Template Reference.",
           "type": "`$STRING`"
         }
       ],
@@ -575,6 +598,21 @@ END_CONFIG_JSON
 
 sub make_config {
   return Voxgig::Struct::parse_json($CONFIG_JSON);
+}
+
+# SHARED CONFIG (sdkgen rung L2).
+#
+# The SDK reads the config on every request and never writes to it, so one
+# instance is shared by every client rather than rebuilt per client - the
+# difference between parsing the embedded JSON once and once per client.
+#
+# The returned structure is SHARED: treat it as read-only. Callers that need to
+# mutate should use make_config, which always parses a fresh copy.
+my $SHARED_CONFIG;
+
+sub shared_config {
+  $SHARED_CONFIG = make_config() unless defined $SHARED_CONFIG;
+  return $SHARED_CONFIG;
 }
 
 sub make_feature {

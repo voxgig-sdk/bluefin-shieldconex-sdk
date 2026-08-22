@@ -28,6 +28,9 @@ def make_config():
     return {
         "main": {
             "name": "BluefinShieldconex",
+            "slug": "bluefin-shieldconex",
+            "version": "0.0.1",
+            "target": "py",
         },
         "feature": {
             "test": {
@@ -73,22 +76,27 @@ def make_config():
                 "type": "`$STRING`",
               },
             },
+            "short": "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).",
             "type": "`$STRING`",
           },
           {
             "name": "messageId",
+            "short": "Message Id",
             "type": "`$STRING`",
           },
           {
             "name": "name",
+            "short": "Field Name.",
             "type": "`$STRING`",
           },
           {
             "name": "reference",
+            "short": "Request Reference.",
             "type": "`$STRING`",
           },
           {
             "name": "value",
+            "short": "Field Value.",
             "type": "`$STRING`",
           },
           {
@@ -222,27 +230,33 @@ def make_config():
                 "type": "`$STRING`",
               },
             },
+            "short": "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).",
             "type": "`$STRING`",
           },
           {
             "name": "messageId",
+            "short": "Message Id",
             "type": "`$STRING`",
           },
           {
             "name": "name",
+            "short": "Field Name.",
             "type": "`$STRING`",
           },
           {
             "name": "reference",
+            "short": "Request Reference.",
             "type": "`$STRING`",
           },
           {
             "name": "templateRef",
             "req": True,
+            "short": "Template Reference",
             "type": "`$STRING`",
           },
           {
             "name": "value",
+            "short": "Field Value.",
             "type": "`$STRING`",
           },
           {
@@ -411,10 +425,12 @@ def make_config():
           },
           {
             "name": "messageId",
+            "short": "Message Id",
             "type": "`$STRING`",
           },
           {
             "name": "reference",
+            "short": "Request Reference.",
             "type": "`$STRING`",
           },
         ],
@@ -473,18 +489,22 @@ def make_config():
                 "type": "`$STRING`",
               },
             },
+            "short": "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).",
             "type": "`$STRING`",
           },
           {
             "name": "messageId",
+            "short": "Message Id",
             "type": "`$STRING`",
           },
           {
             "name": "reference",
+            "short": "Request Reference.",
             "type": "`$STRING`",
           },
           {
             "name": "state",
+            "short": "Tokenized State Data (if available)",
             "type": "`$OBJECT`",
           },
           {
@@ -524,15 +544,18 @@ def make_config():
         "fields": [
           {
             "name": "messageId",
+            "short": "Message Id",
             "type": "`$STRING`",
           },
           {
             "name": "reference",
+            "short": "Request Reference.",
             "type": "`$STRING`",
           },
           {
             "name": "templateRef",
             "req": True,
+            "short": "Template Reference.",
             "type": "`$STRING`",
           },
         ],

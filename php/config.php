@@ -33,6 +33,9 @@ class BluefinShieldconexConfig
         return [
             "main" => [
                 "name" => "BluefinShieldconex",
+                "slug" => "bluefin-shieldconex",
+                "version" => "0.0.1",
+                "target" => "php",
             ],
             "feature" => [
                 "test" => [
@@ -78,22 +81,27 @@ class BluefinShieldconexConfig
                   'type' => '`$STRING`',
                 ],
               ],
+              'short' => 'The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'messageId',
+              'short' => 'Message Id',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'name',
+              'short' => 'Field Name.',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'reference',
+              'short' => 'Request Reference.',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'value',
+              'short' => 'Field Value.',
               'type' => '`$STRING`',
             ],
             [
@@ -227,27 +235,33 @@ class BluefinShieldconexConfig
                   'type' => '`$STRING`',
                 ],
               ],
+              'short' => 'The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'messageId',
+              'short' => 'Message Id',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'name',
+              'short' => 'Field Name.',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'reference',
+              'short' => 'Request Reference.',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'templateRef',
               'req' => true,
+              'short' => 'Template Reference',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'value',
+              'short' => 'Field Value.',
               'type' => '`$STRING`',
             ],
             [
@@ -416,10 +430,12 @@ class BluefinShieldconexConfig
             ],
             [
               'name' => 'messageId',
+              'short' => 'Message Id',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'reference',
+              'short' => 'Request Reference.',
               'type' => '`$STRING`',
             ],
           ],
@@ -478,18 +494,22 @@ class BluefinShieldconexConfig
                   'type' => '`$STRING`',
                 ],
               ],
+              'short' => 'The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'messageId',
+              'short' => 'Message Id',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'reference',
+              'short' => 'Request Reference.',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'state',
+              'short' => 'Tokenized State Data (if available)',
               'type' => '`$OBJECT`',
             ],
             [
@@ -529,15 +549,18 @@ class BluefinShieldconexConfig
           'fields' => [
             [
               'name' => 'messageId',
+              'short' => 'Message Id',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'reference',
+              'short' => 'Request Reference.',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'templateRef',
               'req' => true,
+              'short' => 'Template Reference.',
               'type' => '`$STRING`',
             ],
           ],

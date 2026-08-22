@@ -19,11 +19,13 @@ main: kit: entity: tokenize_batch: {
     {
       name: "messageId"
       req: false
+      short: "Message Id"
       type: "`$STRING`"
     }
     {
       name: "reference"
       req: false
+      short: "Request Reference."
       type: "`$STRING`"
     }
   ]

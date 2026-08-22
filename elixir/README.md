@@ -289,11 +289,11 @@ On error, `ok` is `false` and `err` carries the error value.
 | Field | Description |
 | --- | --- |
 | `batches` |  |
-| `bfid` |  |
-| `messageId` |  |
-| `name` |  |
-| `reference` |  |
-| `value` |  |
+| `bfid` | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | Message Id |
+| `name` | Field Name. |
+| `reference` | Request Reference. |
+| `value` | Field Value. |
 | `values` |  |
 
 Operations: Create, List.
@@ -305,12 +305,12 @@ API path: `/tokenization/batch/detokenize`
 | Field | Description |
 | --- | --- |
 | `batches` |  |
-| `bfid` |  |
-| `messageId` |  |
-| `name` |  |
-| `reference` |  |
-| `templateRef` |  |
-| `value` |  |
+| `bfid` | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | Message Id |
+| `name` | Field Name. |
+| `reference` | Request Reference. |
+| `templateRef` | Template Reference |
+| `value` | Field Value. |
 | `values` |  |
 
 Operations: Create, List.
@@ -322,8 +322,8 @@ API path: `/tokenization/batch/tokenize`
 | Field | Description |
 | --- | --- |
 | `batches` |  |
-| `messageId` |  |
-| `reference` |  |
+| `messageId` | Message Id |
+| `reference` | Request Reference. |
 
 Operations: Create.
 
@@ -333,10 +333,10 @@ API path: `/tokenization/batch/delete`
 
 | Field | Description |
 | --- | --- |
-| `bfid` |  |
-| `messageId` |  |
-| `reference` |  |
-| `state` |  |
+| `bfid` | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | Message Id |
+| `reference` | Request Reference. |
+| `state` | Tokenized State Data (if available) |
 | `values` |  |
 
 Operations: Create.
@@ -347,9 +347,9 @@ API path: `/tokenization/read`
 
 | Field | Description |
 | --- | --- |
-| `messageId` |  |
-| `reference` |  |
-| `templateRef` |  |
+| `messageId` | Message Id |
+| `reference` | Request Reference. |
+| `templateRef` | Template Reference. |
 
 Operations: Create.
 
@@ -379,11 +379,11 @@ Create a handle: `detokenize = BluefinShieldconex.detokenize(sdk)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `batches` | `list()` |  |
-| `bfid` | `String.t()` |  |
-| `messageId` | `String.t()` |  |
-| `name` | `String.t()` |  |
-| `reference` | `String.t()` |  |
-| `value` | `String.t()` |  |
+| `bfid` | `String.t()` | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | `String.t()` | Message Id |
+| `name` | `String.t()` | Field Name. |
+| `reference` | `String.t()` | Request Reference. |
+| `value` | `String.t()` | Field Value. |
 | `values` | `list()` |  |
 
 #### Example: List
@@ -418,12 +418,12 @@ Create a handle: `tokenize = BluefinShieldconex.tokenize(sdk)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `batches` | `list()` |  |
-| `bfid` | `String.t()` |  |
-| `messageId` | `String.t()` |  |
-| `name` | `String.t()` |  |
-| `reference` | `String.t()` |  |
-| `templateRef` | `String.t()` |  |
-| `value` | `String.t()` |  |
+| `bfid` | `String.t()` | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | `String.t()` | Message Id |
+| `name` | `String.t()` | Field Name. |
+| `reference` | `String.t()` | Request Reference. |
+| `templateRef` | `String.t()` | Template Reference |
+| `value` | `String.t()` | Field Value. |
 | `values` | `list()` |  |
 
 #### Example: List
@@ -458,8 +458,8 @@ Create a handle: `tokenize_batch = BluefinShieldconex.tokenize_batch(sdk)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `batches` | `list()` |  |
-| `messageId` | `String.t()` |  |
-| `reference` | `String.t()` |  |
+| `messageId` | `String.t()` | Message Id |
+| `reference` | `String.t()` | Request Reference. |
 
 #### Example: Create
 
@@ -484,10 +484,10 @@ Create a handle: `tokenize_read = BluefinShieldconex.tokenize_read(sdk)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `bfid` | `String.t()` |  |
-| `messageId` | `String.t()` |  |
-| `reference` | `String.t()` |  |
-| `state` | `map()` |  |
+| `bfid` | `String.t()` | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | `String.t()` | Message Id |
+| `reference` | `String.t()` | Request Reference. |
+| `state` | `map()` | Tokenized State Data (if available) |
 | `values` | `list()` |  |
 
 #### Example: Create
@@ -513,9 +513,9 @@ Create a handle: `validate = BluefinShieldconex.validate(sdk)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `messageId` | `String.t()` |  |
-| `reference` | `String.t()` |  |
-| `templateRef` | `String.t()` |  |
+| `messageId` | `String.t()` | Message Id |
+| `reference` | `String.t()` | Request Reference. |
+| `templateRef` | `String.t()` | Template Reference. |
 
 #### Example: Create
 

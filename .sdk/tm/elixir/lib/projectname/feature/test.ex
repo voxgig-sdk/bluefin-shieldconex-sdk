@@ -1,14 +1,14 @@
-# ProjectName SDK test feature
+# BluefinShieldconex SDK test feature
 #
 # In-memory mock transport for offline tests. Installs a fetcher that
 # resolves ops against a per-entity data store (from options.entity) using
 # the vendored struct select/transform engine — the same query shaping as
 # the live SDK. An optional `net` block simulates latency/failures.
 
-defmodule ProjectName.Feature.Test do
+defmodule BluefinShieldconex.Feature.Test do
   alias Voxgig.Struct, as: S
-  alias ProjectName.Helpers, as: H
-  alias ProjectName.{Feature, Context, Utility}
+  alias BluefinShieldconex.Helpers, as: H
+  alias BluefinShieldconex.{Feature, Context, Utility}
 
   def new do
     f = Feature.base("test")

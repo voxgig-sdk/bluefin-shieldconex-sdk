@@ -268,11 +268,11 @@ On error, `ok` is `false` and `err` carries the error message.
 | Field | Description |
 | --- | --- |
 | `batches` |  |
-| `bfid` |  |
-| `messageId` |  |
-| `name` |  |
-| `reference` |  |
-| `value` |  |
+| `bfid` | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | Message Id |
+| `name` | Field Name. |
+| `reference` | Request Reference. |
+| `value` | Field Value. |
 | `values` |  |
 
 Operations: Create, List.
@@ -284,12 +284,12 @@ API path: `/tokenization/batch/detokenize`
 | Field | Description |
 | --- | --- |
 | `batches` |  |
-| `bfid` |  |
-| `messageId` |  |
-| `name` |  |
-| `reference` |  |
-| `templateRef` |  |
-| `value` |  |
+| `bfid` | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | Message Id |
+| `name` | Field Name. |
+| `reference` | Request Reference. |
+| `templateRef` | Template Reference |
+| `value` | Field Value. |
 | `values` |  |
 
 Operations: Create, List.
@@ -301,8 +301,8 @@ API path: `/tokenization/batch/tokenize`
 | Field | Description |
 | --- | --- |
 | `batches` |  |
-| `messageId` |  |
-| `reference` |  |
+| `messageId` | Message Id |
+| `reference` | Request Reference. |
 
 Operations: Create.
 
@@ -312,10 +312,10 @@ API path: `/tokenization/batch/delete`
 
 | Field | Description |
 | --- | --- |
-| `bfid` |  |
-| `messageId` |  |
-| `reference` |  |
-| `state` |  |
+| `bfid` | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | Message Id |
+| `reference` | Request Reference. |
+| `state` | Tokenized State Data (if available) |
 | `values` |  |
 
 Operations: Create.
@@ -326,9 +326,9 @@ API path: `/tokenization/read`
 
 | Field | Description |
 | --- | --- |
-| `messageId` |  |
-| `reference` |  |
-| `templateRef` |  |
+| `messageId` | Message Id |
+| `reference` | Request Reference. |
+| `templateRef` | Template Reference. |
 
 Operations: Create.
 
@@ -358,11 +358,11 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 | Field | Type | Description |
 | --- | --- | --- |
 | `batches` | `Value (array)` |  |
-| `bfid` | `[]const u8` |  |
-| `messageId` | `[]const u8` |  |
-| `name` | `[]const u8` |  |
-| `reference` | `[]const u8` |  |
-| `value` | `[]const u8` |  |
+| `bfid` | `[]const u8` | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | `[]const u8` | Message Id |
+| `name` | `[]const u8` | Field Name. |
+| `reference` | `[]const u8` | Request Reference. |
+| `value` | `[]const u8` | Field Value. |
 | `values` | `Value (array)` |  |
 
 #### Example: List
@@ -404,12 +404,12 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 | Field | Type | Description |
 | --- | --- | --- |
 | `batches` | `Value (array)` |  |
-| `bfid` | `[]const u8` |  |
-| `messageId` | `[]const u8` |  |
-| `name` | `[]const u8` |  |
-| `reference` | `[]const u8` |  |
-| `templateRef` | `[]const u8` |  |
-| `value` | `[]const u8` |  |
+| `bfid` | `[]const u8` | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | `[]const u8` | Message Id |
+| `name` | `[]const u8` | Field Name. |
+| `reference` | `[]const u8` | Request Reference. |
+| `templateRef` | `[]const u8` | Template Reference |
+| `value` | `[]const u8` | Field Value. |
 | `values` | `Value (array)` |  |
 
 #### Example: List
@@ -451,8 +451,8 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 | Field | Type | Description |
 | --- | --- | --- |
 | `batches` | `Value (array)` |  |
-| `messageId` | `[]const u8` |  |
-| `reference` | `[]const u8` |  |
+| `messageId` | `[]const u8` | Message Id |
+| `reference` | `[]const u8` | Request Reference. |
 
 #### Example: Create
 
@@ -482,10 +482,10 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `bfid` | `[]const u8` |  |
-| `messageId` | `[]const u8` |  |
-| `reference` | `[]const u8` |  |
-| `state` | `Value (object)` |  |
+| `bfid` | `[]const u8` | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | `[]const u8` | Message Id |
+| `reference` | `[]const u8` | Request Reference. |
+| `state` | `Value (object)` | Tokenized State Data (if available) |
 | `values` | `Value (array)` |  |
 
 #### Example: Create
@@ -516,9 +516,9 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `messageId` | `[]const u8` |  |
-| `reference` | `[]const u8` |  |
-| `templateRef` | `[]const u8` |  |
+| `messageId` | `[]const u8` | Message Id |
+| `reference` | `[]const u8` | Request Reference. |
+| `templateRef` | `[]const u8` | Template Reference. |
 
 #### Example: Create
 

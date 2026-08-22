@@ -106,11 +106,11 @@ my $detokenize = $client->Detokenize;
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `batches` | `arrayref` | No |  |
-| `bfid` | `string` | No |  |
-| `messageId` | `string` | No |  |
-| `name` | `string` | No |  |
-| `reference` | `string` | No |  |
-| `value` | `string` | No |  |
+| `bfid` | `string` | No | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | `string` | No | Message Id |
+| `name` | `string` | No | Field Name. |
+| `reference` | `string` | No | Request Reference. |
+| `value` | `string` | No | Field Value. |
 | `values` | `arrayref` | No |  |
 
 ### Field Usage by Operation
@@ -187,12 +187,12 @@ my $tokenize = $client->Tokenize;
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `batches` | `arrayref` | No |  |
-| `bfid` | `string` | No |  |
-| `messageId` | `string` | No |  |
-| `name` | `string` | No |  |
-| `reference` | `string` | No |  |
-| `templateRef` | `string` | Yes |  |
-| `value` | `string` | No |  |
+| `bfid` | `string` | No | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | `string` | No | Message Id |
+| `name` | `string` | No | Field Name. |
+| `reference` | `string` | No | Request Reference. |
+| `templateRef` | `string` | Yes | Template Reference |
+| `value` | `string` | No | Field Value. |
 | `values` | `arrayref` | No |  |
 
 ### Field Usage by Operation
@@ -271,8 +271,8 @@ my $tokenize_batch = $client->TokenizeBatch;
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `batches` | `arrayref` | No |  |
-| `messageId` | `string` | No |  |
-| `reference` | `string` | No |  |
+| `messageId` | `string` | No | Message Id |
+| `reference` | `string` | No | Request Reference. |
 
 ### Field Usage by Operation
 
@@ -332,10 +332,10 @@ my $tokenize_read = $client->TokenizeRead;
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `bfid` | `string` | No |  |
-| `messageId` | `string` | No |  |
-| `reference` | `string` | No |  |
-| `state` | `hashref` | No |  |
+| `bfid` | `string` | No | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | `string` | No | Message Id |
+| `reference` | `string` | No | Request Reference. |
+| `state` | `hashref` | No | Tokenized State Data (if available) |
 | `values` | `arrayref` | No |  |
 
 ### Field Usage by Operation
@@ -398,9 +398,9 @@ my $validate = $client->Validate;
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `messageId` | `string` | No |  |
-| `reference` | `string` | No |  |
-| `templateRef` | `string` | Yes |  |
+| `messageId` | `string` | No | Message Id |
+| `reference` | `string` | No | Request Reference. |
+| `templateRef` | `string` | Yes | Template Reference. |
 
 ### Operations
 

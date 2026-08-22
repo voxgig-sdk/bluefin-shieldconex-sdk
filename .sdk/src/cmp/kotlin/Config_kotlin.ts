@@ -3,6 +3,7 @@ import {
   Content,
   File,
   cmp,
+  configDefinition,
   each,
   isAuthActive,
   resolveAuthPrefix,
@@ -72,8 +73,14 @@ const Config = cmp(async function Config(props: any) {
       relations: n.relations,
     }, true), a), {})
 
+  // Identity comes from configDefinition's def, not re-derived here, so
+  // this target cannot disagree with the shared emitter on main.slug /
+  // main.version / main.target (the three station descriptor fields,
+  // station design §4) — passing target.name is what opts this target in.
+  const { def: configDef } = configDefinition(model, target.name)
+
   const config = {
-    main: { name: model.const.Name },
+    main: configDef.main,
     feature: featureConfig,
     options,
     entity: entityConfig,
@@ -92,6 +99,21 @@ object Config {
   fun makeConfig(): MutableMap<String, Any?> {
     return Json.parse(configJson()) as MutableMap<String, Any?>
   }
+
+  // SHARED CONFIG (sdkgen rung L2).
+  //
+  // The SDK reads the config on every request and never writes to it, so one
+  // instance is shared by every client rather than rebuilt per client - the
+  // difference between parsing the embedded JSON once and once per client.
+  //
+  // 'by lazy' defaults to LazyThreadSafetyMode.SYNCHRONIZED, so concurrent
+  // first calls build it exactly once.
+  //
+  // The returned map is SHARED: treat it as read-only. Callers that need to
+  // mutate should use makeConfig, which always parses a fresh copy.
+  private val sharedConfigVal: MutableMap<String, Any?> by lazy { makeConfig() }
+
+  fun sharedConfig(): MutableMap<String, Any?> = sharedConfigVal
 
   fun makeFeature(name: String): Feature {
     return when (name) {

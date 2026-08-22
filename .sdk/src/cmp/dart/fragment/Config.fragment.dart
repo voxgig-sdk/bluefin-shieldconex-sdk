@@ -16,23 +16,26 @@ class Config {
     return fc();
   }
 
+  // False for a feature added at runtime via options.extend (station's
+  // adopt path) - the constructor uses this to skip makeFeature for names
+  // no generated class backs.
+  bool hasFeature(String fn) => null != FEATURE_CLASS[fn];
+
   final Map<String, dynamic> main = <String, dynamic>{
     'name': 'ProjectName',
+    // #MainMeta
   };
 
   final Map<String, dynamic> feature = <String, dynamic>{
     // #FeatureConfigs
   };
 
-  final Map<String, dynamic> options = <String, dynamic>{
-    'base': '$$main.kit.info.servers.0.url$$',
-
-    'AUTHBLOCK''headers': 'HEADERS',
-
-    'entity': <String, dynamic>{
-      // #EntityConfigs
-    }
-  };
+  // Rendered whole from the canonical config definition rather than assembled
+  // slot by slot. Assembling it here meant `options.server` - the OpenAPI
+  // server-variable defaults - was simply absent from this branch, so a
+  // templated server URL produced a different config either side of the
+  // threshold.
+  final Map<String, dynamic> options = 'OPTIONSMAP';
 
   final Map<String, dynamic> entity = 'ENTITYMAP';
 

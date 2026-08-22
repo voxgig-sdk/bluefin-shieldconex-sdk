@@ -12,6 +12,9 @@ public static class SdkConfig
             ["main"] = new Dictionary<string, object?>
             {
                 ["name"] = "BluefinShieldconex",
+                ["slug"] = "bluefin-shieldconex",
+                ["version"] = "0.0.1",
+                ["target"] = "csharp",
             },
             ["feature"] = new Dictionary<string, object?>
             {
@@ -73,26 +76,31 @@ public static class SdkConfig
                                     ["type"] = "`$STRING`",
                                 },
                             },
+                            ["short"] = "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "messageId",
+                            ["short"] = "Message Id",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "name",
+                            ["short"] = "Field Name.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "reference",
+                            ["short"] = "Request Reference.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "value",
+                            ["short"] = "Field Value.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
@@ -260,32 +268,38 @@ public static class SdkConfig
                                     ["type"] = "`$STRING`",
                                 },
                             },
+                            ["short"] = "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "messageId",
+                            ["short"] = "Message Id",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "name",
+                            ["short"] = "Field Name.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "reference",
+                            ["short"] = "Request Reference.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "templateRef",
                             ["req"] = true,
+                            ["short"] = "Template Reference",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "value",
+                            ["short"] = "Field Value.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
@@ -499,11 +513,13 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "messageId",
+                            ["short"] = "Message Id",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "reference",
+                            ["short"] = "Request Reference.",
                             ["type"] = "`$STRING`",
                         },
                     },
@@ -577,21 +593,25 @@ public static class SdkConfig
                                     ["type"] = "`$STRING`",
                                 },
                             },
+                            ["short"] = "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "messageId",
+                            ["short"] = "Message Id",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "reference",
+                            ["short"] = "Request Reference.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "state",
+                            ["short"] = "Tokenized State Data (if available)",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
@@ -642,17 +662,20 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "messageId",
+                            ["short"] = "Message Id",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "reference",
+                            ["short"] = "Request Reference.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "templateRef",
                             ["req"] = true,
+                            ["short"] = "Template Reference.",
                             ["type"] = "`$STRING`",
                         },
                     },
@@ -711,6 +734,18 @@ public static class SdkConfig
                 },
             },
         };
+    }
+
+    private static readonly Lazy<Dictionary<string, object?>> SharedConfigVal =
+        new(MakeConfig);
+
+    // The process-wide config, built once on first use.
+    //
+    // The returned dictionary is SHARED: treat it as read-only. Callers that
+    // need to mutate should use MakeConfig, which always returns a fresh copy.
+    public static Dictionary<string, object?> SharedConfig()
+    {
+        return SharedConfigVal.Value;
     }
 
     public static Feature.BaseFeature MakeFeature(string name)

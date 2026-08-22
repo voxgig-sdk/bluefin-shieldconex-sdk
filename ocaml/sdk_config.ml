@@ -18,6 +18,8 @@ let make_config () : value =
           ("active", (Bool false)) ])) ])) ]));
     ("options", (jo [
       ("base", (Str "https://secure-cert.shieldconex.com/api"));
+      ("auth", (jo [
+        ("prefix", (Str "Basic")) ]));
       ("headers", (jo [
         ("content-type", (Str "application/json")) ]));
       ("entity", (jo [
@@ -25,9 +27,7 @@ let make_config () : value =
         ("tokenize", (empty_map ()));
         ("tokenize_batch", (empty_map ()));
         ("tokenize_read", (empty_map ()));
-        ("validate", (empty_map ())) ]));
-      ("auth", (jo [
-        ("prefix", (Str "Basic")) ])) ]));
+        ("validate", (empty_map ())) ])) ]));
     ("entity", (jo [
       ("detokenize", (jo [
         ("fields", (ja [
@@ -44,18 +44,23 @@ let make_config () : value =
               ("create", (jo [
                 ("req", (Bool true));
                 ("type", (Str "`$STRING`")) ])) ]));
+            ("short", (Str "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request)."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "messageId"));
+            ("short", (Str "Message Id"));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "name"));
+            ("short", (Str "Field Name."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "reference"));
+            ("short", (Str "Request Reference."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "value"));
+            ("short", (Str "Field Value."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "values"));
@@ -155,22 +160,28 @@ let make_config () : value =
               ("create", (jo [
                 ("req", (Bool true));
                 ("type", (Str "`$STRING`")) ])) ]));
+            ("short", (Str "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request)."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "messageId"));
+            ("short", (Str "Message Id"));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "name"));
+            ("short", (Str "Field Name."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "reference"));
+            ("short", (Str "Request Reference."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "templateRef"));
             ("req", (Bool true));
+            ("short", (Str "Template Reference"));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "value"));
+            ("short", (Str "Field Value."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "values"));
@@ -294,9 +305,11 @@ let make_config () : value =
             ("type", (Str "`$ARRAY`")) ]);
           (jo [
             ("name", (Str "messageId"));
+            ("short", (Str "Message Id"));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "reference"));
+            ("short", (Str "Request Reference."));
             ("type", (Str "`$STRING`")) ]) ]));
         ("name", (Str "tokenize_batch"));
         ("op", (jo [
@@ -340,15 +353,19 @@ let make_config () : value =
               ("create", (jo [
                 ("req", (Bool true));
                 ("type", (Str "`$STRING`")) ])) ]));
+            ("short", (Str "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request)."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "messageId"));
+            ("short", (Str "Message Id"));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "reference"));
+            ("short", (Str "Request Reference."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "state"));
+            ("short", (Str "Tokenized State Data (if available)"));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "values"));
@@ -377,13 +394,16 @@ let make_config () : value =
         ("fields", (ja [
           (jo [
             ("name", (Str "messageId"));
+            ("short", (Str "Message Id"));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "reference"));
+            ("short", (Str "Request Reference."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "templateRef"));
             ("req", (Bool true));
+            ("short", (Str "Template Reference."));
             ("type", (Str "`$STRING`")) ]) ]));
         ("name", (Str "validate"));
         ("op", (jo [

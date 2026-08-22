@@ -82,7 +82,11 @@ voxgig_value* make_options_util(Context* ctx) {
   // Preserve system.fetch before merge/validate (validation strips it).
   voxgig_value* sys_fetch = getpath2(opts, "system", "fetch");
 
-  voxgig_value* mergelist = clist(3, v_map(), v_share(cfgopts), v_share(opts));
+  /* CLONE the config side, do not v_share it: `config` is a process-wide
+   * singleton (shared_config) and merge uses its nested maps as merge TARGETS,
+   * so sharing lets one client's options (headers, server, ...) be written into
+   * the shared config and inherited by every client built afterwards. */
+  voxgig_value* mergelist = clist(3, v_map(), voxgig_clone(cfgopts), v_share(opts));
   voxgig_value* merged = voxgig_merge(mergelist, VOXGIG_MAXDEPTH);
   voxgig_value* validated = voxgig_validate(merged, optspec, NULL);
   if (voxgig_is_map(validated)) {
@@ -162,8 +166,19 @@ voxgig_value* make_options_util(Context* ctx) {
         if (has_test) {
           voxgig_list_push(voxgig_as_list(feature_order), v_str("test"));
         }
+        // Station special case, mirroring test's: its transport wrap must
+        // sit immediately outside the base transport (inside retry/cache/
+        // netsim), so map-form activation hoists it to just after test -
+        // or first, when no test entry exists. Without this the sorted
+        // default would init station last and wrap OUTSIDE the recording
+        // features, turning its wire-truth events into fiction.
         for (size_t i = 0; i < fn; i++) {
-          if (strcmp(names[i], "test") != 0) {
+          if (strcmp(names[i], "station") == 0) {
+            voxgig_list_push(voxgig_as_list(feature_order), v_str("station"));
+          }
+        }
+        for (size_t i = 0; i < fn; i++) {
+          if (strcmp(names[i], "test") != 0 && strcmp(names[i], "station") != 0) {
             voxgig_list_push(voxgig_as_list(feature_order), v_str(names[i]));
           }
         }

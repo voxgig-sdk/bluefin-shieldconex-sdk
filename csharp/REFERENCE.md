@@ -114,11 +114,11 @@ var detokenize = client.Detokenize();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `batches` | `List<object?>` | No |  |
-| `bfid` | `string` | No |  |
-| `messageId` | `string` | No |  |
-| `name` | `string` | No |  |
-| `reference` | `string` | No |  |
-| `value` | `string` | No |  |
+| `bfid` | `string` | No | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | `string` | No | Message Id |
+| `name` | `string` | No | Field Name. |
+| `reference` | `string` | No | Request Reference. |
+| `value` | `string` | No | Field Value. |
 | `values` | `List<object?>` | No |  |
 
 ### Field Usage by Operation
@@ -186,12 +186,12 @@ var tokenize = client.Tokenize();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `batches` | `List<object?>` | No |  |
-| `bfid` | `string` | No |  |
-| `messageId` | `string` | No |  |
-| `name` | `string` | No |  |
-| `reference` | `string` | No |  |
-| `templateRef` | `string` | Yes |  |
-| `value` | `string` | No |  |
+| `bfid` | `string` | No | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | `string` | No | Message Id |
+| `name` | `string` | No | Field Name. |
+| `reference` | `string` | No | Request Reference. |
+| `templateRef` | `string` | Yes | Template Reference |
+| `value` | `string` | No | Field Value. |
 | `values` | `List<object?>` | No |  |
 
 ### Field Usage by Operation
@@ -261,8 +261,8 @@ var tokenizeBatch = client.TokenizeBatch();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `batches` | `List<object?>` | No |  |
-| `messageId` | `string` | No |  |
-| `reference` | `string` | No |  |
+| `messageId` | `string` | No | Message Id |
+| `reference` | `string` | No | Request Reference. |
 
 ### Field Usage by Operation
 
@@ -315,10 +315,10 @@ var tokenizeRead = client.TokenizeRead();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `bfid` | `string` | No |  |
-| `messageId` | `string` | No |  |
-| `reference` | `string` | No |  |
-| `state` | `Dictionary<string, object?>` | No |  |
+| `bfid` | `string` | No | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | `string` | No | Message Id |
+| `reference` | `string` | No | Request Reference. |
+| `state` | `Dictionary<string, object?>` | No | Tokenized State Data (if available) |
 | `values` | `List<object?>` | No |  |
 
 ### Field Usage by Operation
@@ -374,9 +374,9 @@ var validate = client.Validate();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `messageId` | `string` | No |  |
-| `reference` | `string` | No |  |
-| `templateRef` | `string` | Yes |  |
+| `messageId` | `string` | No | Message Id |
+| `reference` | `string` | No | Request Reference. |
+| `templateRef` | `string` | Yes | Template Reference. |
 
 ### Operations
 

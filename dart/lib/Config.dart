@@ -18,8 +18,17 @@ class Config {
     return fc();
   }
 
+  // False for a feature added at runtime via options.extend (station's
+  // adopt path) - the constructor uses this to skip makeFeature for names
+  // no generated class backs.
+  bool hasFeature(String fn) => null != FEATURE_CLASS[fn];
+
   final Map<String, dynamic> main = <String, dynamic>{
     'name': 'BluefinShieldconex',
+        'slug': 'bluefin-shieldconex',
+    'version': '0.0.1',
+    'target': 'dart',
+
   };
 
   final Map<String, dynamic> feature = <String, dynamic>{
@@ -31,25 +40,26 @@ class Config {
 
   };
 
+  // Rendered whole from the canonical config definition rather than assembled
+  // slot by slot. Assembling it here meant `options.server` - the OpenAPI
+  // server-variable defaults - was simply absent from this branch, so a
+  // templated server URL produced a different config either side of the
+  // threshold.
   final Map<String, dynamic> options = <String, dynamic>{
     'base': 'https://secure-cert.shieldconex.com/api',
-
     'auth': <String, dynamic>{
       'prefix': 'Basic',
     },
-
     'headers': <String, dynamic>{
       'content-type': 'application/json',
     },
-
     'entity': <String, dynamic>{
-            'detokenize': <String, dynamic>{},
+      'detokenize': <String, dynamic>{},
       'tokenize': <String, dynamic>{},
       'tokenize_batch': <String, dynamic>{},
       'tokenize_read': <String, dynamic>{},
       'validate': <String, dynamic>{},
-
-    }
+    },
   };
 
   final Map<String, dynamic> entity = <String, dynamic>{
@@ -73,22 +83,27 @@ class Config {
               'type': '`\$STRING`',
             },
           },
+          'short': 'The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'messageId',
+          'short': 'Message Id',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'name',
+          'short': 'Field Name.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'reference',
+          'short': 'Request Reference.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'value',
+          'short': 'Field Value.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
@@ -222,27 +237,33 @@ class Config {
               'type': '`\$STRING`',
             },
           },
+          'short': 'The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'messageId',
+          'short': 'Message Id',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'name',
+          'short': 'Field Name.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'reference',
+          'short': 'Request Reference.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'templateRef',
           'req': true,
+          'short': 'Template Reference',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'value',
+          'short': 'Field Value.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
@@ -411,10 +432,12 @@ class Config {
         },
         <String, dynamic>{
           'name': 'messageId',
+          'short': 'Message Id',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'reference',
+          'short': 'Request Reference.',
           'type': '`\$STRING`',
         },
       ],
@@ -473,18 +496,22 @@ class Config {
               'type': '`\$STRING`',
             },
           },
+          'short': 'The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'messageId',
+          'short': 'Message Id',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'reference',
+          'short': 'Request Reference.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'state',
+          'short': 'Tokenized State Data (if available)',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
@@ -524,15 +551,18 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'messageId',
+          'short': 'Message Id',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'reference',
+          'short': 'Request Reference.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'templateRef',
           'req': true,
+          'short': 'Template Reference.',
           'type': '`\$STRING`',
         },
       ],

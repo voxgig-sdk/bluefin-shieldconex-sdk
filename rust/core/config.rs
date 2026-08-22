@@ -10,6 +10,9 @@ pub fn make_config() -> Value {
     Value::map_of([
         ("main".to_string(), Value::map_of([
             ("name".to_string(), Value::str("BluefinShieldconex")),
+            ("slug".to_string(), Value::str("bluefin-shieldconex")),
+            ("version".to_string(), Value::str("0.0.1")),
+            ("target".to_string(), Value::str("rust")),
         ])),
         ("feature".to_string(), Value::map_of([
             ("test".to_string(), Value::map_of([
@@ -20,6 +23,9 @@ pub fn make_config() -> Value {
         ])),
         ("options".to_string(), Value::map_of([
             ("base".to_string(), Value::str("https://secure-cert.shieldconex.com/api")),
+            ("auth".to_string(), Value::map_of([
+                ("prefix".to_string(), Value::str("Basic")),
+            ])),
             ("headers".to_string(), Value::map_of([
                 ("content-type".to_string(), Value::str("application/json")),
             ])),
@@ -29,9 +35,6 @@ pub fn make_config() -> Value {
                 ("tokenize_batch".to_string(), Value::empty_map()),
                 ("tokenize_read".to_string(), Value::empty_map()),
                 ("validate".to_string(), Value::empty_map()),
-            ])),
-            ("auth".to_string(), Value::map_of([
-                ("prefix".to_string(), Value::str("Basic")),
             ])),
         ])),
         ("entity".to_string(), Value::map_of([
@@ -55,22 +58,27 @@ pub fn make_config() -> Value {
                                 ("type".to_string(), Value::str("`$STRING`")),
                             ])),
                         ])),
+                        ("short".to_string(), Value::str("The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("messageId")),
+                        ("short".to_string(), Value::str("Message Id")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("name")),
+                        ("short".to_string(), Value::str("Field Name.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("reference")),
+                        ("short".to_string(), Value::str("Request Reference.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("value")),
+                        ("short".to_string(), Value::str("Field Value.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
@@ -204,27 +212,33 @@ pub fn make_config() -> Value {
                                 ("type".to_string(), Value::str("`$STRING`")),
                             ])),
                         ])),
+                        ("short".to_string(), Value::str("The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("messageId")),
+                        ("short".to_string(), Value::str("Message Id")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("name")),
+                        ("short".to_string(), Value::str("Field Name.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("reference")),
+                        ("short".to_string(), Value::str("Request Reference.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("templateRef")),
                         ("req".to_string(), Value::Bool(true)),
+                        ("short".to_string(), Value::str("Template Reference")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("value")),
+                        ("short".to_string(), Value::str("Field Value.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
@@ -393,10 +407,12 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("messageId")),
+                        ("short".to_string(), Value::str("Message Id")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("reference")),
+                        ("short".to_string(), Value::str("Request Reference.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                 ])),
@@ -455,18 +471,22 @@ pub fn make_config() -> Value {
                                 ("type".to_string(), Value::str("`$STRING`")),
                             ])),
                         ])),
+                        ("short".to_string(), Value::str("The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("messageId")),
+                        ("short".to_string(), Value::str("Message Id")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("reference")),
+                        ("short".to_string(), Value::str("Request Reference.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("state")),
+                        ("short".to_string(), Value::str("Tokenized State Data (if available)")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
@@ -506,15 +526,18 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("messageId")),
+                        ("short".to_string(), Value::str("Message Id")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("reference")),
+                        ("short".to_string(), Value::str("Request Reference.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("templateRef")),
                         ("req".to_string(), Value::Bool(true)),
+                        ("short".to_string(), Value::str("Template Reference.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                 ])),
@@ -563,6 +586,28 @@ pub fn make_config() -> Value {
             ])),
         ])),
     ])
+}
+
+// SHARED CONFIG (sdkgen rung L2).
+//
+// The SDK reads the config on every request and never writes to it, so one
+// instance is shared by every client rather than rebuilt per client. Above the
+// size threshold make_config re-parses the whole embedded JSON, so this is the
+// difference between parsing the model once and once per client.
+//
+// THREAD-LOCAL, not a global: Value is Rc/RefCell-backed and so is neither
+// Send nor Sync. One config per thread is the widest scope that is sound here,
+// and the clone is an Rc bump, not a deep copy.
+thread_local! {
+    static SHARED_CONFIG: Value = make_config();
+}
+
+/// The per-thread config, built once on first use.
+///
+/// The returned Value SHARES its nodes: treat it as read-only. Callers that
+/// need to mutate should use make_config, which always returns a fresh copy.
+pub fn shared_config() -> Value {
+    SHARED_CONFIG.with(|c| c.clone())
 }
 
 pub fn make_feature(name: &str) -> FeatureRef {

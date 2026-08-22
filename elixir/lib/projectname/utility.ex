@@ -261,16 +261,78 @@ defmodule BluefinShieldconex.Utility do
         "entity" => %{"`$CHILD`" => %{"`$OPEN`" => true, "active" => false, "alias" => %{}}},
         "feature" => %{"`$CHILD`" => %{"`$OPEN`" => true, "active" => false}},
         "utility" => %{},
+        # Feature INSTANCES supplied at construction (the station adopt
+        # path): consumed by the constructor's extend loop, so they are
+        # struct feature nodes, not data - `$ANY` accepts them verbatim.
+        # Without this entry the seam is dead: the constructor reads
+        # options.extend, but validate rejected the key.
+        "extend" => "`$ANY`",
         "system" => %{},
         "test" => %{"active" => false, "entity" => %{"`$OPEN`" => true}},
-        "clean" => %{"keys" => "key,token,id"}
+        "clean" => %{"keys" => "key,token,id"},
+        # Server-variable values for a templated base URL (OpenAPI server
+        # variables): {name} placeholders in "base" are substituted from this
+        # map at construction. Spec defaults arrive via the generated config;
+        # user values override them. Mirrors go's make_options optspec - elixir
+        # was the only target validating options that did not accept it, so a
+        # spec with a templated server URL failed validation outright.
+        "server" => %{"`$CHILD`" => ""}
       })
 
     sys_fetch = S.getpath(opts0, "system.fetch")
 
-    merged = S.merge(S.jt([S.jm([]), cfgopts, opts0]))
+    # CLONE the config side: `config` is a process-wide singleton
+    # (BluefinShieldconex.Config.shared_config) and merge uses its nested nodes as
+    # merge TARGETS, so without this one client's options (headers, server,
+    # ...) are written into the shared config and inherited by every client
+    # constructed afterwards.
+    merged = S.merge(S.jt([S.jm([]), S.clone(cfgopts), opts0]))
     validated = S.validate(merged, optspec)
     opts = if S.ismap(validated), do: validated, else: S.jm([])
+
+    # Resolve a templated base URL (e.g. https://{tenant_id}.hanko.io).
+    # Every placeholder must resolve to a non-empty value: from options.server
+    # (user), else the Config default. A placeholder that resolves to "" is a
+    # construction ERROR in live mode - the URL cannot work - but in test mode
+    # substitutes the deterministic value "test-<name>" so offline tests need
+    # no configuration. The SDK constructor has no error return, so a missing
+    # required variable RAISES: construction-time misconfiguration.
+    base = S.getprop(opts, "base")
+
+    if is_binary(base) and String.contains?(base, "{") do
+      testmode =
+        true == S.getpath(opts, "test.active") or
+          true == S.getpath(opts, "feature.test.active")
+
+      server = H.or_(S.getprop(opts, "server"), S.jm([]))
+      mn = S.getpath(config, "main.name")
+      sdkname = if is_binary(mn) and mn != "", do: mn, else: "SDK"
+
+      resolved =
+        Regex.replace(~r/\{([A-Za-z0-9_]+)\}/, base, fn _match, name ->
+          val = S.getprop(server, name)
+          val = if is_binary(val), do: val, else: ""
+
+          cond do
+            val != "" ->
+              val
+
+            testmode ->
+              "test-" <> name
+
+            true ->
+              raise BluefinShieldconex.Error,
+                code: "server_var_required",
+                sdk: "BluefinShieldconex",
+                msg:
+                  "#{sdkname}: the server variable '#{name}' is required: the API " <>
+                    "base URL is '#{base}' - pass %{\"server\" => %{\"#{name}\" => " <>
+                    "\"...\"}} in the SDK options"
+          end
+        end)
+
+      S.setprop(opts, "base", resolved)
+    end
 
     if sys_fetch != nil do
       sysnode = S.getprop(opts, "system")
@@ -303,8 +365,29 @@ defmodule BluefinShieldconex.Utility do
           fmap = if S.ismap(fmap), do: fmap, else: S.jm([])
           names = S.keysof(fmap)
 
-          if Enum.member?(names, "test") do
-            ["test" | Enum.reject(names, &(&1 == "test"))]
+          names =
+            if Enum.member?(names, "test") do
+              ["test" | Enum.reject(names, &(&1 == "test"))]
+            else
+              names
+            end
+
+          # Station special case, mirroring test's: its transport wrap must
+          # sit immediately outside the base transport (inside retry/cache/
+          # netsim), so map-form activation hoists it to just after test -
+          # or first, when no test entry exists. Without this the sorted
+          # default would init station last and wrap OUTSIDE the recording
+          # features, turning its wire-truth events into fiction.
+          if Enum.member?(names, "station") do
+            rest = Enum.reject(names, &(&1 == "station"))
+
+            at =
+              case Enum.find_index(rest, &(&1 == "test")) do
+                nil -> 0
+                ti -> ti + 1
+              end
+
+            List.insert_at(rest, at, "station")
           else
             names
           end
@@ -409,21 +492,81 @@ defmodule BluefinShieldconex.Utility do
 
                 if found, do: {:halt, point}, else: {:cont, point}
             end)
-            |> elem(1)
 
-          err =
-            if reqselector != nil do
-              req_action = S.getprop(reqselector, "$action")
+          matched? = match?({:halt, _}, point)
 
-              if req_action != nil and point != nil do
-                point_select = H.to_map(S.getprop(point, "select"))
-                point_action = S.getprop(point_select, "$action")
+          point =
+            if matched? do
+              elem(point, 1)
+            else
+              # select.exist can list more than the params needed to pick a
+              # point, so nothing matched. Fall back to the entity's own
+              # route: a terminal parameter marks a record route
+              # (/boards/{id}) where a cross-reference ends in the
+              # relationship's name (/posts/{id}/author), and failing that
+              # the shallower path wins. The same rule runs at generation
+              # time, in helpers/opShape.ts — both sides must move together.
+              parts_len = fn p ->
+                parts = S.getprop(p, "parts")
+                if S.islist(parts), do: S.size(parts), else: 0
+              end
 
-                if req_action != point_action do
-                  Context.make_error(ctx, "point_action_invalid",
-                    "Operation \"" <> opname <> "\" action \"" <> S.stringify(req_action) <> "\" is not valid.")
+              terminal_param? = fn p ->
+                parts = S.getprop(p, "parts")
+
+                if S.islist(parts) and S.size(parts) > 0 do
+                  last = S.getelem(parts, S.size(parts) - 1)
+                  is_binary(last) and String.starts_with?(last, "{")
+                else
+                  false
                 end
               end
+
+              Enum.reduce(0..(npoints - 1), S.getelem(points, 0), fn i, best ->
+                cand = S.getelem(points, i)
+                ct = terminal_param?.(cand)
+                bt = terminal_param?.(best)
+
+                cond do
+                  ct != bt -> if ct, do: cand, else: best
+                  parts_len.(cand) < parts_len.(best) -> cand
+                  true -> best
+                end
+              end)
+            end
+
+          unmatched_action =
+            if not matched? and reqselector != nil,
+              do: S.getprop(reqselector, "$action"),
+              else: nil
+
+          err =
+            cond do
+              # A request naming an action reaches the fallback only because
+              # that action's own point failed its exist test, so it is
+              # unbuildable whatever we pick. Refuse it BEFORE the guard
+              # below, which compares the chosen point's $action and would
+              # wave the request through whenever the fallback lands on the
+              # action point itself.
+              unmatched_action != nil ->
+                Context.make_error(ctx, "point_action_invalid",
+                  "Operation \"" <> opname <> "\" action \"" <> S.stringify(unmatched_action) <> "\" is not valid.")
+
+              reqselector != nil ->
+                req_action = S.getprop(reqselector, "$action")
+
+                if req_action != nil and point != nil do
+                  point_select = H.to_map(S.getprop(point, "select"))
+                  point_action = S.getprop(point_select, "$action")
+
+                  if req_action != point_action do
+                    Context.make_error(ctx, "point_action_invalid",
+                      "Operation \"" <> opname <> "\" action \"" <> S.stringify(req_action) <> "\" is not valid.")
+                  end
+                end
+
+              true ->
+                nil
             end
 
           if err != nil do
@@ -1402,7 +1545,16 @@ defmodule BluefinShieldconex.Utility do
         {url, hlist}
       end
 
-    case :httpc.request(method, request, [], body_format: :binary) do
+    # A `redirect: "manual"` annotation (set by the station feature when a
+    # hosts egress policy is active - the same in-band channel go and rust
+    # use) disables :httpc's automatic redirect following, so a 3xx rides
+    # back as a normal response: a Location pointing off an egress
+    # allowlist must never pull an automatic credentialed follow-up
+    # request.
+    http_opts =
+      if S.getprop(fetchdef, "redirect") == "manual", do: [autoredirect: false], else: []
+
+    case :httpc.request(method, request, http_opts, body_format: :binary) do
       {:ok, {{_v, status, _reason}, resp_headers, resp_body}} ->
         rh =
           Enum.reduce(resp_headers, S.jm([]), fn {k, v}, acc ->

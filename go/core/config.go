@@ -11,6 +11,9 @@ func MakeConfig() map[string]any {
 	return map[string]any{
 		"main": map[string]any{
 			"name": "BluefinShieldconex",
+			"slug": "bluefin-shieldconex",
+			"version": "0.0.1",
+			"target": "go",
 		},
 		"feature": map[string]any{
 			"test": map[string]any{
@@ -56,22 +59,27 @@ func MakeConfig() map[string]any {
 								"type": "`$STRING`",
 							},
 						},
+						"short": "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "messageId",
+						"short": "Message Id",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "name",
+						"short": "Field Name.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "reference",
+						"short": "Request Reference.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "value",
+						"short": "Field Value.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -205,27 +213,33 @@ func MakeConfig() map[string]any {
 								"type": "`$STRING`",
 							},
 						},
+						"short": "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "messageId",
+						"short": "Message Id",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "name",
+						"short": "Field Name.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "reference",
+						"short": "Request Reference.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "templateRef",
 						"req": true,
+						"short": "Template Reference",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "value",
+						"short": "Field Value.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -394,10 +408,12 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"name": "messageId",
+						"short": "Message Id",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "reference",
+						"short": "Request Reference.",
 						"type": "`$STRING`",
 					},
 				},
@@ -456,18 +472,22 @@ func MakeConfig() map[string]any {
 								"type": "`$STRING`",
 							},
 						},
+						"short": "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "messageId",
+						"short": "Message Id",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "reference",
+						"short": "Request Reference.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "state",
+						"short": "Tokenized State Data (if available)",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
@@ -507,15 +527,18 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "messageId",
+						"short": "Message Id",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "reference",
+						"short": "Request Reference.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "templateRef",
 						"req": true,
+						"short": "Template Reference.",
 						"type": "`$STRING`",
 					},
 				},

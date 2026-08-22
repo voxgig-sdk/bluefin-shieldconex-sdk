@@ -20,6 +20,9 @@ pub fn make_config() Value {
         }) },
         .{ "options", h.jo(&.{
             .{ "base", h.vstr("https://secure-cert.shieldconex.com/api") },
+            .{ "auth", h.jo(&.{
+                .{ "prefix", h.vstr("Basic") },
+            }) },
             .{ "headers", h.jo(&.{
                 .{ "content-type", h.vstr("application/json") },
             }) },
@@ -29,9 +32,6 @@ pub fn make_config() Value {
                 .{ "tokenize_batch", h.omap() },
                 .{ "tokenize_read", h.omap() },
                 .{ "validate", h.omap() },
-            }) },
-            .{ "auth", h.jo(&.{
-                .{ "prefix", h.vstr("Basic") },
             }) },
         }) },
         .{ "entity", h.jo(&.{
@@ -55,22 +55,27 @@ pub fn make_config() Value {
                                 .{ "type", h.vstr("`$STRING`") },
                             }) },
                         }) },
+                        .{ "short", h.vstr("The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("messageId") },
+                        .{ "short", h.vstr("Message Id") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("name") },
+                        .{ "short", h.vstr("Field Name.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("reference") },
+                        .{ "short", h.vstr("Request Reference.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("value") },
+                        .{ "short", h.vstr("Field Value.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
@@ -204,27 +209,33 @@ pub fn make_config() Value {
                                 .{ "type", h.vstr("`$STRING`") },
                             }) },
                         }) },
+                        .{ "short", h.vstr("The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("messageId") },
+                        .{ "short", h.vstr("Message Id") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("name") },
+                        .{ "short", h.vstr("Field Name.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("reference") },
+                        .{ "short", h.vstr("Request Reference.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("templateRef") },
                         .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Template Reference") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("value") },
+                        .{ "short", h.vstr("Field Value.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
@@ -393,10 +404,12 @@ pub fn make_config() Value {
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("messageId") },
+                        .{ "short", h.vstr("Message Id") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("reference") },
+                        .{ "short", h.vstr("Request Reference.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                 }) },
@@ -455,18 +468,22 @@ pub fn make_config() Value {
                                 .{ "type", h.vstr("`$STRING`") },
                             }) },
                         }) },
+                        .{ "short", h.vstr("The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("messageId") },
+                        .{ "short", h.vstr("Message Id") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("reference") },
+                        .{ "short", h.vstr("Request Reference.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("state") },
+                        .{ "short", h.vstr("Tokenized State Data (if available)") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
@@ -506,15 +523,18 @@ pub fn make_config() Value {
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
                         .{ "name", h.vstr("messageId") },
+                        .{ "short", h.vstr("Message Id") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("reference") },
+                        .{ "short", h.vstr("Request Reference.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("templateRef") },
                         .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Template Reference.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                 }) },
@@ -563,6 +583,28 @@ pub fn make_config() Value {
             }) },
         }) },
     });
+}
+
+// SHARED CONFIG (sdkgen rung L2).
+//
+// The SDK reads the config on every request and never writes to it, so one
+// instance is shared by every client rather than rebuilt per client. Above the
+// size threshold make_config re-parses the whole embedded JSON, so this is the
+// difference between parsing the model once and once per client.
+//
+// Value nodes are arena-allocated and reference-stable, so the shared value is
+// genuinely one structure, not a copy.
+var shared_config_val: ?Value = null;
+
+/// The process-wide config, built once on first use.
+///
+/// The returned Value SHARES its nodes: treat it as read-only. Callers that
+/// need to mutate should use make_config, which always returns a fresh copy.
+pub fn shared_config() Value {
+    if (shared_config_val) |c| return c;
+    const c = make_config();
+    shared_config_val = c;
+    return c;
 }
 
 pub fn make_feature(name: []const u8) Feature {

@@ -114,11 +114,11 @@ const detokenize = client.detokenize(h.vnull());
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `batches` | `Value (array)` | No |  |
-| `bfid` | `[]const u8` | No |  |
-| `messageId` | `[]const u8` | No |  |
-| `name` | `[]const u8` | No |  |
-| `reference` | `[]const u8` | No |  |
-| `value` | `[]const u8` | No |  |
+| `bfid` | `[]const u8` | No | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | `[]const u8` | No | Message Id |
+| `name` | `[]const u8` | No | Field Name. |
+| `reference` | `[]const u8` | No | Request Reference. |
+| `value` | `[]const u8` | No | Field Value. |
 | `values` | `Value (array)` | No |  |
 
 ### Field Usage by Operation
@@ -190,12 +190,12 @@ const tokenize = client.tokenize(h.vnull());
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `batches` | `Value (array)` | No |  |
-| `bfid` | `[]const u8` | No |  |
-| `messageId` | `[]const u8` | No |  |
-| `name` | `[]const u8` | No |  |
-| `reference` | `[]const u8` | No |  |
-| `templateRef` | `[]const u8` | Yes |  |
-| `value` | `[]const u8` | No |  |
+| `bfid` | `[]const u8` | No | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | `[]const u8` | No | Message Id |
+| `name` | `[]const u8` | No | Field Name. |
+| `reference` | `[]const u8` | No | Request Reference. |
+| `templateRef` | `[]const u8` | Yes | Template Reference |
+| `value` | `[]const u8` | No | Field Value. |
 | `values` | `Value (array)` | No |  |
 
 ### Field Usage by Operation
@@ -269,8 +269,8 @@ const tokenize_batch = client.tokenize_batch(h.vnull());
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `batches` | `Value (array)` | No |  |
-| `messageId` | `[]const u8` | No |  |
-| `reference` | `[]const u8` | No |  |
+| `messageId` | `[]const u8` | No | Message Id |
+| `reference` | `[]const u8` | No | Request Reference. |
 
 ### Field Usage by Operation
 
@@ -325,10 +325,10 @@ const tokenize_read = client.tokenize_read(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `bfid` | `[]const u8` | No |  |
-| `messageId` | `[]const u8` | No |  |
-| `reference` | `[]const u8` | No |  |
-| `state` | `Value (object)` | No |  |
+| `bfid` | `[]const u8` | No | The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request). |
+| `messageId` | `[]const u8` | No | Message Id |
+| `reference` | `[]const u8` | No | Request Reference. |
+| `state` | `Value (object)` | No | Tokenized State Data (if available) |
 | `values` | `Value (array)` | No |  |
 
 ### Field Usage by Operation
@@ -386,9 +386,9 @@ const validate = client.validate(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `messageId` | `[]const u8` | No |  |
-| `reference` | `[]const u8` | No |  |
-| `templateRef` | `[]const u8` | Yes |  |
+| `messageId` | `[]const u8` | No | Message Id |
+| `reference` | `[]const u8` | No | Request Reference. |
+| `templateRef` | `[]const u8` | Yes | Template Reference. |
 
 ### Operations
 
