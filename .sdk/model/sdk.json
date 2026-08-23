@@ -1,6 +1,15 @@
 {
+  "NAME": "BLUEFIN-SHIELDCONEX",
+  "Name": "BluefinShieldconex",
   "def": "shieldconex-openapi.json",
   "main": {
+    "api": {
+      "entity": {},
+      "guide": {}
+    },
+    "custom": {
+      "plurals": {}
+    },
     "def": {
       "desc": ""
     },
@@ -2421,5 +2430,8 @@
     }
   },
   "name": "bluefin-shieldconex",
+  "name-": "bluefin-shieldconex",
+  "name_": "bluefin_shieldconex",
+  "name__orig": "bluefin-shieldconex",
   "origin": "voxgig-sdk"
 }
