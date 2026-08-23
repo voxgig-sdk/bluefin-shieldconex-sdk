@@ -5,7 +5,7 @@
 
 import java.util.{ArrayList, LinkedHashMap, List => JList, Map => JMap}
 
-import voxgig.bluefinshieldconexsdk.core.{Helpers, BluefinShieldconexSDK}
+import voxgig.bluefinshieldconexsdk.core.{Helpers, SdkEntity, BluefinShieldconexSDK}
 import voxgig.bluefinshieldconexsdk.utility.struct.Struct
 
 object TokenizeReadEntityTest {
