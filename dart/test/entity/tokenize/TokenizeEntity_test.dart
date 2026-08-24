@@ -97,7 +97,7 @@ test('stream', (t) async {
       final tokenize_ref01_list = (await tokenize_ref01_ent.list(tokenize_ref01_match)).map((e) => e.data()).toList();
 
       ok(!isempty(select(
-          (tokenize_ref01_list as List).map((e) => e.data()).toList(),
+          tokenize_ref01_list,
           {'id': tokenize_ref01_data['id']})));
 
 

@@ -31,7 +31,7 @@ class DetokenizeEntityTest {
     val setup = detokenizeBasicSetup(null)
     // Per-op sdk-test-control.json skip.
     val mode = if (setup.live) "live" else "unit"
-    for (op in arrayOf("create", "list")) {
+    for (op in arrayOf<String>("create", "list")) {
       val reason = RunnerSupport.skipReason("entityOp", "detokenize.$op", mode)
       Assumptions.assumeTrue(
         reason == null,

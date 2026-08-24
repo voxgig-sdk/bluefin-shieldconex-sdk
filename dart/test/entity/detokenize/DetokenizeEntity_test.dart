@@ -97,7 +97,7 @@ test('stream', (t) async {
       final detokenize_ref01_list = (await detokenize_ref01_ent.list(detokenize_ref01_match)).map((e) => e.data()).toList();
 
       ok(!isempty(select(
-          (detokenize_ref01_list as List).map((e) => e.data()).toList(),
+          detokenize_ref01_list,
           {'id': detokenize_ref01_data['id']})));
 
 

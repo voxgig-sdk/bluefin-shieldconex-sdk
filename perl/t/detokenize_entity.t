@@ -21,7 +21,7 @@ BASIC_FLOW: {
   my $setup = detokenize_basic_setup(undef);
   my $_live = $setup->{live} ? 1 : 0;
   # Per-op sdk-test-control.json skip.
-  for my $_op ('create', 'list') {
+  for my $_op (('create', 'list')) {
     my ($_should_skip, $_reason) = BluefinShieldconexTestRunner::is_control_skipped(
       'entityOp', "detokenize." . $_op, $_live ? 'live' : 'unit');
     if ($_should_skip) {
