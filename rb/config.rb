@@ -28,6 +28,7 @@ module BluefinShieldconexConfig
           "options" => {
             "active" => false,
           },
+          "transport" => "base",
         },
       },
       "options" => {

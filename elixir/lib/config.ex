@@ -16,7 +16,8 @@ defmodule BluefinShieldconex.Config do
         "test" => %{
           "options" => %{
             "active" => false
-          }
+          },
+          "transport" => "base"
         },
       },
       "options" => %{
