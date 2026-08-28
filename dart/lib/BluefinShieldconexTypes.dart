@@ -72,63 +72,42 @@ class Detokenize {
 }
 
 class DetokenizeListMatch {
-  /// ARRAY
-  List<dynamic>? batches;
-  /// STRING
+  /// STRING (required at the API)
   String? bfid;
   /// STRING
-  String? messageId;
+  String? field_name;
   /// STRING
-  String? name;
+  String? field_value;
   /// STRING
   String? reference;
-  /// STRING
-  String? value;
-  /// ARRAY
-  List<dynamic>? values;
 
   DetokenizeListMatch({
-    this.batches,
     this.bfid,
-    this.messageId,
-    this.name,
+    this.field_name,
+    this.field_value,
     this.reference,
-    this.value,
-    this.values,
   });
 
   factory DetokenizeListMatch.fromMap(Map<String, dynamic> m) => DetokenizeListMatch(
-        batches: m['batches'] is List<dynamic> ? m['batches'] : null,
         bfid: m['bfid'] is String ? m['bfid'] : null,
-        messageId: m['messageId'] is String ? m['messageId'] : null,
-        name: m['name'] is String ? m['name'] : null,
+        field_name: m['field_name'] is String ? m['field_name'] : null,
+        field_value: m['field_value'] is String ? m['field_value'] : null,
         reference: m['reference'] is String ? m['reference'] : null,
-        value: m['value'] is String ? m['value'] : null,
-        values: m['values'] is List<dynamic> ? m['values'] : null,
       );
 
   Map<String, dynamic> toMap() {
     final m = <String, dynamic>{};
-    if (null != batches) {
-      m['batches'] = batches;
-    }
     if (null != bfid) {
       m['bfid'] = bfid;
     }
-    if (null != messageId) {
-      m['messageId'] = messageId;
+    if (null != field_name) {
+      m['field_name'] = field_name;
     }
-    if (null != name) {
-      m['name'] = name;
+    if (null != field_value) {
+      m['field_value'] = field_value;
     }
     if (null != reference) {
       m['reference'] = reference;
-    }
-    if (null != value) {
-      m['value'] = value;
-    }
-    if (null != values) {
-      m['values'] = values;
     }
     return m;
   }
@@ -268,76 +247,50 @@ class Tokenize {
 }
 
 class TokenizeListMatch {
-  /// ARRAY
-  List<dynamic>? batches;
   /// STRING
-  String? bfid;
+  String? field_name;
   /// STRING
-  String? messageId;
-  /// STRING
-  String? name;
+  String? field_value;
   /// STRING
   String? reference;
-  /// STRING
-  String? templateRef;
-  /// STRING
-  String? value;
-  /// ARRAY
-  List<dynamic>? values;
+  /// STRING (required at the API)
+  String? template_ref;
 
   TokenizeListMatch({
-    this.batches,
-    this.bfid,
-    this.messageId,
-    this.name,
+    this.field_name,
+    this.field_value,
     this.reference,
-    this.templateRef,
-    this.value,
-    this.values,
+    this.template_ref,
   });
 
   factory TokenizeListMatch.fromMap(Map<String, dynamic> m) => TokenizeListMatch(
-        batches: m['batches'] is List<dynamic> ? m['batches'] : null,
-        bfid: m['bfid'] is String ? m['bfid'] : null,
-        messageId: m['messageId'] is String ? m['messageId'] : null,
-        name: m['name'] is String ? m['name'] : null,
+        field_name: m['field_name'] is String ? m['field_name'] : null,
+        field_value: m['field_value'] is String ? m['field_value'] : null,
         reference: m['reference'] is String ? m['reference'] : null,
-        templateRef: m['templateRef'] is String ? m['templateRef'] : null,
-        value: m['value'] is String ? m['value'] : null,
-        values: m['values'] is List<dynamic> ? m['values'] : null,
+        template_ref: m['template_ref'] is String ? m['template_ref'] : null,
       );
 
   Map<String, dynamic> toMap() {
     final m = <String, dynamic>{};
-    if (null != batches) {
-      m['batches'] = batches;
+    if (null != field_name) {
+      m['field_name'] = field_name;
     }
-    if (null != bfid) {
-      m['bfid'] = bfid;
-    }
-    if (null != messageId) {
-      m['messageId'] = messageId;
-    }
-    if (null != name) {
-      m['name'] = name;
+    if (null != field_value) {
+      m['field_value'] = field_value;
     }
     if (null != reference) {
       m['reference'] = reference;
     }
-    if (null != templateRef) {
-      m['templateRef'] = templateRef;
-    }
-    if (null != value) {
-      m['value'] = value;
-    }
-    if (null != values) {
-      m['values'] = values;
+    if (null != template_ref) {
+      m['template_ref'] = template_ref;
     }
     return m;
   }
 }
 
 class TokenizeCreateData {
+  /// NUMBER
+  num? omit;
   /// ARRAY
   List<dynamic>? batches;
   /// STRING
@@ -356,6 +309,7 @@ class TokenizeCreateData {
   List<dynamic>? values;
 
   TokenizeCreateData({
+    this.omit,
     this.batches,
     this.bfid,
     this.messageId,
@@ -367,6 +321,7 @@ class TokenizeCreateData {
   });
 
   factory TokenizeCreateData.fromMap(Map<String, dynamic> m) => TokenizeCreateData(
+        omit: m['omit'] is num ? m['omit'] : null,
         batches: m['batches'] is List<dynamic> ? m['batches'] : null,
         bfid: m['bfid'] is String ? m['bfid'] : null,
         messageId: m['messageId'] is String ? m['messageId'] : null,
@@ -379,6 +334,9 @@ class TokenizeCreateData {
 
   Map<String, dynamic> toMap() {
     final m = <String, dynamic>{};
+    if (null != omit) {
+      m['omit'] = omit;
+    }
     if (null != batches) {
       m['batches'] = batches;
     }

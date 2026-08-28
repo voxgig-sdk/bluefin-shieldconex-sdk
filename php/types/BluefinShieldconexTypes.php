@@ -27,13 +27,10 @@ class Detokenize
 /** Request payload for Detokenize#list. */
 class DetokenizeListMatch
 {
-    public ?array $batches = null;
-    public ?string $bfid = null;
-    public ?string $messageId = null;
-    public ?string $name = null;
+    public string $bfid;
+    public ?string $field_name = null;
+    public ?string $field_value = null;
     public ?string $reference = null;
-    public ?string $value = null;
-    public ?array $values = null;
 }
 
 /** Request payload for Detokenize#create. */
@@ -64,19 +61,16 @@ class Tokenize
 /** Request payload for Tokenize#list. */
 class TokenizeListMatch
 {
-    public ?array $batches = null;
-    public ?string $bfid = null;
-    public ?string $messageId = null;
-    public ?string $name = null;
+    public ?string $field_name = null;
+    public ?string $field_value = null;
     public ?string $reference = null;
-    public ?string $templateRef = null;
-    public ?string $value = null;
-    public ?array $values = null;
+    public string $template_ref;
 }
 
 /** Request payload for Tokenize#create. */
 class TokenizeCreateData
 {
+    public ?float $omit = null;
     public ?array $batches = null;
     public ?string $bfid = null;
     public ?string $messageId = null;

@@ -32,13 +32,10 @@ struct Detokenize {
 };
 
 struct DetokenizeListMatch {
-  std::vector<Value> batches;  // optional
-  std::string bfid;  // optional
-  std::string messageId;  // optional
-  std::string name;  // optional
+  std::string bfid;
+  std::string field_name;  // optional
+  std::string field_value;  // optional
   std::string reference;  // optional
-  std::string value;  // optional
-  std::vector<Value> values;  // optional
 };
 
 struct DetokenizeCreateData {
@@ -63,17 +60,14 @@ struct Tokenize {
 };
 
 struct TokenizeListMatch {
-  std::vector<Value> batches;  // optional
-  std::string bfid;  // optional
-  std::string messageId;  // optional
-  std::string name;  // optional
+  std::string field_name;  // optional
+  std::string field_value;  // optional
   std::string reference;  // optional
-  std::string templateRef;  // optional
-  std::string value;  // optional
-  std::vector<Value> values;  // optional
+  std::string template_ref;
 };
 
 struct TokenizeCreateData {
+  double omit;  // optional
   std::vector<Value> batches;  // optional
   std::string bfid;  // optional
   std::string messageId;  // optional

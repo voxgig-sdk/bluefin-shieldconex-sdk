@@ -43,7 +43,17 @@ the runtime under `.sdk/tm/php/feature/` and regenerate.
 
 | Feature | Runtime file | Active hooks |
 | --- | --- | --- |
+| **audit** — Structured audit trail of operations | `feature/AuditFeature.php` | `PreDone`, `PreUnexpected` |
+| **clienttrack** — Client identity and per-request correlation headers | `feature/ClienttrackFeature.php` | `PostConstruct`, `PreRequest` |
+| **idempotency** — Idempotency keys for safe retries of mutating operations | `feature/IdempotencyFeature.php` | `PreRequest` |
+| **log** — Structured request and response logging | `feature/LogFeature.php` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
+| **metrics** — Statistics capture: per-operation counters and latency | `feature/MetricsFeature.php` | `PreDone`, `PrePoint`, `PreUnexpected` |
+| **paging** — Pagination signals for list operations | `feature/PagingFeature.php` | `PreRequest`, `PreResult` |
+| **ratelimit** — Client-side rate limiting via a token bucket | `feature/RatelimitFeature.php` | — |
+| **retry** — Automatic retry of transient failures with exponential backoff | `feature/RetryFeature.php` | — |
+| **telemetry** — Distributed tracing spans with W3C trace-context propagation | `feature/TelemetryFeature.php` | `PreDone`, `PrePoint`, `PreRequest`, `PreUnexpected` |
 | **test** — In-memory mock transport for testing without a live server | `feature/TestFeature.php` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
+| **timeout** — Per-request timeout with transport abort | `feature/TimeoutFeature.php` | — |
 
 ---
 

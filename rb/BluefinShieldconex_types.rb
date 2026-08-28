@@ -43,34 +43,22 @@ Detokenize = Struct.new(
 
 # Request payload for Detokenize#list.
 #
-# @!attribute [rw] batches
-#   @return [Array, nil]
-#
 # @!attribute [rw] bfid
+#   @return [String]
+#
+# @!attribute [rw] field_name
 #   @return [String, nil]
 #
-# @!attribute [rw] messageId
-#   @return [String, nil]
-#
-# @!attribute [rw] name
+# @!attribute [rw] field_value
 #   @return [String, nil]
 #
 # @!attribute [rw] reference
 #   @return [String, nil]
-#
-# @!attribute [rw] value
-#   @return [String, nil]
-#
-# @!attribute [rw] values
-#   @return [Array, nil]
 DetokenizeListMatch = Struct.new(
-  :batches,
   :bfid,
-  :messageId,
-  :name,
+  :field_name,
+  :field_value,
   :reference,
-  :value,
-  :values,
   keyword_init: true
 )
 
@@ -146,42 +134,29 @@ Tokenize = Struct.new(
 
 # Request payload for Tokenize#list.
 #
-# @!attribute [rw] batches
-#   @return [Array, nil]
-#
-# @!attribute [rw] bfid
+# @!attribute [rw] field_name
 #   @return [String, nil]
 #
-# @!attribute [rw] messageId
-#   @return [String, nil]
-#
-# @!attribute [rw] name
+# @!attribute [rw] field_value
 #   @return [String, nil]
 #
 # @!attribute [rw] reference
 #   @return [String, nil]
 #
-# @!attribute [rw] templateRef
-#   @return [String, nil]
-#
-# @!attribute [rw] value
-#   @return [String, nil]
-#
-# @!attribute [rw] values
-#   @return [Array, nil]
+# @!attribute [rw] template_ref
+#   @return [String]
 TokenizeListMatch = Struct.new(
-  :batches,
-  :bfid,
-  :messageId,
-  :name,
+  :field_name,
+  :field_value,
   :reference,
-  :templateRef,
-  :value,
-  :values,
+  :template_ref,
   keyword_init: true
 )
 
 # Request payload for Tokenize#create.
+#
+# @!attribute [rw] omit
+#   @return [Float, nil]
 #
 # @!attribute [rw] batches
 #   @return [Array, nil]
@@ -207,6 +182,7 @@ TokenizeListMatch = Struct.new(
 # @!attribute [rw] values
 #   @return [Array, nil]
 TokenizeCreateData = Struct.new(
+  :omit,
   :batches,
   :bfid,
   :messageId,

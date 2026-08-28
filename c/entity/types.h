@@ -27,13 +27,10 @@ typedef struct {
 
 // DetokenizeListMatch is the typed request payload for Detokenize.list.
 typedef struct {
-  voxgig_value*batches;  // optional
-  char*bfid;  // optional
-  char*messageid;  // optional
-  char*name;  // optional
+  char*bfid;
+  char*field_name;  // optional
+  char*field_value;  // optional
   char*reference;  // optional
-  char*value;  // optional
-  voxgig_value*values;  // optional
 } DetokenizeListMatch;
 
 // DetokenizeCreateData is the typed request payload for Detokenize.create.
@@ -61,18 +58,15 @@ typedef struct {
 
 // TokenizeListMatch is the typed request payload for Tokenize.list.
 typedef struct {
-  voxgig_value*batches;  // optional
-  char*bfid;  // optional
-  char*messageid;  // optional
-  char*name;  // optional
+  char*field_name;  // optional
+  char*field_value;  // optional
   char*reference;  // optional
-  char*templateref;  // optional
-  char*value;  // optional
-  voxgig_value*values;  // optional
+  char*template_ref;
 } TokenizeListMatch;
 
 // TokenizeCreateData is the typed request payload for Tokenize.create.
 typedef struct {
+  double omit;  // optional
   voxgig_value*batches;  // optional
   char*bfid;  // optional
   char*messageid;  // optional

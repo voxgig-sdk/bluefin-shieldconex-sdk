@@ -26,13 +26,10 @@ pub struct Detokenize {
 /// DetokenizeListMatch is the typed request payload for Detokenize.list.
 #[derive(Debug, Clone)]
 pub struct DetokenizeListMatch {
-    pub batches: Option<Vec<Value>>,
-    pub bfid: Option<String>,
-    pub messageid: Option<String>,
-    pub name: Option<String>,
+    pub bfid: String,
+    pub field_name: Option<String>,
+    pub field_value: Option<String>,
     pub reference: Option<String>,
-    pub value: Option<String>,
-    pub values: Option<Vec<Value>>,
 }
 
 /// DetokenizeCreateData is the typed request payload for Detokenize.create.
@@ -63,19 +60,16 @@ pub struct Tokenize {
 /// TokenizeListMatch is the typed request payload for Tokenize.list.
 #[derive(Debug, Clone)]
 pub struct TokenizeListMatch {
-    pub batches: Option<Vec<Value>>,
-    pub bfid: Option<String>,
-    pub messageid: Option<String>,
-    pub name: Option<String>,
+    pub field_name: Option<String>,
+    pub field_value: Option<String>,
     pub reference: Option<String>,
-    pub templateref: Option<String>,
-    pub value: Option<String>,
-    pub values: Option<Vec<Value>>,
+    pub template_ref: String,
 }
 
 /// TokenizeCreateData is the typed request payload for Tokenize.create.
 #[derive(Debug, Clone)]
 pub struct TokenizeCreateData {
+    pub omit: Option<f64>,
     pub batches: Option<Vec<Value>>,
     pub bfid: Option<String>,
     pub messageid: Option<String>,

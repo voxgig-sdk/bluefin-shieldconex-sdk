@@ -345,7 +345,14 @@ let prepare_method_util (ctx : ctx) : string =
   | _ ->
     match ctx.c_op.op_name with
     | "create" -> "POST" | "update" -> "PUT" | "load" -> "GET"
-    | "list" -> "GET" | "remove" -> "DELETE" | "patch" -> "PATCH" | _ -> "GET"
+    | "list" -> "GET" | "remove" -> "DELETE" | "patch" -> "PATCH"
+    (* NO CATCH-ALL GET. The ts reference returns methodMap[key], which is
+     * undefined for an op the map does not name — the request is then rejected
+     * rather than silently issued. A `| _ -> "GET"` here turned every
+     * unrecognised op into a GET, which is both a divergence from the corpus
+     * (which expects no method for opname "bad") and the more dangerous of the
+     * two behaviours: a mistyped or unsupported op quietly fetched. *)
+    | _ -> ""
 
 let prepare_headers_util (ctx : ctx) : value =
   let options = client_options_map (cc ctx) in
@@ -930,10 +937,13 @@ let fetcher_util (ctx : ctx) (fullurl : string) (fetchdef : value) : (value * sd
 let opt_spec_value () : value =
   jo [
     ("apikey", Str "");
+    ("secret", Str "");
     ("base", Str "http://localhost:8000");
     ("prefix", Str "");
     ("suffix", Str "");
-    ("auth", jo [("prefix", Str "")]);
+    (* `basic` and `secret`: HTTP Basic Auth needs a second credential and a
+       flag to say the pair is Basic rather than a single bearer token. *)
+    ("auth", jo [("prefix", Str ""); ("basic", Bool false)]);
     ("headers", jo [("`$CHILD`", Str "`$STRING`")]);
     ("allow", jo [("method", Str "GET,PUT,POST,PATCH,DELETE,OPTIONS");
                   ("op", Str "create,update,load,list,remove,command,direct,graphql")]);

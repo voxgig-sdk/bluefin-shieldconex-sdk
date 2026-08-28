@@ -1,10 +1,30 @@
 import 'feature/base/BaseFeature.dart';
+import 'feature/audit/AuditFeature.dart';
+import 'feature/clienttrack/ClienttrackFeature.dart';
+import 'feature/idempotency/IdempotencyFeature.dart';
+import 'feature/log/LogFeature.dart';
+import 'feature/metrics/MetricsFeature.dart';
+import 'feature/paging/PagingFeature.dart';
+import 'feature/ratelimit/RatelimitFeature.dart';
+import 'feature/retry/RetryFeature.dart';
+import 'feature/telemetry/TelemetryFeature.dart';
 import 'feature/test/TestFeature.dart';
+import 'feature/timeout/TimeoutFeature.dart';
 
 
 // ignore: non_constant_identifier_names
 final Map<String, BaseFeature Function()> FEATURE_CLASS = {
-    'test': () => TestFeature(),
+    'audit': () => AuditFeature(),
+  'clienttrack': () => ClienttrackFeature(),
+  'idempotency': () => IdempotencyFeature(),
+  'log': () => LogFeature(),
+  'metrics': () => MetricsFeature(),
+  'paging': () => PagingFeature(),
+  'ratelimit': () => RatelimitFeature(),
+  'retry': () => RetryFeature(),
+  'telemetry': () => TelemetryFeature(),
+  'test': () => TestFeature(),
+  'timeout': () => TimeoutFeature(),
 
 };
 
@@ -32,11 +52,108 @@ class Config {
   };
 
   final Map<String, dynamic> feature = <String, dynamic>{
-        'test': <String, dynamic>{
+        'audit': <String, dynamic>{
+      'options': <String, dynamic>{
+        'active': false,
+        'actor': 'anonymous',
+        'max': 1000,
+      },
+      'transport': 'none',
+    },
+    'clienttrack': <String, dynamic>{
+      'options': <String, dynamic>{
+        'active': false,
+        'clientVersion': '0.0.1',
+      },
+      'transport': 'none',
+    },
+    'idempotency': <String, dynamic>{
+      'options': <String, dynamic>{
+        'active': false,
+        'header': 'Idempotency-Key',
+        'methods': <dynamic>[
+          'POST',
+          'PUT',
+          'PATCH',
+          'DELETE',
+        ],
+        'ops': <dynamic>[
+          'create',
+          'update',
+          'remove',
+        ],
+      },
+      'transport': 'none',
+    },
+    'log': <String, dynamic>{
+      'options': <String, dynamic>{
+        'active': true,
+      },
+      'transport': 'none',
+    },
+    'metrics': <String, dynamic>{
+      'options': <String, dynamic>{
+        'active': false,
+      },
+      'transport': 'none',
+    },
+    'paging': <String, dynamic>{
+      'options': <String, dynamic>{
+        'active': false,
+        'afterVar': 'after',
+        'cursorParam': 'cursor',
+        'firstVar': 'first',
+        'limitParam': 'limit',
+        'pageParam': 'page',
+        'startPage': 1,
+      },
+      'transport': 'none',
+    },
+    'ratelimit': <String, dynamic>{
+      'options': <String, dynamic>{
+        'active': false,
+        'burst': 5,
+        'rate': 5,
+      },
+      'transport': 'wrap',
+    },
+    'retry': <String, dynamic>{
+      'options': <String, dynamic>{
+        'active': false,
+        'factor': 2,
+        'maxDelay': 2000,
+        'minDelay': 50,
+        'retries': 2,
+        'statuses': <dynamic>[
+          408,
+          425,
+          429,
+          500,
+          502,
+          503,
+          504,
+        ],
+      },
+      'transport': 'wrap',
+    },
+    'telemetry': <String, dynamic>{
+      'options': <String, dynamic>{
+        'active': false,
+      },
+      'transport': 'none',
+    },
+    'test': <String, dynamic>{
       'options': <String, dynamic>{
         'active': false,
       },
       'transport': 'base',
+    },
+    'timeout': <String, dynamic>{
+      'options': <String, dynamic>{
+        'active': false,
+        'ms': 30000,
+      },
+      'transport': 'wrap',
     },
 
   };
@@ -50,6 +167,7 @@ class Config {
     'base': 'https://secure-cert.shieldconex.com/api',
     'auth': <String, dynamic>{
       'prefix': 'Basic',
+      'basic': true,
     },
     'headers': <String, dynamic>{
       'content-type': 'application/json',

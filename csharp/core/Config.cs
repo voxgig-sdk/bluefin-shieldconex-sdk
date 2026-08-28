@@ -18,6 +18,117 @@ public static class SdkConfig
             },
             ["feature"] = new Dictionary<string, object?>
             {
+                ["audit"] = new Dictionary<string, object?>
+                {
+                    ["options"] = new Dictionary<string, object?>
+                    {
+                        ["active"] = false,
+                        ["actor"] = "anonymous",
+                        ["max"] = 1000,
+                    },
+                    ["transport"] = "none",
+                },
+                ["clienttrack"] = new Dictionary<string, object?>
+                {
+                    ["options"] = new Dictionary<string, object?>
+                    {
+                        ["active"] = false,
+                        ["clientVersion"] = "0.0.1",
+                    },
+                    ["transport"] = "none",
+                },
+                ["idempotency"] = new Dictionary<string, object?>
+                {
+                    ["options"] = new Dictionary<string, object?>
+                    {
+                        ["active"] = false,
+                        ["header"] = "Idempotency-Key",
+                        ["methods"] = new List<object?>
+                        {
+                            "POST",
+                            "PUT",
+                            "PATCH",
+                            "DELETE",
+                        },
+                        ["ops"] = new List<object?>
+                        {
+                            "create",
+                            "update",
+                            "remove",
+                        },
+                    },
+                    ["transport"] = "none",
+                },
+                ["log"] = new Dictionary<string, object?>
+                {
+                    ["options"] = new Dictionary<string, object?>
+                    {
+                        ["active"] = true,
+                    },
+                    ["transport"] = "none",
+                },
+                ["metrics"] = new Dictionary<string, object?>
+                {
+                    ["options"] = new Dictionary<string, object?>
+                    {
+                        ["active"] = false,
+                    },
+                    ["transport"] = "none",
+                },
+                ["paging"] = new Dictionary<string, object?>
+                {
+                    ["options"] = new Dictionary<string, object?>
+                    {
+                        ["active"] = false,
+                        ["afterVar"] = "after",
+                        ["cursorParam"] = "cursor",
+                        ["firstVar"] = "first",
+                        ["limitParam"] = "limit",
+                        ["pageParam"] = "page",
+                        ["startPage"] = 1,
+                    },
+                    ["transport"] = "none",
+                },
+                ["ratelimit"] = new Dictionary<string, object?>
+                {
+                    ["options"] = new Dictionary<string, object?>
+                    {
+                        ["active"] = false,
+                        ["burst"] = 5,
+                        ["rate"] = 5,
+                    },
+                    ["transport"] = "wrap",
+                },
+                ["retry"] = new Dictionary<string, object?>
+                {
+                    ["options"] = new Dictionary<string, object?>
+                    {
+                        ["active"] = false,
+                        ["factor"] = 2,
+                        ["maxDelay"] = 2000,
+                        ["minDelay"] = 50,
+                        ["retries"] = 2,
+                        ["statuses"] = new List<object?>
+                        {
+                            408,
+                            425,
+                            429,
+                            500,
+                            502,
+                            503,
+                            504,
+                        },
+                    },
+                    ["transport"] = "wrap",
+                },
+                ["telemetry"] = new Dictionary<string, object?>
+                {
+                    ["options"] = new Dictionary<string, object?>
+                    {
+                        ["active"] = false,
+                    },
+                    ["transport"] = "none",
+                },
                 ["test"] = new Dictionary<string, object?>
                 {
                     ["options"] = new Dictionary<string, object?>
@@ -26,6 +137,15 @@ public static class SdkConfig
                     },
                     ["transport"] = "base",
                 },
+                ["timeout"] = new Dictionary<string, object?>
+                {
+                    ["options"] = new Dictionary<string, object?>
+                    {
+                        ["active"] = false,
+                        ["ms"] = 30000,
+                    },
+                    ["transport"] = "wrap",
+                },
             },
             ["options"] = new Dictionary<string, object?>
             {
@@ -33,6 +153,7 @@ public static class SdkConfig
                 ["auth"] = new Dictionary<string, object?>
                 {
                     ["prefix"] = "Basic",
+                    ["basic"] = true,
                 },
                 ["headers"] = new Dictionary<string, object?>
                 {
@@ -753,8 +874,28 @@ public static class SdkConfig
     {
         switch (name)
         {
+            case "audit":
+                return new Feature.AuditFeature();
+            case "clienttrack":
+                return new Feature.ClienttrackFeature();
+            case "idempotency":
+                return new Feature.IdempotencyFeature();
+            case "log":
+                return new Feature.LogFeature();
+            case "metrics":
+                return new Feature.MetricsFeature();
+            case "paging":
+                return new Feature.PagingFeature();
+            case "ratelimit":
+                return new Feature.RatelimitFeature();
+            case "retry":
+                return new Feature.RetryFeature();
+            case "telemetry":
+                return new Feature.TelemetryFeature();
             case "test":
                 return new Feature.TestFeature();
+            case "timeout":
+                return new Feature.TimeoutFeature();
             default:
                 return new Feature.BaseFeature();
         }

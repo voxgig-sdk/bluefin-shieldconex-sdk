@@ -67,11 +67,13 @@ function directSetup(mockres) {
         'BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_ENTID': {},
         'BLUEFIN_SHIELDCONEX_TEST_LIVE': 'FALSE',
         'BLUEFIN_SHIELDCONEX_APIKEY': 'NONE',
+        'BLUEFIN_SHIELDCONEX_SECRET': 'NONE',
     });
     const live = 'TRUE' === env.BLUEFIN_SHIELDCONEX_TEST_LIVE;
     if (live) {
         const client = new __1.BluefinShieldconexSDK({
             apikey: env.BLUEFIN_SHIELDCONEX_APIKEY,
+            secret: env.BLUEFIN_SHIELDCONEX_SECRET,
         });
         let idmap = env['BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_ENTID'];
         if ('string' === typeof idmap && idmap.startsWith('{')) {

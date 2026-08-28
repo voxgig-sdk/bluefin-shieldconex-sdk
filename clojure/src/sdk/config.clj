@@ -414,10 +414,84 @@
         "relations" (vs/jm
           "ancestors" (vs/jt))))
     "feature" (vs/jm
+      "audit" (vs/jm
+        "options" (vs/jm
+          "active" false
+          "actor" "anonymous"
+          "max" 1000)
+        "transport" "none")
+      "clienttrack" (vs/jm
+        "options" (vs/jm
+          "active" false
+          "clientVersion" "0.0.1")
+        "transport" "none")
+      "idempotency" (vs/jm
+        "options" (vs/jm
+          "active" false
+          "header" "Idempotency-Key"
+          "methods" (vs/jt
+            "POST"
+            "PUT"
+            "PATCH"
+            "DELETE")
+          "ops" (vs/jt
+            "create"
+            "update"
+            "remove"))
+        "transport" "none")
+      "log" (vs/jm
+        "options" (vs/jm
+          "active" true)
+        "transport" "none")
+      "metrics" (vs/jm
+        "options" (vs/jm
+          "active" false)
+        "transport" "none")
+      "paging" (vs/jm
+        "options" (vs/jm
+          "active" false
+          "afterVar" "after"
+          "cursorParam" "cursor"
+          "firstVar" "first"
+          "limitParam" "limit"
+          "pageParam" "page"
+          "startPage" 1)
+        "transport" "none")
+      "ratelimit" (vs/jm
+        "options" (vs/jm
+          "active" false
+          "burst" 5
+          "rate" 5)
+        "transport" "wrap")
+      "retry" (vs/jm
+        "options" (vs/jm
+          "active" false
+          "factor" 2
+          "maxDelay" 2000
+          "minDelay" 50
+          "retries" 2
+          "statuses" (vs/jt
+            408
+            425
+            429
+            500
+            502
+            503
+            504))
+        "transport" "wrap")
+      "telemetry" (vs/jm
+        "options" (vs/jm
+          "active" false)
+        "transport" "none")
       "test" (vs/jm
         "options" (vs/jm
           "active" false)
-        "transport" "base"))
+        "transport" "base")
+      "timeout" (vs/jm
+        "options" (vs/jm
+          "active" false
+          "ms" 30000)
+        "transport" "wrap"))
     "main" (vs/jm
       "name" "BluefinShieldconex"
       "slug" "bluefin-shieldconex"
@@ -425,6 +499,7 @@
       "version" "0.1.1")
     "options" (vs/jm
       "auth" (vs/jm
+        "basic" true
         "prefix" "Basic")
       "base" "https://secure-cert.shieldconex.com/api"
       "entity" (vs/jm

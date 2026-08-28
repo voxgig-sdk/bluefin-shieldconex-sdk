@@ -674,6 +674,1296 @@
         }
       },
       "feature": {
+        "audit": {
+          "active": true,
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
+          "config": {
+            "options": {
+              "active": false,
+              "actor": "anonymous",
+              "max": 1000
+            }
+          },
+          "hook": {
+            "GetData": {
+              "active": false,
+              "await": false
+            },
+            "GetMatch": {
+              "active": false,
+              "await": false
+            },
+            "PostConstruct": {
+              "active": false,
+              "await": false
+            },
+            "PostConstructEntity": {
+              "active": false,
+              "await": false
+            },
+            "PostOperation": {
+              "active": false,
+              "await": false
+            },
+            "PreDone": {
+              "active": true,
+              "await": false
+            },
+            "PreRequest": {
+              "active": false,
+              "await": false
+            },
+            "PreResponse": {
+              "active": false,
+              "await": false
+            },
+            "PreResult": {
+              "active": false,
+              "await": false
+            },
+            "PreSpec": {
+              "active": false,
+              "await": false
+            },
+            "PreTarget": {
+              "active": false,
+              "await": false
+            },
+            "PreUnexpected": {
+              "active": true,
+              "await": false
+            },
+            "SetData": {
+              "active": false,
+              "await": false
+            }
+          },
+          "name": "audit",
+          "origname": "",
+          "package": "@voxgig/sdkgen",
+          "target": {
+            "c": {
+              "deps": {}
+            },
+            "clojure": {
+              "deps": {}
+            },
+            "cpp": {
+              "deps": {}
+            },
+            "csharp": {
+              "deps": {}
+            },
+            "dart": {
+              "deps": {}
+            },
+            "elixir": {
+              "deps": {}
+            },
+            "go": {
+              "deps": {}
+            },
+            "go-cli": {
+              "deps": {}
+            },
+            "go-mcp": {
+              "deps": {}
+            },
+            "java": {
+              "deps": {}
+            },
+            "js": {
+              "deps": {}
+            },
+            "kotlin": {
+              "deps": {}
+            },
+            "lua": {
+              "deps": {}
+            },
+            "ocaml": {
+              "deps": {}
+            },
+            "perl": {
+              "deps": {}
+            },
+            "php": {
+              "deps": {}
+            },
+            "py": {
+              "deps": {}
+            },
+            "rb": {
+              "deps": {}
+            },
+            "rust": {
+              "deps": {}
+            },
+            "scala": {
+              "deps": {}
+            },
+            "swift": {
+              "deps": {}
+            },
+            "ts": {
+              "deps": {}
+            },
+            "zig": {
+              "deps": {}
+            }
+          },
+          "title": "Structured audit trail of operations",
+          "transport": "none",
+          "version": "0.0.1"
+        },
+        "clienttrack": {
+          "active": true,
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
+          "config": {
+            "options": {
+              "active": false,
+              "clientVersion": "0.0.1"
+            }
+          },
+          "hook": {
+            "GetData": {
+              "active": false,
+              "await": false
+            },
+            "GetMatch": {
+              "active": false,
+              "await": false
+            },
+            "PostConstruct": {
+              "active": true,
+              "await": false
+            },
+            "PostConstructEntity": {
+              "active": false,
+              "await": false
+            },
+            "PostOperation": {
+              "active": false,
+              "await": false
+            },
+            "PreRequest": {
+              "active": true,
+              "await": false
+            },
+            "PreResponse": {
+              "active": false,
+              "await": false
+            },
+            "PreResult": {
+              "active": false,
+              "await": false
+            },
+            "PreSpec": {
+              "active": false,
+              "await": false
+            },
+            "PreTarget": {
+              "active": false,
+              "await": false
+            },
+            "SetData": {
+              "active": false,
+              "await": false
+            }
+          },
+          "name": "clienttrack",
+          "origname": "",
+          "package": "@voxgig/sdkgen",
+          "target": {
+            "c": {
+              "deps": {}
+            },
+            "clojure": {
+              "deps": {}
+            },
+            "cpp": {
+              "deps": {}
+            },
+            "csharp": {
+              "deps": {}
+            },
+            "dart": {
+              "deps": {}
+            },
+            "elixir": {
+              "deps": {}
+            },
+            "go": {
+              "deps": {}
+            },
+            "go-cli": {
+              "deps": {}
+            },
+            "go-mcp": {
+              "deps": {}
+            },
+            "java": {
+              "deps": {}
+            },
+            "js": {
+              "deps": {}
+            },
+            "kotlin": {
+              "deps": {}
+            },
+            "lua": {
+              "deps": {}
+            },
+            "ocaml": {
+              "deps": {}
+            },
+            "perl": {
+              "deps": {}
+            },
+            "php": {
+              "deps": {}
+            },
+            "py": {
+              "deps": {}
+            },
+            "rb": {
+              "deps": {}
+            },
+            "rust": {
+              "deps": {}
+            },
+            "scala": {
+              "deps": {}
+            },
+            "swift": {
+              "deps": {}
+            },
+            "ts": {
+              "deps": {}
+            },
+            "zig": {
+              "deps": {}
+            }
+          },
+          "title": "Client identity and per-request correlation headers",
+          "transport": "none",
+          "version": "0.0.1"
+        },
+        "idempotency": {
+          "active": true,
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
+          "config": {
+            "options": {
+              "active": false,
+              "header": "Idempotency-Key",
+              "methods": [
+                "POST",
+                "PUT",
+                "PATCH",
+                "DELETE"
+              ],
+              "ops": [
+                "create",
+                "update",
+                "remove"
+              ]
+            }
+          },
+          "hook": {
+            "GetData": {
+              "active": false,
+              "await": false
+            },
+            "GetMatch": {
+              "active": false,
+              "await": false
+            },
+            "PostConstruct": {
+              "active": false,
+              "await": false
+            },
+            "PostConstructEntity": {
+              "active": false,
+              "await": false
+            },
+            "PostOperation": {
+              "active": false,
+              "await": false
+            },
+            "PreRequest": {
+              "active": true,
+              "await": false
+            },
+            "PreResponse": {
+              "active": false,
+              "await": false
+            },
+            "PreResult": {
+              "active": false,
+              "await": false
+            },
+            "PreSpec": {
+              "active": false,
+              "await": false
+            },
+            "PreTarget": {
+              "active": false,
+              "await": false
+            },
+            "SetData": {
+              "active": false,
+              "await": false
+            }
+          },
+          "name": "idempotency",
+          "origname": "",
+          "package": "@voxgig/sdkgen",
+          "target": {
+            "c": {
+              "deps": {}
+            },
+            "clojure": {
+              "deps": {}
+            },
+            "cpp": {
+              "deps": {}
+            },
+            "csharp": {
+              "deps": {}
+            },
+            "dart": {
+              "deps": {}
+            },
+            "elixir": {
+              "deps": {}
+            },
+            "go": {
+              "deps": {}
+            },
+            "go-cli": {
+              "deps": {}
+            },
+            "go-mcp": {
+              "deps": {}
+            },
+            "java": {
+              "deps": {}
+            },
+            "js": {
+              "deps": {}
+            },
+            "kotlin": {
+              "deps": {}
+            },
+            "lua": {
+              "deps": {}
+            },
+            "ocaml": {
+              "deps": {}
+            },
+            "perl": {
+              "deps": {}
+            },
+            "php": {
+              "deps": {}
+            },
+            "py": {
+              "deps": {}
+            },
+            "rb": {
+              "deps": {}
+            },
+            "rust": {
+              "deps": {}
+            },
+            "scala": {
+              "deps": {}
+            },
+            "swift": {
+              "deps": {}
+            },
+            "ts": {
+              "deps": {}
+            },
+            "zig": {
+              "deps": {}
+            }
+          },
+          "title": "Idempotency keys for safe retries of mutating operations",
+          "transport": "none",
+          "version": "0.0.1"
+        },
+        "log": {
+          "active": true,
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
+          "config": {
+            "options": {
+              "active": true
+            }
+          },
+          "deps": {
+            "js": {
+              "pino": {
+                "active": true,
+                "kind": "peer",
+                "version": ">=10"
+              },
+              "pino-pretty": {
+                "active": true,
+                "kind": "peer",
+                "version": ">=13"
+              }
+            },
+            "ts": {
+              "pino": {
+                "active": true,
+                "kind": "peer",
+                "version": ">=10"
+              },
+              "pino-pretty": {
+                "active": true,
+                "kind": "peer",
+                "version": ">=13"
+              }
+            }
+          },
+          "hook": {
+            "GetData": {
+              "active": true,
+              "await": false
+            },
+            "GetMatch": {
+              "active": true,
+              "await": false
+            },
+            "PostConstruct": {
+              "active": true,
+              "await": false
+            },
+            "PostConstructEntity": {
+              "active": true,
+              "await": false
+            },
+            "PostOperation": {
+              "active": false,
+              "await": false
+            },
+            "PrePoint": {
+              "active": true,
+              "await": false
+            },
+            "PreRequest": {
+              "active": true,
+              "await": false
+            },
+            "PreResponse": {
+              "active": true,
+              "await": false
+            },
+            "PreResult": {
+              "active": true,
+              "await": false
+            },
+            "PreSpec": {
+              "active": true,
+              "await": false
+            },
+            "PreTarget": {
+              "active": false,
+              "await": false
+            },
+            "SetData": {
+              "active": true,
+              "await": false
+            },
+            "SetMatch": {
+              "active": true,
+              "await": false
+            }
+          },
+          "name": "log",
+          "origname": "",
+          "package": "@voxgig/sdkgen",
+          "target": {
+            "c": {
+              "deps": {}
+            },
+            "clojure": {
+              "deps": {}
+            },
+            "cpp": {
+              "deps": {}
+            },
+            "csharp": {
+              "deps": {}
+            },
+            "dart": {
+              "deps": {}
+            },
+            "elixir": {
+              "deps": {}
+            },
+            "go": {
+              "deps": {}
+            },
+            "go-cli": {
+              "deps": {}
+            },
+            "go-mcp": {
+              "deps": {}
+            },
+            "java": {
+              "deps": {}
+            },
+            "js": {
+              "deps": {}
+            },
+            "kotlin": {
+              "deps": {}
+            },
+            "lua": {
+              "deps": {}
+            },
+            "ocaml": {
+              "deps": {}
+            },
+            "perl": {
+              "deps": {}
+            },
+            "php": {
+              "deps": {}
+            },
+            "py": {
+              "deps": {}
+            },
+            "rb": {
+              "deps": {}
+            },
+            "rust": {
+              "deps": {}
+            },
+            "scala": {
+              "deps": {}
+            },
+            "swift": {
+              "deps": {}
+            },
+            "ts": {
+              "deps": {}
+            },
+            "zig": {
+              "deps": {}
+            }
+          },
+          "title": "Structured request and response logging",
+          "transport": "none",
+          "version": "0.0.1"
+        },
+        "metrics": {
+          "active": true,
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
+          "config": {
+            "options": {
+              "active": false
+            }
+          },
+          "hook": {
+            "GetData": {
+              "active": false,
+              "await": false
+            },
+            "GetMatch": {
+              "active": false,
+              "await": false
+            },
+            "PostConstruct": {
+              "active": false,
+              "await": false
+            },
+            "PostConstructEntity": {
+              "active": false,
+              "await": false
+            },
+            "PostOperation": {
+              "active": false,
+              "await": false
+            },
+            "PreDone": {
+              "active": true,
+              "await": false
+            },
+            "PrePoint": {
+              "active": true,
+              "await": false
+            },
+            "PreRequest": {
+              "active": false,
+              "await": false
+            },
+            "PreResponse": {
+              "active": false,
+              "await": false
+            },
+            "PreResult": {
+              "active": false,
+              "await": false
+            },
+            "PreSpec": {
+              "active": false,
+              "await": false
+            },
+            "PreTarget": {
+              "active": false,
+              "await": false
+            },
+            "PreUnexpected": {
+              "active": true,
+              "await": false
+            },
+            "SetData": {
+              "active": false,
+              "await": false
+            }
+          },
+          "name": "metrics",
+          "origname": "",
+          "package": "@voxgig/sdkgen",
+          "target": {
+            "c": {
+              "deps": {}
+            },
+            "clojure": {
+              "deps": {}
+            },
+            "cpp": {
+              "deps": {}
+            },
+            "csharp": {
+              "deps": {}
+            },
+            "dart": {
+              "deps": {}
+            },
+            "elixir": {
+              "deps": {}
+            },
+            "go": {
+              "deps": {}
+            },
+            "go-cli": {
+              "deps": {}
+            },
+            "go-mcp": {
+              "deps": {}
+            },
+            "java": {
+              "deps": {}
+            },
+            "js": {
+              "deps": {}
+            },
+            "kotlin": {
+              "deps": {}
+            },
+            "lua": {
+              "deps": {}
+            },
+            "ocaml": {
+              "deps": {}
+            },
+            "perl": {
+              "deps": {}
+            },
+            "php": {
+              "deps": {}
+            },
+            "py": {
+              "deps": {}
+            },
+            "rb": {
+              "deps": {}
+            },
+            "rust": {
+              "deps": {}
+            },
+            "scala": {
+              "deps": {}
+            },
+            "swift": {
+              "deps": {}
+            },
+            "ts": {
+              "deps": {}
+            },
+            "zig": {
+              "deps": {}
+            }
+          },
+          "title": "Statistics capture: per-operation counters and latency",
+          "transport": "none",
+          "version": "0.0.1"
+        },
+        "paging": {
+          "active": true,
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
+          "config": {
+            "options": {
+              "active": false,
+              "afterVar": "after",
+              "cursorParam": "cursor",
+              "firstVar": "first",
+              "limitParam": "limit",
+              "pageParam": "page",
+              "startPage": 1
+            }
+          },
+          "hook": {
+            "GetData": {
+              "active": false,
+              "await": false
+            },
+            "GetMatch": {
+              "active": false,
+              "await": false
+            },
+            "PostConstruct": {
+              "active": false,
+              "await": false
+            },
+            "PostConstructEntity": {
+              "active": false,
+              "await": false
+            },
+            "PostOperation": {
+              "active": false,
+              "await": false
+            },
+            "PreRequest": {
+              "active": true,
+              "await": false
+            },
+            "PreResponse": {
+              "active": false,
+              "await": false
+            },
+            "PreResult": {
+              "active": true,
+              "await": false
+            },
+            "PreSpec": {
+              "active": false,
+              "await": false
+            },
+            "PreTarget": {
+              "active": false,
+              "await": false
+            },
+            "SetData": {
+              "active": false,
+              "await": false
+            }
+          },
+          "name": "paging",
+          "origname": "",
+          "package": "@voxgig/sdkgen",
+          "target": {
+            "c": {
+              "deps": {}
+            },
+            "clojure": {
+              "deps": {}
+            },
+            "cpp": {
+              "deps": {}
+            },
+            "csharp": {
+              "deps": {}
+            },
+            "dart": {
+              "deps": {}
+            },
+            "elixir": {
+              "deps": {}
+            },
+            "go": {
+              "deps": {}
+            },
+            "go-cli": {
+              "deps": {}
+            },
+            "go-mcp": {
+              "deps": {}
+            },
+            "java": {
+              "deps": {}
+            },
+            "js": {
+              "deps": {}
+            },
+            "kotlin": {
+              "deps": {}
+            },
+            "lua": {
+              "deps": {}
+            },
+            "ocaml": {
+              "deps": {}
+            },
+            "perl": {
+              "deps": {}
+            },
+            "php": {
+              "deps": {}
+            },
+            "py": {
+              "deps": {}
+            },
+            "rb": {
+              "deps": {}
+            },
+            "rust": {
+              "deps": {}
+            },
+            "scala": {
+              "deps": {}
+            },
+            "swift": {
+              "deps": {}
+            },
+            "ts": {
+              "deps": {}
+            },
+            "zig": {
+              "deps": {}
+            }
+          },
+          "title": "Pagination signals for list operations",
+          "transport": "none",
+          "version": "0.0.1"
+        },
+        "ratelimit": {
+          "active": true,
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
+          "config": {
+            "options": {
+              "active": false,
+              "burst": 5,
+              "rate": 5
+            }
+          },
+          "hook": {
+            "GetData": {
+              "active": false,
+              "await": false
+            },
+            "GetMatch": {
+              "active": false,
+              "await": false
+            },
+            "PostConstruct": {
+              "active": false,
+              "await": false
+            },
+            "PostConstructEntity": {
+              "active": false,
+              "await": false
+            },
+            "PostOperation": {
+              "active": false,
+              "await": false
+            },
+            "PreRequest": {
+              "active": false,
+              "await": false
+            },
+            "PreResponse": {
+              "active": false,
+              "await": false
+            },
+            "PreResult": {
+              "active": false,
+              "await": false
+            },
+            "PreSpec": {
+              "active": false,
+              "await": false
+            },
+            "PreTarget": {
+              "active": false,
+              "await": false
+            },
+            "SetData": {
+              "active": false,
+              "await": false
+            }
+          },
+          "name": "ratelimit",
+          "origname": "",
+          "package": "@voxgig/sdkgen",
+          "target": {
+            "c": {
+              "deps": {}
+            },
+            "clojure": {
+              "deps": {}
+            },
+            "cpp": {
+              "deps": {}
+            },
+            "csharp": {
+              "deps": {}
+            },
+            "dart": {
+              "deps": {}
+            },
+            "elixir": {
+              "deps": {}
+            },
+            "go": {
+              "deps": {}
+            },
+            "go-cli": {
+              "deps": {}
+            },
+            "go-mcp": {
+              "deps": {}
+            },
+            "java": {
+              "deps": {}
+            },
+            "js": {
+              "deps": {}
+            },
+            "kotlin": {
+              "deps": {}
+            },
+            "lua": {
+              "deps": {}
+            },
+            "ocaml": {
+              "deps": {}
+            },
+            "perl": {
+              "deps": {}
+            },
+            "php": {
+              "deps": {}
+            },
+            "py": {
+              "deps": {}
+            },
+            "rb": {
+              "deps": {}
+            },
+            "rust": {
+              "deps": {}
+            },
+            "scala": {
+              "deps": {}
+            },
+            "swift": {
+              "deps": {}
+            },
+            "ts": {
+              "deps": {}
+            },
+            "zig": {
+              "deps": {}
+            }
+          },
+          "title": "Client-side rate limiting via a token bucket",
+          "transport": "wrap",
+          "version": "0.0.1"
+        },
+        "retry": {
+          "active": true,
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
+          "config": {
+            "options": {
+              "active": false,
+              "factor": 2,
+              "maxDelay": 2000,
+              "minDelay": 50,
+              "retries": 2,
+              "statuses": [
+                408,
+                425,
+                429,
+                500,
+                502,
+                503,
+                504
+              ]
+            }
+          },
+          "hook": {
+            "GetData": {
+              "active": false,
+              "await": false
+            },
+            "GetMatch": {
+              "active": false,
+              "await": false
+            },
+            "PostConstruct": {
+              "active": false,
+              "await": false
+            },
+            "PostConstructEntity": {
+              "active": false,
+              "await": false
+            },
+            "PostOperation": {
+              "active": false,
+              "await": false
+            },
+            "PreRequest": {
+              "active": false,
+              "await": false
+            },
+            "PreResponse": {
+              "active": false,
+              "await": false
+            },
+            "PreResult": {
+              "active": false,
+              "await": false
+            },
+            "PreSpec": {
+              "active": false,
+              "await": false
+            },
+            "PreTarget": {
+              "active": false,
+              "await": false
+            },
+            "SetData": {
+              "active": false,
+              "await": false
+            }
+          },
+          "name": "retry",
+          "origname": "",
+          "package": "@voxgig/sdkgen",
+          "target": {
+            "c": {
+              "deps": {}
+            },
+            "clojure": {
+              "deps": {}
+            },
+            "cpp": {
+              "deps": {}
+            },
+            "csharp": {
+              "deps": {}
+            },
+            "dart": {
+              "deps": {}
+            },
+            "elixir": {
+              "deps": {}
+            },
+            "go": {
+              "deps": {}
+            },
+            "go-cli": {
+              "deps": {}
+            },
+            "go-mcp": {
+              "deps": {}
+            },
+            "java": {
+              "deps": {}
+            },
+            "js": {
+              "deps": {}
+            },
+            "kotlin": {
+              "deps": {}
+            },
+            "lua": {
+              "deps": {}
+            },
+            "ocaml": {
+              "deps": {}
+            },
+            "perl": {
+              "deps": {}
+            },
+            "php": {
+              "deps": {}
+            },
+            "py": {
+              "deps": {}
+            },
+            "rb": {
+              "deps": {}
+            },
+            "rust": {
+              "deps": {}
+            },
+            "scala": {
+              "deps": {}
+            },
+            "swift": {
+              "deps": {}
+            },
+            "ts": {
+              "deps": {}
+            },
+            "zig": {
+              "deps": {}
+            }
+          },
+          "title": "Automatic retry of transient failures with exponential backoff",
+          "transport": "wrap",
+          "version": "0.0.1"
+        },
+        "telemetry": {
+          "active": true,
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
+          "config": {
+            "options": {
+              "active": false
+            }
+          },
+          "hook": {
+            "GetData": {
+              "active": false,
+              "await": false
+            },
+            "GetMatch": {
+              "active": false,
+              "await": false
+            },
+            "PostConstruct": {
+              "active": false,
+              "await": false
+            },
+            "PostConstructEntity": {
+              "active": false,
+              "await": false
+            },
+            "PostOperation": {
+              "active": false,
+              "await": false
+            },
+            "PreDone": {
+              "active": true,
+              "await": false
+            },
+            "PrePoint": {
+              "active": true,
+              "await": false
+            },
+            "PreRequest": {
+              "active": true,
+              "await": false
+            },
+            "PreResponse": {
+              "active": false,
+              "await": false
+            },
+            "PreResult": {
+              "active": false,
+              "await": false
+            },
+            "PreSpec": {
+              "active": false,
+              "await": false
+            },
+            "PreTarget": {
+              "active": false,
+              "await": false
+            },
+            "PreUnexpected": {
+              "active": true,
+              "await": false
+            },
+            "SetData": {
+              "active": false,
+              "await": false
+            }
+          },
+          "name": "telemetry",
+          "origname": "",
+          "package": "@voxgig/sdkgen",
+          "target": {
+            "c": {
+              "deps": {}
+            },
+            "clojure": {
+              "deps": {}
+            },
+            "cpp": {
+              "deps": {}
+            },
+            "csharp": {
+              "deps": {}
+            },
+            "dart": {
+              "deps": {}
+            },
+            "elixir": {
+              "deps": {}
+            },
+            "go": {
+              "deps": {}
+            },
+            "go-cli": {
+              "deps": {}
+            },
+            "go-mcp": {
+              "deps": {}
+            },
+            "java": {
+              "deps": {}
+            },
+            "js": {
+              "deps": {}
+            },
+            "kotlin": {
+              "deps": {}
+            },
+            "lua": {
+              "deps": {}
+            },
+            "ocaml": {
+              "deps": {}
+            },
+            "perl": {
+              "deps": {}
+            },
+            "php": {
+              "deps": {}
+            },
+            "py": {
+              "deps": {}
+            },
+            "rb": {
+              "deps": {}
+            },
+            "rust": {
+              "deps": {}
+            },
+            "scala": {
+              "deps": {}
+            },
+            "swift": {
+              "deps": {}
+            },
+            "ts": {
+              "deps": {}
+            },
+            "zig": {
+              "deps": {}
+            }
+          },
+          "title": "Distributed tracing spans with W3C trace-context propagation",
+          "transport": "none",
+          "version": "0.0.1"
+        },
         "test": {
           "active": true,
           "base": "node_modules/@voxgig/sdkgen/project/.sdk",
@@ -812,6 +2102,139 @@
           },
           "title": "In-memory mock transport for testing without a live server",
           "transport": "base",
+          "version": "0.0.1"
+        },
+        "timeout": {
+          "active": true,
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
+          "config": {
+            "options": {
+              "active": false,
+              "ms": 30000
+            }
+          },
+          "hook": {
+            "GetData": {
+              "active": false,
+              "await": false
+            },
+            "GetMatch": {
+              "active": false,
+              "await": false
+            },
+            "PostConstruct": {
+              "active": false,
+              "await": false
+            },
+            "PostConstructEntity": {
+              "active": false,
+              "await": false
+            },
+            "PostOperation": {
+              "active": false,
+              "await": false
+            },
+            "PreRequest": {
+              "active": false,
+              "await": false
+            },
+            "PreResponse": {
+              "active": false,
+              "await": false
+            },
+            "PreResult": {
+              "active": false,
+              "await": false
+            },
+            "PreSpec": {
+              "active": false,
+              "await": false
+            },
+            "PreTarget": {
+              "active": false,
+              "await": false
+            },
+            "SetData": {
+              "active": false,
+              "await": false
+            }
+          },
+          "name": "timeout",
+          "origname": "",
+          "package": "@voxgig/sdkgen",
+          "target": {
+            "c": {
+              "deps": {}
+            },
+            "clojure": {
+              "deps": {}
+            },
+            "cpp": {
+              "deps": {}
+            },
+            "csharp": {
+              "deps": {}
+            },
+            "dart": {
+              "deps": {}
+            },
+            "elixir": {
+              "deps": {}
+            },
+            "go": {
+              "deps": {}
+            },
+            "go-cli": {
+              "deps": {}
+            },
+            "go-mcp": {
+              "deps": {}
+            },
+            "java": {
+              "deps": {}
+            },
+            "js": {
+              "deps": {}
+            },
+            "kotlin": {
+              "deps": {}
+            },
+            "lua": {
+              "deps": {}
+            },
+            "ocaml": {
+              "deps": {}
+            },
+            "perl": {
+              "deps": {}
+            },
+            "php": {
+              "deps": {}
+            },
+            "py": {
+              "deps": {}
+            },
+            "rb": {
+              "deps": {}
+            },
+            "rust": {
+              "deps": {}
+            },
+            "scala": {
+              "deps": {}
+            },
+            "swift": {
+              "deps": {}
+            },
+            "ts": {
+              "deps": {}
+            },
+            "zig": {
+              "deps": {}
+            }
+          },
+          "title": "Per-request timeout with transport abort",
+          "transport": "wrap",
           "version": "0.0.1"
         }
       },

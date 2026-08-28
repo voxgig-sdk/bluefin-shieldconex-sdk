@@ -8,13 +8,10 @@ export interface Detokenize {
     values?: any[];
 }
 export interface DetokenizeListMatch {
-    batches?: any[];
-    bfid?: string;
-    messageId?: string;
-    name?: string;
+    bfid: string;
+    field_name?: string;
+    field_value?: string;
     reference?: string;
-    value?: string;
-    values?: any[];
 }
 export interface DetokenizeCreateData {
     batches?: any[];
@@ -36,16 +33,13 @@ export interface Tokenize {
     values?: any[];
 }
 export interface TokenizeListMatch {
-    batches?: any[];
-    bfid?: string;
-    messageId?: string;
-    name?: string;
+    field_name?: string;
+    field_value?: string;
     reference?: string;
-    templateRef?: string;
-    value?: string;
-    values?: any[];
+    template_ref: string;
 }
 export interface TokenizeCreateData {
+    omit?: number;
     batches?: any[];
     bfid?: string;
     messageId?: string;

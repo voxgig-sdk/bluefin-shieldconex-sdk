@@ -13,17 +13,115 @@ defmodule BluefinShieldconex.Config do
         "target" => "elixir"
       },
       "feature" => %{
+        "audit" => %{
+          "options" => %{
+            "active" => false,
+            "actor" => "anonymous",
+            "max" => 1000
+          },
+          "transport" => "none"
+        },
+        "clienttrack" => %{
+          "options" => %{
+            "active" => false,
+            "clientVersion" => "0.0.1"
+          },
+          "transport" => "none"
+        },
+        "idempotency" => %{
+          "options" => %{
+            "active" => false,
+            "header" => "Idempotency-Key",
+            "methods" => [
+              "POST",
+              "PUT",
+              "PATCH",
+              "DELETE"
+            ],
+            "ops" => [
+              "create",
+              "update",
+              "remove"
+            ]
+          },
+          "transport" => "none"
+        },
+        "log" => %{
+          "options" => %{
+            "active" => true
+          },
+          "transport" => "none"
+        },
+        "metrics" => %{
+          "options" => %{
+            "active" => false
+          },
+          "transport" => "none"
+        },
+        "paging" => %{
+          "options" => %{
+            "active" => false,
+            "afterVar" => "after",
+            "cursorParam" => "cursor",
+            "firstVar" => "first",
+            "limitParam" => "limit",
+            "pageParam" => "page",
+            "startPage" => 1
+          },
+          "transport" => "none"
+        },
+        "ratelimit" => %{
+          "options" => %{
+            "active" => false,
+            "burst" => 5,
+            "rate" => 5
+          },
+          "transport" => "wrap"
+        },
+        "retry" => %{
+          "options" => %{
+            "active" => false,
+            "factor" => 2,
+            "maxDelay" => 2000,
+            "minDelay" => 50,
+            "retries" => 2,
+            "statuses" => [
+              408,
+              425,
+              429,
+              500,
+              502,
+              503,
+              504
+            ]
+          },
+          "transport" => "wrap"
+        },
+        "telemetry" => %{
+          "options" => %{
+            "active" => false
+          },
+          "transport" => "none"
+        },
         "test" => %{
           "options" => %{
             "active" => false
           },
           "transport" => "base"
         },
+        "timeout" => %{
+          "options" => %{
+            "active" => false,
+            "ms" => 30000
+          },
+          "transport" => "wrap"
+        },
       },
       "options" => %{
         "base" => "https://secure-cert.shieldconex.com/api",
         "auth" => %{
-          "prefix" => "Basic"
+          "prefix" => "Basic",
+          "basic" => true
         },
         "headers" => %{
           "content-type" => "application/json"

@@ -9,9 +9,89 @@ declare class Config {
         target: string;
     };
     feature: {
+        audit: {
+            options: {
+                active: boolean;
+                actor: string;
+                max: number;
+            };
+            transport: string;
+        };
+        clienttrack: {
+            options: {
+                active: boolean;
+                clientVersion: string;
+            };
+            transport: string;
+        };
+        idempotency: {
+            options: {
+                active: boolean;
+                header: string;
+                methods: string[];
+                ops: string[];
+            };
+            transport: string;
+        };
+        log: {
+            options: {
+                active: boolean;
+            };
+            transport: string;
+        };
+        metrics: {
+            options: {
+                active: boolean;
+            };
+            transport: string;
+        };
+        paging: {
+            options: {
+                active: boolean;
+                afterVar: string;
+                cursorParam: string;
+                firstVar: string;
+                limitParam: string;
+                pageParam: string;
+                startPage: number;
+            };
+            transport: string;
+        };
+        ratelimit: {
+            options: {
+                active: boolean;
+                burst: number;
+                rate: number;
+            };
+            transport: string;
+        };
+        retry: {
+            options: {
+                active: boolean;
+                factor: number;
+                maxDelay: number;
+                minDelay: number;
+                retries: number;
+                statuses: number[];
+            };
+            transport: string;
+        };
+        telemetry: {
+            options: {
+                active: boolean;
+            };
+            transport: string;
+        };
         test: {
             options: {
                 active: boolean;
+            };
+            transport: string;
+        };
+        timeout: {
+            options: {
+                active: boolean;
+                ms: number;
             };
             transport: string;
         };
@@ -20,6 +100,7 @@ declare class Config {
         base: string;
         auth: {
             prefix: string;
+            basic: boolean;
         };
         headers: {
             "content-type": string;

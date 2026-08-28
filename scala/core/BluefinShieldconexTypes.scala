@@ -18,15 +18,15 @@ object BluefinShieldconexTypes {
 
   final case class Detokenize(batches: java.util.List[Object], bfid: String, messageId: String, name: String, reference: String, value: String, values: java.util.List[Object])
 
-  final case class DetokenizeListMatch(batches: java.util.List[Object], bfid: String, messageId: String, name: String, reference: String, value: String, values: java.util.List[Object])
+  final case class DetokenizeListMatch(bfid: String, field_name: String, field_value: String, reference: String)
 
   final case class DetokenizeCreateData(batches: java.util.List[Object], bfid: String, messageId: String, name: String, reference: String, value: String, values: java.util.List[Object])
 
   final case class Tokenize(batches: java.util.List[Object], bfid: String, messageId: String, name: String, reference: String, templateRef: String, value: String, values: java.util.List[Object])
 
-  final case class TokenizeListMatch(batches: java.util.List[Object], bfid: String, messageId: String, name: String, reference: String, templateRef: String, value: String, values: java.util.List[Object])
+  final case class TokenizeListMatch(field_name: String, field_value: String, reference: String, template_ref: String)
 
-  final case class TokenizeCreateData(batches: java.util.List[Object], bfid: String, messageId: String, name: String, reference: String, templateRef: String, value: String, values: java.util.List[Object])
+  final case class TokenizeCreateData(omit: java.lang.Double, batches: java.util.List[Object], bfid: String, messageId: String, name: String, reference: String, templateRef: String, value: String, values: java.util.List[Object])
 
   final case class TokenizeBatch(batches: java.util.List[Object], messageId: String, reference: String)
 

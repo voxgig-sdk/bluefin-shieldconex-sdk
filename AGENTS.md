@@ -40,7 +40,7 @@ There are companion guides deeper in the tree: one per language
 | `ts` | `ts/` | [`ts/AGENTS.md`](./ts/AGENTS.md) |
 | `zig` | `zig/` | [`zig/AGENTS.md`](./zig/AGENTS.md) |
 
-**Features** (1): `test`.
+**Features** (11): `audit`, `clienttrack`, `idempotency`, `log`, `metrics`, `paging`, `ratelimit`, `retry`, `telemetry`, `test`, `timeout`.
 
 Each feature is generated into every SDK target — as a directory
 `<lang>/src/feature/<name>/` (ts/js) or a flat file in the `<lang>/feature/`

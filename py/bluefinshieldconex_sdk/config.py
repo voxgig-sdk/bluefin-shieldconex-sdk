@@ -33,11 +33,108 @@ def make_config():
             "target": "py",
         },
         "feature": {
+            "audit": {
+        "options": {
+          "active": False,
+          "actor": "anonymous",
+          "max": 1000,
+        },
+        "transport": "none",
+      },
+            "clienttrack": {
+        "options": {
+          "active": False,
+          "clientVersion": "0.0.1",
+        },
+        "transport": "none",
+      },
+            "idempotency": {
+        "options": {
+          "active": False,
+          "header": "Idempotency-Key",
+          "methods": [
+            "POST",
+            "PUT",
+            "PATCH",
+            "DELETE",
+          ],
+          "ops": [
+            "create",
+            "update",
+            "remove",
+          ],
+        },
+        "transport": "none",
+      },
+            "log": {
+        "options": {
+          "active": True,
+        },
+        "transport": "none",
+      },
+            "metrics": {
+        "options": {
+          "active": False,
+        },
+        "transport": "none",
+      },
+            "paging": {
+        "options": {
+          "active": False,
+          "afterVar": "after",
+          "cursorParam": "cursor",
+          "firstVar": "first",
+          "limitParam": "limit",
+          "pageParam": "page",
+          "startPage": 1,
+        },
+        "transport": "none",
+      },
+            "ratelimit": {
+        "options": {
+          "active": False,
+          "burst": 5,
+          "rate": 5,
+        },
+        "transport": "wrap",
+      },
+            "retry": {
+        "options": {
+          "active": False,
+          "factor": 2,
+          "maxDelay": 2000,
+          "minDelay": 50,
+          "retries": 2,
+          "statuses": [
+            408,
+            425,
+            429,
+            500,
+            502,
+            503,
+            504,
+          ],
+        },
+        "transport": "wrap",
+      },
+            "telemetry": {
+        "options": {
+          "active": False,
+        },
+        "transport": "none",
+      },
             "test": {
         "options": {
           "active": False,
         },
         "transport": "base",
+      },
+            "timeout": {
+        "options": {
+          "active": False,
+          "ms": 30000,
+        },
+        "transport": "wrap",
       },
         },
         "options": {

@@ -120,6 +120,7 @@ function basicSetup(extra?: any) {
     'BLUEFIN_SHIELDCONEX_TEST_LIVE': 'FALSE',
     'BLUEFIN_SHIELDCONEX_TEST_EXPLAIN': 'FALSE',
     'BLUEFIN_SHIELDCONEX_APIKEY': 'NONE',
+    'BLUEFIN_SHIELDCONEX_SECRET': 'NONE',
   })
 
   idmap = env['BLUEFIN_SHIELDCONEX_TEST_DETOKENIZE_ENTID']
@@ -130,6 +131,7 @@ function basicSetup(extra?: any) {
     client = new BluefinShieldconexSDK(merge([
       {
         apikey: env.BLUEFIN_SHIELDCONEX_APIKEY,
+        secret: env.BLUEFIN_SHIELDCONEX_SECRET,
       },
       extra
     ]))

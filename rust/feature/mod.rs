@@ -5,4 +5,14 @@
 pub mod support;
 
 pub mod base;
+pub mod audit;
+pub mod clienttrack;
+pub mod idempotency;
+pub mod log;
+pub mod metrics;
+pub mod paging;
+pub mod ratelimit;
+pub mod retry;
+pub mod telemetry;
 pub mod test;
+pub mod timeout;

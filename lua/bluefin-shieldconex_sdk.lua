@@ -93,7 +93,17 @@ function BluefinShieldconexSDK.new(options)
 
   utility.feature_hook(self._rootctx, "PostConstruct")
 
-    -- feature: test
+    -- feature: audit
+  -- feature: clienttrack
+  -- feature: idempotency
+  -- feature: log
+  -- feature: metrics
+  -- feature: paging
+  -- feature: ratelimit
+  -- feature: retry
+  -- feature: telemetry
+  -- feature: test
+  -- feature: timeout
 
 
   return self

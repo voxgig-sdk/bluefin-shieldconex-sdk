@@ -19,13 +19,10 @@
 
 /**
  * @typedef {Object} DetokenizeListMatch
- * @property {Array} [batches]
- * @property {string} [bfid]
- * @property {string} [messageId]
- * @property {string} [name]
+ * @property {string} bfid
+ * @property {string} [field_name]
+ * @property {string} [field_value]
  * @property {string} [reference]
- * @property {string} [value]
- * @property {Array} [values]
  */
 
 /**
@@ -53,18 +50,15 @@
 
 /**
  * @typedef {Object} TokenizeListMatch
- * @property {Array} [batches]
- * @property {string} [bfid]
- * @property {string} [messageId]
- * @property {string} [name]
+ * @property {string} [field_name]
+ * @property {string} [field_value]
  * @property {string} [reference]
- * @property {string} [templateRef]
- * @property {string} [value]
- * @property {Array} [values]
+ * @property {string} template_ref
  */
 
 /**
  * @typedef {Object} TokenizeCreateData
+ * @property {number} [omit]
  * @property {Array} [batches]
  * @property {string} [bfid]
  * @property {string} [messageId]

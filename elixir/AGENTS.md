@@ -42,7 +42,17 @@ the runtime under `.sdk/tm/elixir/feature/` and regenerate.
 
 | Feature | Runtime file | Active hooks |
 | --- | --- | --- |
+| **audit** — Structured audit trail of operations | `feature/audit_feature.ex` | `PreDone`, `PreUnexpected` |
+| **clienttrack** — Client identity and per-request correlation headers | `feature/clienttrack_feature.ex` | `PostConstruct`, `PreRequest` |
+| **idempotency** — Idempotency keys for safe retries of mutating operations | `feature/idempotency_feature.ex` | `PreRequest` |
+| **log** — Structured request and response logging | `feature/log_feature.ex` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
+| **metrics** — Statistics capture: per-operation counters and latency | `feature/metrics_feature.ex` | `PreDone`, `PrePoint`, `PreUnexpected` |
+| **paging** — Pagination signals for list operations | `feature/paging_feature.ex` | `PreRequest`, `PreResult` |
+| **ratelimit** — Client-side rate limiting via a token bucket | `feature/ratelimit_feature.ex` | — |
+| **retry** — Automatic retry of transient failures with exponential backoff | `feature/retry_feature.ex` | — |
+| **telemetry** — Distributed tracing spans with W3C trace-context propagation | `feature/telemetry_feature.ex` | `PreDone`, `PrePoint`, `PreRequest`, `PreUnexpected` |
 | **test** — In-memory mock transport for testing without a live server | `feature/test_feature.ex` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
+| **timeout** — Per-request timeout with transport abort | `feature/timeout_feature.ex` | — |
 
 ---
 

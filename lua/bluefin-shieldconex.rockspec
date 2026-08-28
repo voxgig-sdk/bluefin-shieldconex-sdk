@@ -26,6 +26,16 @@ build = {
     ["config_shared"] = "config_shared.lua",
     ["features"] = "features.lua",
     ["feature.base_feature"] = "feature/base_feature.lua",
+    ["feature.audit_feature"] = "feature/audit_feature.lua",
+    ["feature.clienttrack_feature"] = "feature/clienttrack_feature.lua",
+    ["feature.idempotency_feature"] = "feature/idempotency_feature.lua",
+    ["feature.log_feature"] = "feature/log_feature.lua",
+    ["feature.metrics_feature"] = "feature/metrics_feature.lua",
+    ["feature.paging_feature"] = "feature/paging_feature.lua",
+    ["feature.ratelimit_feature"] = "feature/ratelimit_feature.lua",
+    ["feature.retry_feature"] = "feature/retry_feature.lua",
+    ["feature.telemetry_feature"] = "feature/telemetry_feature.lua",
     ["feature.test_feature"] = "feature/test_feature.lua",
+    ["feature.timeout_feature"] = "feature/timeout_feature.lua",
   }
 }

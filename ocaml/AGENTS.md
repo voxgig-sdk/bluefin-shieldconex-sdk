@@ -42,7 +42,17 @@ the runtime under `.sdk/tm/ocaml/feature/` and regenerate.
 
 | Feature | Runtime file | Active hooks |
 | --- | --- | --- |
+| **audit** — Structured audit trail of operations | `feature/audit_feature.ml` | `PreDone`, `PreUnexpected` |
+| **clienttrack** — Client identity and per-request correlation headers | `feature/clienttrack_feature.ml` | `PostConstruct`, `PreRequest` |
+| **idempotency** — Idempotency keys for safe retries of mutating operations | `feature/idempotency_feature.ml` | `PreRequest` |
+| **log** — Structured request and response logging | `feature/log_feature.ml` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
+| **metrics** — Statistics capture: per-operation counters and latency | `feature/metrics_feature.ml` | `PreDone`, `PrePoint`, `PreUnexpected` |
+| **paging** — Pagination signals for list operations | `feature/paging_feature.ml` | `PreRequest`, `PreResult` |
+| **ratelimit** — Client-side rate limiting via a token bucket | `feature/ratelimit_feature.ml` | — |
+| **retry** — Automatic retry of transient failures with exponential backoff | `feature/retry_feature.ml` | — |
+| **telemetry** — Distributed tracing spans with W3C trace-context propagation | `feature/telemetry_feature.ml` | `PreDone`, `PrePoint`, `PreRequest`, `PreUnexpected` |
 | **test** — In-memory mock transport for testing without a live server | `feature/test_feature.ml` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
+| **timeout** — Per-request timeout with transport abort | `feature/timeout_feature.ml` | — |
 
 ---
 

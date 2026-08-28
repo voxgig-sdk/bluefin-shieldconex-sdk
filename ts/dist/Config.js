@@ -1,9 +1,29 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.config = void 0;
+const AuditFeature_1 = require("./feature/audit/AuditFeature");
+const ClienttrackFeature_1 = require("./feature/clienttrack/ClienttrackFeature");
+const IdempotencyFeature_1 = require("./feature/idempotency/IdempotencyFeature");
+const LogFeature_1 = require("./feature/log/LogFeature");
+const MetricsFeature_1 = require("./feature/metrics/MetricsFeature");
+const PagingFeature_1 = require("./feature/paging/PagingFeature");
+const RatelimitFeature_1 = require("./feature/ratelimit/RatelimitFeature");
+const RetryFeature_1 = require("./feature/retry/RetryFeature");
+const TelemetryFeature_1 = require("./feature/telemetry/TelemetryFeature");
 const TestFeature_1 = require("./feature/test/TestFeature");
+const TimeoutFeature_1 = require("./feature/timeout/TimeoutFeature");
 const FEATURE_CLASS = {
+    audit: AuditFeature_1.AuditFeature,
+    clienttrack: ClienttrackFeature_1.ClienttrackFeature,
+    idempotency: IdempotencyFeature_1.IdempotencyFeature,
+    log: LogFeature_1.LogFeature,
+    metrics: MetricsFeature_1.MetricsFeature,
+    paging: PagingFeature_1.PagingFeature,
+    ratelimit: RatelimitFeature_1.RatelimitFeature,
+    retry: RetryFeature_1.RetryFeature,
+    telemetry: TelemetryFeature_1.TelemetryFeature,
     test: TestFeature_1.TestFeature,
+    timeout: TimeoutFeature_1.TimeoutFeature,
 };
 class Config {
     makeFeature(fn) {
@@ -25,17 +45,115 @@ class Config {
         target: "ts",
     };
     feature = {
+        audit: {
+            "options": {
+                "active": false,
+                "actor": "anonymous",
+                "max": 1000
+            },
+            "transport": "none"
+        },
+        clienttrack: {
+            "options": {
+                "active": false,
+                "clientVersion": "0.0.1"
+            },
+            "transport": "none"
+        },
+        idempotency: {
+            "options": {
+                "active": false,
+                "header": "Idempotency-Key",
+                "methods": [
+                    "POST",
+                    "PUT",
+                    "PATCH",
+                    "DELETE"
+                ],
+                "ops": [
+                    "create",
+                    "update",
+                    "remove"
+                ]
+            },
+            "transport": "none"
+        },
+        log: {
+            "options": {
+                "active": true
+            },
+            "transport": "none"
+        },
+        metrics: {
+            "options": {
+                "active": false
+            },
+            "transport": "none"
+        },
+        paging: {
+            "options": {
+                "active": false,
+                "afterVar": "after",
+                "cursorParam": "cursor",
+                "firstVar": "first",
+                "limitParam": "limit",
+                "pageParam": "page",
+                "startPage": 1
+            },
+            "transport": "none"
+        },
+        ratelimit: {
+            "options": {
+                "active": false,
+                "burst": 5,
+                "rate": 5
+            },
+            "transport": "wrap"
+        },
+        retry: {
+            "options": {
+                "active": false,
+                "factor": 2,
+                "maxDelay": 2000,
+                "minDelay": 50,
+                "retries": 2,
+                "statuses": [
+                    408,
+                    425,
+                    429,
+                    500,
+                    502,
+                    503,
+                    504
+                ]
+            },
+            "transport": "wrap"
+        },
+        telemetry: {
+            "options": {
+                "active": false
+            },
+            "transport": "none"
+        },
         test: {
             "options": {
                 "active": false
             },
             "transport": "base"
         },
+        timeout: {
+            "options": {
+                "active": false,
+                "ms": 30000
+            },
+            "transport": "wrap"
+        },
     };
     options = {
         base: "https://secure-cert.shieldconex.com/api",
         auth: {
             prefix: 'Basic',
+            basic: true,
         },
         headers: {
             "content-type": "application/json"

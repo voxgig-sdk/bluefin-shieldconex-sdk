@@ -26,13 +26,10 @@ public record Detokenize
 
 public record DetokenizeListMatch
 {
-    public List<object?>? batches { get; init; }
-    public string? bfid { get; init; }
-    public string? messageId { get; init; }
-    public string? name { get; init; }
+    public string bfid { get; init; }
+    public string? field_name { get; init; }
+    public string? field_value { get; init; }
     public string? reference { get; init; }
-    public string? value { get; init; }
-    public List<object?>? values { get; init; }
 }
 
 public record DetokenizeCreateData
@@ -60,18 +57,15 @@ public record Tokenize
 
 public record TokenizeListMatch
 {
-    public List<object?>? batches { get; init; }
-    public string? bfid { get; init; }
-    public string? messageId { get; init; }
-    public string? name { get; init; }
+    public string? field_name { get; init; }
+    public string? field_value { get; init; }
     public string? reference { get; init; }
-    public string? templateRef { get; init; }
-    public string? value { get; init; }
-    public List<object?>? values { get; init; }
+    public string template_ref { get; init; }
 }
 
 public record TokenizeCreateData
 {
+    public double? omit { get; init; }
     public List<object?>? batches { get; init; }
     public string? bfid { get; init; }
     public string? messageId { get; init; }

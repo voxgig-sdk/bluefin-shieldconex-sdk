@@ -29,8 +29,38 @@ func init() {
 	core.NewBaseFeatureFunc = func() core.Feature {
 		return feature.NewBaseFeature()
 	}
+	core.NewAuditFeatureFunc = func() core.Feature {
+		return feature.NewAuditFeature()
+	}
+	core.NewClienttrackFeatureFunc = func() core.Feature {
+		return feature.NewClienttrackFeature()
+	}
+	core.NewIdempotencyFeatureFunc = func() core.Feature {
+		return feature.NewIdempotencyFeature()
+	}
+	core.NewLogFeatureFunc = func() core.Feature {
+		return feature.NewLogFeature()
+	}
+	core.NewMetricsFeatureFunc = func() core.Feature {
+		return feature.NewMetricsFeature()
+	}
+	core.NewPagingFeatureFunc = func() core.Feature {
+		return feature.NewPagingFeature()
+	}
+	core.NewRatelimitFeatureFunc = func() core.Feature {
+		return feature.NewRatelimitFeature()
+	}
+	core.NewRetryFeatureFunc = func() core.Feature {
+		return feature.NewRetryFeature()
+	}
+	core.NewTelemetryFeatureFunc = func() core.Feature {
+		return feature.NewTelemetryFeature()
+	}
 	core.NewTestFeatureFunc = func() core.Feature {
 		return feature.NewTestFeature()
+	}
+	core.NewTimeoutFeatureFunc = func() core.Feature {
+		return feature.NewTimeoutFeature()
 	}
 	core.NewDetokenizeEntityFunc = func(client *core.BluefinShieldconexSDK, entopts map[string]any) core.BluefinShieldconexEntity {
 		return entity.NewDetokenizeEntity(client, entopts)
@@ -67,4 +97,14 @@ var SharedConfig = core.SharedConfig
 func New() *BluefinShieldconexSDK  { return NewBluefinShieldconexSDK(nil) }
 func Test() *BluefinShieldconexSDK { return TestSDK(nil, nil) }
 var NewBaseFeature = feature.NewBaseFeature
+var NewAuditFeature = feature.NewAuditFeature
+var NewClienttrackFeature = feature.NewClienttrackFeature
+var NewIdempotencyFeature = feature.NewIdempotencyFeature
+var NewLogFeature = feature.NewLogFeature
+var NewMetricsFeature = feature.NewMetricsFeature
+var NewPagingFeature = feature.NewPagingFeature
+var NewRatelimitFeature = feature.NewRatelimitFeature
+var NewRetryFeature = feature.NewRetryFeature
+var NewTelemetryFeature = feature.NewTelemetryFeature
 var NewTestFeature = feature.NewTestFeature
+var NewTimeoutFeature = feature.NewTimeoutFeature

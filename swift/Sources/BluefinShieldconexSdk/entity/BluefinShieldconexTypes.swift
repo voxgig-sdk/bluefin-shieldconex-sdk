@@ -23,13 +23,10 @@ public struct Detokenize {
 
 /// DetokenizeListMatch is the typed request payload for Detokenize.list.
 public struct DetokenizeListMatch {
-  public var batches: [Value]?
-  public var bfid: String?
-  public var messageId: String?
-  public var name: String?
+  public var bfid: String
+  public var fieldName: String?
+  public var fieldValue: String?
   public var reference: String?
-  public var value: String?
-  public var values: [Value]?
 }
 
 /// DetokenizeCreateData is the typed request payload for Detokenize.create.
@@ -57,18 +54,15 @@ public struct Tokenize {
 
 /// TokenizeListMatch is the typed request payload for Tokenize.list.
 public struct TokenizeListMatch {
-  public var batches: [Value]?
-  public var bfid: String?
-  public var messageId: String?
-  public var name: String?
+  public var fieldName: String?
+  public var fieldValue: String?
   public var reference: String?
-  public var templateRef: String?
-  public var value: String?
-  public var values: [Value]?
+  public var templateRef: String
 }
 
 /// TokenizeCreateData is the typed request payload for Tokenize.create.
 public struct TokenizeCreateData {
+  public var omit: Double?
   public var batches: [Value]?
   public var bfid: String?
   public var messageId: String?

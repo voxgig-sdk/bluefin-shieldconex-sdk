@@ -33,13 +33,10 @@ defmodule BluefinShieldconex.Types do
   Request payload for Detokenize list.
 
   Members:
-    * `"batches"` — list() (optional)
-    * `"bfid"` — String.t() (optional)
-    * `"messageId"` — String.t() (optional)
-    * `"name"` — String.t() (optional)
+    * `"bfid"` — String.t() (required)
+    * `"field_name"` — String.t() (optional)
+    * `"field_value"` — String.t() (optional)
     * `"reference"` — String.t() (optional)
-    * `"value"` — String.t() (optional)
-    * `"values"` — list() (optional)
   """
   @type detokenize_list_match :: %{optional(String.t()) => any()}
 
@@ -76,14 +73,10 @@ defmodule BluefinShieldconex.Types do
   Request payload for Tokenize list.
 
   Members:
-    * `"batches"` — list() (optional)
-    * `"bfid"` — String.t() (optional)
-    * `"messageId"` — String.t() (optional)
-    * `"name"` — String.t() (optional)
+    * `"field_name"` — String.t() (optional)
+    * `"field_value"` — String.t() (optional)
     * `"reference"` — String.t() (optional)
-    * `"templateRef"` — String.t() (optional)
-    * `"value"` — String.t() (optional)
-    * `"values"` — list() (optional)
+    * `"template_ref"` — String.t() (required)
   """
   @type tokenize_list_match :: %{optional(String.t()) => any()}
 
@@ -91,6 +84,7 @@ defmodule BluefinShieldconex.Types do
   Request payload for Tokenize create.
 
   Members:
+    * `"omit"` — float() (optional)
     * `"batches"` — list() (optional)
     * `"bfid"` — String.t() (optional)
     * `"messageId"` — String.t() (optional)

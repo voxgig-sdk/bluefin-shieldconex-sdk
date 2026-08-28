@@ -26,14 +26,14 @@ class Detokenize(TypedDict, total=False):
     values: list
 
 
-class DetokenizeListMatch(TypedDict, total=False):
-    batches: list
+class DetokenizeListMatchRequired(TypedDict):
     bfid: str
-    messageId: str
-    name: str
+
+
+class DetokenizeListMatch(DetokenizeListMatchRequired, total=False):
+    field_name: str
+    field_value: str
     reference: str
-    value: str
-    values: list
 
 
 class DetokenizeCreateData(TypedDict, total=False):
@@ -60,15 +60,14 @@ class Tokenize(TokenizeRequired, total=False):
     values: list
 
 
-class TokenizeListMatch(TypedDict, total=False):
-    batches: list
-    bfid: str
-    messageId: str
-    name: str
+class TokenizeListMatchRequired(TypedDict):
+    template_ref: str
+
+
+class TokenizeListMatch(TokenizeListMatchRequired, total=False):
+    field_name: str
+    field_value: str
     reference: str
-    templateRef: str
-    value: str
-    values: list
 
 
 class TokenizeCreateDataRequired(TypedDict):
@@ -76,6 +75,7 @@ class TokenizeCreateDataRequired(TypedDict):
 
 
 class TokenizeCreateData(TokenizeCreateDataRequired, total=False):
+    omit: float
     batches: list
     bfid: str
     messageId: str

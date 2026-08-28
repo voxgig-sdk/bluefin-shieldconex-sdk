@@ -16,13 +16,10 @@
 ---@field values? table
 
 ---@class DetokenizeListMatch
----@field batches? table
----@field bfid? string
----@field messageId? string
----@field name? string
+---@field bfid string
+---@field field_name? string
+---@field field_value? string
 ---@field reference? string
----@field value? string
----@field values? table
 
 ---@class DetokenizeCreateData
 ---@field batches? table
@@ -44,16 +41,13 @@
 ---@field values? table
 
 ---@class TokenizeListMatch
----@field batches? table
----@field bfid? string
----@field messageId? string
----@field name? string
+---@field field_name? string
+---@field field_value? string
 ---@field reference? string
----@field templateRef? string
----@field value? string
----@field values? table
+---@field template_ref string
 
 ---@class TokenizeCreateData
+---@field omit? number
 ---@field batches? table
 ---@field bfid? string
 ---@field messageId? string

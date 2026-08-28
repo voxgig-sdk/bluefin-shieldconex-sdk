@@ -15,17 +15,115 @@ pub fn make_config() Value {
             .{ "target", h.vstr("zig") },
         }) },
         .{ "feature", h.jo(&.{
+            .{ "audit", h.jo(&.{
+                .{ "options", h.jo(&.{
+                    .{ "active", h.vbool(false) },
+                    .{ "actor", h.vstr("anonymous") },
+                    .{ "max", h.vnum(1000) },
+                }) },
+                .{ "transport", h.vstr("none") },
+            }) },
+            .{ "clienttrack", h.jo(&.{
+                .{ "options", h.jo(&.{
+                    .{ "active", h.vbool(false) },
+                    .{ "clientVersion", h.vstr("0.0.1") },
+                }) },
+                .{ "transport", h.vstr("none") },
+            }) },
+            .{ "idempotency", h.jo(&.{
+                .{ "options", h.jo(&.{
+                    .{ "active", h.vbool(false) },
+                    .{ "header", h.vstr("Idempotency-Key") },
+                    .{ "methods", h.ja(&.{
+                        h.vstr("POST"),
+                        h.vstr("PUT"),
+                        h.vstr("PATCH"),
+                        h.vstr("DELETE"),
+                    }) },
+                    .{ "ops", h.ja(&.{
+                        h.vstr("create"),
+                        h.vstr("update"),
+                        h.vstr("remove"),
+                    }) },
+                }) },
+                .{ "transport", h.vstr("none") },
+            }) },
+            .{ "log", h.jo(&.{
+                .{ "options", h.jo(&.{
+                    .{ "active", h.vbool(true) },
+                }) },
+                .{ "transport", h.vstr("none") },
+            }) },
+            .{ "metrics", h.jo(&.{
+                .{ "options", h.jo(&.{
+                    .{ "active", h.vbool(false) },
+                }) },
+                .{ "transport", h.vstr("none") },
+            }) },
+            .{ "paging", h.jo(&.{
+                .{ "options", h.jo(&.{
+                    .{ "active", h.vbool(false) },
+                    .{ "afterVar", h.vstr("after") },
+                    .{ "cursorParam", h.vstr("cursor") },
+                    .{ "firstVar", h.vstr("first") },
+                    .{ "limitParam", h.vstr("limit") },
+                    .{ "pageParam", h.vstr("page") },
+                    .{ "startPage", h.vnum(1) },
+                }) },
+                .{ "transport", h.vstr("none") },
+            }) },
+            .{ "ratelimit", h.jo(&.{
+                .{ "options", h.jo(&.{
+                    .{ "active", h.vbool(false) },
+                    .{ "burst", h.vnum(5) },
+                    .{ "rate", h.vnum(5) },
+                }) },
+                .{ "transport", h.vstr("wrap") },
+            }) },
+            .{ "retry", h.jo(&.{
+                .{ "options", h.jo(&.{
+                    .{ "active", h.vbool(false) },
+                    .{ "factor", h.vnum(2) },
+                    .{ "maxDelay", h.vnum(2000) },
+                    .{ "minDelay", h.vnum(50) },
+                    .{ "retries", h.vnum(2) },
+                    .{ "statuses", h.ja(&.{
+                        h.vnum(408),
+                        h.vnum(425),
+                        h.vnum(429),
+                        h.vnum(500),
+                        h.vnum(502),
+                        h.vnum(503),
+                        h.vnum(504),
+                    }) },
+                }) },
+                .{ "transport", h.vstr("wrap") },
+            }) },
+            .{ "telemetry", h.jo(&.{
+                .{ "options", h.jo(&.{
+                    .{ "active", h.vbool(false) },
+                }) },
+                .{ "transport", h.vstr("none") },
+            }) },
             .{ "test", h.jo(&.{
                 .{ "options", h.jo(&.{
                     .{ "active", h.vbool(false) },
                 }) },
                 .{ "transport", h.vstr("base") },
             }) },
+            .{ "timeout", h.jo(&.{
+                .{ "options", h.jo(&.{
+                    .{ "active", h.vbool(false) },
+                    .{ "ms", h.vnum(30000) },
+                }) },
+                .{ "transport", h.vstr("wrap") },
+            }) },
         }) },
         .{ "options", h.jo(&.{
             .{ "base", h.vstr("https://secure-cert.shieldconex.com/api") },
             .{ "auth", h.jo(&.{
                 .{ "prefix", h.vstr("Basic") },
+                .{ "basic", h.vbool(true) },
             }) },
             .{ "headers", h.jo(&.{
                 .{ "content-type", h.vstr("application/json") },
@@ -615,6 +713,7 @@ pub fn make_feature(name: []const u8) Feature {
     if (std.mem.eql(u8, name, "audit")) return @import("../feature/audit.zig").AuditFeature.make();
     if (std.mem.eql(u8, name, "cache")) return @import("../feature/cache.zig").CacheFeature.make();
     if (std.mem.eql(u8, name, "clienttrack")) return @import("../feature/clienttrack.zig").ClienttrackFeature.make();
+    if (std.mem.eql(u8, name, "cost")) return @import("../feature/cost.zig").CostFeature.make();
     if (std.mem.eql(u8, name, "debug")) return @import("../feature/debug.zig").DebugFeature.make();
     if (std.mem.eql(u8, name, "idempotency")) return @import("../feature/idempotency.zig").IdempotencyFeature.make();
     if (std.mem.eql(u8, name, "log")) return @import("../feature/log.zig").LogFeature.make();

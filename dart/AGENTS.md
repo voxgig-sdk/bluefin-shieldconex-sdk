@@ -42,7 +42,17 @@ the runtime under `.sdk/tm/dart/feature/` and regenerate.
 
 | Feature | Runtime file | Active hooks |
 | --- | --- | --- |
+| **audit** — Structured audit trail of operations | `feature/audit_feature.dart` | `PreDone`, `PreUnexpected` |
+| **clienttrack** — Client identity and per-request correlation headers | `feature/clienttrack_feature.dart` | `PostConstruct`, `PreRequest` |
+| **idempotency** — Idempotency keys for safe retries of mutating operations | `feature/idempotency_feature.dart` | `PreRequest` |
+| **log** — Structured request and response logging | `feature/log_feature.dart` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
+| **metrics** — Statistics capture: per-operation counters and latency | `feature/metrics_feature.dart` | `PreDone`, `PrePoint`, `PreUnexpected` |
+| **paging** — Pagination signals for list operations | `feature/paging_feature.dart` | `PreRequest`, `PreResult` |
+| **ratelimit** — Client-side rate limiting via a token bucket | `feature/ratelimit_feature.dart` | — |
+| **retry** — Automatic retry of transient failures with exponential backoff | `feature/retry_feature.dart` | — |
+| **telemetry** — Distributed tracing spans with W3C trace-context propagation | `feature/telemetry_feature.dart` | `PreDone`, `PrePoint`, `PreRequest`, `PreUnexpected` |
 | **test** — In-memory mock transport for testing without a live server | `feature/test_feature.dart` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
+| **timeout** — Per-request timeout with transport abort | `feature/timeout_feature.dart` | — |
 
 ---
 

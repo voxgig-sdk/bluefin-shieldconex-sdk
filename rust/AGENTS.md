@@ -42,7 +42,17 @@ the runtime under `.sdk/tm/rust/feature/` and regenerate.
 
 | Feature | Runtime file | Active hooks |
 | --- | --- | --- |
+| **audit** — Structured audit trail of operations | `feature/audit_feature.rs` | `PreDone`, `PreUnexpected` |
+| **clienttrack** — Client identity and per-request correlation headers | `feature/clienttrack_feature.rs` | `PostConstruct`, `PreRequest` |
+| **idempotency** — Idempotency keys for safe retries of mutating operations | `feature/idempotency_feature.rs` | `PreRequest` |
+| **log** — Structured request and response logging | `feature/log_feature.rs` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
+| **metrics** — Statistics capture: per-operation counters and latency | `feature/metrics_feature.rs` | `PreDone`, `PrePoint`, `PreUnexpected` |
+| **paging** — Pagination signals for list operations | `feature/paging_feature.rs` | `PreRequest`, `PreResult` |
+| **ratelimit** — Client-side rate limiting via a token bucket | `feature/ratelimit_feature.rs` | — |
+| **retry** — Automatic retry of transient failures with exponential backoff | `feature/retry_feature.rs` | — |
+| **telemetry** — Distributed tracing spans with W3C trace-context propagation | `feature/telemetry_feature.rs` | `PreDone`, `PrePoint`, `PreRequest`, `PreUnexpected` |
 | **test** — In-memory mock transport for testing without a live server | `feature/test_feature.rs` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
+| **timeout** — Per-request timeout with transport abort | `feature/timeout_feature.rs` | — |
 
 ---
 

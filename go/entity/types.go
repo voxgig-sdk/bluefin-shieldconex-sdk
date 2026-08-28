@@ -25,13 +25,10 @@ type Detokenize struct {
 
 // DetokenizeListMatch is the typed request payload for Detokenize.ListTyped.
 type DetokenizeListMatch struct {
-	Batches *[]any `json:"batches,omitempty"`
-	Bfid *string `json:"bfid,omitempty"`
-	MessageId *string `json:"messageId,omitempty"`
-	Name *string `json:"name,omitempty"`
+	Bfid string `json:"bfid"`
+	FieldName *string `json:"field_name,omitempty"`
+	FieldValue *string `json:"field_value,omitempty"`
 	Reference *string `json:"reference,omitempty"`
-	Value *string `json:"value,omitempty"`
-	Values *[]any `json:"values,omitempty"`
 }
 
 // DetokenizeCreateData is the typed request payload for Detokenize.CreateTyped.
@@ -59,18 +56,15 @@ type Tokenize struct {
 
 // TokenizeListMatch is the typed request payload for Tokenize.ListTyped.
 type TokenizeListMatch struct {
-	Batches *[]any `json:"batches,omitempty"`
-	Bfid *string `json:"bfid,omitempty"`
-	MessageId *string `json:"messageId,omitempty"`
-	Name *string `json:"name,omitempty"`
+	FieldName *string `json:"field_name,omitempty"`
+	FieldValue *string `json:"field_value,omitempty"`
 	Reference *string `json:"reference,omitempty"`
-	TemplateRef *string `json:"templateRef,omitempty"`
-	Value *string `json:"value,omitempty"`
-	Values *[]any `json:"values,omitempty"`
+	TemplateRef string `json:"template_ref"`
 }
 
 // TokenizeCreateData is the typed request payload for Tokenize.CreateTyped.
 type TokenizeCreateData struct {
+	Omit *float64 `json:"omit,omitempty"`
 	Batches *[]any `json:"batches,omitempty"`
 	Bfid *string `json:"bfid,omitempty"`
 	MessageId *string `json:"messageId,omitempty"`

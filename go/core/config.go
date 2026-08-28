@@ -16,11 +16,108 @@ func MakeConfig() map[string]any {
 			"target": "go",
 		},
 		"feature": map[string]any{
+			"audit": map[string]any{
+				"options": map[string]any{
+					"active": false,
+					"actor": "anonymous",
+					"max": 1000,
+				},
+				"transport": "none",
+			},
+			"clienttrack": map[string]any{
+				"options": map[string]any{
+					"active": false,
+					"clientVersion": "0.0.1",
+				},
+				"transport": "none",
+			},
+			"idempotency": map[string]any{
+				"options": map[string]any{
+					"active": false,
+					"header": "Idempotency-Key",
+					"methods": []any{
+						"POST",
+						"PUT",
+						"PATCH",
+						"DELETE",
+					},
+					"ops": []any{
+						"create",
+						"update",
+						"remove",
+					},
+				},
+				"transport": "none",
+			},
+			"log": map[string]any{
+				"options": map[string]any{
+					"active": true,
+				},
+				"transport": "none",
+			},
+			"metrics": map[string]any{
+				"options": map[string]any{
+					"active": false,
+				},
+				"transport": "none",
+			},
+			"paging": map[string]any{
+				"options": map[string]any{
+					"active": false,
+					"afterVar": "after",
+					"cursorParam": "cursor",
+					"firstVar": "first",
+					"limitParam": "limit",
+					"pageParam": "page",
+					"startPage": 1,
+				},
+				"transport": "none",
+			},
+			"ratelimit": map[string]any{
+				"options": map[string]any{
+					"active": false,
+					"burst": 5,
+					"rate": 5,
+				},
+				"transport": "wrap",
+			},
+			"retry": map[string]any{
+				"options": map[string]any{
+					"active": false,
+					"factor": 2,
+					"maxDelay": 2000,
+					"minDelay": 50,
+					"retries": 2,
+					"statuses": []any{
+						408,
+						425,
+						429,
+						500,
+						502,
+						503,
+						504,
+					},
+				},
+				"transport": "wrap",
+			},
+			"telemetry": map[string]any{
+				"options": map[string]any{
+					"active": false,
+				},
+				"transport": "none",
+			},
 			"test": map[string]any{
 				"options": map[string]any{
 					"active": false,
 				},
 				"transport": "base",
+			},
+			"timeout": map[string]any{
+				"options": map[string]any{
+					"active": false,
+					"ms": 30000,
+				},
+				"transport": "wrap",
 			},
 		},
 		"options": map[string]any{
@@ -610,9 +707,49 @@ func SharedConfig() map[string]any {
 
 func makeFeature(name string) Feature {
 	switch name {
+	case "audit":
+		if NewAuditFeatureFunc != nil {
+			return NewAuditFeatureFunc()
+		}
+	case "clienttrack":
+		if NewClienttrackFeatureFunc != nil {
+			return NewClienttrackFeatureFunc()
+		}
+	case "idempotency":
+		if NewIdempotencyFeatureFunc != nil {
+			return NewIdempotencyFeatureFunc()
+		}
+	case "log":
+		if NewLogFeatureFunc != nil {
+			return NewLogFeatureFunc()
+		}
+	case "metrics":
+		if NewMetricsFeatureFunc != nil {
+			return NewMetricsFeatureFunc()
+		}
+	case "paging":
+		if NewPagingFeatureFunc != nil {
+			return NewPagingFeatureFunc()
+		}
+	case "ratelimit":
+		if NewRatelimitFeatureFunc != nil {
+			return NewRatelimitFeatureFunc()
+		}
+	case "retry":
+		if NewRetryFeatureFunc != nil {
+			return NewRetryFeatureFunc()
+		}
+	case "telemetry":
+		if NewTelemetryFeatureFunc != nil {
+			return NewTelemetryFeatureFunc()
+		}
 	case "test":
 		if NewTestFeatureFunc != nil {
 			return NewTestFeatureFunc()
+		}
+	case "timeout":
+		if NewTimeoutFeatureFunc != nil {
+			return NewTimeoutFeatureFunc()
 		}
 	default:
 		if NewBaseFeatureFunc != nil {

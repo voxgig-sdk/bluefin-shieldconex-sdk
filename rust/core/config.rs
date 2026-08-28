@@ -15,17 +15,115 @@ pub fn make_config() -> Value {
             ("target".to_string(), Value::str("rust")),
         ])),
         ("feature".to_string(), Value::map_of([
+            ("audit".to_string(), Value::map_of([
+                ("options".to_string(), Value::map_of([
+                    ("active".to_string(), Value::Bool(false)),
+                    ("actor".to_string(), Value::str("anonymous")),
+                    ("max".to_string(), Value::Num(1000f64)),
+                ])),
+                ("transport".to_string(), Value::str("none")),
+            ])),
+            ("clienttrack".to_string(), Value::map_of([
+                ("options".to_string(), Value::map_of([
+                    ("active".to_string(), Value::Bool(false)),
+                    ("clientVersion".to_string(), Value::str("0.0.1")),
+                ])),
+                ("transport".to_string(), Value::str("none")),
+            ])),
+            ("idempotency".to_string(), Value::map_of([
+                ("options".to_string(), Value::map_of([
+                    ("active".to_string(), Value::Bool(false)),
+                    ("header".to_string(), Value::str("Idempotency-Key")),
+                    ("methods".to_string(), Value::list(vec![
+                        Value::str("POST"),
+                        Value::str("PUT"),
+                        Value::str("PATCH"),
+                        Value::str("DELETE"),
+                    ])),
+                    ("ops".to_string(), Value::list(vec![
+                        Value::str("create"),
+                        Value::str("update"),
+                        Value::str("remove"),
+                    ])),
+                ])),
+                ("transport".to_string(), Value::str("none")),
+            ])),
+            ("log".to_string(), Value::map_of([
+                ("options".to_string(), Value::map_of([
+                    ("active".to_string(), Value::Bool(true)),
+                ])),
+                ("transport".to_string(), Value::str("none")),
+            ])),
+            ("metrics".to_string(), Value::map_of([
+                ("options".to_string(), Value::map_of([
+                    ("active".to_string(), Value::Bool(false)),
+                ])),
+                ("transport".to_string(), Value::str("none")),
+            ])),
+            ("paging".to_string(), Value::map_of([
+                ("options".to_string(), Value::map_of([
+                    ("active".to_string(), Value::Bool(false)),
+                    ("afterVar".to_string(), Value::str("after")),
+                    ("cursorParam".to_string(), Value::str("cursor")),
+                    ("firstVar".to_string(), Value::str("first")),
+                    ("limitParam".to_string(), Value::str("limit")),
+                    ("pageParam".to_string(), Value::str("page")),
+                    ("startPage".to_string(), Value::Num(1f64)),
+                ])),
+                ("transport".to_string(), Value::str("none")),
+            ])),
+            ("ratelimit".to_string(), Value::map_of([
+                ("options".to_string(), Value::map_of([
+                    ("active".to_string(), Value::Bool(false)),
+                    ("burst".to_string(), Value::Num(5f64)),
+                    ("rate".to_string(), Value::Num(5f64)),
+                ])),
+                ("transport".to_string(), Value::str("wrap")),
+            ])),
+            ("retry".to_string(), Value::map_of([
+                ("options".to_string(), Value::map_of([
+                    ("active".to_string(), Value::Bool(false)),
+                    ("factor".to_string(), Value::Num(2f64)),
+                    ("maxDelay".to_string(), Value::Num(2000f64)),
+                    ("minDelay".to_string(), Value::Num(50f64)),
+                    ("retries".to_string(), Value::Num(2f64)),
+                    ("statuses".to_string(), Value::list(vec![
+                        Value::Num(408f64),
+                        Value::Num(425f64),
+                        Value::Num(429f64),
+                        Value::Num(500f64),
+                        Value::Num(502f64),
+                        Value::Num(503f64),
+                        Value::Num(504f64),
+                    ])),
+                ])),
+                ("transport".to_string(), Value::str("wrap")),
+            ])),
+            ("telemetry".to_string(), Value::map_of([
+                ("options".to_string(), Value::map_of([
+                    ("active".to_string(), Value::Bool(false)),
+                ])),
+                ("transport".to_string(), Value::str("none")),
+            ])),
             ("test".to_string(), Value::map_of([
                 ("options".to_string(), Value::map_of([
                     ("active".to_string(), Value::Bool(false)),
                 ])),
                 ("transport".to_string(), Value::str("base")),
             ])),
+            ("timeout".to_string(), Value::map_of([
+                ("options".to_string(), Value::map_of([
+                    ("active".to_string(), Value::Bool(false)),
+                    ("ms".to_string(), Value::Num(30000f64)),
+                ])),
+                ("transport".to_string(), Value::str("wrap")),
+            ])),
         ])),
         ("options".to_string(), Value::map_of([
             ("base".to_string(), Value::str("https://secure-cert.shieldconex.com/api")),
             ("auth".to_string(), Value::map_of([
                 ("prefix".to_string(), Value::str("Basic")),
+                ("basic".to_string(), Value::Bool(true)),
             ])),
             ("headers".to_string(), Value::map_of([
                 ("content-type".to_string(), Value::str("application/json")),
@@ -613,7 +711,17 @@ pub fn shared_config() -> Value {
 
 pub fn make_feature(name: &str) -> FeatureRef {
     match name {
+        "audit" => Rc::new(RefCell::new(crate::feature::audit::AuditFeature::new())),
+        "clienttrack" => Rc::new(RefCell::new(crate::feature::clienttrack::ClienttrackFeature::new())),
+        "idempotency" => Rc::new(RefCell::new(crate::feature::idempotency::IdempotencyFeature::new())),
+        "log" => Rc::new(RefCell::new(crate::feature::log::LogFeature::new())),
+        "metrics" => Rc::new(RefCell::new(crate::feature::metrics::MetricsFeature::new())),
+        "paging" => Rc::new(RefCell::new(crate::feature::paging::PagingFeature::new())),
+        "ratelimit" => Rc::new(RefCell::new(crate::feature::ratelimit::RatelimitFeature::new())),
+        "retry" => Rc::new(RefCell::new(crate::feature::retry::RetryFeature::new())),
+        "telemetry" => Rc::new(RefCell::new(crate::feature::telemetry::TelemetryFeature::new())),
         "test" => Rc::new(RefCell::new(crate::feature::test::TestFeature::new())),
+        "timeout" => Rc::new(RefCell::new(crate::feature::timeout::TimeoutFeature::new())),
         _ => Rc::new(RefCell::new(crate::feature::base::BaseFeature::new())),
     }
 }
