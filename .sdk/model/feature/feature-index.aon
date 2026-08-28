@@ -3,3 +3,13 @@
 
 
 @"test.aon"
+@"idempotency.aon"
+@"retry.aon"
+@"timeout.aon"
+@"ratelimit.aon"
+@"audit.aon"
+@"clienttrack.aon"
+@"log.aon"
+@"metrics.aon"
+@"telemetry.aon"
+@"paging.aon"
