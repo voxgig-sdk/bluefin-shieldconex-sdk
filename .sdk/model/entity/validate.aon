@@ -33,9 +33,13 @@ main: kit: entity: validate: {
         {
           method: "POST"
           orig: "/partner/validate"
-          parts: [
-            "partner"
-            "validate"
+          segments: [
+            {
+              lit: "partner"
+            }
+            {
+              lit: "validate"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -45,9 +49,13 @@ main: kit: entity: validate: {
         {
           method: "POST"
           orig: "/template/validate"
-          parts: [
-            "template"
-            "validate"
+          segments: [
+            {
+              lit: "template"
+            }
+            {
+              lit: "validate"
+            }
           ]
           transform: {
             req: "`reqdata`"

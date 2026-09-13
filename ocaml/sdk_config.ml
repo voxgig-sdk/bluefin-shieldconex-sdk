@@ -159,26 +159,38 @@ let make_config () : value =
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/tokenization/batch/detokenize"));
-                ("parts", (ja [
-                  (Str "tokenization");
-                  (Str "batch");
-                  (Str "detokenize") ]));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "tokenization")) ]);
+                  (jo [
+                    ("lit", (Str "batch")) ]);
+                  (jo [
+                    ("lit", (Str "detokenize")) ]) ]));
                 ("select", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]);
+                  ("res", (Str "`body`")) ]));
+                ("parts", (ja [
+                  (Str "tokenization");
+                  (Str "batch");
+                  (Str "detokenize") ])) ]);
               (jo [
                 ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/tokenization/detokenize"));
-                ("parts", (ja [
-                  (Str "tokenization");
-                  (Str "detokenize") ]));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "tokenization")) ]);
+                  (jo [
+                    ("lit", (Str "detokenize")) ]) ]));
                 ("select", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]) ])) ]));
+                  ("res", (Str "`body`")) ]));
+                ("parts", (ja [
+                  (Str "tokenization");
+                  (Str "detokenize") ])) ]) ])) ]));
           ("list", (jo [
             ("input", (Str "data"));
             ("name", (Str "list"));
@@ -210,9 +222,11 @@ let make_config () : value =
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/healthcheck/detokenize"));
-                ("parts", (ja [
-                  (Str "healthcheck");
-                  (Str "detokenize") ]));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "healthcheck")) ]);
+                  (jo [
+                    ("lit", (Str "detokenize")) ]) ]));
                 ("select", (jo [
                   ("exist", (ja [
                     (Str "bfid");
@@ -221,7 +235,10 @@ let make_config () : value =
                     (Str "reference") ])) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body.values`")) ])) ]) ])) ])) ]));
+                  ("res", (Str "`body.values`")) ]));
+                ("parts", (ja [
+                  (Str "healthcheck");
+                  (Str "detokenize") ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("tokenize", (jo [
@@ -286,16 +303,23 @@ let make_config () : value =
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/tokenization/batch/tokenize"));
-                ("parts", (ja [
-                  (Str "tokenization");
-                  (Str "batch");
-                  (Str "tokenize") ]));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "tokenization")) ]);
+                  (jo [
+                    ("lit", (Str "batch")) ]);
+                  (jo [
+                    ("lit", (Str "tokenize")) ]) ]));
                 ("select", (jo [
                   ("exist", (ja [
                     (Str "omit") ])) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]);
+                  ("res", (Str "`body`")) ]));
+                ("parts", (ja [
+                  (Str "tokenization");
+                  (Str "batch");
+                  (Str "tokenize") ])) ]);
               (jo [
                 ("args", (jo [
                   ("query", (ja [
@@ -307,27 +331,37 @@ let make_config () : value =
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/tokenization/tokenize"));
-                ("parts", (ja [
-                  (Str "tokenization");
-                  (Str "tokenize") ]));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "tokenization")) ]);
+                  (jo [
+                    ("lit", (Str "tokenize")) ]) ]));
                 ("select", (jo [
                   ("exist", (ja [
                     (Str "omit") ])) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]);
+                  ("res", (Str "`body`")) ]));
+                ("parts", (ja [
+                  (Str "tokenization");
+                  (Str "tokenize") ])) ]);
               (jo [
                 ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/tokenization/delete"));
-                ("parts", (ja [
-                  (Str "tokenization");
-                  (Str "delete") ]));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "tokenization")) ]);
+                  (jo [
+                    ("lit", (Str "delete")) ]) ]));
                 ("select", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]) ])) ]));
+                  ("res", (Str "`body`")) ]));
+                ("parts", (ja [
+                  (Str "tokenization");
+                  (Str "delete") ])) ]) ])) ]));
           ("list", (jo [
             ("input", (Str "data"));
             ("name", (Str "list"));
@@ -359,9 +393,11 @@ let make_config () : value =
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/healthcheck/tokenize"));
-                ("parts", (ja [
-                  (Str "healthcheck");
-                  (Str "tokenize") ]));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "healthcheck")) ]);
+                  (jo [
+                    ("lit", (Str "tokenize")) ]) ]));
                 ("select", (jo [
                   ("exist", (ja [
                     (Str "field_name");
@@ -370,7 +406,10 @@ let make_config () : value =
                     (Str "template_ref") ])) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body.values`")) ])) ]) ])) ])) ]));
+                  ("res", (Str "`body.values`")) ]));
+                ("parts", (ja [
+                  (Str "healthcheck");
+                  (Str "tokenize") ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("tokenize_batch", (jo [
@@ -401,27 +440,41 @@ let make_config () : value =
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/tokenization/batch/delete"));
-                ("parts", (ja [
-                  (Str "tokenization");
-                  (Str "batch");
-                  (Str "delete") ]));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "tokenization")) ]);
+                  (jo [
+                    ("lit", (Str "batch")) ]);
+                  (jo [
+                    ("lit", (Str "delete")) ]) ]));
                 ("select", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]);
+                  ("res", (Str "`body`")) ]));
+                ("parts", (ja [
+                  (Str "tokenization");
+                  (Str "batch");
+                  (Str "delete") ])) ]);
               (jo [
                 ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/tokenization/batch/read"));
-                ("parts", (ja [
-                  (Str "tokenization");
-                  (Str "batch");
-                  (Str "read") ]));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "tokenization")) ]);
+                  (jo [
+                    ("lit", (Str "batch")) ]);
+                  (jo [
+                    ("lit", (Str "read")) ]) ]));
                 ("select", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]) ])) ])) ]));
+                  ("res", (Str "`body`")) ]));
+                ("parts", (ja [
+                  (Str "tokenization");
+                  (Str "batch");
+                  (Str "read") ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("tokenize_read", (jo [
@@ -460,13 +513,18 @@ let make_config () : value =
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/tokenization/read"));
-                ("parts", (ja [
-                  (Str "tokenization");
-                  (Str "read") ]));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "tokenization")) ]);
+                  (jo [
+                    ("lit", (Str "read")) ]) ]));
                 ("select", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]) ])) ])) ]));
+                  ("res", (Str "`body`")) ]));
+                ("parts", (ja [
+                  (Str "tokenization");
+                  (Str "read") ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("validate", (jo [
@@ -495,27 +553,41 @@ let make_config () : value =
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/partner/validate"));
-                ("parts", (ja [
-                  (Str "partner");
-                  (Str "validate") ]));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "partner")) ]);
+                  (jo [
+                    ("lit", (Str "validate")) ]) ]));
                 ("select", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]);
+                  ("res", (Str "`body`")) ]));
+                ("parts", (ja [
+                  (Str "partner");
+                  (Str "validate") ])) ]);
               (jo [
                 ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/template/validate"));
-                ("parts", (ja [
-                  (Str "template");
-                  (Str "validate") ]));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "template")) ]);
+                  (jo [
+                    ("lit", (Str "validate")) ]) ]));
                 ("select", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]) ])) ])) ]));
+                  ("res", (Str "`body`")) ]));
+                ("parts", (ja [
+                  (Str "template");
+                  (Str "validate") ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ])) ])) ])
+
+(* The plugin definitions the model selected, per feature: none - no
+ * plugin-bearing feature is active in this SDK. *)
+let feature_plugins (_name : string) = []
 
 let make_feature (name : string) : feature =
   match name with

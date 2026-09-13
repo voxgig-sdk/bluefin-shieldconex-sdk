@@ -202,15 +202,26 @@ func MakeConfig() map[string]any {
 								"kind": "http",
 								"method": "POST",
 								"orig": "/tokenization/batch/detokenize",
-								"parts": []any{
-									"tokenization",
-									"batch",
-									"detokenize",
+								"segments": []any{
+									map[string]any{
+										"lit": "tokenization",
+									},
+									map[string]any{
+										"lit": "batch",
+									},
+									map[string]any{
+										"lit": "detokenize",
+									},
 								},
 								"select": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
+								},
+								"parts": []any{
+									"tokenization",
+									"batch",
+									"detokenize",
 								},
 							},
 							map[string]any{
@@ -218,14 +229,22 @@ func MakeConfig() map[string]any {
 								"kind": "http",
 								"method": "POST",
 								"orig": "/tokenization/detokenize",
-								"parts": []any{
-									"tokenization",
-									"detokenize",
+								"segments": []any{
+									map[string]any{
+										"lit": "tokenization",
+									},
+									map[string]any{
+										"lit": "detokenize",
+									},
 								},
 								"select": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
+								},
+								"parts": []any{
+									"tokenization",
+									"detokenize",
 								},
 							},
 						},
@@ -267,9 +286,13 @@ func MakeConfig() map[string]any {
 								"kind": "http",
 								"method": "GET",
 								"orig": "/healthcheck/detokenize",
-								"parts": []any{
-									"healthcheck",
-									"detokenize",
+								"segments": []any{
+									map[string]any{
+										"lit": "healthcheck",
+									},
+									map[string]any{
+										"lit": "detokenize",
+									},
 								},
 								"select": map[string]any{
 									"exist": []any{
@@ -282,6 +305,10 @@ func MakeConfig() map[string]any {
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body.values`",
+								},
+								"parts": []any{
+									"healthcheck",
+									"detokenize",
 								},
 							},
 						},
@@ -371,10 +398,16 @@ func MakeConfig() map[string]any {
 								"kind": "http",
 								"method": "POST",
 								"orig": "/tokenization/batch/tokenize",
-								"parts": []any{
-									"tokenization",
-									"batch",
-									"tokenize",
+								"segments": []any{
+									map[string]any{
+										"lit": "tokenization",
+									},
+									map[string]any{
+										"lit": "batch",
+									},
+									map[string]any{
+										"lit": "tokenize",
+									},
 								},
 								"select": map[string]any{
 									"exist": []any{
@@ -384,6 +417,11 @@ func MakeConfig() map[string]any {
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
+								},
+								"parts": []any{
+									"tokenization",
+									"batch",
+									"tokenize",
 								},
 							},
 							map[string]any{
@@ -400,9 +438,13 @@ func MakeConfig() map[string]any {
 								"kind": "http",
 								"method": "POST",
 								"orig": "/tokenization/tokenize",
-								"parts": []any{
-									"tokenization",
-									"tokenize",
+								"segments": []any{
+									map[string]any{
+										"lit": "tokenization",
+									},
+									map[string]any{
+										"lit": "tokenize",
+									},
 								},
 								"select": map[string]any{
 									"exist": []any{
@@ -413,20 +455,32 @@ func MakeConfig() map[string]any {
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
+								"parts": []any{
+									"tokenization",
+									"tokenize",
+								},
 							},
 							map[string]any{
 								"args": map[string]any{},
 								"kind": "http",
 								"method": "POST",
 								"orig": "/tokenization/delete",
-								"parts": []any{
-									"tokenization",
-									"delete",
+								"segments": []any{
+									map[string]any{
+										"lit": "tokenization",
+									},
+									map[string]any{
+										"lit": "delete",
+									},
 								},
 								"select": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
+								},
+								"parts": []any{
+									"tokenization",
+									"delete",
 								},
 							},
 						},
@@ -468,9 +522,13 @@ func MakeConfig() map[string]any {
 								"kind": "http",
 								"method": "GET",
 								"orig": "/healthcheck/tokenize",
-								"parts": []any{
-									"healthcheck",
-									"tokenize",
+								"segments": []any{
+									map[string]any{
+										"lit": "healthcheck",
+									},
+									map[string]any{
+										"lit": "tokenize",
+									},
 								},
 								"select": map[string]any{
 									"exist": []any{
@@ -483,6 +541,10 @@ func MakeConfig() map[string]any {
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body.values`",
+								},
+								"parts": []any{
+									"healthcheck",
+									"tokenize",
 								},
 							},
 						},
@@ -526,15 +588,26 @@ func MakeConfig() map[string]any {
 								"kind": "http",
 								"method": "POST",
 								"orig": "/tokenization/batch/delete",
-								"parts": []any{
-									"tokenization",
-									"batch",
-									"delete",
+								"segments": []any{
+									map[string]any{
+										"lit": "tokenization",
+									},
+									map[string]any{
+										"lit": "batch",
+									},
+									map[string]any{
+										"lit": "delete",
+									},
 								},
 								"select": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
+								},
+								"parts": []any{
+									"tokenization",
+									"batch",
+									"delete",
 								},
 							},
 							map[string]any{
@@ -542,15 +615,26 @@ func MakeConfig() map[string]any {
 								"kind": "http",
 								"method": "POST",
 								"orig": "/tokenization/batch/read",
-								"parts": []any{
-									"tokenization",
-									"batch",
-									"read",
+								"segments": []any{
+									map[string]any{
+										"lit": "tokenization",
+									},
+									map[string]any{
+										"lit": "batch",
+									},
+									map[string]any{
+										"lit": "read",
+									},
 								},
 								"select": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
+								},
+								"parts": []any{
+									"tokenization",
+									"batch",
+									"read",
 								},
 							},
 						},
@@ -604,14 +688,22 @@ func MakeConfig() map[string]any {
 								"kind": "http",
 								"method": "POST",
 								"orig": "/tokenization/read",
-								"parts": []any{
-									"tokenization",
-									"read",
+								"segments": []any{
+									map[string]any{
+										"lit": "tokenization",
+									},
+									map[string]any{
+										"lit": "read",
+									},
 								},
 								"select": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
+								},
+								"parts": []any{
+									"tokenization",
+									"read",
 								},
 							},
 						},
@@ -651,14 +743,22 @@ func MakeConfig() map[string]any {
 								"kind": "http",
 								"method": "POST",
 								"orig": "/partner/validate",
-								"parts": []any{
-									"partner",
-									"validate",
+								"segments": []any{
+									map[string]any{
+										"lit": "partner",
+									},
+									map[string]any{
+										"lit": "validate",
+									},
 								},
 								"select": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
+								},
+								"parts": []any{
+									"partner",
+									"validate",
 								},
 							},
 							map[string]any{
@@ -666,14 +766,22 @@ func MakeConfig() map[string]any {
 								"kind": "http",
 								"method": "POST",
 								"orig": "/template/validate",
-								"parts": []any{
-									"template",
-									"validate",
+								"segments": []any{
+									map[string]any{
+										"lit": "template",
+									},
+									map[string]any{
+										"lit": "validate",
+									},
 								},
 								"select": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
+								},
+								"parts": []any{
+									"template",
+									"validate",
 								},
 							},
 						},
@@ -685,6 +793,17 @@ func MakeConfig() map[string]any {
 			},
 		},
 	}
+}
+
+// The plugin definitions the model selected per feature, as []any so a
+// feature package can consume them without core naming its types. Empty
+// when no active feature declares active plugin groups for this target.
+var featurePlugins = map[string][]any{
+}
+
+// FeaturePlugins is the definitions list for one feature's chain.
+func FeaturePlugins(name string) []any {
+	return featurePlugins[name]
 }
 
 var (

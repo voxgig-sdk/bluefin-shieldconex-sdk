@@ -17,6 +17,7 @@ const { BluefinShieldconexEntityBase } = require('./BluefinShieldconexEntityBase
 const { BaseFeature } = require('./feature/base/BaseFeature')
 
 
+
 const stdutil = new Utility()
 
 
@@ -26,6 +27,7 @@ class BluefinShieldconexSDK {
   _utility = new Utility()
   _features
   _rootctx
+  
 
   constructor(options) {
 
@@ -98,6 +100,8 @@ class BluefinShieldconexSDK {
     return this._utility.struct.clone(this._utility)
   }
 
+  
+
 
   async prepare(fetchargs) {
     const utility = this._utility
@@ -143,6 +147,8 @@ class BluefinShieldconexSDK {
         spec.headers[key] = uheaders[key]
       }
     }
+
+    
 
     // Apply SDK auth (apikey, auth prefix, etc.)
     const authResult = prepareAuth(ctx)
@@ -385,6 +391,7 @@ const SDK = BluefinShieldconexSDK
 module.exports = {
   stdutil,
   config,
+  
 
   BaseFeature,
   BluefinShieldconexEntityBase,

@@ -76,13 +76,16 @@ Map<String, dynamic> directSetup([dynamic mockres]) {
   final env = envOverride({
     'BLUEFIN_SHIELDCONEX_TEST_DETOKENIZE_ENTID': <String, dynamic>{},
     'BLUEFIN_SHIELDCONEX_TEST_LIVE': 'FALSE',
-    'BLUEFIN_SHIELDCONEX_APIKEY': 'NONE',
+    'BLUEFIN_SHIELDCONEX_APIKEY': '',
   });
 
   final live = 'TRUE' == env['BLUEFIN_SHIELDCONEX_TEST_LIVE'];
 
   if (live) {
-    final client = BluefinShieldconexSDK({
+    // Spread FIRST, so the generated fields below win: sdk-test-control.json's
+    // test.client.options adds to the live client, it does not redirect it.
+    final client = BluefinShieldconexSDK(<String, dynamic>{
+      ...liveClientOptions(),
       'apikey': env['BLUEFIN_SHIELDCONEX_APIKEY'],
     });
 

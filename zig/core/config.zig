@@ -202,15 +202,26 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/tokenization/batch/detokenize") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("tokenization"),
-                                    h.vstr("batch"),
-                                    h.vstr("detokenize"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("tokenization") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("batch") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("detokenize") },
+                                    }),
                                 }) },
                                 .{ "select", h.omap() },
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("tokenization"),
+                                    h.vstr("batch"),
+                                    h.vstr("detokenize"),
                                 }) },
                             }),
                             h.jo(&.{
@@ -218,14 +229,22 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/tokenization/detokenize") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("tokenization"),
-                                    h.vstr("detokenize"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("tokenization") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("detokenize") },
+                                    }),
                                 }) },
                                 .{ "select", h.omap() },
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("tokenization"),
+                                    h.vstr("detokenize"),
                                 }) },
                             }),
                         }) },
@@ -267,9 +286,13 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/healthcheck/detokenize") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("healthcheck"),
-                                    h.vstr("detokenize"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("healthcheck") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("detokenize") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -282,6 +305,10 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body.values`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("healthcheck"),
+                                    h.vstr("detokenize"),
                                 }) },
                             }),
                         }) },
@@ -371,10 +398,16 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/tokenization/batch/tokenize") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("tokenization"),
-                                    h.vstr("batch"),
-                                    h.vstr("tokenize"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("tokenization") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("batch") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("tokenize") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -384,6 +417,11 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("tokenization"),
+                                    h.vstr("batch"),
+                                    h.vstr("tokenize"),
                                 }) },
                             }),
                             h.jo(&.{
@@ -400,9 +438,13 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/tokenization/tokenize") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("tokenization"),
-                                    h.vstr("tokenize"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("tokenization") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("tokenize") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -413,20 +455,32 @@ pub fn make_config() Value {
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
                                 }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("tokenization"),
+                                    h.vstr("tokenize"),
+                                }) },
                             }),
                             h.jo(&.{
                                 .{ "args", h.omap() },
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/tokenization/delete") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("tokenization"),
-                                    h.vstr("delete"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("tokenization") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("delete") },
+                                    }),
                                 }) },
                                 .{ "select", h.omap() },
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("tokenization"),
+                                    h.vstr("delete"),
                                 }) },
                             }),
                         }) },
@@ -468,9 +522,13 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/healthcheck/tokenize") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("healthcheck"),
-                                    h.vstr("tokenize"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("healthcheck") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("tokenize") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -483,6 +541,10 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body.values`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("healthcheck"),
+                                    h.vstr("tokenize"),
                                 }) },
                             }),
                         }) },
@@ -526,15 +588,26 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/tokenization/batch/delete") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("tokenization"),
-                                    h.vstr("batch"),
-                                    h.vstr("delete"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("tokenization") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("batch") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("delete") },
+                                    }),
                                 }) },
                                 .{ "select", h.omap() },
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("tokenization"),
+                                    h.vstr("batch"),
+                                    h.vstr("delete"),
                                 }) },
                             }),
                             h.jo(&.{
@@ -542,15 +615,26 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/tokenization/batch/read") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("tokenization"),
-                                    h.vstr("batch"),
-                                    h.vstr("read"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("tokenization") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("batch") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("read") },
+                                    }),
                                 }) },
                                 .{ "select", h.omap() },
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("tokenization"),
+                                    h.vstr("batch"),
+                                    h.vstr("read"),
                                 }) },
                             }),
                         }) },
@@ -604,14 +688,22 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/tokenization/read") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("tokenization"),
-                                    h.vstr("read"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("tokenization") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("read") },
+                                    }),
                                 }) },
                                 .{ "select", h.omap() },
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("tokenization"),
+                                    h.vstr("read"),
                                 }) },
                             }),
                         }) },
@@ -651,14 +743,22 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/partner/validate") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("partner"),
-                                    h.vstr("validate"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("partner") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("validate") },
+                                    }),
                                 }) },
                                 .{ "select", h.omap() },
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("partner"),
+                                    h.vstr("validate"),
                                 }) },
                             }),
                             h.jo(&.{
@@ -666,14 +766,22 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/template/validate") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("template"),
-                                    h.vstr("validate"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("template") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("validate") },
+                                    }),
                                 }) },
                                 .{ "select", h.omap() },
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("template"),
+                                    h.vstr("validate"),
                                 }) },
                             }),
                         }) },

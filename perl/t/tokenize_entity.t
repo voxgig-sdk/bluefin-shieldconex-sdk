@@ -101,7 +101,7 @@ sub tokenize_basic_setup {
     'BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_ENTID' => $idmap,
     'BLUEFIN_SHIELDCONEX_TEST_LIVE' => 'FALSE',
     'BLUEFIN_SHIELDCONEX_TEST_EXPLAIN' => 'FALSE',
-    'BLUEFIN_SHIELDCONEX_APIKEY' => 'NONE',
+    'BLUEFIN_SHIELDCONEX_APIKEY' => '',
   });
 
   my $idmap_resolved = BluefinShieldconexHelpers::to_map($env->{'BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_ENTID'});
@@ -111,6 +111,9 @@ sub tokenize_basic_setup {
 
   if ((($env->{'BLUEFIN_SHIELDCONEX_TEST_LIVE'}) || '') eq 'TRUE') {
     my $merged_opts = Voxgig::Struct::merge([
+      # FIRST, so the generated fields below win: sdk-test-control.json's
+      # test.client.options adds to the live client, it does not redirect it.
+      BluefinShieldconexTestRunner::live_client_options(),
       {
         'apikey' => $env->{'BLUEFIN_SHIELDCONEX_APIKEY'},
       },

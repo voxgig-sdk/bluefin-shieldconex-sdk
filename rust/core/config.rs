@@ -202,15 +202,26 @@ pub fn make_config() -> Value {
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/tokenization/batch/detokenize")),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("tokenization"),
-                                    Value::str("batch"),
-                                    Value::str("detokenize"),
+                                ("segments".to_string(), Value::list(vec![
+                                    Value::map_of([
+                                        ("lit".to_string(), Value::str("tokenization")),
+                                    ]),
+                                    Value::map_of([
+                                        ("lit".to_string(), Value::str("batch")),
+                                    ]),
+                                    Value::map_of([
+                                        ("lit".to_string(), Value::str("detokenize")),
+                                    ]),
                                 ])),
                                 ("select".to_string(), Value::empty_map()),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
+                                ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("tokenization"),
+                                    Value::str("batch"),
+                                    Value::str("detokenize"),
                                 ])),
                             ]),
                             Value::map_of([
@@ -218,14 +229,22 @@ pub fn make_config() -> Value {
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/tokenization/detokenize")),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("tokenization"),
-                                    Value::str("detokenize"),
+                                ("segments".to_string(), Value::list(vec![
+                                    Value::map_of([
+                                        ("lit".to_string(), Value::str("tokenization")),
+                                    ]),
+                                    Value::map_of([
+                                        ("lit".to_string(), Value::str("detokenize")),
+                                    ]),
                                 ])),
                                 ("select".to_string(), Value::empty_map()),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
+                                ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("tokenization"),
+                                    Value::str("detokenize"),
                                 ])),
                             ]),
                         ])),
@@ -267,9 +286,13 @@ pub fn make_config() -> Value {
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/healthcheck/detokenize")),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("healthcheck"),
-                                    Value::str("detokenize"),
+                                ("segments".to_string(), Value::list(vec![
+                                    Value::map_of([
+                                        ("lit".to_string(), Value::str("healthcheck")),
+                                    ]),
+                                    Value::map_of([
+                                        ("lit".to_string(), Value::str("detokenize")),
+                                    ]),
                                 ])),
                                 ("select".to_string(), Value::map_of([
                                     ("exist".to_string(), Value::list(vec![
@@ -282,6 +305,10 @@ pub fn make_config() -> Value {
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body.values`")),
+                                ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("healthcheck"),
+                                    Value::str("detokenize"),
                                 ])),
                             ]),
                         ])),
@@ -371,10 +398,16 @@ pub fn make_config() -> Value {
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/tokenization/batch/tokenize")),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("tokenization"),
-                                    Value::str("batch"),
-                                    Value::str("tokenize"),
+                                ("segments".to_string(), Value::list(vec![
+                                    Value::map_of([
+                                        ("lit".to_string(), Value::str("tokenization")),
+                                    ]),
+                                    Value::map_of([
+                                        ("lit".to_string(), Value::str("batch")),
+                                    ]),
+                                    Value::map_of([
+                                        ("lit".to_string(), Value::str("tokenize")),
+                                    ]),
                                 ])),
                                 ("select".to_string(), Value::map_of([
                                     ("exist".to_string(), Value::list(vec![
@@ -384,6 +417,11 @@ pub fn make_config() -> Value {
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
+                                ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("tokenization"),
+                                    Value::str("batch"),
+                                    Value::str("tokenize"),
                                 ])),
                             ]),
                             Value::map_of([
@@ -400,9 +438,13 @@ pub fn make_config() -> Value {
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/tokenization/tokenize")),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("tokenization"),
-                                    Value::str("tokenize"),
+                                ("segments".to_string(), Value::list(vec![
+                                    Value::map_of([
+                                        ("lit".to_string(), Value::str("tokenization")),
+                                    ]),
+                                    Value::map_of([
+                                        ("lit".to_string(), Value::str("tokenize")),
+                                    ]),
                                 ])),
                                 ("select".to_string(), Value::map_of([
                                     ("exist".to_string(), Value::list(vec![
@@ -413,20 +455,32 @@ pub fn make_config() -> Value {
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("tokenization"),
+                                    Value::str("tokenize"),
+                                ])),
                             ]),
                             Value::map_of([
                                 ("args".to_string(), Value::empty_map()),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/tokenization/delete")),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("tokenization"),
-                                    Value::str("delete"),
+                                ("segments".to_string(), Value::list(vec![
+                                    Value::map_of([
+                                        ("lit".to_string(), Value::str("tokenization")),
+                                    ]),
+                                    Value::map_of([
+                                        ("lit".to_string(), Value::str("delete")),
+                                    ]),
                                 ])),
                                 ("select".to_string(), Value::empty_map()),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
+                                ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("tokenization"),
+                                    Value::str("delete"),
                                 ])),
                             ]),
                         ])),
@@ -468,9 +522,13 @@ pub fn make_config() -> Value {
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/healthcheck/tokenize")),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("healthcheck"),
-                                    Value::str("tokenize"),
+                                ("segments".to_string(), Value::list(vec![
+                                    Value::map_of([
+                                        ("lit".to_string(), Value::str("healthcheck")),
+                                    ]),
+                                    Value::map_of([
+                                        ("lit".to_string(), Value::str("tokenize")),
+                                    ]),
                                 ])),
                                 ("select".to_string(), Value::map_of([
                                     ("exist".to_string(), Value::list(vec![
@@ -483,6 +541,10 @@ pub fn make_config() -> Value {
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body.values`")),
+                                ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("healthcheck"),
+                                    Value::str("tokenize"),
                                 ])),
                             ]),
                         ])),
@@ -526,15 +588,26 @@ pub fn make_config() -> Value {
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/tokenization/batch/delete")),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("tokenization"),
-                                    Value::str("batch"),
-                                    Value::str("delete"),
+                                ("segments".to_string(), Value::list(vec![
+                                    Value::map_of([
+                                        ("lit".to_string(), Value::str("tokenization")),
+                                    ]),
+                                    Value::map_of([
+                                        ("lit".to_string(), Value::str("batch")),
+                                    ]),
+                                    Value::map_of([
+                                        ("lit".to_string(), Value::str("delete")),
+                                    ]),
                                 ])),
                                 ("select".to_string(), Value::empty_map()),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
+                                ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("tokenization"),
+                                    Value::str("batch"),
+                                    Value::str("delete"),
                                 ])),
                             ]),
                             Value::map_of([
@@ -542,15 +615,26 @@ pub fn make_config() -> Value {
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/tokenization/batch/read")),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("tokenization"),
-                                    Value::str("batch"),
-                                    Value::str("read"),
+                                ("segments".to_string(), Value::list(vec![
+                                    Value::map_of([
+                                        ("lit".to_string(), Value::str("tokenization")),
+                                    ]),
+                                    Value::map_of([
+                                        ("lit".to_string(), Value::str("batch")),
+                                    ]),
+                                    Value::map_of([
+                                        ("lit".to_string(), Value::str("read")),
+                                    ]),
                                 ])),
                                 ("select".to_string(), Value::empty_map()),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
+                                ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("tokenization"),
+                                    Value::str("batch"),
+                                    Value::str("read"),
                                 ])),
                             ]),
                         ])),
@@ -604,14 +688,22 @@ pub fn make_config() -> Value {
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/tokenization/read")),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("tokenization"),
-                                    Value::str("read"),
+                                ("segments".to_string(), Value::list(vec![
+                                    Value::map_of([
+                                        ("lit".to_string(), Value::str("tokenization")),
+                                    ]),
+                                    Value::map_of([
+                                        ("lit".to_string(), Value::str("read")),
+                                    ]),
                                 ])),
                                 ("select".to_string(), Value::empty_map()),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
+                                ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("tokenization"),
+                                    Value::str("read"),
                                 ])),
                             ]),
                         ])),
@@ -651,14 +743,22 @@ pub fn make_config() -> Value {
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/partner/validate")),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("partner"),
-                                    Value::str("validate"),
+                                ("segments".to_string(), Value::list(vec![
+                                    Value::map_of([
+                                        ("lit".to_string(), Value::str("partner")),
+                                    ]),
+                                    Value::map_of([
+                                        ("lit".to_string(), Value::str("validate")),
+                                    ]),
                                 ])),
                                 ("select".to_string(), Value::empty_map()),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
+                                ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("partner"),
+                                    Value::str("validate"),
                                 ])),
                             ]),
                             Value::map_of([
@@ -666,14 +766,22 @@ pub fn make_config() -> Value {
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/template/validate")),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("template"),
-                                    Value::str("validate"),
+                                ("segments".to_string(), Value::list(vec![
+                                    Value::map_of([
+                                        ("lit".to_string(), Value::str("template")),
+                                    ]),
+                                    Value::map_of([
+                                        ("lit".to_string(), Value::str("validate")),
+                                    ]),
                                 ])),
                                 ("select".to_string(), Value::empty_map()),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
+                                ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("template"),
+                                    Value::str("validate"),
                                 ])),
                             ]),
                         ])),

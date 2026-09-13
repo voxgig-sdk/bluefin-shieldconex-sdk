@@ -94,14 +94,22 @@ func tokenizeDirectSetup(mockres any) *tokenizeDirectSetupResult {
 	env := envOverride(map[string]any{
 		"BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_ENTID": map[string]any{},
 		"BLUEFIN_SHIELDCONEX_TEST_LIVE":    "FALSE",
-		"BLUEFIN_SHIELDCONEX_APIKEY":       "NONE",
+		"BLUEFIN_SHIELDCONEX_APIKEY":       "",
 	})
 
 	live := env["BLUEFIN_SHIELDCONEX_TEST_LIVE"] == "TRUE"
 
 	if live {
-		mergedOpts := map[string]any{
+		// sdk-test-control.json's test.client.options seeds the live
+		// client; the generated fields below overwrite anything they name.
+		mergedOpts := map[string]any{}
+		for k, v := range liveClientOptions() {
+			mergedOpts[k] = v
+		}
+		for k, v := range map[string]any{
 			"apikey": env["BLUEFIN_SHIELDCONEX_APIKEY"],
+		} {
+			mergedOpts[k] = v
 		}
 		client := sdk.NewBluefinShieldconexSDK(mergedOpts)
 

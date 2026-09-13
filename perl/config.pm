@@ -210,31 +210,50 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "POST",
               "orig": "/tokenization/batch/detokenize",
-              "parts": [
-                "tokenization",
-                "batch",
-                "detokenize"
+              "segments": [
+                {
+                  "lit": "tokenization"
+                },
+                {
+                  "lit": "batch"
+                },
+                {
+                  "lit": "detokenize"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "tokenization",
+                "batch",
+                "detokenize"
+              ]
             },
             {
               "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/tokenization/detokenize",
-              "parts": [
-                "tokenization",
-                "detokenize"
+              "segments": [
+                {
+                  "lit": "tokenization"
+                },
+                {
+                  "lit": "detokenize"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "tokenization",
+                "detokenize"
+              ]
             }
           ]
         },
@@ -275,9 +294,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "GET",
               "orig": "/healthcheck/detokenize",
-              "parts": [
-                "healthcheck",
-                "detokenize"
+              "segments": [
+                {
+                  "lit": "healthcheck"
+                },
+                {
+                  "lit": "detokenize"
+                }
               ],
               "select": {
                 "exist": [
@@ -290,7 +313,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.values`"
-              }
+              },
+              "parts": [
+                "healthcheck",
+                "detokenize"
+              ]
             }
           ]
         }
@@ -379,10 +406,16 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "POST",
               "orig": "/tokenization/batch/tokenize",
-              "parts": [
-                "tokenization",
-                "batch",
-                "tokenize"
+              "segments": [
+                {
+                  "lit": "tokenization"
+                },
+                {
+                  "lit": "batch"
+                },
+                {
+                  "lit": "tokenize"
+                }
               ],
               "select": {
                 "exist": [
@@ -392,7 +425,12 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "tokenization",
+                "batch",
+                "tokenize"
+              ]
             },
             {
               "args": {
@@ -408,9 +446,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "POST",
               "orig": "/tokenization/tokenize",
-              "parts": [
-                "tokenization",
-                "tokenize"
+              "segments": [
+                {
+                  "lit": "tokenization"
+                },
+                {
+                  "lit": "tokenize"
+                }
               ],
               "select": {
                 "exist": [
@@ -420,22 +462,34 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "tokenization",
+                "tokenize"
+              ]
             },
             {
               "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/tokenization/delete",
-              "parts": [
-                "tokenization",
-                "delete"
+              "segments": [
+                {
+                  "lit": "tokenization"
+                },
+                {
+                  "lit": "delete"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "tokenization",
+                "delete"
+              ]
             }
           ]
         },
@@ -476,9 +530,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "GET",
               "orig": "/healthcheck/tokenize",
-              "parts": [
-                "healthcheck",
-                "tokenize"
+              "segments": [
+                {
+                  "lit": "healthcheck"
+                },
+                {
+                  "lit": "tokenize"
+                }
               ],
               "select": {
                 "exist": [
@@ -491,7 +549,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.values`"
-              }
+              },
+              "parts": [
+                "healthcheck",
+                "tokenize"
+              ]
             }
           ]
         }
@@ -534,32 +596,54 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "POST",
               "orig": "/tokenization/batch/delete",
-              "parts": [
-                "tokenization",
-                "batch",
-                "delete"
+              "segments": [
+                {
+                  "lit": "tokenization"
+                },
+                {
+                  "lit": "batch"
+                },
+                {
+                  "lit": "delete"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "tokenization",
+                "batch",
+                "delete"
+              ]
             },
             {
               "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/tokenization/batch/read",
-              "parts": [
-                "tokenization",
-                "batch",
-                "read"
+              "segments": [
+                {
+                  "lit": "tokenization"
+                },
+                {
+                  "lit": "batch"
+                },
+                {
+                  "lit": "read"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "tokenization",
+                "batch",
+                "read"
+              ]
             }
           ]
         }
@@ -612,15 +696,23 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "POST",
               "orig": "/tokenization/read",
-              "parts": [
-                "tokenization",
-                "read"
+              "segments": [
+                {
+                  "lit": "tokenization"
+                },
+                {
+                  "lit": "read"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "tokenization",
+                "read"
+              ]
             }
           ]
         }
@@ -659,30 +751,46 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "POST",
               "orig": "/partner/validate",
-              "parts": [
-                "partner",
-                "validate"
+              "segments": [
+                {
+                  "lit": "partner"
+                },
+                {
+                  "lit": "validate"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "partner",
+                "validate"
+              ]
             },
             {
               "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/template/validate",
-              "parts": [
-                "template",
-                "validate"
+              "segments": [
+                {
+                  "lit": "template"
+                },
+                {
+                  "lit": "validate"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "template",
+                "validate"
+              ]
             }
           ]
         }

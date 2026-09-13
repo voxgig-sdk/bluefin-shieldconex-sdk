@@ -50,9 +50,13 @@ main: kit: entity: tokenize_read: {
         {
           method: "POST"
           orig: "/tokenization/read"
-          parts: [
-            "tokenization"
-            "read"
+          segments: [
+            {
+              lit: "tokenization"
+            }
+            {
+              lit: "read"
+            }
           ]
           transform: {
             req: "`reqdata`"

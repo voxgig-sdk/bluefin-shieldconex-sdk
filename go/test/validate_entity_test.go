@@ -52,7 +52,7 @@ func TestValidateEntity(t *testing.T) {
 		// CREATE
 		validateRef01Ent := client.Validate(nil)
 		validateRef01Data := core.ToMapAny(vs.GetProp(
-			vs.GetPath([]any{"new", "validate"}, setup.data), "validate_ref01"))
+			vs.GetPath(setup.data, []any{"new", "validate"}), "validate_ref01"))
 
 		validateRef01DataResult, err := validateRef01Ent.Create(validateRef01Data, nil)
 		if err != nil {
@@ -90,7 +90,7 @@ func validateBasicSetup(extra map[string]any) *entityTestSetup {
 	client := sdk.TestSDK(options, extra)
 
 	// Generate idmap via transform, matching TS pattern.
-	idmap := vs.Transform(
+	idmap, _ := vs.Transform(
 		[]any{"validate01", "validate02", "validate03"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
@@ -110,7 +110,7 @@ func validateBasicSetup(extra map[string]any) *entityTestSetup {
 		"BLUEFIN_SHIELDCONEX_TEST_VALIDATE_ENTID": idmap,
 		"BLUEFIN_SHIELDCONEX_TEST_LIVE":      "FALSE",
 		"BLUEFIN_SHIELDCONEX_TEST_EXPLAIN":   "FALSE",
-		"BLUEFIN_SHIELDCONEX_APIKEY":         "NONE",
+		"BLUEFIN_SHIELDCONEX_APIKEY":         "",
 	})
 
 	idmapResolved := core.ToMapAny(env["BLUEFIN_SHIELDCONEX_TEST_VALIDATE_ENTID"])
@@ -119,11 +119,23 @@ func validateBasicSetup(extra map[string]any) *entityTestSetup {
 	}
 
 	if env["BLUEFIN_SHIELDCONEX_TEST_LIVE"] == "TRUE" {
+		// An empty map, not a nil one: Merge returns nil when its last entry
+		// is nil, and BasicSetup is normally called with no extras - so a
+		// bare nil silently discarded the apikey and server values below.
+		extraOpts := extra
+		if extraOpts == nil {
+			extraOpts = map[string]any{}
+		}
+
 		mergedOpts := vs.Merge([]any{
+			// liveClientOptions() FIRST, so the generated fields below win:
+			// sdk-test-control.json's test.client.options adds to the live
+			// client, it does not redirect it.
+			liveClientOptions(),
 			map[string]any{
 				"apikey": env["BLUEFIN_SHIELDCONEX_APIKEY"],
 			},
-			extra,
+			extraOpts,
 		})
 		client = sdk.NewBluefinShieldconexSDK(core.ToMapAny(mergedOpts))
 	}

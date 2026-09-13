@@ -86,7 +86,7 @@ public class TokenizeDirectTest {
     Map<String, Object> envm = new LinkedHashMap<>();
     envm.put("BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_ENTID", new LinkedHashMap<>());
     envm.put("BLUEFIN_SHIELDCONEX_TEST_LIVE", "FALSE");
-    envm.put("BLUEFIN_SHIELDCONEX_APIKEY", "NONE");
+    envm.put("BLUEFIN_SHIELDCONEX_APIKEY", "");
     Map<String, Object> env = RunnerSupport.envOverride(envm);
 
     boolean live = "TRUE".equals(env.get("BLUEFIN_SHIELDCONEX_TEST_LIVE"));
@@ -95,7 +95,10 @@ public class TokenizeDirectTest {
     setup.calls = calls;
 
     if (live) {
-      Map<String, Object> mergedOpts = new LinkedHashMap<>();
+      // sdk-test-control.json's test.client.options seeds the live
+      // client; the generated fields below overwrite anything they name.
+      Map<String, Object> mergedOpts =
+          new LinkedHashMap<>(RunnerSupport.liveClientOptions());
       mergedOpts.put("apikey", env.get("BLUEFIN_SHIELDCONEX_APIKEY"));
       setup.client = new BluefinShieldconexSDK(mergedOpts);
       setup.live = true;

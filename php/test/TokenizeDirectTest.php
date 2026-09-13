@@ -68,15 +68,17 @@ function tokenize_direct_setup($mockres)
     $env = Runner::env_override([
         "BLUEFIN_SHIELDCONEX_TEST_TOKENIZE_ENTID" => [],
         "BLUEFIN_SHIELDCONEX_TEST_LIVE" => "FALSE",
-        "BLUEFIN_SHIELDCONEX_APIKEY" => "NONE",
+        "BLUEFIN_SHIELDCONEX_APIKEY" => "",
     ]);
 
     $live = $env["BLUEFIN_SHIELDCONEX_TEST_LIVE"] === "TRUE";
 
     if ($live) {
-        $merged_opts = [
+        // Merged so the generated fields win: sdk-test-control.json's
+        // test.client.options adds to the live client, it does not redirect it.
+        $merged_opts = array_merge(Runner::live_client_options(), [
             "apikey" => $env["BLUEFIN_SHIELDCONEX_APIKEY"],
-        ];
+        ]);
         $client = new BluefinShieldconexSDK($merged_opts);
         return [
             "client" => $client,

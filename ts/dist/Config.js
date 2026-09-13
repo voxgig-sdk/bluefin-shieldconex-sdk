@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.config = void 0;
+exports.FEATURE_PLUGINS = exports.config = void 0;
 const AuditFeature_1 = require("./feature/audit/AuditFeature");
 const ClienttrackFeature_1 = require("./feature/clienttrack/ClienttrackFeature");
 const IdempotencyFeature_1 = require("./feature/idempotency/IdempotencyFeature");
@@ -25,6 +25,14 @@ const FEATURE_CLASS = {
     test: TestFeature_1.TestFeature,
     timeout: TimeoutFeature_1.TimeoutFeature,
 };
+// Per-feature plugin DEFINITIONS (voxgig/plugin `Definition` values), from
+// the model's active plugin groups. A feature that takes a `plugins` option
+// (secrets over sekreto) reads its own entry; a feature with no plugins has
+// none. Named imports above make each definition statically reachable, so
+// an SDK carries exactly the plugin modules its model selects — the same
+// leanness the old side-effect registry imports bought, without a registry.
+const FEATURE_PLUGINS = {};
+exports.FEATURE_PLUGINS = FEATURE_PLUGINS;
 class Config {
     makeFeature(fn) {
         const fc = FEATURE_CLASS[fn];
@@ -232,31 +240,50 @@ class Config {
                             "kind": "http",
                             "method": "POST",
                             "orig": "/tokenization/batch/detokenize",
-                            "parts": [
-                                "tokenization",
-                                "batch",
-                                "detokenize"
+                            "segments": [
+                                {
+                                    "lit": "tokenization"
+                                },
+                                {
+                                    "lit": "batch"
+                                },
+                                {
+                                    "lit": "detokenize"
+                                }
                             ],
                             "select": {},
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "tokenization",
+                                "batch",
+                                "detokenize"
+                            ]
                         },
                         {
                             "args": {},
                             "kind": "http",
                             "method": "POST",
                             "orig": "/tokenization/detokenize",
-                            "parts": [
-                                "tokenization",
-                                "detokenize"
+                            "segments": [
+                                {
+                                    "lit": "tokenization"
+                                },
+                                {
+                                    "lit": "detokenize"
+                                }
                             ],
                             "select": {},
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "tokenization",
+                                "detokenize"
+                            ]
                         }
                     ]
                 },
@@ -297,9 +324,13 @@ class Config {
                             "kind": "http",
                             "method": "GET",
                             "orig": "/healthcheck/detokenize",
-                            "parts": [
-                                "healthcheck",
-                                "detokenize"
+                            "segments": [
+                                {
+                                    "lit": "healthcheck"
+                                },
+                                {
+                                    "lit": "detokenize"
+                                }
                             ],
                             "select": {
                                 "exist": [
@@ -312,7 +343,11 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body.values`"
-                            }
+                            },
+                            "parts": [
+                                "healthcheck",
+                                "detokenize"
+                            ]
                         }
                     ]
                 }
@@ -401,10 +436,16 @@ class Config {
                             "kind": "http",
                             "method": "POST",
                             "orig": "/tokenization/batch/tokenize",
-                            "parts": [
-                                "tokenization",
-                                "batch",
-                                "tokenize"
+                            "segments": [
+                                {
+                                    "lit": "tokenization"
+                                },
+                                {
+                                    "lit": "batch"
+                                },
+                                {
+                                    "lit": "tokenize"
+                                }
                             ],
                             "select": {
                                 "exist": [
@@ -414,7 +455,12 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "tokenization",
+                                "batch",
+                                "tokenize"
+                            ]
                         },
                         {
                             "args": {
@@ -430,9 +476,13 @@ class Config {
                             "kind": "http",
                             "method": "POST",
                             "orig": "/tokenization/tokenize",
-                            "parts": [
-                                "tokenization",
-                                "tokenize"
+                            "segments": [
+                                {
+                                    "lit": "tokenization"
+                                },
+                                {
+                                    "lit": "tokenize"
+                                }
                             ],
                             "select": {
                                 "exist": [
@@ -442,22 +492,34 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "tokenization",
+                                "tokenize"
+                            ]
                         },
                         {
                             "args": {},
                             "kind": "http",
                             "method": "POST",
                             "orig": "/tokenization/delete",
-                            "parts": [
-                                "tokenization",
-                                "delete"
+                            "segments": [
+                                {
+                                    "lit": "tokenization"
+                                },
+                                {
+                                    "lit": "delete"
+                                }
                             ],
                             "select": {},
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "tokenization",
+                                "delete"
+                            ]
                         }
                     ]
                 },
@@ -498,9 +560,13 @@ class Config {
                             "kind": "http",
                             "method": "GET",
                             "orig": "/healthcheck/tokenize",
-                            "parts": [
-                                "healthcheck",
-                                "tokenize"
+                            "segments": [
+                                {
+                                    "lit": "healthcheck"
+                                },
+                                {
+                                    "lit": "tokenize"
+                                }
                             ],
                             "select": {
                                 "exist": [
@@ -513,7 +579,11 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body.values`"
-                            }
+                            },
+                            "parts": [
+                                "healthcheck",
+                                "tokenize"
+                            ]
                         }
                     ]
                 }
@@ -556,32 +626,54 @@ class Config {
                             "kind": "http",
                             "method": "POST",
                             "orig": "/tokenization/batch/delete",
-                            "parts": [
-                                "tokenization",
-                                "batch",
-                                "delete"
+                            "segments": [
+                                {
+                                    "lit": "tokenization"
+                                },
+                                {
+                                    "lit": "batch"
+                                },
+                                {
+                                    "lit": "delete"
+                                }
                             ],
                             "select": {},
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "tokenization",
+                                "batch",
+                                "delete"
+                            ]
                         },
                         {
                             "args": {},
                             "kind": "http",
                             "method": "POST",
                             "orig": "/tokenization/batch/read",
-                            "parts": [
-                                "tokenization",
-                                "batch",
-                                "read"
+                            "segments": [
+                                {
+                                    "lit": "tokenization"
+                                },
+                                {
+                                    "lit": "batch"
+                                },
+                                {
+                                    "lit": "read"
+                                }
                             ],
                             "select": {},
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "tokenization",
+                                "batch",
+                                "read"
+                            ]
                         }
                     ]
                 }
@@ -634,15 +726,23 @@ class Config {
                             "kind": "http",
                             "method": "POST",
                             "orig": "/tokenization/read",
-                            "parts": [
-                                "tokenization",
-                                "read"
+                            "segments": [
+                                {
+                                    "lit": "tokenization"
+                                },
+                                {
+                                    "lit": "read"
+                                }
                             ],
                             "select": {},
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "tokenization",
+                                "read"
+                            ]
                         }
                     ]
                 }
@@ -681,30 +781,46 @@ class Config {
                             "kind": "http",
                             "method": "POST",
                             "orig": "/partner/validate",
-                            "parts": [
-                                "partner",
-                                "validate"
+                            "segments": [
+                                {
+                                    "lit": "partner"
+                                },
+                                {
+                                    "lit": "validate"
+                                }
                             ],
                             "select": {},
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "partner",
+                                "validate"
+                            ]
                         },
                         {
                             "args": {},
                             "kind": "http",
                             "method": "POST",
                             "orig": "/template/validate",
-                            "parts": [
-                                "template",
-                                "validate"
+                            "segments": [
+                                {
+                                    "lit": "template"
+                                },
+                                {
+                                    "lit": "validate"
+                                }
                             ],
                             "select": {},
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            }
+                            },
+                            "parts": [
+                                "template",
+                                "validate"
+                            ]
                         }
                     ]
                 }

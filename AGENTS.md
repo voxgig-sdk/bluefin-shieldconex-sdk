@@ -12,7 +12,7 @@ There are companion guides deeper in the tree: one per language
 
 ## Project map
 
-**Targets** (23):
+**Targets** (25):
 
 | Target | Directory | Build guide |
 | --- | --- | --- |
@@ -25,9 +25,11 @@ There are companion guides deeper in the tree: one per language
 | `go` | `go/` | [`go/AGENTS.md`](./go/AGENTS.md) |
 | `go-cli` | `go-cli/` — A CLI surface, not an SDK client library. | [`go-cli/AGENTS.md`](./go-cli/AGENTS.md) |
 | `go-mcp` | `go-mcp/` — An MCP server surface for AI agents, not an SDK client library. | [`go-mcp/AGENTS.md`](./go-mcp/AGENTS.md) |
+| `haskell` | `haskell/` | [`haskell/AGENTS.md`](./haskell/AGENTS.md) |
 | `java` | `java/` | [`java/AGENTS.md`](./java/AGENTS.md) |
 | `js` | `js/` | [`js/AGENTS.md`](./js/AGENTS.md) |
 | `kotlin` | `kotlin/` | [`kotlin/AGENTS.md`](./kotlin/AGENTS.md) |
+| `lean` | `lean/` | [`lean/AGENTS.md`](./lean/AGENTS.md) |
 | `lua` | `lua/` | [`lua/AGENTS.md`](./lua/AGENTS.md) |
 | `ocaml` | `ocaml/` | [`ocaml/AGENTS.md`](./ocaml/AGENTS.md) |
 | `perl` | `perl/` | [`perl/AGENTS.md`](./perl/AGENTS.md) |

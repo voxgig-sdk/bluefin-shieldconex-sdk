@@ -12,6 +12,7 @@ import 'feature/test/TestFeature.dart';
 import 'feature/timeout/TimeoutFeature.dart';
 
 
+
 // ignore: non_constant_identifier_names
 final Map<String, BaseFeature Function()> FEATURE_CLASS = {
     'audit': () => AuditFeature(),
@@ -26,6 +27,24 @@ final Map<String, BaseFeature Function()> FEATURE_CLASS = {
   'test': () => TestFeature(),
   'timeout': () => TimeoutFeature(),
 
+};
+
+// Per-feature plugin DEFINITIONS (voxgig/plugin `Definition` values), from
+// the model's active plugin groups. A feature that takes a `plugins` option
+// (secrets over sekreto) reads its own entry; a feature with no plugins has
+// none. The named `show` imports above make each definition statically
+// reachable, so an SDK carries exactly the plugin libraries its model
+// selects - the same leanness the old side-effect registry bought, without
+// a registry.
+//
+// Emitted UNCONDITIONALLY, empty when no group is active: SecretsFeature
+// imports this name, and the feature source can be present in a tree whose
+// model selects no plugin group at all. An emission conditional on the map
+// having entries would make that tree fail `dart analyze`.
+//
+// ignore: non_constant_identifier_names
+final Map<String, List<dynamic>> FEATURE_PLUGINS = <String, List<dynamic>>{
+  
 };
 
 class Config {
@@ -247,31 +266,50 @@ class Config {
               'kind': 'http',
               'method': 'POST',
               'orig': '/tokenization/batch/detokenize',
-              'parts': <dynamic>[
-                'tokenization',
-                'batch',
-                'detokenize',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'tokenization',
+                },
+                <String, dynamic>{
+                  'lit': 'batch',
+                },
+                <String, dynamic>{
+                  'lit': 'detokenize',
+                },
               ],
               'select': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'tokenization',
+                'batch',
+                'detokenize',
+              ],
             },
             <String, dynamic>{
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/tokenization/detokenize',
-              'parts': <dynamic>[
-                'tokenization',
-                'detokenize',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'tokenization',
+                },
+                <String, dynamic>{
+                  'lit': 'detokenize',
+                },
               ],
               'select': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'tokenization',
+                'detokenize',
+              ],
             },
           ],
         },
@@ -312,9 +350,13 @@ class Config {
               'kind': 'http',
               'method': 'GET',
               'orig': '/healthcheck/detokenize',
-              'parts': <dynamic>[
-                'healthcheck',
-                'detokenize',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'healthcheck',
+                },
+                <String, dynamic>{
+                  'lit': 'detokenize',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -328,6 +370,10 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body.values`',
               },
+              'parts': <dynamic>[
+                'healthcheck',
+                'detokenize',
+              ],
             },
           ],
         },
@@ -416,10 +462,16 @@ class Config {
               'kind': 'http',
               'method': 'POST',
               'orig': '/tokenization/batch/tokenize',
-              'parts': <dynamic>[
-                'tokenization',
-                'batch',
-                'tokenize',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'tokenization',
+                },
+                <String, dynamic>{
+                  'lit': 'batch',
+                },
+                <String, dynamic>{
+                  'lit': 'tokenize',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -430,6 +482,11 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'tokenization',
+                'batch',
+                'tokenize',
+              ],
             },
             <String, dynamic>{
               'args': <String, dynamic>{
@@ -445,9 +502,13 @@ class Config {
               'kind': 'http',
               'method': 'POST',
               'orig': '/tokenization/tokenize',
-              'parts': <dynamic>[
-                'tokenization',
-                'tokenize',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'tokenization',
+                },
+                <String, dynamic>{
+                  'lit': 'tokenize',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -458,21 +519,33 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'tokenization',
+                'tokenize',
+              ],
             },
             <String, dynamic>{
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/tokenization/delete',
-              'parts': <dynamic>[
-                'tokenization',
-                'delete',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'tokenization',
+                },
+                <String, dynamic>{
+                  'lit': 'delete',
+                },
               ],
               'select': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'tokenization',
+                'delete',
+              ],
             },
           ],
         },
@@ -513,9 +586,13 @@ class Config {
               'kind': 'http',
               'method': 'GET',
               'orig': '/healthcheck/tokenize',
-              'parts': <dynamic>[
-                'healthcheck',
-                'tokenize',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'healthcheck',
+                },
+                <String, dynamic>{
+                  'lit': 'tokenize',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -529,6 +606,10 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body.values`',
               },
+              'parts': <dynamic>[
+                'healthcheck',
+                'tokenize',
+              ],
             },
           ],
         },
@@ -571,32 +652,54 @@ class Config {
               'kind': 'http',
               'method': 'POST',
               'orig': '/tokenization/batch/delete',
-              'parts': <dynamic>[
-                'tokenization',
-                'batch',
-                'delete',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'tokenization',
+                },
+                <String, dynamic>{
+                  'lit': 'batch',
+                },
+                <String, dynamic>{
+                  'lit': 'delete',
+                },
               ],
               'select': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'tokenization',
+                'batch',
+                'delete',
+              ],
             },
             <String, dynamic>{
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/tokenization/batch/read',
-              'parts': <dynamic>[
-                'tokenization',
-                'batch',
-                'read',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'tokenization',
+                },
+                <String, dynamic>{
+                  'lit': 'batch',
+                },
+                <String, dynamic>{
+                  'lit': 'read',
+                },
               ],
               'select': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'tokenization',
+                'batch',
+                'read',
+              ],
             },
           ],
         },
@@ -649,15 +752,23 @@ class Config {
               'kind': 'http',
               'method': 'POST',
               'orig': '/tokenization/read',
-              'parts': <dynamic>[
-                'tokenization',
-                'read',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'tokenization',
+                },
+                <String, dynamic>{
+                  'lit': 'read',
+                },
               ],
               'select': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'tokenization',
+                'read',
+              ],
             },
           ],
         },
@@ -696,30 +807,46 @@ class Config {
               'kind': 'http',
               'method': 'POST',
               'orig': '/partner/validate',
-              'parts': <dynamic>[
-                'partner',
-                'validate',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'partner',
+                },
+                <String, dynamic>{
+                  'lit': 'validate',
+                },
               ],
               'select': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'partner',
+                'validate',
+              ],
             },
             <String, dynamic>{
               'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/template/validate',
-              'parts': <dynamic>[
-                'template',
-                'validate',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'template',
+                },
+                <String, dynamic>{
+                  'lit': 'validate',
+                },
               ],
               'select': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'template',
+                'validate',
+              ],
             },
           ],
         },

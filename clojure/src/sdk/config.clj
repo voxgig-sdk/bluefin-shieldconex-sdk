@@ -60,6 +60,13 @@
                   "tokenization"
                   "batch"
                   "detokenize")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "tokenization")
+                  (vs/jm
+                    "lit" "batch")
+                  (vs/jm
+                    "lit" "detokenize"))
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
@@ -72,6 +79,11 @@
                 "parts" (vs/jt
                   "tokenization"
                   "detokenize")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "tokenization")
+                  (vs/jm
+                    "lit" "detokenize"))
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
@@ -110,6 +122,11 @@
                 "parts" (vs/jt
                   "healthcheck"
                   "detokenize")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "healthcheck")
+                  (vs/jm
+                    "lit" "detokenize"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "bfid"
@@ -187,6 +204,13 @@
                   "tokenization"
                   "batch"
                   "tokenize")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "tokenization")
+                  (vs/jm
+                    "lit" "batch")
+                  (vs/jm
+                    "lit" "tokenize"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "omit"))
@@ -207,6 +231,11 @@
                 "parts" (vs/jt
                   "tokenization"
                   "tokenize")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "tokenization")
+                  (vs/jm
+                    "lit" "tokenize"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "omit"))
@@ -221,6 +250,11 @@
                 "parts" (vs/jt
                   "tokenization"
                   "delete")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "tokenization")
+                  (vs/jm
+                    "lit" "delete"))
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
@@ -259,6 +293,11 @@
                 "parts" (vs/jt
                   "healthcheck"
                   "tokenize")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "healthcheck")
+                  (vs/jm
+                    "lit" "tokenize"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "field_name"
@@ -302,6 +341,13 @@
                   "tokenization"
                   "batch"
                   "delete")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "tokenization")
+                  (vs/jm
+                    "lit" "batch")
+                  (vs/jm
+                    "lit" "delete"))
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
@@ -315,6 +361,13 @@
                   "tokenization"
                   "batch"
                   "read")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "tokenization")
+                  (vs/jm
+                    "lit" "batch")
+                  (vs/jm
+                    "lit" "read"))
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
@@ -360,6 +413,11 @@
                 "parts" (vs/jt
                   "tokenization"
                   "read")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "tokenization")
+                  (vs/jm
+                    "lit" "read"))
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
@@ -395,6 +453,11 @@
                 "parts" (vs/jt
                   "partner"
                   "validate")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "partner")
+                  (vs/jm
+                    "lit" "validate"))
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
@@ -407,6 +470,11 @@
                 "parts" (vs/jt
                   "template"
                   "validate")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "template")
+                  (vs/jm
+                    "lit" "validate"))
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
@@ -510,3 +578,9 @@
         "validate" (vs/jm))
       "headers" (vs/jm
         "content-type" "application/json"))))
+
+(def feature-plugins
+  {})
+
+(def feature-extra
+  {})

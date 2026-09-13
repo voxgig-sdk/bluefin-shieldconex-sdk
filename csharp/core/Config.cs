@@ -254,17 +254,32 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/tokenization/batch/detokenize",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "tokenization",
-                                        "batch",
-                                        "detokenize",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "tokenization",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "batch",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "detokenize",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "tokenization",
+                                        "batch",
+                                        "detokenize",
                                     },
                                 },
                                 new Dictionary<string, object?>
@@ -273,16 +288,27 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/tokenization/detokenize",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "tokenization",
-                                        "detokenize",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "tokenization",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "detokenize",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "tokenization",
+                                        "detokenize",
                                     },
                                 },
                             },
@@ -333,10 +359,16 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/healthcheck/detokenize",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "healthcheck",
-                                        "detokenize",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "healthcheck",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "detokenize",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>
                                     {
@@ -352,6 +384,11 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body.values`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "healthcheck",
+                                        "detokenize",
                                     },
                                 },
                             },
@@ -465,11 +502,20 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/tokenization/batch/tokenize",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "tokenization",
-                                        "batch",
-                                        "tokenize",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "tokenization",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "batch",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "tokenize",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>
                                     {
@@ -482,6 +528,12 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "tokenization",
+                                        "batch",
+                                        "tokenize",
                                     },
                                 },
                                 new Dictionary<string, object?>
@@ -502,10 +554,16 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/tokenization/tokenize",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "tokenization",
-                                        "tokenize",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "tokenization",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "tokenize",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>
                                     {
@@ -519,6 +577,11 @@ public static class SdkConfig
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "tokenization",
+                                        "tokenize",
+                                    },
                                 },
                                 new Dictionary<string, object?>
                                 {
@@ -526,16 +589,27 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/tokenization/delete",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "tokenization",
-                                        "delete",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "tokenization",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "delete",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "tokenization",
+                                        "delete",
                                     },
                                 },
                             },
@@ -586,10 +660,16 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/healthcheck/tokenize",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "healthcheck",
-                                        "tokenize",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "healthcheck",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "tokenize",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>
                                     {
@@ -605,6 +685,11 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body.values`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "healthcheck",
+                                        "tokenize",
                                     },
                                 },
                             },
@@ -660,17 +745,32 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/tokenization/batch/delete",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "tokenization",
-                                        "batch",
-                                        "delete",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "tokenization",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "batch",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "delete",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "tokenization",
+                                        "batch",
+                                        "delete",
                                     },
                                 },
                                 new Dictionary<string, object?>
@@ -679,17 +779,32 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/tokenization/batch/read",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "tokenization",
-                                        "batch",
-                                        "read",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "tokenization",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "batch",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "read",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "tokenization",
+                                        "batch",
+                                        "read",
                                     },
                                 },
                             },
@@ -757,16 +872,27 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/tokenization/read",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "tokenization",
-                                        "read",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "tokenization",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "read",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "tokenization",
+                                        "read",
                                     },
                                 },
                             },
@@ -816,16 +942,27 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/partner/validate",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "partner",
-                                        "validate",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "partner",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "validate",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "partner",
+                                        "validate",
                                     },
                                 },
                                 new Dictionary<string, object?>
@@ -834,16 +971,27 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/template/validate",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "template",
-                                        "validate",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "template",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "validate",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "template",
+                                        "validate",
                                     },
                                 },
                             },
@@ -868,6 +1016,15 @@ public static class SdkConfig
     public static Dictionary<string, object?> SharedConfig()
     {
         return SharedConfigVal.Value;
+    }
+
+    public static List<object?> FeaturePlugins(string name)
+    {
+        switch (name)
+        {
+            default:
+                return new List<object?>();
+        }
     }
 
     public static Feature.BaseFeature MakeFeature(string name)

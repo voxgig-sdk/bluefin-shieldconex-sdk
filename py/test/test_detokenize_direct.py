@@ -60,15 +60,18 @@ def _detokenize_direct_setup(mockres):
     env = runner.env_override({
         "BLUEFIN_SHIELDCONEX_TEST_DETOKENIZE_ENTID": {},
         "BLUEFIN_SHIELDCONEX_TEST_LIVE": "FALSE",
-        "BLUEFIN_SHIELDCONEX_APIKEY": "NONE",
+        "BLUEFIN_SHIELDCONEX_APIKEY": "",
     })
 
     live = env.get("BLUEFIN_SHIELDCONEX_TEST_LIVE") == "TRUE"
 
     if live:
-        merged_opts = {
+        # sdk-test-control.json's test.client.options seeds the live
+        # client; the generated fields below overwrite anything they name.
+        merged_opts = dict(runner.live_client_options())
+        merged_opts.update({
             "apikey": env.get("BLUEFIN_SHIELDCONEX_APIKEY"),
-        }
+        })
         client = BluefinShieldconexSDK(merged_opts)
         return {
             "client": client,

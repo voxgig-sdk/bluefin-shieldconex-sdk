@@ -90,10 +90,16 @@ main: kit: entity: tokenize: {
           }
           method: "POST"
           orig: "/tokenization/batch/tokenize"
-          parts: [
-            "tokenization"
-            "batch"
-            "tokenize"
+          segments: [
+            {
+              lit: "tokenization"
+            }
+            {
+              lit: "batch"
+            }
+            {
+              lit: "tokenize"
+            }
           ]
           select: {
             exist: [
@@ -119,9 +125,13 @@ main: kit: entity: tokenize: {
           }
           method: "POST"
           orig: "/tokenization/tokenize"
-          parts: [
-            "tokenization"
-            "tokenize"
+          segments: [
+            {
+              lit: "tokenization"
+            }
+            {
+              lit: "tokenize"
+            }
           ]
           select: {
             exist: [
@@ -136,9 +146,13 @@ main: kit: entity: tokenize: {
         {
           method: "POST"
           orig: "/tokenization/delete"
-          parts: [
-            "tokenization"
-            "delete"
+          segments: [
+            {
+              lit: "tokenization"
+            }
+            {
+              lit: "delete"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -185,9 +199,13 @@ main: kit: entity: tokenize: {
           }
           method: "GET"
           orig: "/healthcheck/tokenize"
-          parts: [
-            "healthcheck"
-            "tokenize"
+          segments: [
+            {
+              lit: "healthcheck"
+            }
+            {
+              lit: "tokenize"
+            }
           ]
           select: {
             exist: [

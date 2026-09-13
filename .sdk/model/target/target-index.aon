@@ -24,3 +24,6 @@
 @"swift.aon"
 @"ts.aon"
 @"zig.aon"
+
+@"haskell.aon"
+@"lean.aon"

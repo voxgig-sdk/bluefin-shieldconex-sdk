@@ -1,6 +1,7 @@
 .{
-    .name = "bluefin_shieldconex_sdk",
+    .name = .bluefin_shieldconex_sdk,
     .version = "0.1.1",
+    .fingerprint = 0x284fe281988b48c5,
     .dependencies = .{},
     .paths = .{
         "src",

@@ -38,10 +38,16 @@ main: kit: entity: tokenize_batch: {
         {
           method: "POST"
           orig: "/tokenization/batch/delete"
-          parts: [
-            "tokenization"
-            "batch"
-            "delete"
+          segments: [
+            {
+              lit: "tokenization"
+            }
+            {
+              lit: "batch"
+            }
+            {
+              lit: "delete"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -51,10 +57,16 @@ main: kit: entity: tokenize_batch: {
         {
           method: "POST"
           orig: "/tokenization/batch/read"
-          parts: [
-            "tokenization"
-            "batch"
-            "read"
+          segments: [
+            {
+              lit: "tokenization"
+            }
+            {
+              lit: "batch"
+            }
+            {
+              lit: "read"
+            }
           ]
           transform: {
             req: "`reqdata`"

@@ -63,3 +63,13 @@ let tokenize_read (client : sdk_client) (entopts : value) : entity_obj =
 (* Validate entity bound to a client:  validate client entopts *)
 let validate (client : sdk_client) (entopts : value) : entity_obj =
   Sdk_entity_validate.make client entopts
+
+(* Entity by name (None for a name this SDK did not generate). *)
+let entity (client : sdk_client) (name : string) (entopts : value) : entity_obj option =
+  match name with
+  | "detokenize" -> Some (Sdk_entity_detokenize.make client entopts)
+  | "tokenize" -> Some (Sdk_entity_tokenize.make client entopts)
+  | "tokenize_batch" -> Some (Sdk_entity_tokenize_batch.make client entopts)
+  | "tokenize_read" -> Some (Sdk_entity_tokenize_read.make client entopts)
+  | "validate" -> Some (Sdk_entity_validate.make client entopts)
+  | _ -> None

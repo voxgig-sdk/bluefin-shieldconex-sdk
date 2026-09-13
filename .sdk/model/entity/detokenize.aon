@@ -73,10 +73,16 @@ main: kit: entity: detokenize: {
         {
           method: "POST"
           orig: "/tokenization/batch/detokenize"
-          parts: [
-            "tokenization"
-            "batch"
-            "detokenize"
+          segments: [
+            {
+              lit: "tokenization"
+            }
+            {
+              lit: "batch"
+            }
+            {
+              lit: "detokenize"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -86,9 +92,13 @@ main: kit: entity: detokenize: {
         {
           method: "POST"
           orig: "/tokenization/detokenize"
-          parts: [
-            "tokenization"
-            "detokenize"
+          segments: [
+            {
+              lit: "tokenization"
+            }
+            {
+              lit: "detokenize"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -135,9 +145,13 @@ main: kit: entity: detokenize: {
           }
           method: "GET"
           orig: "/healthcheck/detokenize"
-          parts: [
-            "healthcheck"
-            "detokenize"
+          segments: [
+            {
+              lit: "healthcheck"
+            }
+            {
+              lit: "detokenize"
+            }
           ]
           select: {
             exist: [
