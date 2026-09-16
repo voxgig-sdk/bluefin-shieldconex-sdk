@@ -455,6 +455,7 @@ The entity name.
 | --- | --- | --- |
 | `audit` | 0.0.1 | Structured audit trail of operations |
 | `clienttrack` | 0.0.1 | Client identity and per-request correlation headers |
+| `debug` | 0.0.1 | Request/response capture ring buffer for debugging |
 | `idempotency` | 0.0.1 | Idempotency keys for safe retries of mutating operations |
 | `log` | 0.0.1 | Structured request and response logging |
 | `metrics` | 0.0.1 | Statistics capture: per-operation counters and latency |
@@ -473,6 +474,7 @@ Features are activated via the `feature` option:
   featureCfg <- jo
     [ ("audit", active)
     , ("clienttrack", active)
+    , ("debug", active)
     , ("idempotency", active)
     , ("log", active)
     , ("metrics", active)

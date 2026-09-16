@@ -45,6 +45,7 @@ the runtime under `.sdk/tm/lua/feature/` and regenerate.
 | --- | --- | --- |
 | **audit** — Structured audit trail of operations | `feature/audit_feature.lua` | `PreDone`, `PreUnexpected` |
 | **clienttrack** — Client identity and per-request correlation headers | `feature/clienttrack_feature.lua` | `PostConstruct`, `PreRequest` |
+| **debug** — Request/response capture ring buffer for debugging | `feature/debug_feature.lua` | `PreDone`, `PreRequest`, `PreResponse`, `PreUnexpected` |
 | **idempotency** — Idempotency keys for safe retries of mutating operations | `feature/idempotency_feature.lua` | `PreRequest` |
 | **log** — Structured request and response logging | `feature/log_feature.lua` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
 | **metrics** — Statistics capture: per-operation counters and latency | `feature/metrics_feature.lua` | `PreDone`, `PrePoint`, `PreUnexpected` |

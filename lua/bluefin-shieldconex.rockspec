@@ -29,6 +29,7 @@ build = {
     ["feature.base_feature"] = "feature/base_feature.lua",
     ["feature.audit_feature"] = "feature/audit_feature.lua",
     ["feature.clienttrack_feature"] = "feature/clienttrack_feature.lua",
+    ["feature.debug_feature"] = "feature/debug_feature.lua",
     ["feature.idempotency_feature"] = "feature/idempotency_feature.lua",
     ["feature.log_feature"] = "feature/log_feature.lua",
     ["feature.metrics_feature"] = "feature/metrics_feature.lua",

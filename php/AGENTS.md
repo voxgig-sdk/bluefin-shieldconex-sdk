@@ -45,6 +45,7 @@ the runtime under `.sdk/tm/php/feature/` and regenerate.
 | --- | --- | --- |
 | **audit** — Structured audit trail of operations | `feature/AuditFeature.php` | `PreDone`, `PreUnexpected` |
 | **clienttrack** — Client identity and per-request correlation headers | `feature/ClienttrackFeature.php` | `PostConstruct`, `PreRequest` |
+| **debug** — Request/response capture ring buffer for debugging | `feature/DebugFeature.php` | `PreDone`, `PreRequest`, `PreResponse`, `PreUnexpected` |
 | **idempotency** — Idempotency keys for safe retries of mutating operations | `feature/IdempotencyFeature.php` | `PreRequest` |
 | **log** — Structured request and response logging | `feature/LogFeature.php` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
 | **metrics** — Statistics capture: per-operation counters and latency | `feature/MetricsFeature.php` | `PreDone`, `PrePoint`, `PreUnexpected` |

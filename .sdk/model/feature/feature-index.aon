@@ -12,3 +12,5 @@
 @"metrics.aon"
 @"telemetry.aon"
 @"paging.aon"
+
+@"debug.aon"

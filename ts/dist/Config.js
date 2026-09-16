@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.FEATURE_PLUGINS = exports.config = void 0;
 const AuditFeature_1 = require("./feature/audit/AuditFeature");
 const ClienttrackFeature_1 = require("./feature/clienttrack/ClienttrackFeature");
+const DebugFeature_1 = require("./feature/debug/DebugFeature");
 const IdempotencyFeature_1 = require("./feature/idempotency/IdempotencyFeature");
 const LogFeature_1 = require("./feature/log/LogFeature");
 const MetricsFeature_1 = require("./feature/metrics/MetricsFeature");
@@ -15,6 +16,7 @@ const TimeoutFeature_1 = require("./feature/timeout/TimeoutFeature");
 const FEATURE_CLASS = {
     audit: AuditFeature_1.AuditFeature,
     clienttrack: ClienttrackFeature_1.ClienttrackFeature,
+    debug: DebugFeature_1.DebugFeature,
     idempotency: IdempotencyFeature_1.IdempotencyFeature,
     log: LogFeature_1.LogFeature,
     metrics: MetricsFeature_1.MetricsFeature,
@@ -59,6 +61,11 @@ class Config {
                 "actor": "anonymous",
                 "max": 1000
             },
+            "optspec": {
+                "now": "`$FUNCTION`",
+                "sink": "`$FUNCTION`"
+            },
+            "strict": false,
             "transport": "none"
         },
         clienttrack: {
@@ -66,6 +73,35 @@ class Config {
                 "active": false,
                 "clientVersion": "0.0.1"
             },
+            "optspec": {
+                "clientName": "`$STRING`",
+                "clientVersion": "`$STRING`",
+                "headers": "`$MAP`",
+                "idgen": "`$FUNCTION`",
+                "sessionId": "`$STRING`"
+            },
+            "strict": false,
+            "transport": "none"
+        },
+        debug: {
+            "options": {
+                "active": false,
+                "max": 100,
+                "redact": [
+                    "authorization",
+                    "cookie",
+                    "set-cookie",
+                    "api-key",
+                    "apikey",
+                    "x-api-key",
+                    "idempotency-key"
+                ]
+            },
+            "optspec": {
+                "now": "`$FUNCTION`",
+                "onEntry": "`$FUNCTION`"
+            },
+            "strict": false,
             "transport": "none"
         },
         idempotency: {
@@ -84,18 +120,31 @@ class Config {
                     "remove"
                 ]
             },
+            "optspec": {
+                "keygen": "`$FUNCTION`"
+            },
+            "strict": false,
             "transport": "none"
         },
         log: {
             "options": {
                 "active": true
             },
+            "optspec": {
+                "level": "`$STRING`",
+                "logger": "`$ANY`"
+            },
+            "strict": false,
             "transport": "none"
         },
         metrics: {
             "options": {
                 "active": false
             },
+            "optspec": {
+                "now": "`$FUNCTION`"
+            },
+            "strict": false,
             "transport": "none"
         },
         paging: {
@@ -108,6 +157,11 @@ class Config {
                 "pageParam": "page",
                 "startPage": 1
             },
+            "optspec": {
+                "limit": "`$NUMBER`",
+                "ops": "`$LIST`"
+            },
+            "strict": false,
             "transport": "none"
         },
         ratelimit: {
@@ -116,6 +170,11 @@ class Config {
                 "burst": 5,
                 "rate": 5
             },
+            "optspec": {
+                "now": "`$FUNCTION`",
+                "sleep": "`$FUNCTION`"
+            },
+            "strict": false,
             "transport": "wrap"
         },
         retry: {
@@ -135,18 +194,35 @@ class Config {
                     504
                 ]
             },
+            "optspec": {
+                "jitter": "`$BOOLEAN`",
+                "sleep": "`$FUNCTION`"
+            },
+            "strict": false,
             "transport": "wrap"
         },
         telemetry: {
             "options": {
                 "active": false
             },
+            "optspec": {
+                "exporter": "`$FUNCTION`",
+                "headers": "`$MAP`",
+                "idgen": "`$FUNCTION`",
+                "now": "`$FUNCTION`"
+            },
+            "strict": false,
             "transport": "none"
         },
         test: {
             "options": {
                 "active": false
             },
+            "optspec": {
+                "entity": "`$MAP`",
+                "net": "`$MAP`"
+            },
+            "strict": false,
             "transport": "base"
         },
         timeout: {
@@ -154,6 +230,11 @@ class Config {
                 "active": false,
                 "ms": 30000
             },
+            "optspec": {
+                "clearTimer": "`$FUNCTION`",
+                "setTimer": "`$FUNCTION`"
+            },
+            "strict": false,
             "transport": "wrap"
         },
     };

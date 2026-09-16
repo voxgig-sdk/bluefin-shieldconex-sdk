@@ -44,6 +44,7 @@ the runtime under `.sdk/tm/elixir/feature/` and regenerate.
 | --- | --- | --- |
 | **audit** — Structured audit trail of operations | `feature/audit_feature.ex` | `PreDone`, `PreUnexpected` |
 | **clienttrack** — Client identity and per-request correlation headers | `feature/clienttrack_feature.ex` | `PostConstruct`, `PreRequest` |
+| **debug** — Request/response capture ring buffer for debugging | `feature/debug_feature.ex` | `PreDone`, `PreRequest`, `PreResponse`, `PreUnexpected` |
 | **idempotency** — Idempotency keys for safe retries of mutating operations | `feature/idempotency_feature.ex` | `PreRequest` |
 | **log** — Structured request and response logging | `feature/log_feature.ex` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
 | **metrics** — Statistics capture: per-operation counters and latency | `feature/metrics_feature.ex` | `PreDone`, `PrePoint`, `PreUnexpected` |

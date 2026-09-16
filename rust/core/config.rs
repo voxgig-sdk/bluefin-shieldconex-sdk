@@ -21,6 +21,11 @@ pub fn make_config() -> Value {
                     ("actor".to_string(), Value::str("anonymous")),
                     ("max".to_string(), Value::Num(1000f64)),
                 ])),
+                ("optspec".to_string(), Value::map_of([
+                    ("now".to_string(), Value::str("`$FUNCTION`")),
+                    ("sink".to_string(), Value::str("`$FUNCTION`")),
+                ])),
+                ("strict".to_string(), Value::Bool(false)),
                 ("transport".to_string(), Value::str("none")),
             ])),
             ("clienttrack".to_string(), Value::map_of([
@@ -28,6 +33,35 @@ pub fn make_config() -> Value {
                     ("active".to_string(), Value::Bool(false)),
                     ("clientVersion".to_string(), Value::str("0.0.1")),
                 ])),
+                ("optspec".to_string(), Value::map_of([
+                    ("clientName".to_string(), Value::str("`$STRING`")),
+                    ("clientVersion".to_string(), Value::str("`$STRING`")),
+                    ("headers".to_string(), Value::str("`$MAP`")),
+                    ("idgen".to_string(), Value::str("`$FUNCTION`")),
+                    ("sessionId".to_string(), Value::str("`$STRING`")),
+                ])),
+                ("strict".to_string(), Value::Bool(false)),
+                ("transport".to_string(), Value::str("none")),
+            ])),
+            ("debug".to_string(), Value::map_of([
+                ("options".to_string(), Value::map_of([
+                    ("active".to_string(), Value::Bool(false)),
+                    ("max".to_string(), Value::Num(100f64)),
+                    ("redact".to_string(), Value::list(vec![
+                        Value::str("authorization"),
+                        Value::str("cookie"),
+                        Value::str("set-cookie"),
+                        Value::str("api-key"),
+                        Value::str("apikey"),
+                        Value::str("x-api-key"),
+                        Value::str("idempotency-key"),
+                    ])),
+                ])),
+                ("optspec".to_string(), Value::map_of([
+                    ("now".to_string(), Value::str("`$FUNCTION`")),
+                    ("onEntry".to_string(), Value::str("`$FUNCTION`")),
+                ])),
+                ("strict".to_string(), Value::Bool(false)),
                 ("transport".to_string(), Value::str("none")),
             ])),
             ("idempotency".to_string(), Value::map_of([
@@ -46,18 +80,31 @@ pub fn make_config() -> Value {
                         Value::str("remove"),
                     ])),
                 ])),
+                ("optspec".to_string(), Value::map_of([
+                    ("keygen".to_string(), Value::str("`$FUNCTION`")),
+                ])),
+                ("strict".to_string(), Value::Bool(false)),
                 ("transport".to_string(), Value::str("none")),
             ])),
             ("log".to_string(), Value::map_of([
                 ("options".to_string(), Value::map_of([
                     ("active".to_string(), Value::Bool(true)),
                 ])),
+                ("optspec".to_string(), Value::map_of([
+                    ("level".to_string(), Value::str("`$STRING`")),
+                    ("logger".to_string(), Value::str("`$ANY`")),
+                ])),
+                ("strict".to_string(), Value::Bool(false)),
                 ("transport".to_string(), Value::str("none")),
             ])),
             ("metrics".to_string(), Value::map_of([
                 ("options".to_string(), Value::map_of([
                     ("active".to_string(), Value::Bool(false)),
                 ])),
+                ("optspec".to_string(), Value::map_of([
+                    ("now".to_string(), Value::str("`$FUNCTION`")),
+                ])),
+                ("strict".to_string(), Value::Bool(false)),
                 ("transport".to_string(), Value::str("none")),
             ])),
             ("paging".to_string(), Value::map_of([
@@ -70,6 +117,11 @@ pub fn make_config() -> Value {
                     ("pageParam".to_string(), Value::str("page")),
                     ("startPage".to_string(), Value::Num(1f64)),
                 ])),
+                ("optspec".to_string(), Value::map_of([
+                    ("limit".to_string(), Value::str("`$NUMBER`")),
+                    ("ops".to_string(), Value::str("`$LIST`")),
+                ])),
+                ("strict".to_string(), Value::Bool(false)),
                 ("transport".to_string(), Value::str("none")),
             ])),
             ("ratelimit".to_string(), Value::map_of([
@@ -78,6 +130,11 @@ pub fn make_config() -> Value {
                     ("burst".to_string(), Value::Num(5f64)),
                     ("rate".to_string(), Value::Num(5f64)),
                 ])),
+                ("optspec".to_string(), Value::map_of([
+                    ("now".to_string(), Value::str("`$FUNCTION`")),
+                    ("sleep".to_string(), Value::str("`$FUNCTION`")),
+                ])),
+                ("strict".to_string(), Value::Bool(false)),
                 ("transport".to_string(), Value::str("wrap")),
             ])),
             ("retry".to_string(), Value::map_of([
@@ -97,18 +154,35 @@ pub fn make_config() -> Value {
                         Value::Num(504f64),
                     ])),
                 ])),
+                ("optspec".to_string(), Value::map_of([
+                    ("jitter".to_string(), Value::str("`$BOOLEAN`")),
+                    ("sleep".to_string(), Value::str("`$FUNCTION`")),
+                ])),
+                ("strict".to_string(), Value::Bool(false)),
                 ("transport".to_string(), Value::str("wrap")),
             ])),
             ("telemetry".to_string(), Value::map_of([
                 ("options".to_string(), Value::map_of([
                     ("active".to_string(), Value::Bool(false)),
                 ])),
+                ("optspec".to_string(), Value::map_of([
+                    ("exporter".to_string(), Value::str("`$FUNCTION`")),
+                    ("headers".to_string(), Value::str("`$MAP`")),
+                    ("idgen".to_string(), Value::str("`$FUNCTION`")),
+                    ("now".to_string(), Value::str("`$FUNCTION`")),
+                ])),
+                ("strict".to_string(), Value::Bool(false)),
                 ("transport".to_string(), Value::str("none")),
             ])),
             ("test".to_string(), Value::map_of([
                 ("options".to_string(), Value::map_of([
                     ("active".to_string(), Value::Bool(false)),
                 ])),
+                ("optspec".to_string(), Value::map_of([
+                    ("entity".to_string(), Value::str("`$MAP`")),
+                    ("net".to_string(), Value::str("`$MAP`")),
+                ])),
+                ("strict".to_string(), Value::Bool(false)),
                 ("transport".to_string(), Value::str("base")),
             ])),
             ("timeout".to_string(), Value::map_of([
@@ -116,6 +190,11 @@ pub fn make_config() -> Value {
                     ("active".to_string(), Value::Bool(false)),
                     ("ms".to_string(), Value::Num(30000f64)),
                 ])),
+                ("optspec".to_string(), Value::map_of([
+                    ("clearTimer".to_string(), Value::str("`$FUNCTION`")),
+                    ("setTimer".to_string(), Value::str("`$FUNCTION`")),
+                ])),
+                ("strict".to_string(), Value::Bool(false)),
                 ("transport".to_string(), Value::str("wrap")),
             ])),
         ])),
@@ -821,6 +900,7 @@ pub fn make_feature(name: &str) -> FeatureRef {
     match name {
         "audit" => Rc::new(RefCell::new(crate::feature::audit::AuditFeature::new())),
         "clienttrack" => Rc::new(RefCell::new(crate::feature::clienttrack::ClienttrackFeature::new())),
+        "debug" => Rc::new(RefCell::new(crate::feature::debug::DebugFeature::new())),
         "idempotency" => Rc::new(RefCell::new(crate::feature::idempotency::IdempotencyFeature::new())),
         "log" => Rc::new(RefCell::new(crate::feature::log::LogFeature::new())),
         "metrics" => Rc::new(RefCell::new(crate::feature::metrics::MetricsFeature::new())),

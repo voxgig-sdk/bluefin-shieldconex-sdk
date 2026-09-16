@@ -26,6 +26,12 @@ public static class SdkConfig
                         ["actor"] = "anonymous",
                         ["max"] = 1000,
                     },
+                    ["optspec"] = new Dictionary<string, object?>
+                    {
+                        ["now"] = "`$FUNCTION`",
+                        ["sink"] = "`$FUNCTION`",
+                    },
+                    ["strict"] = false,
                     ["transport"] = "none",
                 },
                 ["clienttrack"] = new Dictionary<string, object?>
@@ -35,6 +41,40 @@ public static class SdkConfig
                         ["active"] = false,
                         ["clientVersion"] = "0.0.1",
                     },
+                    ["optspec"] = new Dictionary<string, object?>
+                    {
+                        ["clientName"] = "`$STRING`",
+                        ["clientVersion"] = "`$STRING`",
+                        ["headers"] = "`$MAP`",
+                        ["idgen"] = "`$FUNCTION`",
+                        ["sessionId"] = "`$STRING`",
+                    },
+                    ["strict"] = false,
+                    ["transport"] = "none",
+                },
+                ["debug"] = new Dictionary<string, object?>
+                {
+                    ["options"] = new Dictionary<string, object?>
+                    {
+                        ["active"] = false,
+                        ["max"] = 100,
+                        ["redact"] = new List<object?>
+                        {
+                            "authorization",
+                            "cookie",
+                            "set-cookie",
+                            "api-key",
+                            "apikey",
+                            "x-api-key",
+                            "idempotency-key",
+                        },
+                    },
+                    ["optspec"] = new Dictionary<string, object?>
+                    {
+                        ["now"] = "`$FUNCTION`",
+                        ["onEntry"] = "`$FUNCTION`",
+                    },
+                    ["strict"] = false,
                     ["transport"] = "none",
                 },
                 ["idempotency"] = new Dictionary<string, object?>
@@ -57,6 +97,11 @@ public static class SdkConfig
                             "remove",
                         },
                     },
+                    ["optspec"] = new Dictionary<string, object?>
+                    {
+                        ["keygen"] = "`$FUNCTION`",
+                    },
+                    ["strict"] = false,
                     ["transport"] = "none",
                 },
                 ["log"] = new Dictionary<string, object?>
@@ -65,6 +110,12 @@ public static class SdkConfig
                     {
                         ["active"] = true,
                     },
+                    ["optspec"] = new Dictionary<string, object?>
+                    {
+                        ["level"] = "`$STRING`",
+                        ["logger"] = "`$ANY`",
+                    },
+                    ["strict"] = false,
                     ["transport"] = "none",
                 },
                 ["metrics"] = new Dictionary<string, object?>
@@ -73,6 +124,11 @@ public static class SdkConfig
                     {
                         ["active"] = false,
                     },
+                    ["optspec"] = new Dictionary<string, object?>
+                    {
+                        ["now"] = "`$FUNCTION`",
+                    },
+                    ["strict"] = false,
                     ["transport"] = "none",
                 },
                 ["paging"] = new Dictionary<string, object?>
@@ -87,6 +143,12 @@ public static class SdkConfig
                         ["pageParam"] = "page",
                         ["startPage"] = 1,
                     },
+                    ["optspec"] = new Dictionary<string, object?>
+                    {
+                        ["limit"] = "`$NUMBER`",
+                        ["ops"] = "`$LIST`",
+                    },
+                    ["strict"] = false,
                     ["transport"] = "none",
                 },
                 ["ratelimit"] = new Dictionary<string, object?>
@@ -97,6 +159,12 @@ public static class SdkConfig
                         ["burst"] = 5,
                         ["rate"] = 5,
                     },
+                    ["optspec"] = new Dictionary<string, object?>
+                    {
+                        ["now"] = "`$FUNCTION`",
+                        ["sleep"] = "`$FUNCTION`",
+                    },
+                    ["strict"] = false,
                     ["transport"] = "wrap",
                 },
                 ["retry"] = new Dictionary<string, object?>
@@ -119,6 +187,12 @@ public static class SdkConfig
                             504,
                         },
                     },
+                    ["optspec"] = new Dictionary<string, object?>
+                    {
+                        ["jitter"] = "`$BOOLEAN`",
+                        ["sleep"] = "`$FUNCTION`",
+                    },
+                    ["strict"] = false,
                     ["transport"] = "wrap",
                 },
                 ["telemetry"] = new Dictionary<string, object?>
@@ -127,6 +201,14 @@ public static class SdkConfig
                     {
                         ["active"] = false,
                     },
+                    ["optspec"] = new Dictionary<string, object?>
+                    {
+                        ["exporter"] = "`$FUNCTION`",
+                        ["headers"] = "`$MAP`",
+                        ["idgen"] = "`$FUNCTION`",
+                        ["now"] = "`$FUNCTION`",
+                    },
+                    ["strict"] = false,
                     ["transport"] = "none",
                 },
                 ["test"] = new Dictionary<string, object?>
@@ -135,6 +217,12 @@ public static class SdkConfig
                     {
                         ["active"] = false,
                     },
+                    ["optspec"] = new Dictionary<string, object?>
+                    {
+                        ["entity"] = "`$MAP`",
+                        ["net"] = "`$MAP`",
+                    },
+                    ["strict"] = false,
                     ["transport"] = "base",
                 },
                 ["timeout"] = new Dictionary<string, object?>
@@ -144,6 +232,12 @@ public static class SdkConfig
                         ["active"] = false,
                         ["ms"] = 30000,
                     },
+                    ["optspec"] = new Dictionary<string, object?>
+                    {
+                        ["clearTimer"] = "`$FUNCTION`",
+                        ["setTimer"] = "`$FUNCTION`",
+                    },
+                    ["strict"] = false,
                     ["transport"] = "wrap",
                 },
             },
@@ -1035,6 +1129,8 @@ public static class SdkConfig
                 return new Feature.AuditFeature();
             case "clienttrack":
                 return new Feature.ClienttrackFeature();
+            case "debug":
+                return new Feature.DebugFeature();
             case "idempotency":
                 return new Feature.IdempotencyFeature();
             case "log":

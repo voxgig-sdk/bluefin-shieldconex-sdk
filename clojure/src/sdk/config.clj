@@ -487,11 +487,39 @@
           "active" false
           "actor" "anonymous"
           "max" 1000)
+        "optspec" (vs/jm
+          "now" "`$FUNCTION`"
+          "sink" "`$FUNCTION`")
+        "strict" false
         "transport" "none")
       "clienttrack" (vs/jm
         "options" (vs/jm
           "active" false
           "clientVersion" "0.0.1")
+        "optspec" (vs/jm
+          "clientName" "`$STRING`"
+          "clientVersion" "`$STRING`"
+          "headers" "`$MAP`"
+          "idgen" "`$FUNCTION`"
+          "sessionId" "`$STRING`")
+        "strict" false
+        "transport" "none")
+      "debug" (vs/jm
+        "options" (vs/jm
+          "active" false
+          "max" 100
+          "redact" (vs/jt
+            "authorization"
+            "cookie"
+            "set-cookie"
+            "api-key"
+            "apikey"
+            "x-api-key"
+            "idempotency-key"))
+        "optspec" (vs/jm
+          "now" "`$FUNCTION`"
+          "onEntry" "`$FUNCTION`")
+        "strict" false
         "transport" "none")
       "idempotency" (vs/jm
         "options" (vs/jm
@@ -506,14 +534,24 @@
             "create"
             "update"
             "remove"))
+        "optspec" (vs/jm
+          "keygen" "`$FUNCTION`")
+        "strict" false
         "transport" "none")
       "log" (vs/jm
         "options" (vs/jm
           "active" true)
+        "optspec" (vs/jm
+          "level" "`$STRING`"
+          "logger" "`$ANY`")
+        "strict" false
         "transport" "none")
       "metrics" (vs/jm
         "options" (vs/jm
           "active" false)
+        "optspec" (vs/jm
+          "now" "`$FUNCTION`")
+        "strict" false
         "transport" "none")
       "paging" (vs/jm
         "options" (vs/jm
@@ -524,12 +562,20 @@
           "limitParam" "limit"
           "pageParam" "page"
           "startPage" 1)
+        "optspec" (vs/jm
+          "limit" "`$NUMBER`"
+          "ops" "`$LIST`")
+        "strict" false
         "transport" "none")
       "ratelimit" (vs/jm
         "options" (vs/jm
           "active" false
           "burst" 5
           "rate" 5)
+        "optspec" (vs/jm
+          "now" "`$FUNCTION`"
+          "sleep" "`$FUNCTION`")
+        "strict" false
         "transport" "wrap")
       "retry" (vs/jm
         "options" (vs/jm
@@ -546,19 +592,37 @@
             502
             503
             504))
+        "optspec" (vs/jm
+          "jitter" "`$BOOLEAN`"
+          "sleep" "`$FUNCTION`")
+        "strict" false
         "transport" "wrap")
       "telemetry" (vs/jm
         "options" (vs/jm
           "active" false)
+        "optspec" (vs/jm
+          "exporter" "`$FUNCTION`"
+          "headers" "`$MAP`"
+          "idgen" "`$FUNCTION`"
+          "now" "`$FUNCTION`")
+        "strict" false
         "transport" "none")
       "test" (vs/jm
         "options" (vs/jm
           "active" false)
+        "optspec" (vs/jm
+          "entity" "`$MAP`"
+          "net" "`$MAP`")
+        "strict" false
         "transport" "base")
       "timeout" (vs/jm
         "options" (vs/jm
           "active" false
           "ms" 30000)
+        "optspec" (vs/jm
+          "clearTimer" "`$FUNCTION`"
+          "setTimer" "`$FUNCTION`")
+        "strict" false
         "transport" "wrap"))
     "main" (vs/jm
       "name" "BluefinShieldconex"

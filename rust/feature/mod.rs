@@ -7,6 +7,7 @@ pub mod support;
 pub mod base;
 pub mod audit;
 pub mod clienttrack;
+pub mod debug;
 pub mod idempotency;
 pub mod log;
 pub mod metrics;

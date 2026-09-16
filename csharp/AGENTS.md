@@ -44,6 +44,7 @@ the runtime under `.sdk/tm/csharp/feature/` and regenerate.
 | --- | --- | --- |
 | **audit** — Structured audit trail of operations | `feature/audit_feature.cs` | `PreDone`, `PreUnexpected` |
 | **clienttrack** — Client identity and per-request correlation headers | `feature/clienttrack_feature.cs` | `PostConstruct`, `PreRequest` |
+| **debug** — Request/response capture ring buffer for debugging | `feature/debug_feature.cs` | `PreDone`, `PreRequest`, `PreResponse`, `PreUnexpected` |
 | **idempotency** — Idempotency keys for safe retries of mutating operations | `feature/idempotency_feature.cs` | `PreRequest` |
 | **log** — Structured request and response logging | `feature/log_feature.cs` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
 | **metrics** — Statistics capture: per-operation counters and latency | `feature/metrics_feature.cs` | `PreDone`, `PrePoint`, `PreUnexpected` |

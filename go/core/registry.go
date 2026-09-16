@@ -8,6 +8,8 @@ var NewAuditFeatureFunc func() Feature
 
 var NewClienttrackFeatureFunc func() Feature
 
+var NewDebugFeatureFunc func() Feature
+
 var NewIdempotencyFeatureFunc func() Feature
 
 var NewLogFeatureFunc func() Feature

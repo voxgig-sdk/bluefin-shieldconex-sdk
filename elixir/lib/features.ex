@@ -5,6 +5,7 @@ defmodule BluefinShieldconex.Features do
     case name do
       "audit" -> BluefinShieldconex.Feature.Audit.new()
       "clienttrack" -> BluefinShieldconex.Feature.Clienttrack.new()
+      "debug" -> BluefinShieldconex.Feature.Debug.new()
       "idempotency" -> BluefinShieldconex.Feature.Idempotency.new()
       "log" -> BluefinShieldconex.Feature.Log.new()
       "metrics" -> BluefinShieldconex.Feature.Metrics.new()

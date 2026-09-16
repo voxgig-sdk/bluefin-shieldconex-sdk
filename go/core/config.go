@@ -22,6 +22,11 @@ func MakeConfig() map[string]any {
 					"actor": "anonymous",
 					"max": 1000,
 				},
+				"optspec": map[string]any{
+					"now": "`$FUNCTION`",
+					"sink": "`$FUNCTION`",
+				},
+				"strict": false,
 				"transport": "none",
 			},
 			"clienttrack": map[string]any{
@@ -29,6 +34,35 @@ func MakeConfig() map[string]any {
 					"active": false,
 					"clientVersion": "0.0.1",
 				},
+				"optspec": map[string]any{
+					"clientName": "`$STRING`",
+					"clientVersion": "`$STRING`",
+					"headers": "`$MAP`",
+					"idgen": "`$FUNCTION`",
+					"sessionId": "`$STRING`",
+				},
+				"strict": false,
+				"transport": "none",
+			},
+			"debug": map[string]any{
+				"options": map[string]any{
+					"active": false,
+					"max": 100,
+					"redact": []any{
+						"authorization",
+						"cookie",
+						"set-cookie",
+						"api-key",
+						"apikey",
+						"x-api-key",
+						"idempotency-key",
+					},
+				},
+				"optspec": map[string]any{
+					"now": "`$FUNCTION`",
+					"onEntry": "`$FUNCTION`",
+				},
+				"strict": false,
 				"transport": "none",
 			},
 			"idempotency": map[string]any{
@@ -47,18 +81,31 @@ func MakeConfig() map[string]any {
 						"remove",
 					},
 				},
+				"optspec": map[string]any{
+					"keygen": "`$FUNCTION`",
+				},
+				"strict": false,
 				"transport": "none",
 			},
 			"log": map[string]any{
 				"options": map[string]any{
 					"active": true,
 				},
+				"optspec": map[string]any{
+					"level": "`$STRING`",
+					"logger": "`$ANY`",
+				},
+				"strict": false,
 				"transport": "none",
 			},
 			"metrics": map[string]any{
 				"options": map[string]any{
 					"active": false,
 				},
+				"optspec": map[string]any{
+					"now": "`$FUNCTION`",
+				},
+				"strict": false,
 				"transport": "none",
 			},
 			"paging": map[string]any{
@@ -71,6 +118,11 @@ func MakeConfig() map[string]any {
 					"pageParam": "page",
 					"startPage": 1,
 				},
+				"optspec": map[string]any{
+					"limit": "`$NUMBER`",
+					"ops": "`$LIST`",
+				},
+				"strict": false,
 				"transport": "none",
 			},
 			"ratelimit": map[string]any{
@@ -79,6 +131,11 @@ func MakeConfig() map[string]any {
 					"burst": 5,
 					"rate": 5,
 				},
+				"optspec": map[string]any{
+					"now": "`$FUNCTION`",
+					"sleep": "`$FUNCTION`",
+				},
+				"strict": false,
 				"transport": "wrap",
 			},
 			"retry": map[string]any{
@@ -98,18 +155,35 @@ func MakeConfig() map[string]any {
 						504,
 					},
 				},
+				"optspec": map[string]any{
+					"jitter": "`$BOOLEAN`",
+					"sleep": "`$FUNCTION`",
+				},
+				"strict": false,
 				"transport": "wrap",
 			},
 			"telemetry": map[string]any{
 				"options": map[string]any{
 					"active": false,
 				},
+				"optspec": map[string]any{
+					"exporter": "`$FUNCTION`",
+					"headers": "`$MAP`",
+					"idgen": "`$FUNCTION`",
+					"now": "`$FUNCTION`",
+				},
+				"strict": false,
 				"transport": "none",
 			},
 			"test": map[string]any{
 				"options": map[string]any{
 					"active": false,
 				},
+				"optspec": map[string]any{
+					"entity": "`$MAP`",
+					"net": "`$MAP`",
+				},
+				"strict": false,
 				"transport": "base",
 			},
 			"timeout": map[string]any{
@@ -117,6 +191,11 @@ func MakeConfig() map[string]any {
 					"active": false,
 					"ms": 30000,
 				},
+				"optspec": map[string]any{
+					"clearTimer": "`$FUNCTION`",
+					"setTimer": "`$FUNCTION`",
+				},
+				"strict": false,
 				"transport": "wrap",
 			},
 		},
@@ -833,6 +912,10 @@ func makeFeature(name string) Feature {
 	case "clienttrack":
 		if NewClienttrackFeatureFunc != nil {
 			return NewClienttrackFeatureFunc()
+		}
+	case "debug":
+		if NewDebugFeatureFunc != nil {
+			return NewDebugFeatureFunc()
 		}
 	case "idempotency":
 		if NewIdempotencyFeatureFunc != nil {

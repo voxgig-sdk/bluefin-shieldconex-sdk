@@ -39,6 +39,7 @@ component.* After editing a component run `npm run build` before
 
 - [`audit`](./src/feature/audit/AGENTS.md) — Structured audit trail of operations
 - [`clienttrack`](./src/feature/clienttrack/AGENTS.md) — Client identity and per-request correlation headers
+- [`debug`](./src/feature/debug/AGENTS.md) — Request/response capture ring buffer for debugging
 - [`idempotency`](./src/feature/idempotency/AGENTS.md) — Idempotency keys for safe retries of mutating operations
 - [`log`](./src/feature/log/AGENTS.md) — Structured request and response logging
 - [`metrics`](./src/feature/metrics/AGENTS.md) — Statistics capture: per-operation counters and latency

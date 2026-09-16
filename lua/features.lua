@@ -3,6 +3,7 @@
 local BaseFeature = require("feature.base_feature")
 local AuditFeature = require("feature.audit_feature")
 local ClienttrackFeature = require("feature.clienttrack_feature")
+local DebugFeature = require("feature.debug_feature")
 local IdempotencyFeature = require("feature.idempotency_feature")
 local LogFeature = require("feature.log_feature")
 local MetricsFeature = require("feature.metrics_feature")
@@ -26,6 +27,10 @@ end
 
 features["clienttrack"] = function()
   return ClienttrackFeature.new()
+end
+
+features["debug"] = function()
+  return DebugFeature.new()
 end
 
 features["idempotency"] = function()

@@ -21,6 +21,11 @@ pub fn make_config() Value {
                     .{ "actor", h.vstr("anonymous") },
                     .{ "max", h.vnum(1000) },
                 }) },
+                .{ "optspec", h.jo(&.{
+                    .{ "now", h.vstr("`$FUNCTION`") },
+                    .{ "sink", h.vstr("`$FUNCTION`") },
+                }) },
+                .{ "strict", h.vbool(false) },
                 .{ "transport", h.vstr("none") },
             }) },
             .{ "clienttrack", h.jo(&.{
@@ -28,6 +33,35 @@ pub fn make_config() Value {
                     .{ "active", h.vbool(false) },
                     .{ "clientVersion", h.vstr("0.0.1") },
                 }) },
+                .{ "optspec", h.jo(&.{
+                    .{ "clientName", h.vstr("`$STRING`") },
+                    .{ "clientVersion", h.vstr("`$STRING`") },
+                    .{ "headers", h.vstr("`$MAP`") },
+                    .{ "idgen", h.vstr("`$FUNCTION`") },
+                    .{ "sessionId", h.vstr("`$STRING`") },
+                }) },
+                .{ "strict", h.vbool(false) },
+                .{ "transport", h.vstr("none") },
+            }) },
+            .{ "debug", h.jo(&.{
+                .{ "options", h.jo(&.{
+                    .{ "active", h.vbool(false) },
+                    .{ "max", h.vnum(100) },
+                    .{ "redact", h.ja(&.{
+                        h.vstr("authorization"),
+                        h.vstr("cookie"),
+                        h.vstr("set-cookie"),
+                        h.vstr("api-key"),
+                        h.vstr("apikey"),
+                        h.vstr("x-api-key"),
+                        h.vstr("idempotency-key"),
+                    }) },
+                }) },
+                .{ "optspec", h.jo(&.{
+                    .{ "now", h.vstr("`$FUNCTION`") },
+                    .{ "onEntry", h.vstr("`$FUNCTION`") },
+                }) },
+                .{ "strict", h.vbool(false) },
                 .{ "transport", h.vstr("none") },
             }) },
             .{ "idempotency", h.jo(&.{
@@ -46,18 +80,31 @@ pub fn make_config() Value {
                         h.vstr("remove"),
                     }) },
                 }) },
+                .{ "optspec", h.jo(&.{
+                    .{ "keygen", h.vstr("`$FUNCTION`") },
+                }) },
+                .{ "strict", h.vbool(false) },
                 .{ "transport", h.vstr("none") },
             }) },
             .{ "log", h.jo(&.{
                 .{ "options", h.jo(&.{
                     .{ "active", h.vbool(true) },
                 }) },
+                .{ "optspec", h.jo(&.{
+                    .{ "level", h.vstr("`$STRING`") },
+                    .{ "logger", h.vstr("`$ANY`") },
+                }) },
+                .{ "strict", h.vbool(false) },
                 .{ "transport", h.vstr("none") },
             }) },
             .{ "metrics", h.jo(&.{
                 .{ "options", h.jo(&.{
                     .{ "active", h.vbool(false) },
                 }) },
+                .{ "optspec", h.jo(&.{
+                    .{ "now", h.vstr("`$FUNCTION`") },
+                }) },
+                .{ "strict", h.vbool(false) },
                 .{ "transport", h.vstr("none") },
             }) },
             .{ "paging", h.jo(&.{
@@ -70,6 +117,11 @@ pub fn make_config() Value {
                     .{ "pageParam", h.vstr("page") },
                     .{ "startPage", h.vnum(1) },
                 }) },
+                .{ "optspec", h.jo(&.{
+                    .{ "limit", h.vstr("`$NUMBER`") },
+                    .{ "ops", h.vstr("`$LIST`") },
+                }) },
+                .{ "strict", h.vbool(false) },
                 .{ "transport", h.vstr("none") },
             }) },
             .{ "ratelimit", h.jo(&.{
@@ -78,6 +130,11 @@ pub fn make_config() Value {
                     .{ "burst", h.vnum(5) },
                     .{ "rate", h.vnum(5) },
                 }) },
+                .{ "optspec", h.jo(&.{
+                    .{ "now", h.vstr("`$FUNCTION`") },
+                    .{ "sleep", h.vstr("`$FUNCTION`") },
+                }) },
+                .{ "strict", h.vbool(false) },
                 .{ "transport", h.vstr("wrap") },
             }) },
             .{ "retry", h.jo(&.{
@@ -97,18 +154,35 @@ pub fn make_config() Value {
                         h.vnum(504),
                     }) },
                 }) },
+                .{ "optspec", h.jo(&.{
+                    .{ "jitter", h.vstr("`$BOOLEAN`") },
+                    .{ "sleep", h.vstr("`$FUNCTION`") },
+                }) },
+                .{ "strict", h.vbool(false) },
                 .{ "transport", h.vstr("wrap") },
             }) },
             .{ "telemetry", h.jo(&.{
                 .{ "options", h.jo(&.{
                     .{ "active", h.vbool(false) },
                 }) },
+                .{ "optspec", h.jo(&.{
+                    .{ "exporter", h.vstr("`$FUNCTION`") },
+                    .{ "headers", h.vstr("`$MAP`") },
+                    .{ "idgen", h.vstr("`$FUNCTION`") },
+                    .{ "now", h.vstr("`$FUNCTION`") },
+                }) },
+                .{ "strict", h.vbool(false) },
                 .{ "transport", h.vstr("none") },
             }) },
             .{ "test", h.jo(&.{
                 .{ "options", h.jo(&.{
                     .{ "active", h.vbool(false) },
                 }) },
+                .{ "optspec", h.jo(&.{
+                    .{ "entity", h.vstr("`$MAP`") },
+                    .{ "net", h.vstr("`$MAP`") },
+                }) },
+                .{ "strict", h.vbool(false) },
                 .{ "transport", h.vstr("base") },
             }) },
             .{ "timeout", h.jo(&.{
@@ -116,6 +190,11 @@ pub fn make_config() Value {
                     .{ "active", h.vbool(false) },
                     .{ "ms", h.vnum(30000) },
                 }) },
+                .{ "optspec", h.jo(&.{
+                    .{ "clearTimer", h.vstr("`$FUNCTION`") },
+                    .{ "setTimer", h.vstr("`$FUNCTION`") },
+                }) },
+                .{ "strict", h.vbool(false) },
                 .{ "transport", h.vstr("wrap") },
             }) },
         }) },

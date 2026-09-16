@@ -47,6 +47,11 @@ def make_config():
           "actor": "anonymous",
           "max": 1000,
         },
+        "optspec": {
+          "now": "`$FUNCTION`",
+          "sink": "`$FUNCTION`",
+        },
+        "strict": False,
         "transport": "none",
       },
             "clienttrack": {
@@ -54,6 +59,35 @@ def make_config():
           "active": False,
           "clientVersion": "0.0.1",
         },
+        "optspec": {
+          "clientName": "`$STRING`",
+          "clientVersion": "`$STRING`",
+          "headers": "`$MAP`",
+          "idgen": "`$FUNCTION`",
+          "sessionId": "`$STRING`",
+        },
+        "strict": False,
+        "transport": "none",
+      },
+            "debug": {
+        "options": {
+          "active": False,
+          "max": 100,
+          "redact": [
+            "authorization",
+            "cookie",
+            "set-cookie",
+            "api-key",
+            "apikey",
+            "x-api-key",
+            "idempotency-key",
+          ],
+        },
+        "optspec": {
+          "now": "`$FUNCTION`",
+          "onEntry": "`$FUNCTION`",
+        },
+        "strict": False,
         "transport": "none",
       },
             "idempotency": {
@@ -72,18 +106,31 @@ def make_config():
             "remove",
           ],
         },
+        "optspec": {
+          "keygen": "`$FUNCTION`",
+        },
+        "strict": False,
         "transport": "none",
       },
             "log": {
         "options": {
           "active": True,
         },
+        "optspec": {
+          "level": "`$STRING`",
+          "logger": "`$ANY`",
+        },
+        "strict": False,
         "transport": "none",
       },
             "metrics": {
         "options": {
           "active": False,
         },
+        "optspec": {
+          "now": "`$FUNCTION`",
+        },
+        "strict": False,
         "transport": "none",
       },
             "paging": {
@@ -96,6 +143,11 @@ def make_config():
           "pageParam": "page",
           "startPage": 1,
         },
+        "optspec": {
+          "limit": "`$NUMBER`",
+          "ops": "`$LIST`",
+        },
+        "strict": False,
         "transport": "none",
       },
             "ratelimit": {
@@ -104,6 +156,11 @@ def make_config():
           "burst": 5,
           "rate": 5,
         },
+        "optspec": {
+          "now": "`$FUNCTION`",
+          "sleep": "`$FUNCTION`",
+        },
+        "strict": False,
         "transport": "wrap",
       },
             "retry": {
@@ -123,18 +180,35 @@ def make_config():
             504,
           ],
         },
+        "optspec": {
+          "jitter": "`$BOOLEAN`",
+          "sleep": "`$FUNCTION`",
+        },
+        "strict": False,
         "transport": "wrap",
       },
             "telemetry": {
         "options": {
           "active": False,
         },
+        "optspec": {
+          "exporter": "`$FUNCTION`",
+          "headers": "`$MAP`",
+          "idgen": "`$FUNCTION`",
+          "now": "`$FUNCTION`",
+        },
+        "strict": False,
         "transport": "none",
       },
             "test": {
         "options": {
           "active": False,
         },
+        "optspec": {
+          "entity": "`$MAP`",
+          "net": "`$MAP`",
+        },
+        "strict": False,
         "transport": "base",
       },
             "timeout": {
@@ -142,6 +216,11 @@ def make_config():
           "active": False,
           "ms": 30000,
         },
+        "optspec": {
+          "clearTimer": "`$FUNCTION`",
+          "setTimer": "`$FUNCTION`",
+        },
+        "strict": False,
         "transport": "wrap",
       },
         },

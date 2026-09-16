@@ -6,6 +6,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/feature/BaseFeature.php';
 require_once __DIR__ . '/feature/AuditFeature.php';
 require_once __DIR__ . '/feature/ClienttrackFeature.php';
+require_once __DIR__ . '/feature/DebugFeature.php';
 require_once __DIR__ . '/feature/IdempotencyFeature.php';
 require_once __DIR__ . '/feature/LogFeature.php';
 require_once __DIR__ . '/feature/MetricsFeature.php';
@@ -28,6 +29,8 @@ class BluefinShieldconexFeatures
                 return new BluefinShieldconexAuditFeature();
             case "clienttrack":
                 return new BluefinShieldconexClienttrackFeature();
+            case "debug":
+                return new BluefinShieldconexDebugFeature();
             case "idempotency":
                 return new BluefinShieldconexIdempotencyFeature();
             case "log":
@@ -63,6 +66,7 @@ class BluefinShieldconexFeatures
             case "base":
             case "audit":
             case "clienttrack":
+            case "debug":
             case "idempotency":
             case "log":
             case "metrics":

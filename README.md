@@ -12,7 +12,7 @@ Learn more about Voxgig SDKs at [voxgig.com/sdk](https://voxgig.com/sdk/).
 
 > TypeScript, Python, PHP, Golang, Ruby, Lua, C, Clojure, C++, C#, Dart, Elixir, Haskell, Java, JavaScript, Kotlin, Lean, OCaml, Perl, Rust, Scala, Swift, Zig SDKs, a CLI with an interactive REPL, and an MCP server for AI agents — all generated from one OpenAPI spec by [@voxgig/sdkgen](https://github.com/voxgig/sdkgen).
 
-> **Features:** `audit`, `clienttrack`, `idempotency`, `log`, `metrics`, `paging`, `ratelimit`, `retry`, `telemetry`, `test`, `timeout` — opt-in,
+> **Features:** `audit`, `clienttrack`, `debug`, `idempotency`, `log`, `metrics`, `paging`, `ratelimit`, `retry`, `telemetry`, `test`, `timeout` — opt-in,
 > inactive until switched on, and configured per client. See the Features
 > section of any SDK README below for what each one does.
 
@@ -404,7 +404,7 @@ $client = new BluefinShieldconexSDK([
 
 // List all detokenizes (returns an array; throws on error)
 $detokenizes = $client->Detokenize()->list();
-print_r($detokenizes);
+print_r(array_map(fn($item) => $item->data_get(), $detokenizes));
 ```
 
 ### Golang
@@ -994,6 +994,7 @@ forking the SDK.
 | --- | --- |
 | **AuditFeature** | Structured audit trail of operations |
 | **ClienttrackFeature** | Client identity and per-request correlation headers |
+| **DebugFeature** | Request/response capture ring buffer for debugging |
 | **IdempotencyFeature** | Idempotency keys for safe retries of mutating operations |
 | **LogFeature** | Structured request and response logging |
 | **MetricsFeature** | Statistics capture: per-operation counters and latency |

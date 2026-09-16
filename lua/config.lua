@@ -18,6 +18,11 @@ local function make_config()
           ["actor"] = "anonymous",
           ["max"] = 1000,
         },
+        ["optspec"] = {
+          ["now"] = "`$FUNCTION`",
+          ["sink"] = "`$FUNCTION`",
+        },
+        ["strict"] = false,
         ["transport"] = "none",
       },
       ["clienttrack"] = {
@@ -25,6 +30,35 @@ local function make_config()
           ["active"] = false,
           ["clientVersion"] = "0.0.1",
         },
+        ["optspec"] = {
+          ["clientName"] = "`$STRING`",
+          ["clientVersion"] = "`$STRING`",
+          ["headers"] = "`$MAP`",
+          ["idgen"] = "`$FUNCTION`",
+          ["sessionId"] = "`$STRING`",
+        },
+        ["strict"] = false,
+        ["transport"] = "none",
+      },
+      ["debug"] = {
+        ["options"] = {
+          ["active"] = false,
+          ["max"] = 100,
+          ["redact"] = {
+            "authorization",
+            "cookie",
+            "set-cookie",
+            "api-key",
+            "apikey",
+            "x-api-key",
+            "idempotency-key",
+          },
+        },
+        ["optspec"] = {
+          ["now"] = "`$FUNCTION`",
+          ["onEntry"] = "`$FUNCTION`",
+        },
+        ["strict"] = false,
         ["transport"] = "none",
       },
       ["idempotency"] = {
@@ -43,18 +77,31 @@ local function make_config()
             "remove",
           },
         },
+        ["optspec"] = {
+          ["keygen"] = "`$FUNCTION`",
+        },
+        ["strict"] = false,
         ["transport"] = "none",
       },
       ["log"] = {
         ["options"] = {
           ["active"] = true,
         },
+        ["optspec"] = {
+          ["level"] = "`$STRING`",
+          ["logger"] = "`$ANY`",
+        },
+        ["strict"] = false,
         ["transport"] = "none",
       },
       ["metrics"] = {
         ["options"] = {
           ["active"] = false,
         },
+        ["optspec"] = {
+          ["now"] = "`$FUNCTION`",
+        },
+        ["strict"] = false,
         ["transport"] = "none",
       },
       ["paging"] = {
@@ -67,6 +114,11 @@ local function make_config()
           ["pageParam"] = "page",
           ["startPage"] = 1,
         },
+        ["optspec"] = {
+          ["limit"] = "`$NUMBER`",
+          ["ops"] = "`$LIST`",
+        },
+        ["strict"] = false,
         ["transport"] = "none",
       },
       ["ratelimit"] = {
@@ -75,6 +127,11 @@ local function make_config()
           ["burst"] = 5,
           ["rate"] = 5,
         },
+        ["optspec"] = {
+          ["now"] = "`$FUNCTION`",
+          ["sleep"] = "`$FUNCTION`",
+        },
+        ["strict"] = false,
         ["transport"] = "wrap",
       },
       ["retry"] = {
@@ -94,18 +151,35 @@ local function make_config()
             504,
           },
         },
+        ["optspec"] = {
+          ["jitter"] = "`$BOOLEAN`",
+          ["sleep"] = "`$FUNCTION`",
+        },
+        ["strict"] = false,
         ["transport"] = "wrap",
       },
       ["telemetry"] = {
         ["options"] = {
           ["active"] = false,
         },
+        ["optspec"] = {
+          ["exporter"] = "`$FUNCTION`",
+          ["headers"] = "`$MAP`",
+          ["idgen"] = "`$FUNCTION`",
+          ["now"] = "`$FUNCTION`",
+        },
+        ["strict"] = false,
         ["transport"] = "none",
       },
       ["test"] = {
         ["options"] = {
           ["active"] = false,
         },
+        ["optspec"] = {
+          ["entity"] = "`$MAP`",
+          ["net"] = "`$MAP`",
+        },
+        ["strict"] = false,
         ["transport"] = "base",
       },
       ["timeout"] = {
@@ -113,6 +187,11 @@ local function make_config()
           ["active"] = false,
           ["ms"] = 30000,
         },
+        ["optspec"] = {
+          ["clearTimer"] = "`$FUNCTION`",
+          ["setTimer"] = "`$FUNCTION`",
+        },
+        ["strict"] = false,
         ["transport"] = "wrap",
       },
     },

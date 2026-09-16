@@ -44,6 +44,7 @@ the runtime under `.sdk/tm/ocaml/feature/` and regenerate.
 | --- | --- | --- |
 | **audit** — Structured audit trail of operations | `feature/audit_feature.ml` | `PreDone`, `PreUnexpected` |
 | **clienttrack** — Client identity and per-request correlation headers | `feature/clienttrack_feature.ml` | `PostConstruct`, `PreRequest` |
+| **debug** — Request/response capture ring buffer for debugging | `feature/debug_feature.ml` | `PreDone`, `PreRequest`, `PreResponse`, `PreUnexpected` |
 | **idempotency** — Idempotency keys for safe retries of mutating operations | `feature/idempotency_feature.ml` | `PreRequest` |
 | **log** — Structured request and response logging | `feature/log_feature.ml` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
 | **metrics** — Statistics capture: per-operation counters and latency | `feature/metrics_feature.ml` | `PreDone`, `PrePoint`, `PreUnexpected` |

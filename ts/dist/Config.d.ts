@@ -16,6 +16,11 @@ declare class Config {
                 actor: string;
                 max: number;
             };
+            optspec: {
+                now: string;
+                sink: string;
+            };
+            strict: boolean;
             transport: string;
         };
         clienttrack: {
@@ -23,6 +28,27 @@ declare class Config {
                 active: boolean;
                 clientVersion: string;
             };
+            optspec: {
+                clientName: string;
+                clientVersion: string;
+                headers: string;
+                idgen: string;
+                sessionId: string;
+            };
+            strict: boolean;
+            transport: string;
+        };
+        debug: {
+            options: {
+                active: boolean;
+                max: number;
+                redact: string[];
+            };
+            optspec: {
+                now: string;
+                onEntry: string;
+            };
+            strict: boolean;
             transport: string;
         };
         idempotency: {
@@ -32,18 +58,31 @@ declare class Config {
                 methods: string[];
                 ops: string[];
             };
+            optspec: {
+                keygen: string;
+            };
+            strict: boolean;
             transport: string;
         };
         log: {
             options: {
                 active: boolean;
             };
+            optspec: {
+                level: string;
+                logger: string;
+            };
+            strict: boolean;
             transport: string;
         };
         metrics: {
             options: {
                 active: boolean;
             };
+            optspec: {
+                now: string;
+            };
+            strict: boolean;
             transport: string;
         };
         paging: {
@@ -56,6 +95,11 @@ declare class Config {
                 pageParam: string;
                 startPage: number;
             };
+            optspec: {
+                limit: string;
+                ops: string;
+            };
+            strict: boolean;
             transport: string;
         };
         ratelimit: {
@@ -64,6 +108,11 @@ declare class Config {
                 burst: number;
                 rate: number;
             };
+            optspec: {
+                now: string;
+                sleep: string;
+            };
+            strict: boolean;
             transport: string;
         };
         retry: {
@@ -75,18 +124,35 @@ declare class Config {
                 retries: number;
                 statuses: number[];
             };
+            optspec: {
+                jitter: string;
+                sleep: string;
+            };
+            strict: boolean;
             transport: string;
         };
         telemetry: {
             options: {
                 active: boolean;
             };
+            optspec: {
+                exporter: string;
+                headers: string;
+                idgen: string;
+                now: string;
+            };
+            strict: boolean;
             transport: string;
         };
         test: {
             options: {
                 active: boolean;
             };
+            optspec: {
+                entity: string;
+                net: string;
+            };
+            strict: boolean;
             transport: string;
         };
         timeout: {
@@ -94,6 +160,11 @@ declare class Config {
                 active: boolean;
                 ms: number;
             };
+            optspec: {
+                clearTimer: string;
+                setTimer: string;
+            };
+            strict: boolean;
             transport: string;
         };
     };

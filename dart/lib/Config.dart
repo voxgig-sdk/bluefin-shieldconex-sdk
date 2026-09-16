@@ -1,6 +1,7 @@
 import 'feature/base/BaseFeature.dart';
 import 'feature/audit/AuditFeature.dart';
 import 'feature/clienttrack/ClienttrackFeature.dart';
+import 'feature/debug/DebugFeature.dart';
 import 'feature/idempotency/IdempotencyFeature.dart';
 import 'feature/log/LogFeature.dart';
 import 'feature/metrics/MetricsFeature.dart';
@@ -17,6 +18,7 @@ import 'feature/timeout/TimeoutFeature.dart';
 final Map<String, BaseFeature Function()> FEATURE_CLASS = {
     'audit': () => AuditFeature(),
   'clienttrack': () => ClienttrackFeature(),
+  'debug': () => DebugFeature(),
   'idempotency': () => IdempotencyFeature(),
   'log': () => LogFeature(),
   'metrics': () => MetricsFeature(),
@@ -77,6 +79,11 @@ class Config {
         'actor': 'anonymous',
         'max': 1000,
       },
+      'optspec': <String, dynamic>{
+        'now': '`\$FUNCTION`',
+        'sink': '`\$FUNCTION`',
+      },
+      'strict': false,
       'transport': 'none',
     },
     'clienttrack': <String, dynamic>{
@@ -84,6 +91,35 @@ class Config {
         'active': false,
         'clientVersion': '0.0.1',
       },
+      'optspec': <String, dynamic>{
+        'clientName': '`\$STRING`',
+        'clientVersion': '`\$STRING`',
+        'headers': '`\$MAP`',
+        'idgen': '`\$FUNCTION`',
+        'sessionId': '`\$STRING`',
+      },
+      'strict': false,
+      'transport': 'none',
+    },
+    'debug': <String, dynamic>{
+      'options': <String, dynamic>{
+        'active': false,
+        'max': 100,
+        'redact': <dynamic>[
+          'authorization',
+          'cookie',
+          'set-cookie',
+          'api-key',
+          'apikey',
+          'x-api-key',
+          'idempotency-key',
+        ],
+      },
+      'optspec': <String, dynamic>{
+        'now': '`\$FUNCTION`',
+        'onEntry': '`\$FUNCTION`',
+      },
+      'strict': false,
       'transport': 'none',
     },
     'idempotency': <String, dynamic>{
@@ -102,18 +138,31 @@ class Config {
           'remove',
         ],
       },
+      'optspec': <String, dynamic>{
+        'keygen': '`\$FUNCTION`',
+      },
+      'strict': false,
       'transport': 'none',
     },
     'log': <String, dynamic>{
       'options': <String, dynamic>{
         'active': true,
       },
+      'optspec': <String, dynamic>{
+        'level': '`\$STRING`',
+        'logger': '`\$ANY`',
+      },
+      'strict': false,
       'transport': 'none',
     },
     'metrics': <String, dynamic>{
       'options': <String, dynamic>{
         'active': false,
       },
+      'optspec': <String, dynamic>{
+        'now': '`\$FUNCTION`',
+      },
+      'strict': false,
       'transport': 'none',
     },
     'paging': <String, dynamic>{
@@ -126,6 +175,11 @@ class Config {
         'pageParam': 'page',
         'startPage': 1,
       },
+      'optspec': <String, dynamic>{
+        'limit': '`\$NUMBER`',
+        'ops': '`\$LIST`',
+      },
+      'strict': false,
       'transport': 'none',
     },
     'ratelimit': <String, dynamic>{
@@ -134,6 +188,11 @@ class Config {
         'burst': 5,
         'rate': 5,
       },
+      'optspec': <String, dynamic>{
+        'now': '`\$FUNCTION`',
+        'sleep': '`\$FUNCTION`',
+      },
+      'strict': false,
       'transport': 'wrap',
     },
     'retry': <String, dynamic>{
@@ -153,18 +212,35 @@ class Config {
           504,
         ],
       },
+      'optspec': <String, dynamic>{
+        'jitter': '`\$BOOLEAN`',
+        'sleep': '`\$FUNCTION`',
+      },
+      'strict': false,
       'transport': 'wrap',
     },
     'telemetry': <String, dynamic>{
       'options': <String, dynamic>{
         'active': false,
       },
+      'optspec': <String, dynamic>{
+        'exporter': '`\$FUNCTION`',
+        'headers': '`\$MAP`',
+        'idgen': '`\$FUNCTION`',
+        'now': '`\$FUNCTION`',
+      },
+      'strict': false,
       'transport': 'none',
     },
     'test': <String, dynamic>{
       'options': <String, dynamic>{
         'active': false,
       },
+      'optspec': <String, dynamic>{
+        'entity': '`\$MAP`',
+        'net': '`\$MAP`',
+      },
+      'strict': false,
       'transport': 'base',
     },
     'timeout': <String, dynamic>{
@@ -172,6 +248,11 @@ class Config {
         'active': false,
         'ms': 30000,
       },
+      'optspec': <String, dynamic>{
+        'clearTimer': '`\$FUNCTION`',
+        'setTimer': '`\$FUNCTION`',
+      },
+      'strict': false,
       'transport': 'wrap',
     },
 

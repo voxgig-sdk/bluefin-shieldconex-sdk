@@ -21,11 +21,39 @@ let make_config () : value =
           ("active", (Bool false));
           ("actor", (Str "anonymous"));
           ("max", (Num (1000.))) ]));
+        ("optspec", (jo [
+          ("now", (Str "`$FUNCTION`"));
+          ("sink", (Str "`$FUNCTION`")) ]));
+        ("strict", (Bool false));
         ("transport", (Str "none")) ]));
       ("clienttrack", (jo [
         ("options", (jo [
           ("active", (Bool false));
           ("clientVersion", (Str "0.0.1")) ]));
+        ("optspec", (jo [
+          ("clientName", (Str "`$STRING`"));
+          ("clientVersion", (Str "`$STRING`"));
+          ("headers", (Str "`$MAP`"));
+          ("idgen", (Str "`$FUNCTION`"));
+          ("sessionId", (Str "`$STRING`")) ]));
+        ("strict", (Bool false));
+        ("transport", (Str "none")) ]));
+      ("debug", (jo [
+        ("options", (jo [
+          ("active", (Bool false));
+          ("max", (Num (100.)));
+          ("redact", (ja [
+            (Str "authorization");
+            (Str "cookie");
+            (Str "set-cookie");
+            (Str "api-key");
+            (Str "apikey");
+            (Str "x-api-key");
+            (Str "idempotency-key") ])) ]));
+        ("optspec", (jo [
+          ("now", (Str "`$FUNCTION`"));
+          ("onEntry", (Str "`$FUNCTION`")) ]));
+        ("strict", (Bool false));
         ("transport", (Str "none")) ]));
       ("idempotency", (jo [
         ("options", (jo [
@@ -40,14 +68,24 @@ let make_config () : value =
             (Str "create");
             (Str "update");
             (Str "remove") ])) ]));
+        ("optspec", (jo [
+          ("keygen", (Str "`$FUNCTION`")) ]));
+        ("strict", (Bool false));
         ("transport", (Str "none")) ]));
       ("log", (jo [
         ("options", (jo [
           ("active", (Bool true)) ]));
+        ("optspec", (jo [
+          ("level", (Str "`$STRING`"));
+          ("logger", (Str "`$ANY`")) ]));
+        ("strict", (Bool false));
         ("transport", (Str "none")) ]));
       ("metrics", (jo [
         ("options", (jo [
           ("active", (Bool false)) ]));
+        ("optspec", (jo [
+          ("now", (Str "`$FUNCTION`")) ]));
+        ("strict", (Bool false));
         ("transport", (Str "none")) ]));
       ("paging", (jo [
         ("options", (jo [
@@ -58,12 +96,20 @@ let make_config () : value =
           ("limitParam", (Str "limit"));
           ("pageParam", (Str "page"));
           ("startPage", (Num (1.))) ]));
+        ("optspec", (jo [
+          ("limit", (Str "`$NUMBER`"));
+          ("ops", (Str "`$LIST`")) ]));
+        ("strict", (Bool false));
         ("transport", (Str "none")) ]));
       ("ratelimit", (jo [
         ("options", (jo [
           ("active", (Bool false));
           ("burst", (Num (5.)));
           ("rate", (Num (5.))) ]));
+        ("optspec", (jo [
+          ("now", (Str "`$FUNCTION`"));
+          ("sleep", (Str "`$FUNCTION`")) ]));
+        ("strict", (Bool false));
         ("transport", (Str "wrap")) ]));
       ("retry", (jo [
         ("options", (jo [
@@ -80,19 +126,37 @@ let make_config () : value =
             (Num (502.));
             (Num (503.));
             (Num (504.)) ])) ]));
+        ("optspec", (jo [
+          ("jitter", (Str "`$BOOLEAN`"));
+          ("sleep", (Str "`$FUNCTION`")) ]));
+        ("strict", (Bool false));
         ("transport", (Str "wrap")) ]));
       ("telemetry", (jo [
         ("options", (jo [
           ("active", (Bool false)) ]));
+        ("optspec", (jo [
+          ("exporter", (Str "`$FUNCTION`"));
+          ("headers", (Str "`$MAP`"));
+          ("idgen", (Str "`$FUNCTION`"));
+          ("now", (Str "`$FUNCTION`")) ]));
+        ("strict", (Bool false));
         ("transport", (Str "none")) ]));
       ("test", (jo [
         ("options", (jo [
           ("active", (Bool false)) ]));
+        ("optspec", (jo [
+          ("entity", (Str "`$MAP`"));
+          ("net", (Str "`$MAP`")) ]));
+        ("strict", (Bool false));
         ("transport", (Str "base")) ]));
       ("timeout", (jo [
         ("options", (jo [
           ("active", (Bool false));
           ("ms", (Num (30000.))) ]));
+        ("optspec", (jo [
+          ("clearTimer", (Str "`$FUNCTION`"));
+          ("setTimer", (Str "`$FUNCTION`")) ]));
+        ("strict", (Bool false));
         ("transport", (Str "wrap")) ])) ]));
     ("options", (jo [
       ("base", (Str "https://secure-cert.shieldconex.com/api"));
@@ -593,6 +657,7 @@ let make_feature (name : string) : feature =
   match name with
   | "audit" -> audit_feature ()
   | "clienttrack" -> clienttrack_feature ()
+  | "debug" -> debug_feature ()
   | "idempotency" -> idempotency_feature ()
   | "log" -> log_feature ()
   | "metrics" -> metrics_feature ()
