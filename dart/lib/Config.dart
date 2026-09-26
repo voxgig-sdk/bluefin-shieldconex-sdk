@@ -286,16 +286,19 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'batches',
+          'title': 'Batches',
+          'type': '`\$ARRAY`',
           'op': <String, dynamic>{
             'create': <String, dynamic>{
               'req': true,
               'type': '`\$ARRAY`',
             },
           },
-          'type': '`\$ARRAY`',
         },
         <String, dynamic>{
           'name': 'bfid',
+          'title': 'Bfid',
+          'type': '`\$STRING`',
           'op': <String, dynamic>{
             'create': <String, dynamic>{
               'req': true,
@@ -303,37 +306,41 @@ class Config {
             },
           },
           'short': 'The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).',
-          'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'messageId',
-          'short': 'Message Id',
+          'title': 'Message Id',
           'type': '`\$STRING`',
+          'short': 'Message Id',
         },
         <String, dynamic>{
           'name': 'name',
-          'short': 'Field Name.',
+          'title': 'Name',
           'type': '`\$STRING`',
+          'short': 'Field Name.',
         },
         <String, dynamic>{
           'name': 'reference',
-          'short': 'Request Reference.',
+          'title': 'Reference',
           'type': '`\$STRING`',
+          'short': 'Request Reference.',
         },
         <String, dynamic>{
           'name': 'value',
-          'short': 'Field Value.',
+          'title': 'Value',
           'type': '`\$STRING`',
+          'short': 'Field Value.',
         },
         <String, dynamic>{
           'name': 'values',
+          'title': 'Values',
+          'type': '`\$ARRAY`',
           'op': <String, dynamic>{
             'create': <String, dynamic>{
               'req': true,
               'type': '`\$ARRAY`',
             },
           },
-          'type': '`\$ARRAY`',
         },
       ],
       'name': 'detokenize',
@@ -343,7 +350,6 @@ class Config {
           'name': 'create',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/tokenization/batch/detokenize',
@@ -358,19 +364,20 @@ class Config {
                   'lit': 'detokenize',
                 },
               ],
-              'select': <String, dynamic>{},
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
               'parts': <dynamic>[
                 'tokenization',
                 'batch',
                 'detokenize',
               ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{},
             },
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/tokenization/detokenize',
@@ -382,15 +389,17 @@ class Config {
                   'lit': 'detokenize',
                 },
               ],
-              'select': <String, dynamic>{},
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
               'parts': <dynamic>[
                 'tokenization',
                 'detokenize',
               ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{},
             },
           ],
         },
@@ -399,35 +408,6 @@ class Config {
           'name': 'list',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'query': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'query',
-                    'name': 'bfid',
-                    'orig': 'bfid',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'kind': 'query',
-                    'name': 'field_name',
-                    'orig': 'field_name',
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'kind': 'query',
-                    'name': 'field_value',
-                    'orig': 'field_value',
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'kind': 'query',
-                    'name': 'reference',
-                    'orig': 'reference',
-                    'type': '`\$STRING`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'GET',
               'orig': '/healthcheck/detokenize',
@@ -439,6 +419,44 @@ class Config {
                   'lit': 'detokenize',
                 },
               ],
+              'parts': <dynamic>[
+                'healthcheck',
+                'detokenize',
+              ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body.values`',
+              },
+              'args': <String, dynamic>{
+                'query': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'bfid',
+                    'orig': 'bfid',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                    'reqd': true,
+                  },
+                  <String, dynamic>{
+                    'name': 'field_name',
+                    'orig': 'field_name',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                  },
+                  <String, dynamic>{
+                    'name': 'field_value',
+                    'orig': 'field_value',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                  },
+                  <String, dynamic>{
+                    'name': 'reference',
+                    'orig': 'reference',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'bfid',
@@ -447,14 +465,6 @@ class Config {
                   'reference',
                 ],
               },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body.values`',
-              },
-              'parts': <dynamic>[
-                'healthcheck',
-                'detokenize',
-              ],
             },
           ],
         },
@@ -467,16 +477,19 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'batches',
+          'title': 'Batches',
+          'type': '`\$ARRAY`',
           'op': <String, dynamic>{
             'create': <String, dynamic>{
               'req': true,
               'type': '`\$ARRAY`',
             },
           },
-          'type': '`\$ARRAY`',
         },
         <String, dynamic>{
           'name': 'bfid',
+          'title': 'Bfid',
+          'type': '`\$STRING`',
           'op': <String, dynamic>{
             'create': <String, dynamic>{
               'req': true,
@@ -484,43 +497,48 @@ class Config {
             },
           },
           'short': 'The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).',
-          'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'messageId',
-          'short': 'Message Id',
+          'title': 'Message Id',
           'type': '`\$STRING`',
+          'short': 'Message Id',
         },
         <String, dynamic>{
           'name': 'name',
-          'short': 'Field Name.',
+          'title': 'Name',
           'type': '`\$STRING`',
+          'short': 'Field Name.',
         },
         <String, dynamic>{
           'name': 'reference',
-          'short': 'Request Reference.',
+          'title': 'Reference',
           'type': '`\$STRING`',
+          'short': 'Request Reference.',
         },
         <String, dynamic>{
           'name': 'templateRef',
+          'title': 'Template Ref',
+          'type': '`\$STRING`',
           'req': true,
           'short': 'Template Reference',
-          'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'value',
-          'short': 'Field Value.',
+          'title': 'Value',
           'type': '`\$STRING`',
+          'short': 'Field Value.',
         },
         <String, dynamic>{
           'name': 'values',
+          'title': 'Values',
+          'type': '`\$ARRAY`',
           'op': <String, dynamic>{
             'create': <String, dynamic>{
               'req': true,
               'type': '`\$ARRAY`',
             },
           },
-          'type': '`\$ARRAY`',
         },
       ],
       'name': 'tokenize',
@@ -530,16 +548,6 @@ class Config {
           'name': 'create',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'query': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'query',
-                    'name': 'omit',
-                    'orig': 'omit',
-                    'type': '`\$NUMBER`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'POST',
               'orig': '/tokenization/batch/tokenize',
@@ -554,32 +562,33 @@ class Config {
                   'lit': 'tokenize',
                 },
               ],
-              'select': <String, dynamic>{
-                'exist': <dynamic>[
-                  'omit',
-                ],
-              },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
               'parts': <dynamic>[
                 'tokenization',
                 'batch',
                 'tokenize',
               ],
-            },
-            <String, dynamic>{
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
               'args': <String, dynamic>{
                 'query': <dynamic>[
                   <String, dynamic>{
-                    'kind': 'query',
                     'name': 'omit',
                     'orig': 'omit',
                     'type': '`\$NUMBER`',
+                    'kind': 'query',
                   },
                 ],
               },
+              'select': <String, dynamic>{
+                'exist': <dynamic>[
+                  'omit',
+                ],
+              },
+            },
+            <String, dynamic>{
               'kind': 'http',
               'method': 'POST',
               'orig': '/tokenization/tokenize',
@@ -591,22 +600,32 @@ class Config {
                   'lit': 'tokenize',
                 },
               ],
+              'parts': <dynamic>[
+                'tokenization',
+                'tokenize',
+              ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{
+                'query': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'omit',
+                    'orig': 'omit',
+                    'type': '`\$NUMBER`',
+                    'kind': 'query',
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'omit',
                 ],
               },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
-              'parts': <dynamic>[
-                'tokenization',
-                'tokenize',
-              ],
             },
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/tokenization/delete',
@@ -618,15 +637,17 @@ class Config {
                   'lit': 'delete',
                 },
               ],
-              'select': <String, dynamic>{},
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
               'parts': <dynamic>[
                 'tokenization',
                 'delete',
               ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{},
             },
           ],
         },
@@ -635,35 +656,6 @@ class Config {
           'name': 'list',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'query': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'query',
-                    'name': 'field_name',
-                    'orig': 'field_name',
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'kind': 'query',
-                    'name': 'field_value',
-                    'orig': 'field_value',
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'kind': 'query',
-                    'name': 'reference',
-                    'orig': 'reference',
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'kind': 'query',
-                    'name': 'template_ref',
-                    'orig': 'template_ref',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'GET',
               'orig': '/healthcheck/tokenize',
@@ -675,6 +667,44 @@ class Config {
                   'lit': 'tokenize',
                 },
               ],
+              'parts': <dynamic>[
+                'healthcheck',
+                'tokenize',
+              ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body.values`',
+              },
+              'args': <String, dynamic>{
+                'query': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'field_name',
+                    'orig': 'field_name',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                  },
+                  <String, dynamic>{
+                    'name': 'field_value',
+                    'orig': 'field_value',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                  },
+                  <String, dynamic>{
+                    'name': 'reference',
+                    'orig': 'reference',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                  },
+                  <String, dynamic>{
+                    'name': 'template_ref',
+                    'orig': 'template_ref',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                    'reqd': true,
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'field_name',
@@ -683,14 +713,6 @@ class Config {
                   'template_ref',
                 ],
               },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body.values`',
-              },
-              'parts': <dynamic>[
-                'healthcheck',
-                'tokenize',
-              ],
             },
           ],
         },
@@ -703,23 +725,26 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'batches',
+          'title': 'Batches',
+          'type': '`\$ARRAY`',
           'op': <String, dynamic>{
             'create': <String, dynamic>{
               'req': true,
               'type': '`\$ARRAY`',
             },
           },
-          'type': '`\$ARRAY`',
         },
         <String, dynamic>{
           'name': 'messageId',
-          'short': 'Message Id',
+          'title': 'Message Id',
           'type': '`\$STRING`',
+          'short': 'Message Id',
         },
         <String, dynamic>{
           'name': 'reference',
-          'short': 'Request Reference.',
+          'title': 'Reference',
           'type': '`\$STRING`',
+          'short': 'Request Reference.',
         },
       ],
       'name': 'tokenize_batch',
@@ -729,7 +754,6 @@ class Config {
           'name': 'create',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/tokenization/batch/delete',
@@ -744,19 +768,20 @@ class Config {
                   'lit': 'delete',
                 },
               ],
-              'select': <String, dynamic>{},
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
               'parts': <dynamic>[
                 'tokenization',
                 'batch',
                 'delete',
               ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{},
             },
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/tokenization/batch/read',
@@ -771,16 +796,18 @@ class Config {
                   'lit': 'read',
                 },
               ],
-              'select': <String, dynamic>{},
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
               'parts': <dynamic>[
                 'tokenization',
                 'batch',
                 'read',
               ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{},
             },
           ],
         },
@@ -793,6 +820,8 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'bfid',
+          'title': 'Bfid',
+          'type': '`\$STRING`',
           'op': <String, dynamic>{
             'create': <String, dynamic>{
               'req': true,
@@ -800,25 +829,28 @@ class Config {
             },
           },
           'short': 'The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).',
-          'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'messageId',
-          'short': 'Message Id',
+          'title': 'Message Id',
           'type': '`\$STRING`',
+          'short': 'Message Id',
         },
         <String, dynamic>{
           'name': 'reference',
-          'short': 'Request Reference.',
+          'title': 'Reference',
           'type': '`\$STRING`',
+          'short': 'Request Reference.',
         },
         <String, dynamic>{
           'name': 'state',
-          'short': 'Tokenized State Data (if available)',
+          'title': 'State',
           'type': '`\$OBJECT`',
+          'short': 'Tokenized State Data (if available)',
         },
         <String, dynamic>{
           'name': 'values',
+          'title': 'Values',
           'type': '`\$ARRAY`',
         },
       ],
@@ -829,7 +861,6 @@ class Config {
           'name': 'create',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/tokenization/read',
@@ -841,15 +872,17 @@ class Config {
                   'lit': 'read',
                 },
               ],
-              'select': <String, dynamic>{},
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
               'parts': <dynamic>[
                 'tokenization',
                 'read',
               ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{},
             },
           ],
         },
@@ -862,19 +895,22 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'messageId',
-          'short': 'Message Id',
+          'title': 'Message Id',
           'type': '`\$STRING`',
+          'short': 'Message Id',
         },
         <String, dynamic>{
           'name': 'reference',
-          'short': 'Request Reference.',
+          'title': 'Reference',
           'type': '`\$STRING`',
+          'short': 'Request Reference.',
         },
         <String, dynamic>{
           'name': 'templateRef',
+          'title': 'Template Ref',
+          'type': '`\$STRING`',
           'req': true,
           'short': 'Template Reference.',
-          'type': '`\$STRING`',
         },
       ],
       'name': 'validate',
@@ -884,7 +920,6 @@ class Config {
           'name': 'create',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/partner/validate',
@@ -896,18 +931,19 @@ class Config {
                   'lit': 'validate',
                 },
               ],
-              'select': <String, dynamic>{},
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
               'parts': <dynamic>[
                 'partner',
                 'validate',
               ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{},
             },
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/template/validate',
@@ -919,15 +955,17 @@ class Config {
                   'lit': 'validate',
                 },
               ],
-              'select': <String, dynamic>{},
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
               'parts': <dynamic>[
                 'template',
                 'validate',
               ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{},
             },
           ],
         },

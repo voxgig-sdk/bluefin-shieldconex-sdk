@@ -26,7 +26,7 @@ make test
 
 | Source | Path | Edit when… |
 | --- | --- | --- |
-| Target definition | `.sdk/model/target/go.aon` | deps, module, extension, phases change |
+| Target definition | `.sdk/model/target/go.aontu` | deps, module, extension, phases change |
 | Templates | `.sdk/tm/go/` | the file is the **same for every API** (runtime, transport, base classes) — copied verbatim with placeholder substitution |
 | Components | `.sdk/src/cmp/go/` | the file's shape **depends on the API** (entities, constructor, README, tests) — TypeScript that walks the model |
 
@@ -37,23 +37,23 @@ component.* After editing a component run `npm run build` before
 ## Features in this target
 
 Each feature is a flat file in the `feature/` package. Its hooks and
-default activation come from `.sdk/model/feature/<name>.aon`; customise
+default activation come from `.sdk/model/feature/<name>.aontu`; customise
 the runtime under `.sdk/tm/go/feature/` and regenerate.
 
 | Feature | Runtime file | Active hooks |
 | --- | --- | --- |
-| **audit** — Structured audit trail of operations | `feature/audit_feature.go` | `PreDone`, `PreUnexpected` |
-| **clienttrack** — Client identity and per-request correlation headers | `feature/clienttrack_feature.go` | `PostConstruct`, `PreRequest` |
-| **debug** — Request/response capture ring buffer for debugging | `feature/debug_feature.go` | `PreDone`, `PreRequest`, `PreResponse`, `PreUnexpected` |
-| **idempotency** — Idempotency keys for safe retries of mutating operations | `feature/idempotency_feature.go` | `PreRequest` |
-| **log** — Structured request and response logging | `feature/log_feature.go` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
-| **metrics** — Statistics capture: per-operation counters and latency | `feature/metrics_feature.go` | `PreDone`, `PrePoint`, `PreUnexpected` |
-| **paging** — Pagination signals for list operations | `feature/paging_feature.go` | `PreRequest`, `PreResult` |
-| **ratelimit** — Client-side rate limiting via a token bucket | `feature/ratelimit_feature.go` | — |
-| **retry** — Automatic retry of transient failures with exponential backoff | `feature/retry_feature.go` | — |
-| **telemetry** — Distributed tracing spans with W3C trace-context propagation | `feature/telemetry_feature.go` | `PreDone`, `PrePoint`, `PreRequest`, `PreUnexpected` |
-| **test** — In-memory mock transport for testing without a live server | `feature/test_feature.go` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
-| **timeout** — Per-request timeout with transport abort | `feature/timeout_feature.go` | — |
+| **audit** — Audit trail | `feature/audit_feature.go` | `PreDone`, `PreUnexpected` |
+| **clienttrack** — Client tracking | `feature/clienttrack_feature.go` | `PostConstruct`, `PreRequest` |
+| **debug** — Debug capture | `feature/debug_feature.go` | `PreDone`, `PreRequest`, `PreResponse`, `PreUnexpected` |
+| **idempotency** — Idempotency | `feature/idempotency_feature.go` | `PreRequest` |
+| **log** — Logging | `feature/log_feature.go` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
+| **metrics** — Metrics | `feature/metrics_feature.go` | `PreDone`, `PrePoint`, `PreUnexpected` |
+| **paging** — Paging | `feature/paging_feature.go` | `PreRequest`, `PreResult` |
+| **ratelimit** — Rate limiting | `feature/ratelimit_feature.go` | — |
+| **retry** — Retry | `feature/retry_feature.go` | — |
+| **telemetry** — Telemetry | `feature/telemetry_feature.go` | `PreDone`, `PrePoint`, `PreRequest`, `PreUnexpected` |
+| **test** — Test transport | `feature/test_feature.go` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
+| **timeout** — Timeout | `feature/timeout_feature.go` | — |
 
 ---
 

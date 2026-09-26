@@ -12,7 +12,7 @@ Learn more about Voxgig SDKs at [voxgig.com/sdk](https://voxgig.com/sdk/).
 
 > TypeScript, Python, PHP, Golang, Ruby, Lua, C, Clojure, C++, C#, Dart, Elixir, Haskell, Java, JavaScript, Kotlin, Lean, OCaml, Perl, Rust, Scala, Swift, Zig SDKs, a CLI with an interactive REPL, and an MCP server for AI agents — all generated from one OpenAPI spec by [@voxgig/sdkgen](https://github.com/voxgig/sdkgen).
 
-> **Features:** `audit`, `clienttrack`, `debug`, `idempotency`, `log`, `metrics`, `paging`, `ratelimit`, `retry`, `telemetry`, `test`, `timeout` — opt-in,
+> **Features:** `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined` — opt-in,
 > inactive until switched on, and configured per client. See the Features
 > section of any SDK README below for what each one does.
 
@@ -282,29 +282,29 @@ switch (client.detokenize(h.vnull()).list(h.vnull(), h.vnull())) {
 
 | Language | Package | Install |
 | --- | --- | --- |
-| TypeScript | `@voxgig-sdk/bluefin-shieldconex` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/releases) |
-| Python | `voxgig-sdk-bluefin-shieldconex` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/releases) |
-| PHP | `voxgig-sdk/bluefin-shieldconex` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/releases) |
+| TypeScript | `@voxgig-sdk/bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
+| Python | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
+| PHP | `voxgig-sdk/bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
 | Golang | `github.com/voxgig-sdk/bluefin-shieldconex-sdk/go` | `go get github.com/voxgig-sdk/bluefin-shieldconex-sdk/go@latest` |
-| Ruby | `voxgig-sdk-bluefin-shieldconex` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/releases) |
-| Lua | `voxgig-sdk-bluefin-shieldconex` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/releases) |
-| C | `voxgig-sdk-bluefin-shieldconex` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/releases) |
-| Clojure | `voxgig-sdk-bluefin-shieldconex` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/releases) |
-| C++ | `voxgig-sdk-bluefin-shieldconex` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/releases) |
-| C# | `voxgig-sdk-bluefin-shieldconex` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/releases) |
-| Dart | `voxgig-sdk-bluefin-shieldconex` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/releases) |
-| Elixir | `voxgig-sdk-bluefin-shieldconex` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/releases) |
-| Haskell | `voxgig-sdk-bluefin-shieldconex` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/releases) |
-| Java | `voxgig-sdk-bluefin-shieldconex` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/releases) |
-| JavaScript | `@voxgig-sdk/bluefin-shieldconex-js` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/releases) |
-| Kotlin | `voxgig-sdk-bluefin-shieldconex` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/releases) |
-| Lean | `voxgig-sdk-bluefin-shieldconex` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/releases) |
-| OCaml | `voxgig-sdk-bluefin-shieldconex` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/releases) |
-| Perl | `voxgig-sdk-bluefin-shieldconex` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/releases) |
-| Rust | `voxgig-sdk-bluefin-shieldconex` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/releases) |
-| Scala | `voxgig-sdk-bluefin-shieldconex` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/releases) |
-| Swift | `voxgig-sdk-bluefin-shieldconex` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/releases) |
-| Zig | `voxgig-sdk-bluefin-shieldconex` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/releases) |
+| Ruby | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
+| Lua | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
+| C | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
+| Clojure | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
+| C++ | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
+| C# | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
+| Dart | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
+| Elixir | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
+| Haskell | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
+| Java | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
+| JavaScript | `@voxgig-sdk/bluefin-shieldconex-sdk-js` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
+| Kotlin | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
+| Lean | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
+| OCaml | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
+| Perl | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
+| Rust | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
+| Scala | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
+| Swift | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
+| Zig | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
 | Go CLI | `github.com/voxgig-sdk/bluefin-shieldconex-sdk/go-cli` | `go install github.com/voxgig-sdk/bluefin-shieldconex-sdk/go-cli/cmd/bluefin-shieldconex@latest` |
 | Go MCP server | `github.com/voxgig-sdk/bluefin-shieldconex-sdk/go-mcp` | `go get github.com/voxgig-sdk/bluefin-shieldconex-sdk/go-mcp@latest` |
 
@@ -313,7 +313,7 @@ switch (client.detokenize(h.vnull()).list(h.vnull(), h.vnull())) {
 ### TypeScript
 
 ```ts
-import { BluefinShieldconexSDK } from '@voxgig-sdk/bluefin-shieldconex'
+import { BluefinShieldconexSDK } from '@voxgig-sdk/bluefin-shieldconex-sdk'
 
 const client = new BluefinShieldconexSDK({
   apikey: process.env.BLUEFIN_SHIELDCONEX_APIKEY,
@@ -591,7 +591,7 @@ System.out.println(detokenizeList);
 ### JavaScript
 
 ```js
-const { BluefinShieldconexSDK } = require('@voxgig-sdk/bluefin-shieldconex-js')
+const { BluefinShieldconexSDK } = require('@voxgig-sdk/bluefin-shieldconex-sdk-js')
 
 const client = new BluefinShieldconexSDK({
   apikey: process.env.BLUEFIN_SHIELDCONEX_APIKEY,
@@ -992,18 +992,18 @@ forking the SDK.
 
 | Feature | Purpose |
 | --- | --- |
-| **AuditFeature** | Structured audit trail of operations |
-| **ClienttrackFeature** | Client identity and per-request correlation headers |
-| **DebugFeature** | Request/response capture ring buffer for debugging |
-| **IdempotencyFeature** | Idempotency keys for safe retries of mutating operations |
-| **LogFeature** | Structured request and response logging |
-| **MetricsFeature** | Statistics capture: per-operation counters and latency |
-| **PagingFeature** | Pagination signals for list operations |
-| **RatelimitFeature** | Client-side rate limiting via a token bucket |
-| **RetryFeature** | Automatic retry of transient failures with exponential backoff |
-| **TelemetryFeature** | Distributed tracing spans with W3C trace-context propagation |
-| **TestFeature** | In-memory mock transport for testing without a live server |
-| **TimeoutFeature** | Per-request timeout with transport abort |
+| **AuditFeature** | Audit trail |
+| **ClienttrackFeature** | Client tracking |
+| **DebugFeature** | Debug capture |
+| **IdempotencyFeature** | Idempotency |
+| **LogFeature** | Logging |
+| **MetricsFeature** | Metrics |
+| **PagingFeature** | Paging |
+| **RatelimitFeature** | Rate limiting |
+| **RetryFeature** | Retry |
+| **TelemetryFeature** | Telemetry |
+| **TestFeature** | Test transport |
+| **TimeoutFeature** | Timeout |
 
 Pass custom features via the `extend` option at construction time.
 

@@ -1,7 +1,7 @@
 // Typed models for the BluefinShieldconex SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 package entity
@@ -14,13 +14,6 @@ import (
 
 // Detokenize is the typed data model for the detokenize entity.
 type Detokenize struct {
-	Batches *[]any `json:"batches,omitempty"`
-	Bfid *string `json:"bfid,omitempty"`
-	MessageId *string `json:"messageId,omitempty"`
-	Name *string `json:"name,omitempty"`
-	Reference *string `json:"reference,omitempty"`
-	Value *string `json:"value,omitempty"`
-	Values *[]any `json:"values,omitempty"`
 }
 
 // DetokenizeListMatch is the typed request payload for Detokenize.ListTyped.
@@ -44,14 +37,6 @@ type DetokenizeCreateData struct {
 
 // Tokenize is the typed data model for the tokenize entity.
 type Tokenize struct {
-	Batches *[]any `json:"batches,omitempty"`
-	Bfid *string `json:"bfid,omitempty"`
-	MessageId *string `json:"messageId,omitempty"`
-	Name *string `json:"name,omitempty"`
-	Reference *string `json:"reference,omitempty"`
-	TemplateRef string `json:"templateRef"`
-	Value *string `json:"value,omitempty"`
-	Values *[]any `json:"values,omitempty"`
 }
 
 // TokenizeListMatch is the typed request payload for Tokenize.ListTyped.
@@ -77,9 +62,6 @@ type TokenizeCreateData struct {
 
 // TokenizeBatch is the typed data model for the tokenize_batch entity.
 type TokenizeBatch struct {
-	Batches *[]any `json:"batches,omitempty"`
-	MessageId *string `json:"messageId,omitempty"`
-	Reference *string `json:"reference,omitempty"`
 }
 
 // TokenizeBatchCreateData is the typed request payload for TokenizeBatch.CreateTyped.
@@ -91,11 +73,6 @@ type TokenizeBatchCreateData struct {
 
 // TokenizeRead is the typed data model for the tokenize_read entity.
 type TokenizeRead struct {
-	Bfid *string `json:"bfid,omitempty"`
-	MessageId *string `json:"messageId,omitempty"`
-	Reference *string `json:"reference,omitempty"`
-	State *map[string]any `json:"state,omitempty"`
-	Values *[]any `json:"values,omitempty"`
 }
 
 // TokenizeReadCreateData is the typed request payload for TokenizeRead.CreateTyped.
@@ -109,9 +86,6 @@ type TokenizeReadCreateData struct {
 
 // Validate is the typed data model for the validate entity.
 type Validate struct {
-	MessageId *string `json:"messageId,omitempty"`
-	Reference *string `json:"reference,omitempty"`
-	TemplateRef string `json:"templateRef"`
 }
 
 // ValidateCreateData is the typed request payload for Validate.CreateTyped.

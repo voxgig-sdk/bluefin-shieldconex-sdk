@@ -27,7 +27,7 @@ make test
 
 | Source | Path | Edit when… |
 | --- | --- | --- |
-| Target definition | `.sdk/model/target/ts.aon` | deps, module, extension, phases change |
+| Target definition | `.sdk/model/target/ts.aontu` | deps, module, extension, phases change |
 | Templates | `.sdk/tm/ts/` | the file is the **same for every API** (runtime, transport, base classes) — copied verbatim with placeholder substitution |
 | Components | `.sdk/src/cmp/ts/` | the file's shape **depends on the API** (entities, constructor, README, tests) — TypeScript that walks the model |
 
@@ -37,18 +37,18 @@ component.* After editing a component run `npm run build` before
 
 ## Features in this target
 
-- [`audit`](./src/feature/audit/AGENTS.md) — Structured audit trail of operations
-- [`clienttrack`](./src/feature/clienttrack/AGENTS.md) — Client identity and per-request correlation headers
-- [`debug`](./src/feature/debug/AGENTS.md) — Request/response capture ring buffer for debugging
-- [`idempotency`](./src/feature/idempotency/AGENTS.md) — Idempotency keys for safe retries of mutating operations
-- [`log`](./src/feature/log/AGENTS.md) — Structured request and response logging
-- [`metrics`](./src/feature/metrics/AGENTS.md) — Statistics capture: per-operation counters and latency
-- [`paging`](./src/feature/paging/AGENTS.md) — Pagination signals for list operations
-- [`ratelimit`](./src/feature/ratelimit/AGENTS.md) — Client-side rate limiting via a token bucket
-- [`retry`](./src/feature/retry/AGENTS.md) — Automatic retry of transient failures with exponential backoff
-- [`telemetry`](./src/feature/telemetry/AGENTS.md) — Distributed tracing spans with W3C trace-context propagation
-- [`test`](./src/feature/test/AGENTS.md) — In-memory mock transport for testing without a live server
-- [`timeout`](./src/feature/timeout/AGENTS.md) — Per-request timeout with transport abort
+- [`audit`](./src/feature/audit/AGENTS.md) — Audit trail
+- [`clienttrack`](./src/feature/clienttrack/AGENTS.md) — Client tracking
+- [`debug`](./src/feature/debug/AGENTS.md) — Debug capture
+- [`idempotency`](./src/feature/idempotency/AGENTS.md) — Idempotency
+- [`log`](./src/feature/log/AGENTS.md) — Logging
+- [`metrics`](./src/feature/metrics/AGENTS.md) — Metrics
+- [`paging`](./src/feature/paging/AGENTS.md) — Paging
+- [`ratelimit`](./src/feature/ratelimit/AGENTS.md) — Rate limiting
+- [`retry`](./src/feature/retry/AGENTS.md) — Retry
+- [`telemetry`](./src/feature/telemetry/AGENTS.md) — Telemetry
+- [`test`](./src/feature/test/AGENTS.md) — Test transport
+- [`timeout`](./src/feature/timeout/AGENTS.md) — Timeout
 
 Each feature's runtime and its own guide live in `src/feature/<name>/`.
 

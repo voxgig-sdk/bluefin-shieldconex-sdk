@@ -499,18 +499,18 @@ above:
 
 | Feature | What it does |
 |---|---|
-| [`audit`](#audit) | Structured audit trail of operations |
-| [`clienttrack`](#clienttrack) | Client identity and per-request correlation headers |
-| [`debug`](#debug) | Request/response capture ring buffer for debugging |
-| [`idempotency`](#idempotency) | Idempotency keys for safe retries of mutating operations |
-| [`log`](#log) | Structured request and response logging |
-| [`metrics`](#metrics) | Statistics capture: per-operation counters and latency |
-| [`paging`](#paging) | Pagination signals for list operations |
-| [`ratelimit`](#ratelimit) | Client-side rate limiting via a token bucket |
-| [`retry`](#retry) | Automatic retry of transient failures with exponential backoff |
-| [`telemetry`](#telemetry) | Distributed tracing spans with W3C trace-context propagation |
-| [`test`](#test) | In-memory mock transport for testing without a live server |
-| [`timeout`](#timeout) | Per-request timeout with transport abort |
+| [`audit`](#audit) | Audit trail |
+| [`clienttrack`](#clienttrack) | Client tracking |
+| [`debug`](#debug) | Debug capture |
+| [`idempotency`](#idempotency) | Idempotency |
+| [`log`](#log) | Logging |
+| [`metrics`](#metrics) | Metrics |
+| [`paging`](#paging) | Paging |
+| [`ratelimit`](#ratelimit) | Rate limiting |
+| [`retry`](#retry) | Retry |
+| [`telemetry`](#telemetry) | Telemetry |
+| [`test`](#test) | Test transport |
+| [`timeout`](#timeout) | Timeout |
 
 > **Order matters for `ratelimit`, `retry`, `timeout`.** These wrap the
 > transport, so each one wraps whatever is already installed: the order you
@@ -519,7 +519,7 @@ above:
 
 ### audit
 
-Structured audit trail of operations.
+Audit trail.
 
 | Option | Default |
 |---|---|
@@ -531,7 +531,7 @@ Set `feature.audit.active` to enable it, then override any of the options above.
 
 ### clienttrack
 
-Client identity and per-request correlation headers.
+Client tracking.
 
 | Option | Default |
 |---|---|
@@ -542,7 +542,7 @@ Set `feature.clienttrack.active` to enable it, then override any of the options 
 
 ### debug
 
-Request/response capture ring buffer for debugging.
+Debug capture.
 
 | Option | Default |
 |---|---|
@@ -554,7 +554,7 @@ Set `feature.debug.active` to enable it, then override any of the options above.
 
 ### idempotency
 
-Idempotency keys for safe retries of mutating operations.
+Idempotency.
 
 | Option | Default |
 |---|---|
@@ -567,7 +567,7 @@ Set `feature.idempotency.active` to enable it, then override any of the options 
 
 ### log
 
-Structured request and response logging.
+Logging.
 
 | Option | Default |
 |---|---|
@@ -577,7 +577,7 @@ Set `feature.log.active` to enable it, then override any of the options above.
 
 ### metrics
 
-Statistics capture: per-operation counters and latency.
+Metrics.
 
 | Option | Default |
 |---|---|
@@ -587,7 +587,7 @@ Set `feature.metrics.active` to enable it, then override any of the options abov
 
 ### paging
 
-Pagination signals for list operations.
+Paging.
 
 | Option | Default |
 |---|---|
@@ -603,7 +603,7 @@ Set `feature.paging.active` to enable it, then override any of the options above
 
 ### ratelimit
 
-Client-side rate limiting via a token bucket.
+Rate limiting.
 
 | Option | Default |
 |---|---|
@@ -619,7 +619,7 @@ activated earlier.
 
 ### retry
 
-Automatic retry of transient failures with exponential backoff.
+Retry.
 
 | Option | Default |
 |---|---|
@@ -638,7 +638,7 @@ activated earlier.
 
 ### telemetry
 
-Distributed tracing spans with W3C trace-context propagation.
+Telemetry.
 
 | Option | Default |
 |---|---|
@@ -648,7 +648,7 @@ Set `feature.telemetry.active` to enable it, then override any of the options ab
 
 ### test
 
-In-memory mock transport for testing without a live server.
+Test transport.
 
 | Option | Default |
 |---|---|
@@ -658,7 +658,7 @@ Set `feature.test.active` to enable it, then override any of the options above.
 
 ### timeout
 
-Per-request timeout with transport abort.
+Timeout.
 
 | Option | Default |
 |---|---|
@@ -710,18 +710,18 @@ a function that receives the context.
 
 The SDK ships with built-in features:
 
-- **AuditFeature**: Structured audit trail of operations
-- **ClienttrackFeature**: Client identity and per-request correlation headers
-- **DebugFeature**: Request/response capture ring buffer for debugging
-- **IdempotencyFeature**: Idempotency keys for safe retries of mutating operations
-- **LogFeature**: Structured request and response logging
-- **MetricsFeature**: Statistics capture: per-operation counters and latency
-- **PagingFeature**: Pagination signals for list operations
-- **RatelimitFeature**: Client-side rate limiting via a token bucket
-- **RetryFeature**: Automatic retry of transient failures with exponential backoff
-- **TelemetryFeature**: Distributed tracing spans with W3C trace-context propagation
-- **TestFeature**: In-memory mock transport for testing without a live server
-- **TimeoutFeature**: Per-request timeout with transport abort
+- **AuditFeature**: Audit trail
+- **ClienttrackFeature**: Client tracking
+- **DebugFeature**: Debug capture
+- **IdempotencyFeature**: Idempotency
+- **LogFeature**: Logging
+- **MetricsFeature**: Metrics
+- **PagingFeature**: Paging
+- **RatelimitFeature**: Rate limiting
+- **RetryFeature**: Retry
+- **TelemetryFeature**: Telemetry
+- **TestFeature**: Test transport
+- **TimeoutFeature**: Timeout
 
 Features are initialized in order. Hooks fire in the order features
 were added, so later features can override earlier ones.

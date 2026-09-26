@@ -176,42 +176,49 @@ let make_config () : value =
         ("fields", (ja [
           (jo [
             ("name", (Str "batches"));
+            ("title", (Str "Batches"));
+            ("type", (Str "`$ARRAY`"));
             ("op", (jo [
               ("create", (jo [
                 ("req", (Bool true));
-                ("type", (Str "`$ARRAY`")) ])) ]));
-            ("type", (Str "`$ARRAY`")) ]);
+                ("type", (Str "`$ARRAY`")) ])) ])) ]);
           (jo [
             ("name", (Str "bfid"));
+            ("title", (Str "Bfid"));
+            ("type", (Str "`$STRING`"));
             ("op", (jo [
               ("create", (jo [
                 ("req", (Bool true));
                 ("type", (Str "`$STRING`")) ])) ]));
-            ("short", (Str "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request)."));
-            ("type", (Str "`$STRING`")) ]);
+            ("short", (Str "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).")) ]);
           (jo [
             ("name", (Str "messageId"));
-            ("short", (Str "Message Id"));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Message Id"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Message Id")) ]);
           (jo [
             ("name", (Str "name"));
-            ("short", (Str "Field Name."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Name"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Field Name.")) ]);
           (jo [
             ("name", (Str "reference"));
-            ("short", (Str "Request Reference."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Reference"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Request Reference.")) ]);
           (jo [
             ("name", (Str "value"));
-            ("short", (Str "Field Value."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Value"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Field Value.")) ]);
           (jo [
             ("name", (Str "values"));
+            ("title", (Str "Values"));
+            ("type", (Str "`$ARRAY`"));
             ("op", (jo [
               ("create", (jo [
                 ("req", (Bool true));
-                ("type", (Str "`$ARRAY`")) ])) ]));
-            ("type", (Str "`$ARRAY`")) ]) ]));
+                ("type", (Str "`$ARRAY`")) ])) ])) ]) ]));
         ("name", (Str "detokenize"));
         ("op", (jo [
           ("create", (jo [
@@ -219,7 +226,6 @@ let make_config () : value =
             ("name", (Str "create"));
             ("points", (ja [
               (jo [
-                ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/tokenization/batch/detokenize"));
@@ -230,16 +236,17 @@ let make_config () : value =
                     ("lit", (Str "batch")) ]);
                   (jo [
                     ("lit", (Str "detokenize")) ]) ]));
-                ("select", (empty_map ()));
-                ("transform", (jo [
-                  ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ]));
                 ("parts", (ja [
                   (Str "tokenization");
                   (Str "batch");
-                  (Str "detokenize") ])) ]);
-              (jo [
+                  (Str "detokenize") ]));
+                ("rename", (empty_map ()));
+                ("transform", (jo [
+                  ("req", (Str "`reqdata`"));
+                  ("res", (Str "`body`")) ]));
                 ("args", (empty_map ()));
+                ("select", (empty_map ())) ]);
+              (jo [
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/tokenization/detokenize"));
@@ -248,41 +255,20 @@ let make_config () : value =
                     ("lit", (Str "tokenization")) ]);
                   (jo [
                     ("lit", (Str "detokenize")) ]) ]));
-                ("select", (empty_map ()));
+                ("parts", (ja [
+                  (Str "tokenization");
+                  (Str "detokenize") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "tokenization");
-                  (Str "detokenize") ])) ]) ])) ]));
+                ("args", (empty_map ()));
+                ("select", (empty_map ())) ]) ])) ]));
           ("list", (jo [
             ("input", (Str "data"));
             ("name", (Str "list"));
             ("points", (ja [
               (jo [
-                ("args", (jo [
-                  ("query", (ja [
-                    (jo [
-                      ("kind", (Str "query"));
-                      ("name", (Str "bfid"));
-                      ("orig", (Str "bfid"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("kind", (Str "query"));
-                      ("name", (Str "field_name"));
-                      ("orig", (Str "field_name"));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("kind", (Str "query"));
-                      ("name", (Str "field_value"));
-                      ("orig", (Str "field_value"));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("kind", (Str "query"));
-                      ("name", (Str "reference"));
-                      ("orig", (Str "reference"));
-                      ("type", (Str "`$STRING`")) ]) ])) ]));
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/healthcheck/detokenize"));
@@ -291,65 +277,97 @@ let make_config () : value =
                     ("lit", (Str "healthcheck")) ]);
                   (jo [
                     ("lit", (Str "detokenize")) ]) ]));
+                ("parts", (ja [
+                  (Str "healthcheck");
+                  (Str "detokenize") ]));
+                ("rename", (empty_map ()));
+                ("transform", (jo [
+                  ("req", (Str "`reqdata`"));
+                  ("res", (Str "`body.values`")) ]));
+                ("args", (jo [
+                  ("query", (ja [
+                    (jo [
+                      ("name", (Str "bfid"));
+                      ("orig", (Str "bfid"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query"));
+                      ("reqd", (Bool true)) ]);
+                    (jo [
+                      ("name", (Str "field_name"));
+                      ("orig", (Str "field_name"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query")) ]);
+                    (jo [
+                      ("name", (Str "field_value"));
+                      ("orig", (Str "field_value"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query")) ]);
+                    (jo [
+                      ("name", (Str "reference"));
+                      ("orig", (Str "reference"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query")) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
                     (Str "bfid");
                     (Str "field_name");
                     (Str "field_value");
-                    (Str "reference") ])) ]));
-                ("transform", (jo [
-                  ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body.values`")) ]));
-                ("parts", (ja [
-                  (Str "healthcheck");
-                  (Str "detokenize") ])) ]) ])) ])) ]));
+                    (Str "reference") ])) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("tokenize", (jo [
         ("fields", (ja [
           (jo [
             ("name", (Str "batches"));
+            ("title", (Str "Batches"));
+            ("type", (Str "`$ARRAY`"));
             ("op", (jo [
               ("create", (jo [
                 ("req", (Bool true));
-                ("type", (Str "`$ARRAY`")) ])) ]));
-            ("type", (Str "`$ARRAY`")) ]);
+                ("type", (Str "`$ARRAY`")) ])) ])) ]);
           (jo [
             ("name", (Str "bfid"));
+            ("title", (Str "Bfid"));
+            ("type", (Str "`$STRING`"));
             ("op", (jo [
               ("create", (jo [
                 ("req", (Bool true));
                 ("type", (Str "`$STRING`")) ])) ]));
-            ("short", (Str "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request)."));
-            ("type", (Str "`$STRING`")) ]);
+            ("short", (Str "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).")) ]);
           (jo [
             ("name", (Str "messageId"));
-            ("short", (Str "Message Id"));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Message Id"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Message Id")) ]);
           (jo [
             ("name", (Str "name"));
-            ("short", (Str "Field Name."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Name"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Field Name.")) ]);
           (jo [
             ("name", (Str "reference"));
-            ("short", (Str "Request Reference."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Reference"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Request Reference.")) ]);
           (jo [
             ("name", (Str "templateRef"));
+            ("title", (Str "Template Ref"));
+            ("type", (Str "`$STRING`"));
             ("req", (Bool true));
-            ("short", (Str "Template Reference"));
-            ("type", (Str "`$STRING`")) ]);
+            ("short", (Str "Template Reference")) ]);
           (jo [
             ("name", (Str "value"));
-            ("short", (Str "Field Value."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Value"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Field Value.")) ]);
           (jo [
             ("name", (Str "values"));
+            ("title", (Str "Values"));
+            ("type", (Str "`$ARRAY`"));
             ("op", (jo [
               ("create", (jo [
                 ("req", (Bool true));
-                ("type", (Str "`$ARRAY`")) ])) ]));
-            ("type", (Str "`$ARRAY`")) ]) ]));
+                ("type", (Str "`$ARRAY`")) ])) ])) ]) ]));
         ("name", (Str "tokenize"));
         ("op", (jo [
           ("create", (jo [
@@ -357,13 +375,6 @@ let make_config () : value =
             ("name", (Str "create"));
             ("points", (ja [
               (jo [
-                ("args", (jo [
-                  ("query", (ja [
-                    (jo [
-                      ("kind", (Str "query"));
-                      ("name", (Str "omit"));
-                      ("orig", (Str "omit"));
-                      ("type", (Str "`$NUMBER`")) ]) ])) ]));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/tokenization/batch/tokenize"));
@@ -374,24 +385,25 @@ let make_config () : value =
                     ("lit", (Str "batch")) ]);
                   (jo [
                     ("lit", (Str "tokenize")) ]) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "omit") ])) ]));
-                ("transform", (jo [
-                  ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ]));
                 ("parts", (ja [
                   (Str "tokenization");
                   (Str "batch");
-                  (Str "tokenize") ])) ]);
-              (jo [
+                  (Str "tokenize") ]));
+                ("rename", (empty_map ()));
+                ("transform", (jo [
+                  ("req", (Str "`reqdata`"));
+                  ("res", (Str "`body`")) ]));
                 ("args", (jo [
                   ("query", (ja [
                     (jo [
-                      ("kind", (Str "query"));
                       ("name", (Str "omit"));
                       ("orig", (Str "omit"));
-                      ("type", (Str "`$NUMBER`")) ]) ])) ]));
+                      ("type", (Str "`$NUMBER`"));
+                      ("kind", (Str "query")) ]) ])) ]));
+                ("select", (jo [
+                  ("exist", (ja [
+                    (Str "omit") ])) ])) ]);
+              (jo [
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/tokenization/tokenize"));
@@ -400,17 +412,24 @@ let make_config () : value =
                     ("lit", (Str "tokenization")) ]);
                   (jo [
                     ("lit", (Str "tokenize")) ]) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "omit") ])) ]));
+                ("parts", (ja [
+                  (Str "tokenization");
+                  (Str "tokenize") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "tokenization");
-                  (Str "tokenize") ])) ]);
+                ("args", (jo [
+                  ("query", (ja [
+                    (jo [
+                      ("name", (Str "omit"));
+                      ("orig", (Str "omit"));
+                      ("type", (Str "`$NUMBER`"));
+                      ("kind", (Str "query")) ]) ])) ]));
+                ("select", (jo [
+                  ("exist", (ja [
+                    (Str "omit") ])) ])) ]);
               (jo [
-                ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/tokenization/delete"));
@@ -419,41 +438,20 @@ let make_config () : value =
                     ("lit", (Str "tokenization")) ]);
                   (jo [
                     ("lit", (Str "delete")) ]) ]));
-                ("select", (empty_map ()));
+                ("parts", (ja [
+                  (Str "tokenization");
+                  (Str "delete") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "tokenization");
-                  (Str "delete") ])) ]) ])) ]));
+                ("args", (empty_map ()));
+                ("select", (empty_map ())) ]) ])) ]));
           ("list", (jo [
             ("input", (Str "data"));
             ("name", (Str "list"));
             ("points", (ja [
               (jo [
-                ("args", (jo [
-                  ("query", (ja [
-                    (jo [
-                      ("kind", (Str "query"));
-                      ("name", (Str "field_name"));
-                      ("orig", (Str "field_name"));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("kind", (Str "query"));
-                      ("name", (Str "field_value"));
-                      ("orig", (Str "field_value"));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("kind", (Str "query"));
-                      ("name", (Str "reference"));
-                      ("orig", (Str "reference"));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("kind", (Str "query"));
-                      ("name", (Str "template_ref"));
-                      ("orig", (Str "template_ref"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]) ])) ]));
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/healthcheck/tokenize"));
@@ -462,37 +460,64 @@ let make_config () : value =
                     ("lit", (Str "healthcheck")) ]);
                   (jo [
                     ("lit", (Str "tokenize")) ]) ]));
+                ("parts", (ja [
+                  (Str "healthcheck");
+                  (Str "tokenize") ]));
+                ("rename", (empty_map ()));
+                ("transform", (jo [
+                  ("req", (Str "`reqdata`"));
+                  ("res", (Str "`body.values`")) ]));
+                ("args", (jo [
+                  ("query", (ja [
+                    (jo [
+                      ("name", (Str "field_name"));
+                      ("orig", (Str "field_name"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query")) ]);
+                    (jo [
+                      ("name", (Str "field_value"));
+                      ("orig", (Str "field_value"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query")) ]);
+                    (jo [
+                      ("name", (Str "reference"));
+                      ("orig", (Str "reference"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query")) ]);
+                    (jo [
+                      ("name", (Str "template_ref"));
+                      ("orig", (Str "template_ref"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query"));
+                      ("reqd", (Bool true)) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
                     (Str "field_name");
                     (Str "field_value");
                     (Str "reference");
-                    (Str "template_ref") ])) ]));
-                ("transform", (jo [
-                  ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body.values`")) ]));
-                ("parts", (ja [
-                  (Str "healthcheck");
-                  (Str "tokenize") ])) ]) ])) ])) ]));
+                    (Str "template_ref") ])) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("tokenize_batch", (jo [
         ("fields", (ja [
           (jo [
             ("name", (Str "batches"));
+            ("title", (Str "Batches"));
+            ("type", (Str "`$ARRAY`"));
             ("op", (jo [
               ("create", (jo [
                 ("req", (Bool true));
-                ("type", (Str "`$ARRAY`")) ])) ]));
-            ("type", (Str "`$ARRAY`")) ]);
+                ("type", (Str "`$ARRAY`")) ])) ])) ]);
           (jo [
             ("name", (Str "messageId"));
-            ("short", (Str "Message Id"));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Message Id"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Message Id")) ]);
           (jo [
             ("name", (Str "reference"));
-            ("short", (Str "Request Reference."));
-            ("type", (Str "`$STRING`")) ]) ]));
+            ("title", (Str "Reference"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Request Reference.")) ]) ]));
         ("name", (Str "tokenize_batch"));
         ("op", (jo [
           ("create", (jo [
@@ -500,7 +525,6 @@ let make_config () : value =
             ("name", (Str "create"));
             ("points", (ja [
               (jo [
-                ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/tokenization/batch/delete"));
@@ -511,16 +535,17 @@ let make_config () : value =
                     ("lit", (Str "batch")) ]);
                   (jo [
                     ("lit", (Str "delete")) ]) ]));
-                ("select", (empty_map ()));
-                ("transform", (jo [
-                  ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ]));
                 ("parts", (ja [
                   (Str "tokenization");
                   (Str "batch");
-                  (Str "delete") ])) ]);
-              (jo [
+                  (Str "delete") ]));
+                ("rename", (empty_map ()));
+                ("transform", (jo [
+                  ("req", (Str "`reqdata`"));
+                  ("res", (Str "`body`")) ]));
                 ("args", (empty_map ()));
+                ("select", (empty_map ())) ]);
+              (jo [
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/tokenization/batch/read"));
@@ -531,40 +556,47 @@ let make_config () : value =
                     ("lit", (Str "batch")) ]);
                   (jo [
                     ("lit", (Str "read")) ]) ]));
-                ("select", (empty_map ()));
-                ("transform", (jo [
-                  ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ]));
                 ("parts", (ja [
                   (Str "tokenization");
                   (Str "batch");
-                  (Str "read") ])) ]) ])) ])) ]));
+                  (Str "read") ]));
+                ("rename", (empty_map ()));
+                ("transform", (jo [
+                  ("req", (Str "`reqdata`"));
+                  ("res", (Str "`body`")) ]));
+                ("args", (empty_map ()));
+                ("select", (empty_map ())) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("tokenize_read", (jo [
         ("fields", (ja [
           (jo [
             ("name", (Str "bfid"));
+            ("title", (Str "Bfid"));
+            ("type", (Str "`$STRING`"));
             ("op", (jo [
               ("create", (jo [
                 ("req", (Bool true));
                 ("type", (Str "`$STRING`")) ])) ]));
-            ("short", (Str "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request)."));
-            ("type", (Str "`$STRING`")) ]);
+            ("short", (Str "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).")) ]);
           (jo [
             ("name", (Str "messageId"));
-            ("short", (Str "Message Id"));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Message Id"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Message Id")) ]);
           (jo [
             ("name", (Str "reference"));
-            ("short", (Str "Request Reference."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Reference"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Request Reference.")) ]);
           (jo [
             ("name", (Str "state"));
-            ("short", (Str "Tokenized State Data (if available)"));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("title", (Str "State"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Tokenized State Data (if available)")) ]);
           (jo [
             ("name", (Str "values"));
+            ("title", (Str "Values"));
             ("type", (Str "`$ARRAY`")) ]) ]));
         ("name", (Str "tokenize_read"));
         ("op", (jo [
@@ -573,7 +605,6 @@ let make_config () : value =
             ("name", (Str "create"));
             ("points", (ja [
               (jo [
-                ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/tokenization/read"));
@@ -582,30 +613,35 @@ let make_config () : value =
                     ("lit", (Str "tokenization")) ]);
                   (jo [
                     ("lit", (Str "read")) ]) ]));
-                ("select", (empty_map ()));
+                ("parts", (ja [
+                  (Str "tokenization");
+                  (Str "read") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "tokenization");
-                  (Str "read") ])) ]) ])) ])) ]));
+                ("args", (empty_map ()));
+                ("select", (empty_map ())) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("validate", (jo [
         ("fields", (ja [
           (jo [
             ("name", (Str "messageId"));
-            ("short", (Str "Message Id"));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Message Id"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Message Id")) ]);
           (jo [
             ("name", (Str "reference"));
-            ("short", (Str "Request Reference."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Reference"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Request Reference.")) ]);
           (jo [
             ("name", (Str "templateRef"));
+            ("title", (Str "Template Ref"));
+            ("type", (Str "`$STRING`"));
             ("req", (Bool true));
-            ("short", (Str "Template Reference."));
-            ("type", (Str "`$STRING`")) ]) ]));
+            ("short", (Str "Template Reference.")) ]) ]));
         ("name", (Str "validate"));
         ("op", (jo [
           ("create", (jo [
@@ -613,7 +649,6 @@ let make_config () : value =
             ("name", (Str "create"));
             ("points", (ja [
               (jo [
-                ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/partner/validate"));
@@ -622,15 +657,16 @@ let make_config () : value =
                     ("lit", (Str "partner")) ]);
                   (jo [
                     ("lit", (Str "validate")) ]) ]));
-                ("select", (empty_map ()));
+                ("parts", (ja [
+                  (Str "partner");
+                  (Str "validate") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "partner");
-                  (Str "validate") ])) ]);
-              (jo [
                 ("args", (empty_map ()));
+                ("select", (empty_map ())) ]);
+              (jo [
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/template/validate"));
@@ -639,13 +675,15 @@ let make_config () : value =
                     ("lit", (Str "template")) ]);
                   (jo [
                     ("lit", (Str "validate")) ]) ]));
-                ("select", (empty_map ()));
+                ("parts", (ja [
+                  (Str "template");
+                  (Str "validate") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "template");
-                  (Str "validate") ])) ]) ])) ])) ]));
+                ("args", (empty_map ()));
+                ("select", (empty_map ())) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ])) ])) ])
 

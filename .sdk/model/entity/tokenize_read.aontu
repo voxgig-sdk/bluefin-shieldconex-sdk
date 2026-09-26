@@ -1,0 +1,82 @@
+# Entity: tokenize_read
+
+main: kit: entity: tokenize_read: {
+
+  alias: field: {}
+
+  fields: {
+    bfid: {
+      h: "Bfid"
+      n: "bfid"
+      op: {
+        create: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
+      r: false
+      sh: "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request)."
+      t: "`$STRING`"
+    }
+    messageId: {
+      h: "Message Id"
+      n: "messageId"
+      r: false
+      sh: "Message Id"
+      t: "`$STRING`"
+    }
+    reference: {
+      h: "Reference"
+      n: "reference"
+      r: false
+      sh: "Request Reference."
+      t: "`$STRING`"
+    }
+    state: {
+      h: "State"
+      n: "state"
+      r: false
+      sh: "Tokenized State Data (if available)"
+      t: "`$OBJECT`"
+    }
+    values: {
+      h: "Values"
+      n: "values"
+      r: false
+      t: "`$ARRAY`"
+    }
+  }
+
+  name: "tokenize_read"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /tokenization/read"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/tokenization/read"
+          s: [
+            {
+              lit: "tokenization"
+            }
+            {
+              lit: "read"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

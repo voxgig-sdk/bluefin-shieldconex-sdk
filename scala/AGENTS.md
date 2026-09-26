@@ -26,7 +26,7 @@ make test
 
 | Source | Path | Edit when… |
 | --- | --- | --- |
-| Target definition | `.sdk/model/target/scala.aon` | deps, module, extension, phases change |
+| Target definition | `.sdk/model/target/scala.aontu` | deps, module, extension, phases change |
 | Templates | `.sdk/tm/scala/` | the file is the **same for every API** (runtime, transport, base classes) — copied verbatim with placeholder substitution |
 | Components | `.sdk/src/cmp/scala/` | the file's shape **depends on the API** (entities, constructor, README, tests) — TypeScript that walks the model |
 
@@ -37,23 +37,23 @@ component.* After editing a component run `npm run build` before
 ## Features in this target
 
 Each feature is a flat file in the `feature/` package. Its hooks and
-default activation come from `.sdk/model/feature/<name>.aon`; customise
+default activation come from `.sdk/model/feature/<name>.aontu`; customise
 the runtime under `.sdk/tm/scala/feature/` and regenerate.
 
 | Feature | Runtime file | Active hooks |
 | --- | --- | --- |
-| **audit** — Structured audit trail of operations | `feature/audit_feature.scala` | `PreDone`, `PreUnexpected` |
-| **clienttrack** — Client identity and per-request correlation headers | `feature/clienttrack_feature.scala` | `PostConstruct`, `PreRequest` |
-| **debug** — Request/response capture ring buffer for debugging | `feature/debug_feature.scala` | `PreDone`, `PreRequest`, `PreResponse`, `PreUnexpected` |
-| **idempotency** — Idempotency keys for safe retries of mutating operations | `feature/idempotency_feature.scala` | `PreRequest` |
-| **log** — Structured request and response logging | `feature/log_feature.scala` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
-| **metrics** — Statistics capture: per-operation counters and latency | `feature/metrics_feature.scala` | `PreDone`, `PrePoint`, `PreUnexpected` |
-| **paging** — Pagination signals for list operations | `feature/paging_feature.scala` | `PreRequest`, `PreResult` |
-| **ratelimit** — Client-side rate limiting via a token bucket | `feature/ratelimit_feature.scala` | — |
-| **retry** — Automatic retry of transient failures with exponential backoff | `feature/retry_feature.scala` | — |
-| **telemetry** — Distributed tracing spans with W3C trace-context propagation | `feature/telemetry_feature.scala` | `PreDone`, `PrePoint`, `PreRequest`, `PreUnexpected` |
-| **test** — In-memory mock transport for testing without a live server | `feature/test_feature.scala` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
-| **timeout** — Per-request timeout with transport abort | `feature/timeout_feature.scala` | — |
+| **audit** — Audit trail | `feature/audit_feature.scala` | `PreDone`, `PreUnexpected` |
+| **clienttrack** — Client tracking | `feature/clienttrack_feature.scala` | `PostConstruct`, `PreRequest` |
+| **debug** — Debug capture | `feature/debug_feature.scala` | `PreDone`, `PreRequest`, `PreResponse`, `PreUnexpected` |
+| **idempotency** — Idempotency | `feature/idempotency_feature.scala` | `PreRequest` |
+| **log** — Logging | `feature/log_feature.scala` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
+| **metrics** — Metrics | `feature/metrics_feature.scala` | `PreDone`, `PrePoint`, `PreUnexpected` |
+| **paging** — Paging | `feature/paging_feature.scala` | `PreRequest`, `PreResult` |
+| **ratelimit** — Rate limiting | `feature/ratelimit_feature.scala` | — |
+| **retry** — Retry | `feature/retry_feature.scala` | — |
+| **telemetry** — Telemetry | `feature/telemetry_feature.scala` | `PreDone`, `PrePoint`, `PreRequest`, `PreUnexpected` |
+| **test** — Test transport | `feature/test_feature.scala` | `GetData`, `GetMatch`, `PostConstruct`, `PostConstructEntity`, `PrePoint`, `PreRequest`, `PreResponse`, `PreResult`, `PreSpec`, `SetData`, `SetMatch` |
+| **timeout** — Timeout | `feature/timeout_feature.scala` | — |
 
 ---
 

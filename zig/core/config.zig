@@ -220,16 +220,19 @@ pub fn make_config() Value {
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
                         .{ "name", h.vstr("batches") },
+                        .{ "title", h.vstr("Batches") },
+                        .{ "type", h.vstr("`$ARRAY`") },
                         .{ "op", h.jo(&.{
                             .{ "create", h.jo(&.{
                                 .{ "req", h.vbool(true) },
                                 .{ "type", h.vstr("`$ARRAY`") },
                             }) },
                         }) },
-                        .{ "type", h.vstr("`$ARRAY`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("bfid") },
+                        .{ "title", h.vstr("Bfid") },
+                        .{ "type", h.vstr("`$STRING`") },
                         .{ "op", h.jo(&.{
                             .{ "create", h.jo(&.{
                                 .{ "req", h.vbool(true) },
@@ -237,37 +240,41 @@ pub fn make_config() Value {
                             }) },
                         }) },
                         .{ "short", h.vstr("The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).") },
-                        .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("messageId") },
-                        .{ "short", h.vstr("Message Id") },
+                        .{ "title", h.vstr("Message Id") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("Message Id") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("name") },
-                        .{ "short", h.vstr("Field Name.") },
+                        .{ "title", h.vstr("Name") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("Field Name.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("reference") },
-                        .{ "short", h.vstr("Request Reference.") },
+                        .{ "title", h.vstr("Reference") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("Request Reference.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("value") },
-                        .{ "short", h.vstr("Field Value.") },
+                        .{ "title", h.vstr("Value") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("Field Value.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("values") },
+                        .{ "title", h.vstr("Values") },
+                        .{ "type", h.vstr("`$ARRAY`") },
                         .{ "op", h.jo(&.{
                             .{ "create", h.jo(&.{
                                 .{ "req", h.vbool(true) },
                                 .{ "type", h.vstr("`$ARRAY`") },
                             }) },
                         }) },
-                        .{ "type", h.vstr("`$ARRAY`") },
                     }),
                 }) },
                 .{ "name", h.vstr("detokenize") },
@@ -277,7 +284,6 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("create") },
                         .{ "points", h.ja(&.{
                             h.jo(&.{
-                                .{ "args", h.omap() },
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/tokenization/batch/detokenize") },
@@ -292,19 +298,20 @@ pub fn make_config() Value {
                                         .{ "lit", h.vstr("detokenize") },
                                     }),
                                 }) },
-                                .{ "select", h.omap() },
-                                .{ "transform", h.jo(&.{
-                                    .{ "req", h.vstr("`reqdata`") },
-                                    .{ "res", h.vstr("`body`") },
-                                }) },
                                 .{ "parts", h.ja(&.{
                                     h.vstr("tokenization"),
                                     h.vstr("batch"),
                                     h.vstr("detokenize"),
                                 }) },
+                                .{ "rename", h.omap() },
+                                .{ "transform", h.jo(&.{
+                                    .{ "req", h.vstr("`reqdata`") },
+                                    .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "args", h.omap() },
+                                .{ "select", h.omap() },
                             }),
                             h.jo(&.{
-                                .{ "args", h.omap() },
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/tokenization/detokenize") },
@@ -316,15 +323,17 @@ pub fn make_config() Value {
                                         .{ "lit", h.vstr("detokenize") },
                                     }),
                                 }) },
-                                .{ "select", h.omap() },
-                                .{ "transform", h.jo(&.{
-                                    .{ "req", h.vstr("`reqdata`") },
-                                    .{ "res", h.vstr("`body`") },
-                                }) },
                                 .{ "parts", h.ja(&.{
                                     h.vstr("tokenization"),
                                     h.vstr("detokenize"),
                                 }) },
+                                .{ "rename", h.omap() },
+                                .{ "transform", h.jo(&.{
+                                    .{ "req", h.vstr("`reqdata`") },
+                                    .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "args", h.omap() },
+                                .{ "select", h.omap() },
                             }),
                         }) },
                     }) },
@@ -333,35 +342,6 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("list") },
                         .{ "points", h.ja(&.{
                             h.jo(&.{
-                                .{ "args", h.jo(&.{
-                                    .{ "query", h.ja(&.{
-                                        h.jo(&.{
-                                            .{ "kind", h.vstr("query") },
-                                            .{ "name", h.vstr("bfid") },
-                                            .{ "orig", h.vstr("bfid") },
-                                            .{ "reqd", h.vbool(true) },
-                                            .{ "type", h.vstr("`$STRING`") },
-                                        }),
-                                        h.jo(&.{
-                                            .{ "kind", h.vstr("query") },
-                                            .{ "name", h.vstr("field_name") },
-                                            .{ "orig", h.vstr("field_name") },
-                                            .{ "type", h.vstr("`$STRING`") },
-                                        }),
-                                        h.jo(&.{
-                                            .{ "kind", h.vstr("query") },
-                                            .{ "name", h.vstr("field_value") },
-                                            .{ "orig", h.vstr("field_value") },
-                                            .{ "type", h.vstr("`$STRING`") },
-                                        }),
-                                        h.jo(&.{
-                                            .{ "kind", h.vstr("query") },
-                                            .{ "name", h.vstr("reference") },
-                                            .{ "orig", h.vstr("reference") },
-                                            .{ "type", h.vstr("`$STRING`") },
-                                        }),
-                                    }) },
-                                }) },
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/healthcheck/detokenize") },
@@ -373,6 +353,44 @@ pub fn make_config() Value {
                                         .{ "lit", h.vstr("detokenize") },
                                     }),
                                 }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("healthcheck"),
+                                    h.vstr("detokenize"),
+                                }) },
+                                .{ "rename", h.omap() },
+                                .{ "transform", h.jo(&.{
+                                    .{ "req", h.vstr("`reqdata`") },
+                                    .{ "res", h.vstr("`body.values`") },
+                                }) },
+                                .{ "args", h.jo(&.{
+                                    .{ "query", h.ja(&.{
+                                        h.jo(&.{
+                                            .{ "name", h.vstr("bfid") },
+                                            .{ "orig", h.vstr("bfid") },
+                                            .{ "type", h.vstr("`$STRING`") },
+                                            .{ "kind", h.vstr("query") },
+                                            .{ "reqd", h.vbool(true) },
+                                        }),
+                                        h.jo(&.{
+                                            .{ "name", h.vstr("field_name") },
+                                            .{ "orig", h.vstr("field_name") },
+                                            .{ "type", h.vstr("`$STRING`") },
+                                            .{ "kind", h.vstr("query") },
+                                        }),
+                                        h.jo(&.{
+                                            .{ "name", h.vstr("field_value") },
+                                            .{ "orig", h.vstr("field_value") },
+                                            .{ "type", h.vstr("`$STRING`") },
+                                            .{ "kind", h.vstr("query") },
+                                        }),
+                                        h.jo(&.{
+                                            .{ "name", h.vstr("reference") },
+                                            .{ "orig", h.vstr("reference") },
+                                            .{ "type", h.vstr("`$STRING`") },
+                                            .{ "kind", h.vstr("query") },
+                                        }),
+                                    }) },
+                                }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
                                         h.vstr("bfid"),
@@ -380,14 +398,6 @@ pub fn make_config() Value {
                                         h.vstr("field_value"),
                                         h.vstr("reference"),
                                     }) },
-                                }) },
-                                .{ "transform", h.jo(&.{
-                                    .{ "req", h.vstr("`reqdata`") },
-                                    .{ "res", h.vstr("`body.values`") },
-                                }) },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("healthcheck"),
-                                    h.vstr("detokenize"),
                                 }) },
                             }),
                         }) },
@@ -401,16 +411,19 @@ pub fn make_config() Value {
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
                         .{ "name", h.vstr("batches") },
+                        .{ "title", h.vstr("Batches") },
+                        .{ "type", h.vstr("`$ARRAY`") },
                         .{ "op", h.jo(&.{
                             .{ "create", h.jo(&.{
                                 .{ "req", h.vbool(true) },
                                 .{ "type", h.vstr("`$ARRAY`") },
                             }) },
                         }) },
-                        .{ "type", h.vstr("`$ARRAY`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("bfid") },
+                        .{ "title", h.vstr("Bfid") },
+                        .{ "type", h.vstr("`$STRING`") },
                         .{ "op", h.jo(&.{
                             .{ "create", h.jo(&.{
                                 .{ "req", h.vbool(true) },
@@ -418,43 +431,48 @@ pub fn make_config() Value {
                             }) },
                         }) },
                         .{ "short", h.vstr("The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).") },
-                        .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("messageId") },
-                        .{ "short", h.vstr("Message Id") },
+                        .{ "title", h.vstr("Message Id") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("Message Id") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("name") },
-                        .{ "short", h.vstr("Field Name.") },
+                        .{ "title", h.vstr("Name") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("Field Name.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("reference") },
-                        .{ "short", h.vstr("Request Reference.") },
+                        .{ "title", h.vstr("Reference") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("Request Reference.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("templateRef") },
+                        .{ "title", h.vstr("Template Ref") },
+                        .{ "type", h.vstr("`$STRING`") },
                         .{ "req", h.vbool(true) },
                         .{ "short", h.vstr("Template Reference") },
-                        .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("value") },
-                        .{ "short", h.vstr("Field Value.") },
+                        .{ "title", h.vstr("Value") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("Field Value.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("values") },
+                        .{ "title", h.vstr("Values") },
+                        .{ "type", h.vstr("`$ARRAY`") },
                         .{ "op", h.jo(&.{
                             .{ "create", h.jo(&.{
                                 .{ "req", h.vbool(true) },
                                 .{ "type", h.vstr("`$ARRAY`") },
                             }) },
                         }) },
-                        .{ "type", h.vstr("`$ARRAY`") },
                     }),
                 }) },
                 .{ "name", h.vstr("tokenize") },
@@ -464,16 +482,6 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("create") },
                         .{ "points", h.ja(&.{
                             h.jo(&.{
-                                .{ "args", h.jo(&.{
-                                    .{ "query", h.ja(&.{
-                                        h.jo(&.{
-                                            .{ "kind", h.vstr("query") },
-                                            .{ "name", h.vstr("omit") },
-                                            .{ "orig", h.vstr("omit") },
-                                            .{ "type", h.vstr("`$NUMBER`") },
-                                        }),
-                                    }) },
-                                }) },
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/tokenization/batch/tokenize") },
@@ -488,32 +496,33 @@ pub fn make_config() Value {
                                         .{ "lit", h.vstr("tokenize") },
                                     }),
                                 }) },
-                                .{ "select", h.jo(&.{
-                                    .{ "exist", h.ja(&.{
-                                        h.vstr("omit"),
-                                    }) },
-                                }) },
-                                .{ "transform", h.jo(&.{
-                                    .{ "req", h.vstr("`reqdata`") },
-                                    .{ "res", h.vstr("`body`") },
-                                }) },
                                 .{ "parts", h.ja(&.{
                                     h.vstr("tokenization"),
                                     h.vstr("batch"),
                                     h.vstr("tokenize"),
                                 }) },
-                            }),
-                            h.jo(&.{
+                                .{ "rename", h.omap() },
+                                .{ "transform", h.jo(&.{
+                                    .{ "req", h.vstr("`reqdata`") },
+                                    .{ "res", h.vstr("`body`") },
+                                }) },
                                 .{ "args", h.jo(&.{
                                     .{ "query", h.ja(&.{
                                         h.jo(&.{
-                                            .{ "kind", h.vstr("query") },
                                             .{ "name", h.vstr("omit") },
                                             .{ "orig", h.vstr("omit") },
                                             .{ "type", h.vstr("`$NUMBER`") },
+                                            .{ "kind", h.vstr("query") },
                                         }),
                                     }) },
                                 }) },
+                                .{ "select", h.jo(&.{
+                                    .{ "exist", h.ja(&.{
+                                        h.vstr("omit"),
+                                    }) },
+                                }) },
+                            }),
+                            h.jo(&.{
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/tokenization/tokenize") },
@@ -525,22 +534,32 @@ pub fn make_config() Value {
                                         .{ "lit", h.vstr("tokenize") },
                                     }),
                                 }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("tokenization"),
+                                    h.vstr("tokenize"),
+                                }) },
+                                .{ "rename", h.omap() },
+                                .{ "transform", h.jo(&.{
+                                    .{ "req", h.vstr("`reqdata`") },
+                                    .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "args", h.jo(&.{
+                                    .{ "query", h.ja(&.{
+                                        h.jo(&.{
+                                            .{ "name", h.vstr("omit") },
+                                            .{ "orig", h.vstr("omit") },
+                                            .{ "type", h.vstr("`$NUMBER`") },
+                                            .{ "kind", h.vstr("query") },
+                                        }),
+                                    }) },
+                                }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
                                         h.vstr("omit"),
                                     }) },
                                 }) },
-                                .{ "transform", h.jo(&.{
-                                    .{ "req", h.vstr("`reqdata`") },
-                                    .{ "res", h.vstr("`body`") },
-                                }) },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("tokenization"),
-                                    h.vstr("tokenize"),
-                                }) },
                             }),
                             h.jo(&.{
-                                .{ "args", h.omap() },
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/tokenization/delete") },
@@ -552,15 +571,17 @@ pub fn make_config() Value {
                                         .{ "lit", h.vstr("delete") },
                                     }),
                                 }) },
-                                .{ "select", h.omap() },
-                                .{ "transform", h.jo(&.{
-                                    .{ "req", h.vstr("`reqdata`") },
-                                    .{ "res", h.vstr("`body`") },
-                                }) },
                                 .{ "parts", h.ja(&.{
                                     h.vstr("tokenization"),
                                     h.vstr("delete"),
                                 }) },
+                                .{ "rename", h.omap() },
+                                .{ "transform", h.jo(&.{
+                                    .{ "req", h.vstr("`reqdata`") },
+                                    .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "args", h.omap() },
+                                .{ "select", h.omap() },
                             }),
                         }) },
                     }) },
@@ -569,35 +590,6 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("list") },
                         .{ "points", h.ja(&.{
                             h.jo(&.{
-                                .{ "args", h.jo(&.{
-                                    .{ "query", h.ja(&.{
-                                        h.jo(&.{
-                                            .{ "kind", h.vstr("query") },
-                                            .{ "name", h.vstr("field_name") },
-                                            .{ "orig", h.vstr("field_name") },
-                                            .{ "type", h.vstr("`$STRING`") },
-                                        }),
-                                        h.jo(&.{
-                                            .{ "kind", h.vstr("query") },
-                                            .{ "name", h.vstr("field_value") },
-                                            .{ "orig", h.vstr("field_value") },
-                                            .{ "type", h.vstr("`$STRING`") },
-                                        }),
-                                        h.jo(&.{
-                                            .{ "kind", h.vstr("query") },
-                                            .{ "name", h.vstr("reference") },
-                                            .{ "orig", h.vstr("reference") },
-                                            .{ "type", h.vstr("`$STRING`") },
-                                        }),
-                                        h.jo(&.{
-                                            .{ "kind", h.vstr("query") },
-                                            .{ "name", h.vstr("template_ref") },
-                                            .{ "orig", h.vstr("template_ref") },
-                                            .{ "reqd", h.vbool(true) },
-                                            .{ "type", h.vstr("`$STRING`") },
-                                        }),
-                                    }) },
-                                }) },
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/healthcheck/tokenize") },
@@ -609,6 +601,44 @@ pub fn make_config() Value {
                                         .{ "lit", h.vstr("tokenize") },
                                     }),
                                 }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("healthcheck"),
+                                    h.vstr("tokenize"),
+                                }) },
+                                .{ "rename", h.omap() },
+                                .{ "transform", h.jo(&.{
+                                    .{ "req", h.vstr("`reqdata`") },
+                                    .{ "res", h.vstr("`body.values`") },
+                                }) },
+                                .{ "args", h.jo(&.{
+                                    .{ "query", h.ja(&.{
+                                        h.jo(&.{
+                                            .{ "name", h.vstr("field_name") },
+                                            .{ "orig", h.vstr("field_name") },
+                                            .{ "type", h.vstr("`$STRING`") },
+                                            .{ "kind", h.vstr("query") },
+                                        }),
+                                        h.jo(&.{
+                                            .{ "name", h.vstr("field_value") },
+                                            .{ "orig", h.vstr("field_value") },
+                                            .{ "type", h.vstr("`$STRING`") },
+                                            .{ "kind", h.vstr("query") },
+                                        }),
+                                        h.jo(&.{
+                                            .{ "name", h.vstr("reference") },
+                                            .{ "orig", h.vstr("reference") },
+                                            .{ "type", h.vstr("`$STRING`") },
+                                            .{ "kind", h.vstr("query") },
+                                        }),
+                                        h.jo(&.{
+                                            .{ "name", h.vstr("template_ref") },
+                                            .{ "orig", h.vstr("template_ref") },
+                                            .{ "type", h.vstr("`$STRING`") },
+                                            .{ "kind", h.vstr("query") },
+                                            .{ "reqd", h.vbool(true) },
+                                        }),
+                                    }) },
+                                }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
                                         h.vstr("field_name"),
@@ -616,14 +646,6 @@ pub fn make_config() Value {
                                         h.vstr("reference"),
                                         h.vstr("template_ref"),
                                     }) },
-                                }) },
-                                .{ "transform", h.jo(&.{
-                                    .{ "req", h.vstr("`reqdata`") },
-                                    .{ "res", h.vstr("`body.values`") },
-                                }) },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("healthcheck"),
-                                    h.vstr("tokenize"),
                                 }) },
                             }),
                         }) },
@@ -637,23 +659,26 @@ pub fn make_config() Value {
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
                         .{ "name", h.vstr("batches") },
+                        .{ "title", h.vstr("Batches") },
+                        .{ "type", h.vstr("`$ARRAY`") },
                         .{ "op", h.jo(&.{
                             .{ "create", h.jo(&.{
                                 .{ "req", h.vbool(true) },
                                 .{ "type", h.vstr("`$ARRAY`") },
                             }) },
                         }) },
-                        .{ "type", h.vstr("`$ARRAY`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("messageId") },
-                        .{ "short", h.vstr("Message Id") },
+                        .{ "title", h.vstr("Message Id") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("Message Id") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("reference") },
-                        .{ "short", h.vstr("Request Reference.") },
+                        .{ "title", h.vstr("Reference") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("Request Reference.") },
                     }),
                 }) },
                 .{ "name", h.vstr("tokenize_batch") },
@@ -663,7 +688,6 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("create") },
                         .{ "points", h.ja(&.{
                             h.jo(&.{
-                                .{ "args", h.omap() },
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/tokenization/batch/delete") },
@@ -678,19 +702,20 @@ pub fn make_config() Value {
                                         .{ "lit", h.vstr("delete") },
                                     }),
                                 }) },
-                                .{ "select", h.omap() },
-                                .{ "transform", h.jo(&.{
-                                    .{ "req", h.vstr("`reqdata`") },
-                                    .{ "res", h.vstr("`body`") },
-                                }) },
                                 .{ "parts", h.ja(&.{
                                     h.vstr("tokenization"),
                                     h.vstr("batch"),
                                     h.vstr("delete"),
                                 }) },
+                                .{ "rename", h.omap() },
+                                .{ "transform", h.jo(&.{
+                                    .{ "req", h.vstr("`reqdata`") },
+                                    .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "args", h.omap() },
+                                .{ "select", h.omap() },
                             }),
                             h.jo(&.{
-                                .{ "args", h.omap() },
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/tokenization/batch/read") },
@@ -705,16 +730,18 @@ pub fn make_config() Value {
                                         .{ "lit", h.vstr("read") },
                                     }),
                                 }) },
-                                .{ "select", h.omap() },
-                                .{ "transform", h.jo(&.{
-                                    .{ "req", h.vstr("`reqdata`") },
-                                    .{ "res", h.vstr("`body`") },
-                                }) },
                                 .{ "parts", h.ja(&.{
                                     h.vstr("tokenization"),
                                     h.vstr("batch"),
                                     h.vstr("read"),
                                 }) },
+                                .{ "rename", h.omap() },
+                                .{ "transform", h.jo(&.{
+                                    .{ "req", h.vstr("`reqdata`") },
+                                    .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "args", h.omap() },
+                                .{ "select", h.omap() },
                             }),
                         }) },
                     }) },
@@ -727,6 +754,8 @@ pub fn make_config() Value {
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
                         .{ "name", h.vstr("bfid") },
+                        .{ "title", h.vstr("Bfid") },
+                        .{ "type", h.vstr("`$STRING`") },
                         .{ "op", h.jo(&.{
                             .{ "create", h.jo(&.{
                                 .{ "req", h.vbool(true) },
@@ -734,25 +763,28 @@ pub fn make_config() Value {
                             }) },
                         }) },
                         .{ "short", h.vstr("The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).") },
-                        .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("messageId") },
-                        .{ "short", h.vstr("Message Id") },
+                        .{ "title", h.vstr("Message Id") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("Message Id") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("reference") },
-                        .{ "short", h.vstr("Request Reference.") },
+                        .{ "title", h.vstr("Reference") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("Request Reference.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("state") },
-                        .{ "short", h.vstr("Tokenized State Data (if available)") },
+                        .{ "title", h.vstr("State") },
                         .{ "type", h.vstr("`$OBJECT`") },
+                        .{ "short", h.vstr("Tokenized State Data (if available)") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("values") },
+                        .{ "title", h.vstr("Values") },
                         .{ "type", h.vstr("`$ARRAY`") },
                     }),
                 }) },
@@ -763,7 +795,6 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("create") },
                         .{ "points", h.ja(&.{
                             h.jo(&.{
-                                .{ "args", h.omap() },
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/tokenization/read") },
@@ -775,15 +806,17 @@ pub fn make_config() Value {
                                         .{ "lit", h.vstr("read") },
                                     }),
                                 }) },
-                                .{ "select", h.omap() },
-                                .{ "transform", h.jo(&.{
-                                    .{ "req", h.vstr("`reqdata`") },
-                                    .{ "res", h.vstr("`body`") },
-                                }) },
                                 .{ "parts", h.ja(&.{
                                     h.vstr("tokenization"),
                                     h.vstr("read"),
                                 }) },
+                                .{ "rename", h.omap() },
+                                .{ "transform", h.jo(&.{
+                                    .{ "req", h.vstr("`reqdata`") },
+                                    .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "args", h.omap() },
+                                .{ "select", h.omap() },
                             }),
                         }) },
                     }) },
@@ -796,19 +829,22 @@ pub fn make_config() Value {
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
                         .{ "name", h.vstr("messageId") },
-                        .{ "short", h.vstr("Message Id") },
+                        .{ "title", h.vstr("Message Id") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("Message Id") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("reference") },
-                        .{ "short", h.vstr("Request Reference.") },
+                        .{ "title", h.vstr("Reference") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("Request Reference.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("templateRef") },
+                        .{ "title", h.vstr("Template Ref") },
+                        .{ "type", h.vstr("`$STRING`") },
                         .{ "req", h.vbool(true) },
                         .{ "short", h.vstr("Template Reference.") },
-                        .{ "type", h.vstr("`$STRING`") },
                     }),
                 }) },
                 .{ "name", h.vstr("validate") },
@@ -818,7 +854,6 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("create") },
                         .{ "points", h.ja(&.{
                             h.jo(&.{
-                                .{ "args", h.omap() },
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/partner/validate") },
@@ -830,18 +865,19 @@ pub fn make_config() Value {
                                         .{ "lit", h.vstr("validate") },
                                     }),
                                 }) },
-                                .{ "select", h.omap() },
-                                .{ "transform", h.jo(&.{
-                                    .{ "req", h.vstr("`reqdata`") },
-                                    .{ "res", h.vstr("`body`") },
-                                }) },
                                 .{ "parts", h.ja(&.{
                                     h.vstr("partner"),
                                     h.vstr("validate"),
                                 }) },
+                                .{ "rename", h.omap() },
+                                .{ "transform", h.jo(&.{
+                                    .{ "req", h.vstr("`reqdata`") },
+                                    .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "args", h.omap() },
+                                .{ "select", h.omap() },
                             }),
                             h.jo(&.{
-                                .{ "args", h.omap() },
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/template/validate") },
@@ -853,15 +889,17 @@ pub fn make_config() Value {
                                         .{ "lit", h.vstr("validate") },
                                     }),
                                 }) },
-                                .{ "select", h.omap() },
-                                .{ "transform", h.jo(&.{
-                                    .{ "req", h.vstr("`reqdata`") },
-                                    .{ "res", h.vstr("`body`") },
-                                }) },
                                 .{ "parts", h.ja(&.{
                                     h.vstr("template"),
                                     h.vstr("validate"),
                                 }) },
+                                .{ "rename", h.omap() },
+                                .{ "transform", h.jo(&.{
+                                    .{ "req", h.vstr("`reqdata`") },
+                                    .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "args", h.omap() },
+                                .{ "select", h.omap() },
                             }),
                         }) },
                     }) },

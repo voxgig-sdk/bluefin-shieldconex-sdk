@@ -242,16 +242,19 @@ class BluefinShieldconexConfig
           'fields' => [
             [
               'name' => 'batches',
+              'title' => 'Batches',
+              'type' => '`$ARRAY`',
               'op' => [
                 'create' => [
                   'req' => true,
                   'type' => '`$ARRAY`',
                 ],
               ],
-              'type' => '`$ARRAY`',
             ],
             [
               'name' => 'bfid',
+              'title' => 'Bfid',
+              'type' => '`$STRING`',
               'op' => [
                 'create' => [
                   'req' => true,
@@ -259,37 +262,41 @@ class BluefinShieldconexConfig
                 ],
               ],
               'short' => 'The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).',
-              'type' => '`$STRING`',
             ],
             [
               'name' => 'messageId',
-              'short' => 'Message Id',
+              'title' => 'Message Id',
               'type' => '`$STRING`',
+              'short' => 'Message Id',
             ],
             [
               'name' => 'name',
-              'short' => 'Field Name.',
+              'title' => 'Name',
               'type' => '`$STRING`',
+              'short' => 'Field Name.',
             ],
             [
               'name' => 'reference',
-              'short' => 'Request Reference.',
+              'title' => 'Reference',
               'type' => '`$STRING`',
+              'short' => 'Request Reference.',
             ],
             [
               'name' => 'value',
-              'short' => 'Field Value.',
+              'title' => 'Value',
               'type' => '`$STRING`',
+              'short' => 'Field Value.',
             ],
             [
               'name' => 'values',
+              'title' => 'Values',
+              'type' => '`$ARRAY`',
               'op' => [
                 'create' => [
                   'req' => true,
                   'type' => '`$ARRAY`',
                 ],
               ],
-              'type' => '`$ARRAY`',
             ],
           ],
           'name' => 'detokenize',
@@ -299,7 +306,6 @@ class BluefinShieldconexConfig
               'name' => 'create',
               'points' => [
                 [
-                  'args' => [],
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/tokenization/batch/detokenize',
@@ -314,19 +320,20 @@ class BluefinShieldconexConfig
                       'lit' => 'detokenize',
                     ],
                   ],
-                  'select' => [],
-                  'transform' => [
-                    'req' => '`reqdata`',
-                    'res' => '`body`',
-                  ],
                   'parts' => [
                     'tokenization',
                     'batch',
                     'detokenize',
                   ],
+                  'rename' => [],
+                  'transform' => [
+                    'req' => '`reqdata`',
+                    'res' => '`body`',
+                  ],
+                  'args' => [],
+                  'select' => [],
                 ],
                 [
-                  'args' => [],
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/tokenization/detokenize',
@@ -338,15 +345,17 @@ class BluefinShieldconexConfig
                       'lit' => 'detokenize',
                     ],
                   ],
-                  'select' => [],
-                  'transform' => [
-                    'req' => '`reqdata`',
-                    'res' => '`body`',
-                  ],
                   'parts' => [
                     'tokenization',
                     'detokenize',
                   ],
+                  'rename' => [],
+                  'transform' => [
+                    'req' => '`reqdata`',
+                    'res' => '`body`',
+                  ],
+                  'args' => [],
+                  'select' => [],
                 ],
               ],
             ],
@@ -355,35 +364,6 @@ class BluefinShieldconexConfig
               'name' => 'list',
               'points' => [
                 [
-                  'args' => [
-                    'query' => [
-                      [
-                        'kind' => 'query',
-                        'name' => 'bfid',
-                        'orig' => 'bfid',
-                        'reqd' => true,
-                        'type' => '`$STRING`',
-                      ],
-                      [
-                        'kind' => 'query',
-                        'name' => 'field_name',
-                        'orig' => 'field_name',
-                        'type' => '`$STRING`',
-                      ],
-                      [
-                        'kind' => 'query',
-                        'name' => 'field_value',
-                        'orig' => 'field_value',
-                        'type' => '`$STRING`',
-                      ],
-                      [
-                        'kind' => 'query',
-                        'name' => 'reference',
-                        'orig' => 'reference',
-                        'type' => '`$STRING`',
-                      ],
-                    ],
-                  ],
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/healthcheck/detokenize',
@@ -395,6 +375,44 @@ class BluefinShieldconexConfig
                       'lit' => 'detokenize',
                     ],
                   ],
+                  'parts' => [
+                    'healthcheck',
+                    'detokenize',
+                  ],
+                  'rename' => [],
+                  'transform' => [
+                    'req' => '`reqdata`',
+                    'res' => '`body.values`',
+                  ],
+                  'args' => [
+                    'query' => [
+                      [
+                        'name' => 'bfid',
+                        'orig' => 'bfid',
+                        'type' => '`$STRING`',
+                        'kind' => 'query',
+                        'reqd' => true,
+                      ],
+                      [
+                        'name' => 'field_name',
+                        'orig' => 'field_name',
+                        'type' => '`$STRING`',
+                        'kind' => 'query',
+                      ],
+                      [
+                        'name' => 'field_value',
+                        'orig' => 'field_value',
+                        'type' => '`$STRING`',
+                        'kind' => 'query',
+                      ],
+                      [
+                        'name' => 'reference',
+                        'orig' => 'reference',
+                        'type' => '`$STRING`',
+                        'kind' => 'query',
+                      ],
+                    ],
+                  ],
                   'select' => [
                     'exist' => [
                       'bfid',
@@ -402,14 +420,6 @@ class BluefinShieldconexConfig
                       'field_value',
                       'reference',
                     ],
-                  ],
-                  'transform' => [
-                    'req' => '`reqdata`',
-                    'res' => '`body.values`',
-                  ],
-                  'parts' => [
-                    'healthcheck',
-                    'detokenize',
                   ],
                 ],
               ],
@@ -423,16 +433,19 @@ class BluefinShieldconexConfig
           'fields' => [
             [
               'name' => 'batches',
+              'title' => 'Batches',
+              'type' => '`$ARRAY`',
               'op' => [
                 'create' => [
                   'req' => true,
                   'type' => '`$ARRAY`',
                 ],
               ],
-              'type' => '`$ARRAY`',
             ],
             [
               'name' => 'bfid',
+              'title' => 'Bfid',
+              'type' => '`$STRING`',
               'op' => [
                 'create' => [
                   'req' => true,
@@ -440,43 +453,48 @@ class BluefinShieldconexConfig
                 ],
               ],
               'short' => 'The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).',
-              'type' => '`$STRING`',
             ],
             [
               'name' => 'messageId',
-              'short' => 'Message Id',
+              'title' => 'Message Id',
               'type' => '`$STRING`',
+              'short' => 'Message Id',
             ],
             [
               'name' => 'name',
-              'short' => 'Field Name.',
+              'title' => 'Name',
               'type' => '`$STRING`',
+              'short' => 'Field Name.',
             ],
             [
               'name' => 'reference',
-              'short' => 'Request Reference.',
+              'title' => 'Reference',
               'type' => '`$STRING`',
+              'short' => 'Request Reference.',
             ],
             [
               'name' => 'templateRef',
+              'title' => 'Template Ref',
+              'type' => '`$STRING`',
               'req' => true,
               'short' => 'Template Reference',
-              'type' => '`$STRING`',
             ],
             [
               'name' => 'value',
-              'short' => 'Field Value.',
+              'title' => 'Value',
               'type' => '`$STRING`',
+              'short' => 'Field Value.',
             ],
             [
               'name' => 'values',
+              'title' => 'Values',
+              'type' => '`$ARRAY`',
               'op' => [
                 'create' => [
                   'req' => true,
                   'type' => '`$ARRAY`',
                 ],
               ],
-              'type' => '`$ARRAY`',
             ],
           ],
           'name' => 'tokenize',
@@ -486,16 +504,6 @@ class BluefinShieldconexConfig
               'name' => 'create',
               'points' => [
                 [
-                  'args' => [
-                    'query' => [
-                      [
-                        'kind' => 'query',
-                        'name' => 'omit',
-                        'orig' => 'omit',
-                        'type' => '`$NUMBER`',
-                      ],
-                    ],
-                  ],
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/tokenization/batch/tokenize',
@@ -510,32 +518,33 @@ class BluefinShieldconexConfig
                       'lit' => 'tokenize',
                     ],
                   ],
-                  'select' => [
-                    'exist' => [
-                      'omit',
-                    ],
-                  ],
-                  'transform' => [
-                    'req' => '`reqdata`',
-                    'res' => '`body`',
-                  ],
                   'parts' => [
                     'tokenization',
                     'batch',
                     'tokenize',
                   ],
-                ],
-                [
+                  'rename' => [],
+                  'transform' => [
+                    'req' => '`reqdata`',
+                    'res' => '`body`',
+                  ],
                   'args' => [
                     'query' => [
                       [
-                        'kind' => 'query',
                         'name' => 'omit',
                         'orig' => 'omit',
                         'type' => '`$NUMBER`',
+                        'kind' => 'query',
                       ],
                     ],
                   ],
+                  'select' => [
+                    'exist' => [
+                      'omit',
+                    ],
+                  ],
+                ],
+                [
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/tokenization/tokenize',
@@ -547,22 +556,32 @@ class BluefinShieldconexConfig
                       'lit' => 'tokenize',
                     ],
                   ],
+                  'parts' => [
+                    'tokenization',
+                    'tokenize',
+                  ],
+                  'rename' => [],
+                  'transform' => [
+                    'req' => '`reqdata`',
+                    'res' => '`body`',
+                  ],
+                  'args' => [
+                    'query' => [
+                      [
+                        'name' => 'omit',
+                        'orig' => 'omit',
+                        'type' => '`$NUMBER`',
+                        'kind' => 'query',
+                      ],
+                    ],
+                  ],
                   'select' => [
                     'exist' => [
                       'omit',
                     ],
                   ],
-                  'transform' => [
-                    'req' => '`reqdata`',
-                    'res' => '`body`',
-                  ],
-                  'parts' => [
-                    'tokenization',
-                    'tokenize',
-                  ],
                 ],
                 [
-                  'args' => [],
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/tokenization/delete',
@@ -574,15 +593,17 @@ class BluefinShieldconexConfig
                       'lit' => 'delete',
                     ],
                   ],
-                  'select' => [],
-                  'transform' => [
-                    'req' => '`reqdata`',
-                    'res' => '`body`',
-                  ],
                   'parts' => [
                     'tokenization',
                     'delete',
                   ],
+                  'rename' => [],
+                  'transform' => [
+                    'req' => '`reqdata`',
+                    'res' => '`body`',
+                  ],
+                  'args' => [],
+                  'select' => [],
                 ],
               ],
             ],
@@ -591,35 +612,6 @@ class BluefinShieldconexConfig
               'name' => 'list',
               'points' => [
                 [
-                  'args' => [
-                    'query' => [
-                      [
-                        'kind' => 'query',
-                        'name' => 'field_name',
-                        'orig' => 'field_name',
-                        'type' => '`$STRING`',
-                      ],
-                      [
-                        'kind' => 'query',
-                        'name' => 'field_value',
-                        'orig' => 'field_value',
-                        'type' => '`$STRING`',
-                      ],
-                      [
-                        'kind' => 'query',
-                        'name' => 'reference',
-                        'orig' => 'reference',
-                        'type' => '`$STRING`',
-                      ],
-                      [
-                        'kind' => 'query',
-                        'name' => 'template_ref',
-                        'orig' => 'template_ref',
-                        'reqd' => true,
-                        'type' => '`$STRING`',
-                      ],
-                    ],
-                  ],
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/healthcheck/tokenize',
@@ -631,6 +623,44 @@ class BluefinShieldconexConfig
                       'lit' => 'tokenize',
                     ],
                   ],
+                  'parts' => [
+                    'healthcheck',
+                    'tokenize',
+                  ],
+                  'rename' => [],
+                  'transform' => [
+                    'req' => '`reqdata`',
+                    'res' => '`body.values`',
+                  ],
+                  'args' => [
+                    'query' => [
+                      [
+                        'name' => 'field_name',
+                        'orig' => 'field_name',
+                        'type' => '`$STRING`',
+                        'kind' => 'query',
+                      ],
+                      [
+                        'name' => 'field_value',
+                        'orig' => 'field_value',
+                        'type' => '`$STRING`',
+                        'kind' => 'query',
+                      ],
+                      [
+                        'name' => 'reference',
+                        'orig' => 'reference',
+                        'type' => '`$STRING`',
+                        'kind' => 'query',
+                      ],
+                      [
+                        'name' => 'template_ref',
+                        'orig' => 'template_ref',
+                        'type' => '`$STRING`',
+                        'kind' => 'query',
+                        'reqd' => true,
+                      ],
+                    ],
+                  ],
                   'select' => [
                     'exist' => [
                       'field_name',
@@ -638,14 +668,6 @@ class BluefinShieldconexConfig
                       'reference',
                       'template_ref',
                     ],
-                  ],
-                  'transform' => [
-                    'req' => '`reqdata`',
-                    'res' => '`body.values`',
-                  ],
-                  'parts' => [
-                    'healthcheck',
-                    'tokenize',
                   ],
                 ],
               ],
@@ -659,23 +681,26 @@ class BluefinShieldconexConfig
           'fields' => [
             [
               'name' => 'batches',
+              'title' => 'Batches',
+              'type' => '`$ARRAY`',
               'op' => [
                 'create' => [
                   'req' => true,
                   'type' => '`$ARRAY`',
                 ],
               ],
-              'type' => '`$ARRAY`',
             ],
             [
               'name' => 'messageId',
-              'short' => 'Message Id',
+              'title' => 'Message Id',
               'type' => '`$STRING`',
+              'short' => 'Message Id',
             ],
             [
               'name' => 'reference',
-              'short' => 'Request Reference.',
+              'title' => 'Reference',
               'type' => '`$STRING`',
+              'short' => 'Request Reference.',
             ],
           ],
           'name' => 'tokenize_batch',
@@ -685,7 +710,6 @@ class BluefinShieldconexConfig
               'name' => 'create',
               'points' => [
                 [
-                  'args' => [],
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/tokenization/batch/delete',
@@ -700,19 +724,20 @@ class BluefinShieldconexConfig
                       'lit' => 'delete',
                     ],
                   ],
-                  'select' => [],
-                  'transform' => [
-                    'req' => '`reqdata`',
-                    'res' => '`body`',
-                  ],
                   'parts' => [
                     'tokenization',
                     'batch',
                     'delete',
                   ],
+                  'rename' => [],
+                  'transform' => [
+                    'req' => '`reqdata`',
+                    'res' => '`body`',
+                  ],
+                  'args' => [],
+                  'select' => [],
                 ],
                 [
-                  'args' => [],
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/tokenization/batch/read',
@@ -727,16 +752,18 @@ class BluefinShieldconexConfig
                       'lit' => 'read',
                     ],
                   ],
-                  'select' => [],
-                  'transform' => [
-                    'req' => '`reqdata`',
-                    'res' => '`body`',
-                  ],
                   'parts' => [
                     'tokenization',
                     'batch',
                     'read',
                   ],
+                  'rename' => [],
+                  'transform' => [
+                    'req' => '`reqdata`',
+                    'res' => '`body`',
+                  ],
+                  'args' => [],
+                  'select' => [],
                 ],
               ],
             ],
@@ -749,6 +776,8 @@ class BluefinShieldconexConfig
           'fields' => [
             [
               'name' => 'bfid',
+              'title' => 'Bfid',
+              'type' => '`$STRING`',
               'op' => [
                 'create' => [
                   'req' => true,
@@ -756,25 +785,28 @@ class BluefinShieldconexConfig
                 ],
               ],
               'short' => 'The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).',
-              'type' => '`$STRING`',
             ],
             [
               'name' => 'messageId',
-              'short' => 'Message Id',
+              'title' => 'Message Id',
               'type' => '`$STRING`',
+              'short' => 'Message Id',
             ],
             [
               'name' => 'reference',
-              'short' => 'Request Reference.',
+              'title' => 'Reference',
               'type' => '`$STRING`',
+              'short' => 'Request Reference.',
             ],
             [
               'name' => 'state',
-              'short' => 'Tokenized State Data (if available)',
+              'title' => 'State',
               'type' => '`$OBJECT`',
+              'short' => 'Tokenized State Data (if available)',
             ],
             [
               'name' => 'values',
+              'title' => 'Values',
               'type' => '`$ARRAY`',
             ],
           ],
@@ -785,7 +817,6 @@ class BluefinShieldconexConfig
               'name' => 'create',
               'points' => [
                 [
-                  'args' => [],
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/tokenization/read',
@@ -797,15 +828,17 @@ class BluefinShieldconexConfig
                       'lit' => 'read',
                     ],
                   ],
-                  'select' => [],
-                  'transform' => [
-                    'req' => '`reqdata`',
-                    'res' => '`body`',
-                  ],
                   'parts' => [
                     'tokenization',
                     'read',
                   ],
+                  'rename' => [],
+                  'transform' => [
+                    'req' => '`reqdata`',
+                    'res' => '`body`',
+                  ],
+                  'args' => [],
+                  'select' => [],
                 ],
               ],
             ],
@@ -818,19 +851,22 @@ class BluefinShieldconexConfig
           'fields' => [
             [
               'name' => 'messageId',
-              'short' => 'Message Id',
+              'title' => 'Message Id',
               'type' => '`$STRING`',
+              'short' => 'Message Id',
             ],
             [
               'name' => 'reference',
-              'short' => 'Request Reference.',
+              'title' => 'Reference',
               'type' => '`$STRING`',
+              'short' => 'Request Reference.',
             ],
             [
               'name' => 'templateRef',
+              'title' => 'Template Ref',
+              'type' => '`$STRING`',
               'req' => true,
               'short' => 'Template Reference.',
-              'type' => '`$STRING`',
             ],
           ],
           'name' => 'validate',
@@ -840,7 +876,6 @@ class BluefinShieldconexConfig
               'name' => 'create',
               'points' => [
                 [
-                  'args' => [],
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/partner/validate',
@@ -852,18 +887,19 @@ class BluefinShieldconexConfig
                       'lit' => 'validate',
                     ],
                   ],
-                  'select' => [],
-                  'transform' => [
-                    'req' => '`reqdata`',
-                    'res' => '`body`',
-                  ],
                   'parts' => [
                     'partner',
                     'validate',
                   ],
+                  'rename' => [],
+                  'transform' => [
+                    'req' => '`reqdata`',
+                    'res' => '`body`',
+                  ],
+                  'args' => [],
+                  'select' => [],
                 ],
                 [
-                  'args' => [],
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/template/validate',
@@ -875,15 +911,17 @@ class BluefinShieldconexConfig
                       'lit' => 'validate',
                     ],
                   ],
-                  'select' => [],
-                  'transform' => [
-                    'req' => '`reqdata`',
-                    'res' => '`body`',
-                  ],
                   'parts' => [
                     'template',
                     'validate',
                   ],
+                  'rename' => [],
+                  'transform' => [
+                    'req' => '`reqdata`',
+                    'res' => '`body`',
+                  ],
+                  'args' => [],
+                  'select' => [],
                 ],
               ],
             ],

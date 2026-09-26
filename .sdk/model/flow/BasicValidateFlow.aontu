@@ -1,0 +1,18 @@
+# BasicValidateFlow
+
+main: kit: flow: BasicValidateFlow:
+{
+  entity: "validate",
+  kind: "basic",
+  name: "BasicValidateFlow",
+  step: [
+    {
+      i: {
+        ref: "validate_ref01"
+      }
+
+      o: "create"
+    }
+  ],
+  "key$": "BasicValidateFlow"
+}

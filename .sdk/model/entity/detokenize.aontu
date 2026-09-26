@@ -1,0 +1,197 @@
+# Entity: detokenize
+
+main: kit: entity: detokenize: {
+
+  alias: field: {}
+
+  fields: {
+    batches: {
+      h: "Batches"
+      n: "batches"
+      op: {
+        create: {
+          req: true
+          type: "`$ARRAY`"
+        }
+      }
+      r: false
+      t: "`$ARRAY`"
+    }
+    bfid: {
+      h: "Bfid"
+      n: "bfid"
+      op: {
+        create: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
+      r: false
+      sh: "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request)."
+      t: "`$STRING`"
+    }
+    messageId: {
+      h: "Message Id"
+      n: "messageId"
+      r: false
+      sh: "Message Id"
+      t: "`$STRING`"
+    }
+    name: {
+      h: "Name"
+      n: "name"
+      r: false
+      sh: "Field Name."
+      t: "`$STRING`"
+    }
+    reference: {
+      h: "Reference"
+      n: "reference"
+      r: false
+      sh: "Request Reference."
+      t: "`$STRING`"
+    }
+    value: {
+      h: "Value"
+      n: "value"
+      r: false
+      sh: "Field Value."
+      t: "`$STRING`"
+    }
+    values: {
+      h: "Values"
+      n: "values"
+      op: {
+        create: {
+          req: true
+          type: "`$ARRAY`"
+        }
+      }
+      r: false
+      t: "`$ARRAY`"
+    }
+  }
+
+  name: "detokenize"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /tokenization/batch/detokenize"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/tokenization/batch/detokenize"
+          s: [
+            {
+              lit: "tokenization"
+            }
+            {
+              lit: "batch"
+            }
+            {
+              lit: "detokenize"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "POST /tokenization/detokenize"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/tokenization/detokenize"
+          s: [
+            {
+              lit: "tokenization"
+            }
+            {
+              lit: "detokenize"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /healthcheck/detokenize"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "bfid"
+                or: "bfid"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "field_name"
+                or: "field_name"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "field_value"
+                or: "field_value"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "reference"
+                or: "reference"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/healthcheck/detokenize"
+          q: {
+            exist: [
+              "bfid"
+              "field_name"
+              "field_value"
+              "reference"
+            ]
+          }
+          s: [
+            {
+              lit: "healthcheck"
+            }
+            {
+              lit: "detokenize"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.values`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

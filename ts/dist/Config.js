@@ -27,19 +27,12 @@ const FEATURE_CLASS = {
     test: TestFeature_1.TestFeature,
     timeout: TimeoutFeature_1.TimeoutFeature,
 };
-// Per-feature plugin DEFINITIONS (voxgig/plugin `Definition` values), from
-// the model's active plugin groups. A feature that takes a `plugins` option
-// (secrets over sekreto) reads its own entry; a feature with no plugins has
-// none. Named imports above make each definition statically reachable, so
-// an SDK carries exactly the plugin modules its model selects — the same
-// leanness the old side-effect registry imports bought, without a registry.
 const FEATURE_PLUGINS = {};
 exports.FEATURE_PLUGINS = FEATURE_PLUGINS;
 class Config {
     makeFeature(fn) {
         const fc = FEATURE_CLASS[fn];
         const fi = new fc();
-        // TODO: errors etc
         return fi;
     }
     // False for a feature added at runtime via options.extend (station's
@@ -260,54 +253,61 @@ class Config {
             "fields": [
                 {
                     "name": "batches",
+                    "title": "Batches",
+                    "type": "`$ARRAY`",
                     "op": {
                         "create": {
                             "req": true,
                             "type": "`$ARRAY`"
                         }
-                    },
-                    "type": "`$ARRAY`"
+                    }
                 },
                 {
                     "name": "bfid",
+                    "title": "Bfid",
+                    "type": "`$STRING`",
                     "op": {
                         "create": {
                             "req": true,
                             "type": "`$STRING`"
                         }
                     },
-                    "short": "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).",
-                    "type": "`$STRING`"
+                    "short": "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request)."
                 },
                 {
                     "name": "messageId",
-                    "short": "Message Id",
-                    "type": "`$STRING`"
+                    "title": "Message Id",
+                    "type": "`$STRING`",
+                    "short": "Message Id"
                 },
                 {
                     "name": "name",
-                    "short": "Field Name.",
-                    "type": "`$STRING`"
+                    "title": "Name",
+                    "type": "`$STRING`",
+                    "short": "Field Name."
                 },
                 {
                     "name": "reference",
-                    "short": "Request Reference.",
-                    "type": "`$STRING`"
+                    "title": "Reference",
+                    "type": "`$STRING`",
+                    "short": "Request Reference."
                 },
                 {
                     "name": "value",
-                    "short": "Field Value.",
-                    "type": "`$STRING`"
+                    "title": "Value",
+                    "type": "`$STRING`",
+                    "short": "Field Value."
                 },
                 {
                     "name": "values",
+                    "title": "Values",
+                    "type": "`$ARRAY`",
                     "op": {
                         "create": {
                             "req": true,
                             "type": "`$ARRAY`"
                         }
-                    },
-                    "type": "`$ARRAY`"
+                    }
                 }
             ],
             "name": "detokenize",
@@ -317,7 +317,6 @@ class Config {
                     "name": "create",
                     "points": [
                         {
-                            "args": {},
                             "kind": "http",
                             "method": "POST",
                             "orig": "/tokenization/batch/detokenize",
@@ -332,19 +331,20 @@ class Config {
                                     "lit": "detokenize"
                                 }
                             ],
-                            "select": {},
-                            "transform": {
-                                "req": "`reqdata`",
-                                "res": "`body`"
-                            },
                             "parts": [
                                 "tokenization",
                                 "batch",
                                 "detokenize"
-                            ]
+                            ],
+                            "rename": {},
+                            "transform": {
+                                "req": "`reqdata`",
+                                "res": "`body`"
+                            },
+                            "args": {},
+                            "select": {}
                         },
                         {
-                            "args": {},
                             "kind": "http",
                             "method": "POST",
                             "orig": "/tokenization/detokenize",
@@ -356,15 +356,17 @@ class Config {
                                     "lit": "detokenize"
                                 }
                             ],
-                            "select": {},
+                            "parts": [
+                                "tokenization",
+                                "detokenize"
+                            ],
+                            "rename": {},
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
                             },
-                            "parts": [
-                                "tokenization",
-                                "detokenize"
-                            ]
+                            "args": {},
+                            "select": {}
                         }
                     ]
                 },
@@ -373,35 +375,6 @@ class Config {
                     "name": "list",
                     "points": [
                         {
-                            "args": {
-                                "query": [
-                                    {
-                                        "kind": "query",
-                                        "name": "bfid",
-                                        "orig": "bfid",
-                                        "reqd": true,
-                                        "type": "`$STRING`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "field_name",
-                                        "orig": "field_name",
-                                        "type": "`$STRING`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "field_value",
-                                        "orig": "field_value",
-                                        "type": "`$STRING`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "reference",
-                                        "orig": "reference",
-                                        "type": "`$STRING`"
-                                    }
-                                ]
-                            },
                             "kind": "http",
                             "method": "GET",
                             "orig": "/healthcheck/detokenize",
@@ -413,6 +386,44 @@ class Config {
                                     "lit": "detokenize"
                                 }
                             ],
+                            "parts": [
+                                "healthcheck",
+                                "detokenize"
+                            ],
+                            "rename": {},
+                            "transform": {
+                                "req": "`reqdata`",
+                                "res": "`body.values`"
+                            },
+                            "args": {
+                                "query": [
+                                    {
+                                        "name": "bfid",
+                                        "orig": "bfid",
+                                        "type": "`$STRING`",
+                                        "kind": "query",
+                                        "reqd": true
+                                    },
+                                    {
+                                        "name": "field_name",
+                                        "orig": "field_name",
+                                        "type": "`$STRING`",
+                                        "kind": "query"
+                                    },
+                                    {
+                                        "name": "field_value",
+                                        "orig": "field_value",
+                                        "type": "`$STRING`",
+                                        "kind": "query"
+                                    },
+                                    {
+                                        "name": "reference",
+                                        "orig": "reference",
+                                        "type": "`$STRING`",
+                                        "kind": "query"
+                                    }
+                                ]
+                            },
                             "select": {
                                 "exist": [
                                     "bfid",
@@ -420,15 +431,7 @@ class Config {
                                     "field_value",
                                     "reference"
                                 ]
-                            },
-                            "transform": {
-                                "req": "`reqdata`",
-                                "res": "`body.values`"
-                            },
-                            "parts": [
-                                "healthcheck",
-                                "detokenize"
-                            ]
+                            }
                         }
                     ]
                 }
@@ -441,60 +444,68 @@ class Config {
             "fields": [
                 {
                     "name": "batches",
+                    "title": "Batches",
+                    "type": "`$ARRAY`",
                     "op": {
                         "create": {
                             "req": true,
                             "type": "`$ARRAY`"
                         }
-                    },
-                    "type": "`$ARRAY`"
+                    }
                 },
                 {
                     "name": "bfid",
+                    "title": "Bfid",
+                    "type": "`$STRING`",
                     "op": {
                         "create": {
                             "req": true,
                             "type": "`$STRING`"
                         }
                     },
-                    "short": "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).",
-                    "type": "`$STRING`"
+                    "short": "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request)."
                 },
                 {
                     "name": "messageId",
-                    "short": "Message Id",
-                    "type": "`$STRING`"
+                    "title": "Message Id",
+                    "type": "`$STRING`",
+                    "short": "Message Id"
                 },
                 {
                     "name": "name",
-                    "short": "Field Name.",
-                    "type": "`$STRING`"
+                    "title": "Name",
+                    "type": "`$STRING`",
+                    "short": "Field Name."
                 },
                 {
                     "name": "reference",
-                    "short": "Request Reference.",
-                    "type": "`$STRING`"
+                    "title": "Reference",
+                    "type": "`$STRING`",
+                    "short": "Request Reference."
                 },
                 {
                     "name": "templateRef",
+                    "title": "Template Ref",
+                    "type": "`$STRING`",
                     "req": true,
-                    "short": "Template Reference",
-                    "type": "`$STRING`"
+                    "short": "Template Reference"
                 },
                 {
                     "name": "value",
-                    "short": "Field Value.",
-                    "type": "`$STRING`"
+                    "title": "Value",
+                    "type": "`$STRING`",
+                    "short": "Field Value."
                 },
                 {
                     "name": "values",
+                    "title": "Values",
+                    "type": "`$ARRAY`",
                     "op": {
                         "create": {
                             "req": true,
                             "type": "`$ARRAY`"
                         }
-                    },
-                    "type": "`$ARRAY`"
+                    }
                 }
             ],
             "name": "tokenize",
@@ -504,16 +515,6 @@ class Config {
                     "name": "create",
                     "points": [
                         {
-                            "args": {
-                                "query": [
-                                    {
-                                        "kind": "query",
-                                        "name": "omit",
-                                        "orig": "omit",
-                                        "type": "`$NUMBER`"
-                                    }
-                                ]
-                            },
                             "kind": "http",
                             "method": "POST",
                             "orig": "/tokenization/batch/tokenize",
@@ -528,32 +529,33 @@ class Config {
                                     "lit": "tokenize"
                                 }
                             ],
-                            "select": {
-                                "exist": [
-                                    "omit"
-                                ]
-                            },
-                            "transform": {
-                                "req": "`reqdata`",
-                                "res": "`body`"
-                            },
                             "parts": [
                                 "tokenization",
                                 "batch",
                                 "tokenize"
-                            ]
-                        },
-                        {
+                            ],
+                            "rename": {},
+                            "transform": {
+                                "req": "`reqdata`",
+                                "res": "`body`"
+                            },
                             "args": {
                                 "query": [
                                     {
-                                        "kind": "query",
                                         "name": "omit",
                                         "orig": "omit",
-                                        "type": "`$NUMBER`"
+                                        "type": "`$NUMBER`",
+                                        "kind": "query"
                                     }
                                 ]
                             },
+                            "select": {
+                                "exist": [
+                                    "omit"
+                                ]
+                            }
+                        },
+                        {
                             "kind": "http",
                             "method": "POST",
                             "orig": "/tokenization/tokenize",
@@ -565,22 +567,32 @@ class Config {
                                     "lit": "tokenize"
                                 }
                             ],
-                            "select": {
-                                "exist": [
-                                    "omit"
-                                ]
-                            },
+                            "parts": [
+                                "tokenization",
+                                "tokenize"
+                            ],
+                            "rename": {},
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
                             },
-                            "parts": [
-                                "tokenization",
-                                "tokenize"
-                            ]
+                            "args": {
+                                "query": [
+                                    {
+                                        "name": "omit",
+                                        "orig": "omit",
+                                        "type": "`$NUMBER`",
+                                        "kind": "query"
+                                    }
+                                ]
+                            },
+                            "select": {
+                                "exist": [
+                                    "omit"
+                                ]
+                            }
                         },
                         {
-                            "args": {},
                             "kind": "http",
                             "method": "POST",
                             "orig": "/tokenization/delete",
@@ -592,15 +604,17 @@ class Config {
                                     "lit": "delete"
                                 }
                             ],
-                            "select": {},
+                            "parts": [
+                                "tokenization",
+                                "delete"
+                            ],
+                            "rename": {},
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
                             },
-                            "parts": [
-                                "tokenization",
-                                "delete"
-                            ]
+                            "args": {},
+                            "select": {}
                         }
                     ]
                 },
@@ -609,35 +623,6 @@ class Config {
                     "name": "list",
                     "points": [
                         {
-                            "args": {
-                                "query": [
-                                    {
-                                        "kind": "query",
-                                        "name": "field_name",
-                                        "orig": "field_name",
-                                        "type": "`$STRING`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "field_value",
-                                        "orig": "field_value",
-                                        "type": "`$STRING`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "reference",
-                                        "orig": "reference",
-                                        "type": "`$STRING`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "template_ref",
-                                        "orig": "template_ref",
-                                        "reqd": true,
-                                        "type": "`$STRING`"
-                                    }
-                                ]
-                            },
                             "kind": "http",
                             "method": "GET",
                             "orig": "/healthcheck/tokenize",
@@ -649,6 +634,44 @@ class Config {
                                     "lit": "tokenize"
                                 }
                             ],
+                            "parts": [
+                                "healthcheck",
+                                "tokenize"
+                            ],
+                            "rename": {},
+                            "transform": {
+                                "req": "`reqdata`",
+                                "res": "`body.values`"
+                            },
+                            "args": {
+                                "query": [
+                                    {
+                                        "name": "field_name",
+                                        "orig": "field_name",
+                                        "type": "`$STRING`",
+                                        "kind": "query"
+                                    },
+                                    {
+                                        "name": "field_value",
+                                        "orig": "field_value",
+                                        "type": "`$STRING`",
+                                        "kind": "query"
+                                    },
+                                    {
+                                        "name": "reference",
+                                        "orig": "reference",
+                                        "type": "`$STRING`",
+                                        "kind": "query"
+                                    },
+                                    {
+                                        "name": "template_ref",
+                                        "orig": "template_ref",
+                                        "type": "`$STRING`",
+                                        "kind": "query",
+                                        "reqd": true
+                                    }
+                                ]
+                            },
                             "select": {
                                 "exist": [
                                     "field_name",
@@ -656,15 +679,7 @@ class Config {
                                     "reference",
                                     "template_ref"
                                 ]
-                            },
-                            "transform": {
-                                "req": "`reqdata`",
-                                "res": "`body.values`"
-                            },
-                            "parts": [
-                                "healthcheck",
-                                "tokenize"
-                            ]
+                            }
                         }
                     ]
                 }
@@ -677,23 +692,26 @@ class Config {
             "fields": [
                 {
                     "name": "batches",
+                    "title": "Batches",
+                    "type": "`$ARRAY`",
                     "op": {
                         "create": {
                             "req": true,
                             "type": "`$ARRAY`"
                         }
-                    },
-                    "type": "`$ARRAY`"
+                    }
                 },
                 {
                     "name": "messageId",
-                    "short": "Message Id",
-                    "type": "`$STRING`"
+                    "title": "Message Id",
+                    "type": "`$STRING`",
+                    "short": "Message Id"
                 },
                 {
                     "name": "reference",
-                    "short": "Request Reference.",
-                    "type": "`$STRING`"
+                    "title": "Reference",
+                    "type": "`$STRING`",
+                    "short": "Request Reference."
                 }
             ],
             "name": "tokenize_batch",
@@ -703,7 +721,6 @@ class Config {
                     "name": "create",
                     "points": [
                         {
-                            "args": {},
                             "kind": "http",
                             "method": "POST",
                             "orig": "/tokenization/batch/delete",
@@ -718,19 +735,20 @@ class Config {
                                     "lit": "delete"
                                 }
                             ],
-                            "select": {},
-                            "transform": {
-                                "req": "`reqdata`",
-                                "res": "`body`"
-                            },
                             "parts": [
                                 "tokenization",
                                 "batch",
                                 "delete"
-                            ]
+                            ],
+                            "rename": {},
+                            "transform": {
+                                "req": "`reqdata`",
+                                "res": "`body`"
+                            },
+                            "args": {},
+                            "select": {}
                         },
                         {
-                            "args": {},
                             "kind": "http",
                             "method": "POST",
                             "orig": "/tokenization/batch/read",
@@ -745,16 +763,18 @@ class Config {
                                     "lit": "read"
                                 }
                             ],
-                            "select": {},
-                            "transform": {
-                                "req": "`reqdata`",
-                                "res": "`body`"
-                            },
                             "parts": [
                                 "tokenization",
                                 "batch",
                                 "read"
-                            ]
+                            ],
+                            "rename": {},
+                            "transform": {
+                                "req": "`reqdata`",
+                                "res": "`body`"
+                            },
+                            "args": {},
+                            "select": {}
                         }
                     ]
                 }
@@ -767,32 +787,37 @@ class Config {
             "fields": [
                 {
                     "name": "bfid",
+                    "title": "Bfid",
+                    "type": "`$STRING`",
                     "op": {
                         "create": {
                             "req": true,
                             "type": "`$STRING`"
                         }
                     },
-                    "short": "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).",
-                    "type": "`$STRING`"
+                    "short": "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request)."
                 },
                 {
                     "name": "messageId",
-                    "short": "Message Id",
-                    "type": "`$STRING`"
+                    "title": "Message Id",
+                    "type": "`$STRING`",
+                    "short": "Message Id"
                 },
                 {
                     "name": "reference",
-                    "short": "Request Reference.",
-                    "type": "`$STRING`"
+                    "title": "Reference",
+                    "type": "`$STRING`",
+                    "short": "Request Reference."
                 },
                 {
                     "name": "state",
-                    "short": "Tokenized State Data (if available)",
-                    "type": "`$OBJECT`"
+                    "title": "State",
+                    "type": "`$OBJECT`",
+                    "short": "Tokenized State Data (if available)"
                 },
                 {
                     "name": "values",
+                    "title": "Values",
                     "type": "`$ARRAY`"
                 }
             ],
@@ -803,7 +828,6 @@ class Config {
                     "name": "create",
                     "points": [
                         {
-                            "args": {},
                             "kind": "http",
                             "method": "POST",
                             "orig": "/tokenization/read",
@@ -815,15 +839,17 @@ class Config {
                                     "lit": "read"
                                 }
                             ],
-                            "select": {},
+                            "parts": [
+                                "tokenization",
+                                "read"
+                            ],
+                            "rename": {},
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
                             },
-                            "parts": [
-                                "tokenization",
-                                "read"
-                            ]
+                            "args": {},
+                            "select": {}
                         }
                     ]
                 }
@@ -836,19 +862,22 @@ class Config {
             "fields": [
                 {
                     "name": "messageId",
-                    "short": "Message Id",
-                    "type": "`$STRING`"
+                    "title": "Message Id",
+                    "type": "`$STRING`",
+                    "short": "Message Id"
                 },
                 {
                     "name": "reference",
-                    "short": "Request Reference.",
-                    "type": "`$STRING`"
+                    "title": "Reference",
+                    "type": "`$STRING`",
+                    "short": "Request Reference."
                 },
                 {
                     "name": "templateRef",
+                    "title": "Template Ref",
+                    "type": "`$STRING`",
                     "req": true,
-                    "short": "Template Reference.",
-                    "type": "`$STRING`"
+                    "short": "Template Reference."
                 }
             ],
             "name": "validate",
@@ -858,7 +887,6 @@ class Config {
                     "name": "create",
                     "points": [
                         {
-                            "args": {},
                             "kind": "http",
                             "method": "POST",
                             "orig": "/partner/validate",
@@ -870,18 +898,19 @@ class Config {
                                     "lit": "validate"
                                 }
                             ],
-                            "select": {},
+                            "parts": [
+                                "partner",
+                                "validate"
+                            ],
+                            "rename": {},
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
                             },
-                            "parts": [
-                                "partner",
-                                "validate"
-                            ]
+                            "args": {},
+                            "select": {}
                         },
                         {
-                            "args": {},
                             "kind": "http",
                             "method": "POST",
                             "orig": "/template/validate",
@@ -893,15 +922,17 @@ class Config {
                                     "lit": "validate"
                                 }
                             ],
-                            "select": {},
+                            "parts": [
+                                "template",
+                                "validate"
+                            ],
+                            "rename": {},
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
                             },
-                            "parts": [
-                                "template",
-                                "validate"
-                            ]
+                            "args": {},
+                            "select": {}
                         }
                     ]
                 }

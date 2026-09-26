@@ -1,0 +1,84 @@
+# Entity: validate
+
+main: kit: entity: validate: {
+
+  alias: field: {}
+
+  fields: {
+    messageId: {
+      h: "Message Id"
+      n: "messageId"
+      r: false
+      sh: "Message Id"
+      t: "`$STRING`"
+    }
+    reference: {
+      h: "Reference"
+      n: "reference"
+      r: false
+      sh: "Request Reference."
+      t: "`$STRING`"
+    }
+    templateRef: {
+      h: "Template Ref"
+      n: "templateRef"
+      r: true
+      sh: "Template Reference."
+      t: "`$STRING`"
+    }
+  }
+
+  name: "validate"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /partner/validate"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/partner/validate"
+          s: [
+            {
+              lit: "partner"
+            }
+            {
+              lit: "validate"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "POST /template/validate"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/template/validate"
+          s: [
+            {
+              lit: "template"
+            }
+            {
+              lit: "validate"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

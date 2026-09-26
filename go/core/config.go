@@ -220,16 +220,19 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "batches",
+						"title": "Batches",
+						"type": "`$ARRAY`",
 						"op": map[string]any{
 							"create": map[string]any{
 								"req": true,
 								"type": "`$ARRAY`",
 							},
 						},
-						"type": "`$ARRAY`",
 					},
 					map[string]any{
 						"name": "bfid",
+						"title": "Bfid",
+						"type": "`$STRING`",
 						"op": map[string]any{
 							"create": map[string]any{
 								"req": true,
@@ -237,37 +240,41 @@ func MakeConfig() map[string]any {
 							},
 						},
 						"short": "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).",
-						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "messageId",
-						"short": "Message Id",
+						"title": "Message Id",
 						"type": "`$STRING`",
+						"short": "Message Id",
 					},
 					map[string]any{
 						"name": "name",
-						"short": "Field Name.",
+						"title": "Name",
 						"type": "`$STRING`",
+						"short": "Field Name.",
 					},
 					map[string]any{
 						"name": "reference",
-						"short": "Request Reference.",
+						"title": "Reference",
 						"type": "`$STRING`",
+						"short": "Request Reference.",
 					},
 					map[string]any{
 						"name": "value",
-						"short": "Field Value.",
+						"title": "Value",
 						"type": "`$STRING`",
+						"short": "Field Value.",
 					},
 					map[string]any{
 						"name": "values",
+						"title": "Values",
+						"type": "`$ARRAY`",
 						"op": map[string]any{
 							"create": map[string]any{
 								"req": true,
 								"type": "`$ARRAY`",
 							},
 						},
-						"type": "`$ARRAY`",
 					},
 				},
 				"name": "detokenize",
@@ -277,7 +284,6 @@ func MakeConfig() map[string]any {
 						"name": "create",
 						"points": []any{
 							map[string]any{
-								"args": map[string]any{},
 								"kind": "http",
 								"method": "POST",
 								"orig": "/tokenization/batch/detokenize",
@@ -292,19 +298,20 @@ func MakeConfig() map[string]any {
 										"lit": "detokenize",
 									},
 								},
-								"select": map[string]any{},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
 								"parts": []any{
 									"tokenization",
 									"batch",
 									"detokenize",
 								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{},
+								"select": map[string]any{},
 							},
 							map[string]any{
-								"args": map[string]any{},
 								"kind": "http",
 								"method": "POST",
 								"orig": "/tokenization/detokenize",
@@ -316,15 +323,17 @@ func MakeConfig() map[string]any {
 										"lit": "detokenize",
 									},
 								},
-								"select": map[string]any{},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
 								"parts": []any{
 									"tokenization",
 									"detokenize",
 								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{},
+								"select": map[string]any{},
 							},
 						},
 					},
@@ -333,35 +342,6 @@ func MakeConfig() map[string]any {
 						"name": "list",
 						"points": []any{
 							map[string]any{
-								"args": map[string]any{
-									"query": []any{
-										map[string]any{
-											"kind": "query",
-											"name": "bfid",
-											"orig": "bfid",
-											"reqd": true,
-											"type": "`$STRING`",
-										},
-										map[string]any{
-											"kind": "query",
-											"name": "field_name",
-											"orig": "field_name",
-											"type": "`$STRING`",
-										},
-										map[string]any{
-											"kind": "query",
-											"name": "field_value",
-											"orig": "field_value",
-											"type": "`$STRING`",
-										},
-										map[string]any{
-											"kind": "query",
-											"name": "reference",
-											"orig": "reference",
-											"type": "`$STRING`",
-										},
-									},
-								},
 								"kind": "http",
 								"method": "GET",
 								"orig": "/healthcheck/detokenize",
@@ -373,6 +353,44 @@ func MakeConfig() map[string]any {
 										"lit": "detokenize",
 									},
 								},
+								"parts": []any{
+									"healthcheck",
+									"detokenize",
+								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body.values`",
+								},
+								"args": map[string]any{
+									"query": []any{
+										map[string]any{
+											"name": "bfid",
+											"orig": "bfid",
+											"type": "`$STRING`",
+											"kind": "query",
+											"reqd": true,
+										},
+										map[string]any{
+											"name": "field_name",
+											"orig": "field_name",
+											"type": "`$STRING`",
+											"kind": "query",
+										},
+										map[string]any{
+											"name": "field_value",
+											"orig": "field_value",
+											"type": "`$STRING`",
+											"kind": "query",
+										},
+										map[string]any{
+											"name": "reference",
+											"orig": "reference",
+											"type": "`$STRING`",
+											"kind": "query",
+										},
+									},
+								},
 								"select": map[string]any{
 									"exist": []any{
 										"bfid",
@@ -380,14 +398,6 @@ func MakeConfig() map[string]any {
 										"field_value",
 										"reference",
 									},
-								},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body.values`",
-								},
-								"parts": []any{
-									"healthcheck",
-									"detokenize",
 								},
 							},
 						},
@@ -401,16 +411,19 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "batches",
+						"title": "Batches",
+						"type": "`$ARRAY`",
 						"op": map[string]any{
 							"create": map[string]any{
 								"req": true,
 								"type": "`$ARRAY`",
 							},
 						},
-						"type": "`$ARRAY`",
 					},
 					map[string]any{
 						"name": "bfid",
+						"title": "Bfid",
+						"type": "`$STRING`",
 						"op": map[string]any{
 							"create": map[string]any{
 								"req": true,
@@ -418,43 +431,48 @@ func MakeConfig() map[string]any {
 							},
 						},
 						"short": "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).",
-						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "messageId",
-						"short": "Message Id",
+						"title": "Message Id",
 						"type": "`$STRING`",
+						"short": "Message Id",
 					},
 					map[string]any{
 						"name": "name",
-						"short": "Field Name.",
+						"title": "Name",
 						"type": "`$STRING`",
+						"short": "Field Name.",
 					},
 					map[string]any{
 						"name": "reference",
-						"short": "Request Reference.",
+						"title": "Reference",
 						"type": "`$STRING`",
+						"short": "Request Reference.",
 					},
 					map[string]any{
 						"name": "templateRef",
+						"title": "Template Ref",
+						"type": "`$STRING`",
 						"req": true,
 						"short": "Template Reference",
-						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "value",
-						"short": "Field Value.",
+						"title": "Value",
 						"type": "`$STRING`",
+						"short": "Field Value.",
 					},
 					map[string]any{
 						"name": "values",
+						"title": "Values",
+						"type": "`$ARRAY`",
 						"op": map[string]any{
 							"create": map[string]any{
 								"req": true,
 								"type": "`$ARRAY`",
 							},
 						},
-						"type": "`$ARRAY`",
 					},
 				},
 				"name": "tokenize",
@@ -464,16 +482,6 @@ func MakeConfig() map[string]any {
 						"name": "create",
 						"points": []any{
 							map[string]any{
-								"args": map[string]any{
-									"query": []any{
-										map[string]any{
-											"kind": "query",
-											"name": "omit",
-											"orig": "omit",
-											"type": "`$NUMBER`",
-										},
-									},
-								},
 								"kind": "http",
 								"method": "POST",
 								"orig": "/tokenization/batch/tokenize",
@@ -488,32 +496,33 @@ func MakeConfig() map[string]any {
 										"lit": "tokenize",
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"omit",
-									},
-								},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
 								"parts": []any{
 									"tokenization",
 									"batch",
 									"tokenize",
 								},
-							},
-							map[string]any{
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
 								"args": map[string]any{
 									"query": []any{
 										map[string]any{
-											"kind": "query",
 											"name": "omit",
 											"orig": "omit",
 											"type": "`$NUMBER`",
+											"kind": "query",
 										},
 									},
 								},
+								"select": map[string]any{
+									"exist": []any{
+										"omit",
+									},
+								},
+							},
+							map[string]any{
 								"kind": "http",
 								"method": "POST",
 								"orig": "/tokenization/tokenize",
@@ -525,22 +534,32 @@ func MakeConfig() map[string]any {
 										"lit": "tokenize",
 									},
 								},
+								"parts": []any{
+									"tokenization",
+									"tokenize",
+								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{
+									"query": []any{
+										map[string]any{
+											"name": "omit",
+											"orig": "omit",
+											"type": "`$NUMBER`",
+											"kind": "query",
+										},
+									},
+								},
 								"select": map[string]any{
 									"exist": []any{
 										"omit",
 									},
 								},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
-								"parts": []any{
-									"tokenization",
-									"tokenize",
-								},
 							},
 							map[string]any{
-								"args": map[string]any{},
 								"kind": "http",
 								"method": "POST",
 								"orig": "/tokenization/delete",
@@ -552,15 +571,17 @@ func MakeConfig() map[string]any {
 										"lit": "delete",
 									},
 								},
-								"select": map[string]any{},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
 								"parts": []any{
 									"tokenization",
 									"delete",
 								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{},
+								"select": map[string]any{},
 							},
 						},
 					},
@@ -569,35 +590,6 @@ func MakeConfig() map[string]any {
 						"name": "list",
 						"points": []any{
 							map[string]any{
-								"args": map[string]any{
-									"query": []any{
-										map[string]any{
-											"kind": "query",
-											"name": "field_name",
-											"orig": "field_name",
-											"type": "`$STRING`",
-										},
-										map[string]any{
-											"kind": "query",
-											"name": "field_value",
-											"orig": "field_value",
-											"type": "`$STRING`",
-										},
-										map[string]any{
-											"kind": "query",
-											"name": "reference",
-											"orig": "reference",
-											"type": "`$STRING`",
-										},
-										map[string]any{
-											"kind": "query",
-											"name": "template_ref",
-											"orig": "template_ref",
-											"reqd": true,
-											"type": "`$STRING`",
-										},
-									},
-								},
 								"kind": "http",
 								"method": "GET",
 								"orig": "/healthcheck/tokenize",
@@ -609,6 +601,44 @@ func MakeConfig() map[string]any {
 										"lit": "tokenize",
 									},
 								},
+								"parts": []any{
+									"healthcheck",
+									"tokenize",
+								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body.values`",
+								},
+								"args": map[string]any{
+									"query": []any{
+										map[string]any{
+											"name": "field_name",
+											"orig": "field_name",
+											"type": "`$STRING`",
+											"kind": "query",
+										},
+										map[string]any{
+											"name": "field_value",
+											"orig": "field_value",
+											"type": "`$STRING`",
+											"kind": "query",
+										},
+										map[string]any{
+											"name": "reference",
+											"orig": "reference",
+											"type": "`$STRING`",
+											"kind": "query",
+										},
+										map[string]any{
+											"name": "template_ref",
+											"orig": "template_ref",
+											"type": "`$STRING`",
+											"kind": "query",
+											"reqd": true,
+										},
+									},
+								},
 								"select": map[string]any{
 									"exist": []any{
 										"field_name",
@@ -616,14 +646,6 @@ func MakeConfig() map[string]any {
 										"reference",
 										"template_ref",
 									},
-								},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body.values`",
-								},
-								"parts": []any{
-									"healthcheck",
-									"tokenize",
 								},
 							},
 						},
@@ -637,23 +659,26 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "batches",
+						"title": "Batches",
+						"type": "`$ARRAY`",
 						"op": map[string]any{
 							"create": map[string]any{
 								"req": true,
 								"type": "`$ARRAY`",
 							},
 						},
-						"type": "`$ARRAY`",
 					},
 					map[string]any{
 						"name": "messageId",
-						"short": "Message Id",
+						"title": "Message Id",
 						"type": "`$STRING`",
+						"short": "Message Id",
 					},
 					map[string]any{
 						"name": "reference",
-						"short": "Request Reference.",
+						"title": "Reference",
 						"type": "`$STRING`",
+						"short": "Request Reference.",
 					},
 				},
 				"name": "tokenize_batch",
@@ -663,7 +688,6 @@ func MakeConfig() map[string]any {
 						"name": "create",
 						"points": []any{
 							map[string]any{
-								"args": map[string]any{},
 								"kind": "http",
 								"method": "POST",
 								"orig": "/tokenization/batch/delete",
@@ -678,19 +702,20 @@ func MakeConfig() map[string]any {
 										"lit": "delete",
 									},
 								},
-								"select": map[string]any{},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
 								"parts": []any{
 									"tokenization",
 									"batch",
 									"delete",
 								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{},
+								"select": map[string]any{},
 							},
 							map[string]any{
-								"args": map[string]any{},
 								"kind": "http",
 								"method": "POST",
 								"orig": "/tokenization/batch/read",
@@ -705,16 +730,18 @@ func MakeConfig() map[string]any {
 										"lit": "read",
 									},
 								},
-								"select": map[string]any{},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
 								"parts": []any{
 									"tokenization",
 									"batch",
 									"read",
 								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{},
+								"select": map[string]any{},
 							},
 						},
 					},
@@ -727,6 +754,8 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "bfid",
+						"title": "Bfid",
+						"type": "`$STRING`",
 						"op": map[string]any{
 							"create": map[string]any{
 								"req": true,
@@ -734,25 +763,28 @@ func MakeConfig() map[string]any {
 							},
 						},
 						"short": "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).",
-						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "messageId",
-						"short": "Message Id",
+						"title": "Message Id",
 						"type": "`$STRING`",
+						"short": "Message Id",
 					},
 					map[string]any{
 						"name": "reference",
-						"short": "Request Reference.",
+						"title": "Reference",
 						"type": "`$STRING`",
+						"short": "Request Reference.",
 					},
 					map[string]any{
 						"name": "state",
-						"short": "Tokenized State Data (if available)",
+						"title": "State",
 						"type": "`$OBJECT`",
+						"short": "Tokenized State Data (if available)",
 					},
 					map[string]any{
 						"name": "values",
+						"title": "Values",
 						"type": "`$ARRAY`",
 					},
 				},
@@ -763,7 +795,6 @@ func MakeConfig() map[string]any {
 						"name": "create",
 						"points": []any{
 							map[string]any{
-								"args": map[string]any{},
 								"kind": "http",
 								"method": "POST",
 								"orig": "/tokenization/read",
@@ -775,15 +806,17 @@ func MakeConfig() map[string]any {
 										"lit": "read",
 									},
 								},
-								"select": map[string]any{},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
 								"parts": []any{
 									"tokenization",
 									"read",
 								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{},
+								"select": map[string]any{},
 							},
 						},
 					},
@@ -796,19 +829,22 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "messageId",
-						"short": "Message Id",
+						"title": "Message Id",
 						"type": "`$STRING`",
+						"short": "Message Id",
 					},
 					map[string]any{
 						"name": "reference",
-						"short": "Request Reference.",
+						"title": "Reference",
 						"type": "`$STRING`",
+						"short": "Request Reference.",
 					},
 					map[string]any{
 						"name": "templateRef",
+						"title": "Template Ref",
+						"type": "`$STRING`",
 						"req": true,
 						"short": "Template Reference.",
-						"type": "`$STRING`",
 					},
 				},
 				"name": "validate",
@@ -818,7 +854,6 @@ func MakeConfig() map[string]any {
 						"name": "create",
 						"points": []any{
 							map[string]any{
-								"args": map[string]any{},
 								"kind": "http",
 								"method": "POST",
 								"orig": "/partner/validate",
@@ -830,18 +865,19 @@ func MakeConfig() map[string]any {
 										"lit": "validate",
 									},
 								},
-								"select": map[string]any{},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
 								"parts": []any{
 									"partner",
 									"validate",
 								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{},
+								"select": map[string]any{},
 							},
 							map[string]any{
-								"args": map[string]any{},
 								"kind": "http",
 								"method": "POST",
 								"orig": "/template/validate",
@@ -853,15 +889,17 @@ func MakeConfig() map[string]any {
 										"lit": "validate",
 									},
 								},
-								"select": map[string]any{},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
 								"parts": []any{
 									"template",
 									"validate",
 								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{},
+								"select": map[string]any{},
 							},
 						},
 					},

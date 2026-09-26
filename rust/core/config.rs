@@ -220,16 +220,19 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("batches")),
+                        ("title".to_string(), Value::str("Batches")),
+                        ("type".to_string(), Value::str("`$ARRAY`")),
                         ("op".to_string(), Value::map_of([
                             ("create".to_string(), Value::map_of([
                                 ("req".to_string(), Value::Bool(true)),
                                 ("type".to_string(), Value::str("`$ARRAY`")),
                             ])),
                         ])),
-                        ("type".to_string(), Value::str("`$ARRAY`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("bfid")),
+                        ("title".to_string(), Value::str("Bfid")),
+                        ("type".to_string(), Value::str("`$STRING`")),
                         ("op".to_string(), Value::map_of([
                             ("create".to_string(), Value::map_of([
                                 ("req".to_string(), Value::Bool(true)),
@@ -237,37 +240,41 @@ pub fn make_config() -> Value {
                             ])),
                         ])),
                         ("short".to_string(), Value::str("The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).")),
-                        ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("messageId")),
-                        ("short".to_string(), Value::str("Message Id")),
+                        ("title".to_string(), Value::str("Message Id")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Message Id")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("name")),
-                        ("short".to_string(), Value::str("Field Name.")),
+                        ("title".to_string(), Value::str("Name")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Field Name.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("reference")),
-                        ("short".to_string(), Value::str("Request Reference.")),
+                        ("title".to_string(), Value::str("Reference")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Request Reference.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("value")),
-                        ("short".to_string(), Value::str("Field Value.")),
+                        ("title".to_string(), Value::str("Value")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Field Value.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("values")),
+                        ("title".to_string(), Value::str("Values")),
+                        ("type".to_string(), Value::str("`$ARRAY`")),
                         ("op".to_string(), Value::map_of([
                             ("create".to_string(), Value::map_of([
                                 ("req".to_string(), Value::Bool(true)),
                                 ("type".to_string(), Value::str("`$ARRAY`")),
                             ])),
                         ])),
-                        ("type".to_string(), Value::str("`$ARRAY`")),
                     ]),
                 ])),
                 ("name".to_string(), Value::str("detokenize")),
@@ -277,7 +284,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("create")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::empty_map()),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/tokenization/batch/detokenize")),
@@ -292,19 +298,20 @@ pub fn make_config() -> Value {
                                         ("lit".to_string(), Value::str("detokenize")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::empty_map()),
-                                ("transform".to_string(), Value::map_of([
-                                    ("req".to_string(), Value::str("`reqdata`")),
-                                    ("res".to_string(), Value::str("`body`")),
-                                ])),
                                 ("parts".to_string(), Value::list(vec![
                                     Value::str("tokenization"),
                                     Value::str("batch"),
                                     Value::str("detokenize"),
                                 ])),
+                                ("rename".to_string(), Value::empty_map()),
+                                ("transform".to_string(), Value::map_of([
+                                    ("req".to_string(), Value::str("`reqdata`")),
+                                    ("res".to_string(), Value::str("`body`")),
+                                ])),
+                                ("args".to_string(), Value::empty_map()),
+                                ("select".to_string(), Value::empty_map()),
                             ]),
                             Value::map_of([
-                                ("args".to_string(), Value::empty_map()),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/tokenization/detokenize")),
@@ -316,15 +323,17 @@ pub fn make_config() -> Value {
                                         ("lit".to_string(), Value::str("detokenize")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::empty_map()),
-                                ("transform".to_string(), Value::map_of([
-                                    ("req".to_string(), Value::str("`reqdata`")),
-                                    ("res".to_string(), Value::str("`body`")),
-                                ])),
                                 ("parts".to_string(), Value::list(vec![
                                     Value::str("tokenization"),
                                     Value::str("detokenize"),
                                 ])),
+                                ("rename".to_string(), Value::empty_map()),
+                                ("transform".to_string(), Value::map_of([
+                                    ("req".to_string(), Value::str("`reqdata`")),
+                                    ("res".to_string(), Value::str("`body`")),
+                                ])),
+                                ("args".to_string(), Value::empty_map()),
+                                ("select".to_string(), Value::empty_map()),
                             ]),
                         ])),
                     ])),
@@ -333,35 +342,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("list")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("query".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("bfid")),
-                                            ("orig".to_string(), Value::str("bfid")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("field_name")),
-                                            ("orig".to_string(), Value::str("field_name")),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("field_value")),
-                                            ("orig".to_string(), Value::str("field_value")),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("reference")),
-                                            ("orig".to_string(), Value::str("reference")),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/healthcheck/detokenize")),
@@ -373,6 +353,44 @@ pub fn make_config() -> Value {
                                         ("lit".to_string(), Value::str("detokenize")),
                                     ]),
                                 ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("healthcheck"),
+                                    Value::str("detokenize"),
+                                ])),
+                                ("rename".to_string(), Value::empty_map()),
+                                ("transform".to_string(), Value::map_of([
+                                    ("req".to_string(), Value::str("`reqdata`")),
+                                    ("res".to_string(), Value::str("`body.values`")),
+                                ])),
+                                ("args".to_string(), Value::map_of([
+                                    ("query".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("bfid")),
+                                            ("orig".to_string(), Value::str("bfid")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("field_name")),
+                                            ("orig".to_string(), Value::str("field_name")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("field_value")),
+                                            ("orig".to_string(), Value::str("field_value")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("reference")),
+                                            ("orig".to_string(), Value::str("reference")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                        ]),
+                                    ])),
+                                ])),
                                 ("select".to_string(), Value::map_of([
                                     ("exist".to_string(), Value::list(vec![
                                         Value::str("bfid"),
@@ -380,14 +398,6 @@ pub fn make_config() -> Value {
                                         Value::str("field_value"),
                                         Value::str("reference"),
                                     ])),
-                                ])),
-                                ("transform".to_string(), Value::map_of([
-                                    ("req".to_string(), Value::str("`reqdata`")),
-                                    ("res".to_string(), Value::str("`body.values`")),
-                                ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("healthcheck"),
-                                    Value::str("detokenize"),
                                 ])),
                             ]),
                         ])),
@@ -401,16 +411,19 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("batches")),
+                        ("title".to_string(), Value::str("Batches")),
+                        ("type".to_string(), Value::str("`$ARRAY`")),
                         ("op".to_string(), Value::map_of([
                             ("create".to_string(), Value::map_of([
                                 ("req".to_string(), Value::Bool(true)),
                                 ("type".to_string(), Value::str("`$ARRAY`")),
                             ])),
                         ])),
-                        ("type".to_string(), Value::str("`$ARRAY`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("bfid")),
+                        ("title".to_string(), Value::str("Bfid")),
+                        ("type".to_string(), Value::str("`$STRING`")),
                         ("op".to_string(), Value::map_of([
                             ("create".to_string(), Value::map_of([
                                 ("req".to_string(), Value::Bool(true)),
@@ -418,43 +431,48 @@ pub fn make_config() -> Value {
                             ])),
                         ])),
                         ("short".to_string(), Value::str("The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).")),
-                        ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("messageId")),
-                        ("short".to_string(), Value::str("Message Id")),
+                        ("title".to_string(), Value::str("Message Id")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Message Id")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("name")),
-                        ("short".to_string(), Value::str("Field Name.")),
+                        ("title".to_string(), Value::str("Name")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Field Name.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("reference")),
-                        ("short".to_string(), Value::str("Request Reference.")),
+                        ("title".to_string(), Value::str("Reference")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Request Reference.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("templateRef")),
+                        ("title".to_string(), Value::str("Template Ref")),
+                        ("type".to_string(), Value::str("`$STRING`")),
                         ("req".to_string(), Value::Bool(true)),
                         ("short".to_string(), Value::str("Template Reference")),
-                        ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("value")),
-                        ("short".to_string(), Value::str("Field Value.")),
+                        ("title".to_string(), Value::str("Value")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Field Value.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("values")),
+                        ("title".to_string(), Value::str("Values")),
+                        ("type".to_string(), Value::str("`$ARRAY`")),
                         ("op".to_string(), Value::map_of([
                             ("create".to_string(), Value::map_of([
                                 ("req".to_string(), Value::Bool(true)),
                                 ("type".to_string(), Value::str("`$ARRAY`")),
                             ])),
                         ])),
-                        ("type".to_string(), Value::str("`$ARRAY`")),
                     ]),
                 ])),
                 ("name".to_string(), Value::str("tokenize")),
@@ -464,16 +482,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("create")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("query".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("omit")),
-                                            ("orig".to_string(), Value::str("omit")),
-                                            ("type".to_string(), Value::str("`$NUMBER`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/tokenization/batch/tokenize")),
@@ -488,32 +496,33 @@ pub fn make_config() -> Value {
                                         ("lit".to_string(), Value::str("tokenize")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::map_of([
-                                    ("exist".to_string(), Value::list(vec![
-                                        Value::str("omit"),
-                                    ])),
-                                ])),
-                                ("transform".to_string(), Value::map_of([
-                                    ("req".to_string(), Value::str("`reqdata`")),
-                                    ("res".to_string(), Value::str("`body`")),
-                                ])),
                                 ("parts".to_string(), Value::list(vec![
                                     Value::str("tokenization"),
                                     Value::str("batch"),
                                     Value::str("tokenize"),
                                 ])),
-                            ]),
-                            Value::map_of([
+                                ("rename".to_string(), Value::empty_map()),
+                                ("transform".to_string(), Value::map_of([
+                                    ("req".to_string(), Value::str("`reqdata`")),
+                                    ("res".to_string(), Value::str("`body`")),
+                                ])),
                                 ("args".to_string(), Value::map_of([
                                     ("query".to_string(), Value::list(vec![
                                         Value::map_of([
-                                            ("kind".to_string(), Value::str("query")),
                                             ("name".to_string(), Value::str("omit")),
                                             ("orig".to_string(), Value::str("omit")),
                                             ("type".to_string(), Value::str("`$NUMBER`")),
+                                            ("kind".to_string(), Value::str("query")),
                                         ]),
                                     ])),
                                 ])),
+                                ("select".to_string(), Value::map_of([
+                                    ("exist".to_string(), Value::list(vec![
+                                        Value::str("omit"),
+                                    ])),
+                                ])),
+                            ]),
+                            Value::map_of([
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/tokenization/tokenize")),
@@ -525,22 +534,32 @@ pub fn make_config() -> Value {
                                         ("lit".to_string(), Value::str("tokenize")),
                                     ]),
                                 ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("tokenization"),
+                                    Value::str("tokenize"),
+                                ])),
+                                ("rename".to_string(), Value::empty_map()),
+                                ("transform".to_string(), Value::map_of([
+                                    ("req".to_string(), Value::str("`reqdata`")),
+                                    ("res".to_string(), Value::str("`body`")),
+                                ])),
+                                ("args".to_string(), Value::map_of([
+                                    ("query".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("omit")),
+                                            ("orig".to_string(), Value::str("omit")),
+                                            ("type".to_string(), Value::str("`$NUMBER`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                        ]),
+                                    ])),
+                                ])),
                                 ("select".to_string(), Value::map_of([
                                     ("exist".to_string(), Value::list(vec![
                                         Value::str("omit"),
                                     ])),
                                 ])),
-                                ("transform".to_string(), Value::map_of([
-                                    ("req".to_string(), Value::str("`reqdata`")),
-                                    ("res".to_string(), Value::str("`body`")),
-                                ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("tokenization"),
-                                    Value::str("tokenize"),
-                                ])),
                             ]),
                             Value::map_of([
-                                ("args".to_string(), Value::empty_map()),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/tokenization/delete")),
@@ -552,15 +571,17 @@ pub fn make_config() -> Value {
                                         ("lit".to_string(), Value::str("delete")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::empty_map()),
-                                ("transform".to_string(), Value::map_of([
-                                    ("req".to_string(), Value::str("`reqdata`")),
-                                    ("res".to_string(), Value::str("`body`")),
-                                ])),
                                 ("parts".to_string(), Value::list(vec![
                                     Value::str("tokenization"),
                                     Value::str("delete"),
                                 ])),
+                                ("rename".to_string(), Value::empty_map()),
+                                ("transform".to_string(), Value::map_of([
+                                    ("req".to_string(), Value::str("`reqdata`")),
+                                    ("res".to_string(), Value::str("`body`")),
+                                ])),
+                                ("args".to_string(), Value::empty_map()),
+                                ("select".to_string(), Value::empty_map()),
                             ]),
                         ])),
                     ])),
@@ -569,35 +590,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("list")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("query".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("field_name")),
-                                            ("orig".to_string(), Value::str("field_name")),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("field_value")),
-                                            ("orig".to_string(), Value::str("field_value")),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("reference")),
-                                            ("orig".to_string(), Value::str("reference")),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("template_ref")),
-                                            ("orig".to_string(), Value::str("template_ref")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/healthcheck/tokenize")),
@@ -609,6 +601,44 @@ pub fn make_config() -> Value {
                                         ("lit".to_string(), Value::str("tokenize")),
                                     ]),
                                 ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("healthcheck"),
+                                    Value::str("tokenize"),
+                                ])),
+                                ("rename".to_string(), Value::empty_map()),
+                                ("transform".to_string(), Value::map_of([
+                                    ("req".to_string(), Value::str("`reqdata`")),
+                                    ("res".to_string(), Value::str("`body.values`")),
+                                ])),
+                                ("args".to_string(), Value::map_of([
+                                    ("query".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("field_name")),
+                                            ("orig".to_string(), Value::str("field_name")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("field_value")),
+                                            ("orig".to_string(), Value::str("field_value")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("reference")),
+                                            ("orig".to_string(), Value::str("reference")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("template_ref")),
+                                            ("orig".to_string(), Value::str("template_ref")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                    ])),
+                                ])),
                                 ("select".to_string(), Value::map_of([
                                     ("exist".to_string(), Value::list(vec![
                                         Value::str("field_name"),
@@ -616,14 +646,6 @@ pub fn make_config() -> Value {
                                         Value::str("reference"),
                                         Value::str("template_ref"),
                                     ])),
-                                ])),
-                                ("transform".to_string(), Value::map_of([
-                                    ("req".to_string(), Value::str("`reqdata`")),
-                                    ("res".to_string(), Value::str("`body.values`")),
-                                ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("healthcheck"),
-                                    Value::str("tokenize"),
                                 ])),
                             ]),
                         ])),
@@ -637,23 +659,26 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("batches")),
+                        ("title".to_string(), Value::str("Batches")),
+                        ("type".to_string(), Value::str("`$ARRAY`")),
                         ("op".to_string(), Value::map_of([
                             ("create".to_string(), Value::map_of([
                                 ("req".to_string(), Value::Bool(true)),
                                 ("type".to_string(), Value::str("`$ARRAY`")),
                             ])),
                         ])),
-                        ("type".to_string(), Value::str("`$ARRAY`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("messageId")),
-                        ("short".to_string(), Value::str("Message Id")),
+                        ("title".to_string(), Value::str("Message Id")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Message Id")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("reference")),
-                        ("short".to_string(), Value::str("Request Reference.")),
+                        ("title".to_string(), Value::str("Reference")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Request Reference.")),
                     ]),
                 ])),
                 ("name".to_string(), Value::str("tokenize_batch")),
@@ -663,7 +688,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("create")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::empty_map()),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/tokenization/batch/delete")),
@@ -678,19 +702,20 @@ pub fn make_config() -> Value {
                                         ("lit".to_string(), Value::str("delete")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::empty_map()),
-                                ("transform".to_string(), Value::map_of([
-                                    ("req".to_string(), Value::str("`reqdata`")),
-                                    ("res".to_string(), Value::str("`body`")),
-                                ])),
                                 ("parts".to_string(), Value::list(vec![
                                     Value::str("tokenization"),
                                     Value::str("batch"),
                                     Value::str("delete"),
                                 ])),
+                                ("rename".to_string(), Value::empty_map()),
+                                ("transform".to_string(), Value::map_of([
+                                    ("req".to_string(), Value::str("`reqdata`")),
+                                    ("res".to_string(), Value::str("`body`")),
+                                ])),
+                                ("args".to_string(), Value::empty_map()),
+                                ("select".to_string(), Value::empty_map()),
                             ]),
                             Value::map_of([
-                                ("args".to_string(), Value::empty_map()),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/tokenization/batch/read")),
@@ -705,16 +730,18 @@ pub fn make_config() -> Value {
                                         ("lit".to_string(), Value::str("read")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::empty_map()),
-                                ("transform".to_string(), Value::map_of([
-                                    ("req".to_string(), Value::str("`reqdata`")),
-                                    ("res".to_string(), Value::str("`body`")),
-                                ])),
                                 ("parts".to_string(), Value::list(vec![
                                     Value::str("tokenization"),
                                     Value::str("batch"),
                                     Value::str("read"),
                                 ])),
+                                ("rename".to_string(), Value::empty_map()),
+                                ("transform".to_string(), Value::map_of([
+                                    ("req".to_string(), Value::str("`reqdata`")),
+                                    ("res".to_string(), Value::str("`body`")),
+                                ])),
+                                ("args".to_string(), Value::empty_map()),
+                                ("select".to_string(), Value::empty_map()),
                             ]),
                         ])),
                     ])),
@@ -727,6 +754,8 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("bfid")),
+                        ("title".to_string(), Value::str("Bfid")),
+                        ("type".to_string(), Value::str("`$STRING`")),
                         ("op".to_string(), Value::map_of([
                             ("create".to_string(), Value::map_of([
                                 ("req".to_string(), Value::Bool(true)),
@@ -734,25 +763,28 @@ pub fn make_config() -> Value {
                             ])),
                         ])),
                         ("short".to_string(), Value::str("The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).")),
-                        ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("messageId")),
-                        ("short".to_string(), Value::str("Message Id")),
+                        ("title".to_string(), Value::str("Message Id")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Message Id")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("reference")),
-                        ("short".to_string(), Value::str("Request Reference.")),
+                        ("title".to_string(), Value::str("Reference")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Request Reference.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("state")),
-                        ("short".to_string(), Value::str("Tokenized State Data (if available)")),
+                        ("title".to_string(), Value::str("State")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Tokenized State Data (if available)")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("values")),
+                        ("title".to_string(), Value::str("Values")),
                         ("type".to_string(), Value::str("`$ARRAY`")),
                     ]),
                 ])),
@@ -763,7 +795,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("create")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::empty_map()),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/tokenization/read")),
@@ -775,15 +806,17 @@ pub fn make_config() -> Value {
                                         ("lit".to_string(), Value::str("read")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::empty_map()),
-                                ("transform".to_string(), Value::map_of([
-                                    ("req".to_string(), Value::str("`reqdata`")),
-                                    ("res".to_string(), Value::str("`body`")),
-                                ])),
                                 ("parts".to_string(), Value::list(vec![
                                     Value::str("tokenization"),
                                     Value::str("read"),
                                 ])),
+                                ("rename".to_string(), Value::empty_map()),
+                                ("transform".to_string(), Value::map_of([
+                                    ("req".to_string(), Value::str("`reqdata`")),
+                                    ("res".to_string(), Value::str("`body`")),
+                                ])),
+                                ("args".to_string(), Value::empty_map()),
+                                ("select".to_string(), Value::empty_map()),
                             ]),
                         ])),
                     ])),
@@ -796,19 +829,22 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("messageId")),
-                        ("short".to_string(), Value::str("Message Id")),
+                        ("title".to_string(), Value::str("Message Id")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Message Id")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("reference")),
-                        ("short".to_string(), Value::str("Request Reference.")),
+                        ("title".to_string(), Value::str("Reference")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Request Reference.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("templateRef")),
+                        ("title".to_string(), Value::str("Template Ref")),
+                        ("type".to_string(), Value::str("`$STRING`")),
                         ("req".to_string(), Value::Bool(true)),
                         ("short".to_string(), Value::str("Template Reference.")),
-                        ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                 ])),
                 ("name".to_string(), Value::str("validate")),
@@ -818,7 +854,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("create")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::empty_map()),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/partner/validate")),
@@ -830,18 +865,19 @@ pub fn make_config() -> Value {
                                         ("lit".to_string(), Value::str("validate")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::empty_map()),
-                                ("transform".to_string(), Value::map_of([
-                                    ("req".to_string(), Value::str("`reqdata`")),
-                                    ("res".to_string(), Value::str("`body`")),
-                                ])),
                                 ("parts".to_string(), Value::list(vec![
                                     Value::str("partner"),
                                     Value::str("validate"),
                                 ])),
+                                ("rename".to_string(), Value::empty_map()),
+                                ("transform".to_string(), Value::map_of([
+                                    ("req".to_string(), Value::str("`reqdata`")),
+                                    ("res".to_string(), Value::str("`body`")),
+                                ])),
+                                ("args".to_string(), Value::empty_map()),
+                                ("select".to_string(), Value::empty_map()),
                             ]),
                             Value::map_of([
-                                ("args".to_string(), Value::empty_map()),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/template/validate")),
@@ -853,15 +889,17 @@ pub fn make_config() -> Value {
                                         ("lit".to_string(), Value::str("validate")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::empty_map()),
-                                ("transform".to_string(), Value::map_of([
-                                    ("req".to_string(), Value::str("`reqdata`")),
-                                    ("res".to_string(), Value::str("`body`")),
-                                ])),
                                 ("parts".to_string(), Value::list(vec![
                                     Value::str("template"),
                                     Value::str("validate"),
                                 ])),
+                                ("rename".to_string(), Value::empty_map()),
+                                ("transform".to_string(), Value::map_of([
+                                    ("req".to_string(), Value::str("`reqdata`")),
+                                    ("res".to_string(), Value::str("`body`")),
+                                ])),
+                                ("args".to_string(), Value::empty_map()),
+                                ("select".to_string(), Value::empty_map()),
                             ]),
                         ])),
                     ])),

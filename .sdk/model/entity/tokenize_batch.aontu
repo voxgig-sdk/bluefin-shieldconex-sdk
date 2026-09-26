@@ -1,0 +1,95 @@
+# Entity: tokenize_batch
+
+main: kit: entity: tokenize_batch: {
+
+  alias: field: {}
+
+  fields: {
+    batches: {
+      h: "Batches"
+      n: "batches"
+      op: {
+        create: {
+          req: true
+          type: "`$ARRAY`"
+        }
+      }
+      r: false
+      t: "`$ARRAY`"
+    }
+    messageId: {
+      h: "Message Id"
+      n: "messageId"
+      r: false
+      sh: "Message Id"
+      t: "`$STRING`"
+    }
+    reference: {
+      h: "Reference"
+      n: "reference"
+      r: false
+      sh: "Request Reference."
+      t: "`$STRING`"
+    }
+  }
+
+  name: "tokenize_batch"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /tokenization/batch/delete"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/tokenization/batch/delete"
+          s: [
+            {
+              lit: "tokenization"
+            }
+            {
+              lit: "batch"
+            }
+            {
+              lit: "delete"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "POST /tokenization/batch/read"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/tokenization/batch/read"
+          s: [
+            {
+              lit: "tokenization"
+            }
+            {
+              lit: "batch"
+            }
+            {
+              lit: "read"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

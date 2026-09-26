@@ -13,6 +13,7 @@
               "create" (vs/jm
                 "req" true
                 "type" "`$ARRAY`"))
+            "title" "Batches"
             "type" "`$ARRAY`")
           (vs/jm
             "name" "bfid"
@@ -21,22 +22,27 @@
                 "req" true
                 "type" "`$STRING`"))
             "short" "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request)."
+            "title" "Bfid"
             "type" "`$STRING`")
           (vs/jm
             "name" "messageId"
             "short" "Message Id"
+            "title" "Message Id"
             "type" "`$STRING`")
           (vs/jm
             "name" "name"
             "short" "Field Name."
+            "title" "Name"
             "type" "`$STRING`")
           (vs/jm
             "name" "reference"
             "short" "Request Reference."
+            "title" "Reference"
             "type" "`$STRING`")
           (vs/jm
             "name" "value"
             "short" "Field Value."
+            "title" "Value"
             "type" "`$STRING`")
           (vs/jm
             "name" "values"
@@ -44,6 +50,7 @@
               "create" (vs/jm
                 "req" true
                 "type" "`$ARRAY`"))
+            "title" "Values"
             "type" "`$ARRAY`"))
         "name" "detokenize"
         "op" (vs/jm
@@ -60,6 +67,7 @@
                   "tokenization"
                   "batch"
                   "detokenize")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "tokenization")
@@ -79,6 +87,7 @@
                 "parts" (vs/jt
                   "tokenization"
                   "detokenize")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "tokenization")
@@ -122,6 +131,7 @@
                 "parts" (vs/jt
                   "healthcheck"
                   "detokenize")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "healthcheck")
@@ -146,6 +156,7 @@
               "create" (vs/jm
                 "req" true
                 "type" "`$ARRAY`"))
+            "title" "Batches"
             "type" "`$ARRAY`")
           (vs/jm
             "name" "bfid"
@@ -154,27 +165,33 @@
                 "req" true
                 "type" "`$STRING`"))
             "short" "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request)."
+            "title" "Bfid"
             "type" "`$STRING`")
           (vs/jm
             "name" "messageId"
             "short" "Message Id"
+            "title" "Message Id"
             "type" "`$STRING`")
           (vs/jm
             "name" "name"
             "short" "Field Name."
+            "title" "Name"
             "type" "`$STRING`")
           (vs/jm
             "name" "reference"
             "short" "Request Reference."
+            "title" "Reference"
             "type" "`$STRING`")
           (vs/jm
             "name" "templateRef"
             "req" true
             "short" "Template Reference"
+            "title" "Template Ref"
             "type" "`$STRING`")
           (vs/jm
             "name" "value"
             "short" "Field Value."
+            "title" "Value"
             "type" "`$STRING`")
           (vs/jm
             "name" "values"
@@ -182,6 +199,7 @@
               "create" (vs/jm
                 "req" true
                 "type" "`$ARRAY`"))
+            "title" "Values"
             "type" "`$ARRAY`"))
         "name" "tokenize"
         "op" (vs/jm
@@ -204,6 +222,7 @@
                   "tokenization"
                   "batch"
                   "tokenize")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "tokenization")
@@ -231,6 +250,7 @@
                 "parts" (vs/jt
                   "tokenization"
                   "tokenize")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "tokenization")
@@ -250,6 +270,7 @@
                 "parts" (vs/jt
                   "tokenization"
                   "delete")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "tokenization")
@@ -293,6 +314,7 @@
                 "parts" (vs/jt
                   "healthcheck"
                   "tokenize")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "healthcheck")
@@ -317,14 +339,17 @@
               "create" (vs/jm
                 "req" true
                 "type" "`$ARRAY`"))
+            "title" "Batches"
             "type" "`$ARRAY`")
           (vs/jm
             "name" "messageId"
             "short" "Message Id"
+            "title" "Message Id"
             "type" "`$STRING`")
           (vs/jm
             "name" "reference"
             "short" "Request Reference."
+            "title" "Reference"
             "type" "`$STRING`"))
         "name" "tokenize_batch"
         "op" (vs/jm
@@ -341,6 +366,7 @@
                   "tokenization"
                   "batch"
                   "delete")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "tokenization")
@@ -361,6 +387,7 @@
                   "tokenization"
                   "batch"
                   "read")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "tokenization")
@@ -383,21 +410,26 @@
                 "req" true
                 "type" "`$STRING`"))
             "short" "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request)."
+            "title" "Bfid"
             "type" "`$STRING`")
           (vs/jm
             "name" "messageId"
             "short" "Message Id"
+            "title" "Message Id"
             "type" "`$STRING`")
           (vs/jm
             "name" "reference"
             "short" "Request Reference."
+            "title" "Reference"
             "type" "`$STRING`")
           (vs/jm
             "name" "state"
             "short" "Tokenized State Data (if available)"
+            "title" "State"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "values"
+            "title" "Values"
             "type" "`$ARRAY`"))
         "name" "tokenize_read"
         "op" (vs/jm
@@ -413,6 +445,7 @@
                 "parts" (vs/jt
                   "tokenization"
                   "read")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "tokenization")
@@ -429,15 +462,18 @@
           (vs/jm
             "name" "messageId"
             "short" "Message Id"
+            "title" "Message Id"
             "type" "`$STRING`")
           (vs/jm
             "name" "reference"
             "short" "Request Reference."
+            "title" "Reference"
             "type" "`$STRING`")
           (vs/jm
             "name" "templateRef"
             "req" true
             "short" "Template Reference."
+            "title" "Template Ref"
             "type" "`$STRING`"))
         "name" "validate"
         "op" (vs/jm
@@ -453,6 +489,7 @@
                 "parts" (vs/jt
                   "partner"
                   "validate")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "partner")
@@ -470,6 +507,7 @@
                 "parts" (vs/jt
                   "template"
                   "validate")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "template")

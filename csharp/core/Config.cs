@@ -271,6 +271,8 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "batches",
+                            ["title"] = "Batches",
+                            ["type"] = "`$ARRAY`",
                             ["op"] = new Dictionary<string, object?>
                             {
                                 ["create"] = new Dictionary<string, object?>
@@ -279,11 +281,12 @@ public static class SdkConfig
                                     ["type"] = "`$ARRAY`",
                                 },
                             },
-                            ["type"] = "`$ARRAY`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "bfid",
+                            ["title"] = "Bfid",
+                            ["type"] = "`$STRING`",
                             ["op"] = new Dictionary<string, object?>
                             {
                                 ["create"] = new Dictionary<string, object?>
@@ -293,35 +296,40 @@ public static class SdkConfig
                                 },
                             },
                             ["short"] = "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).",
-                            ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "messageId",
-                            ["short"] = "Message Id",
+                            ["title"] = "Message Id",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Message Id",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "name",
-                            ["short"] = "Field Name.",
+                            ["title"] = "Name",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Field Name.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "reference",
-                            ["short"] = "Request Reference.",
+                            ["title"] = "Reference",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Request Reference.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "value",
-                            ["short"] = "Field Value.",
+                            ["title"] = "Value",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Field Value.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "values",
+                            ["title"] = "Values",
+                            ["type"] = "`$ARRAY`",
                             ["op"] = new Dictionary<string, object?>
                             {
                                 ["create"] = new Dictionary<string, object?>
@@ -330,7 +338,6 @@ public static class SdkConfig
                                     ["type"] = "`$ARRAY`",
                                 },
                             },
-                            ["type"] = "`$ARRAY`",
                         },
                     },
                     ["name"] = "detokenize",
@@ -344,7 +351,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/tokenization/batch/detokenize",
@@ -363,22 +369,23 @@ public static class SdkConfig
                                             ["lit"] = "detokenize",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>(),
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
                                     ["parts"] = new List<object?>
                                     {
                                         "tokenization",
                                         "batch",
                                         "detokenize",
                                     },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>(),
                                 },
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/tokenization/detokenize",
@@ -393,17 +400,19 @@ public static class SdkConfig
                                             ["lit"] = "detokenize",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>(),
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
                                     ["parts"] = new List<object?>
                                     {
                                         "tokenization",
                                         "detokenize",
                                     },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>(),
                                 },
                             },
                         },
@@ -415,41 +424,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["query"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "query",
-                                                ["name"] = "bfid",
-                                                ["orig"] = "bfid",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "query",
-                                                ["name"] = "field_name",
-                                                ["orig"] = "field_name",
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "query",
-                                                ["name"] = "field_value",
-                                                ["orig"] = "field_value",
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "query",
-                                                ["name"] = "reference",
-                                                ["orig"] = "reference",
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/healthcheck/detokenize",
@@ -464,6 +438,52 @@ public static class SdkConfig
                                             ["lit"] = "detokenize",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "healthcheck",
+                                        "detokenize",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body.values`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["query"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "bfid",
+                                                ["orig"] = "bfid",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                                ["reqd"] = true,
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "field_name",
+                                                ["orig"] = "field_name",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "field_value",
+                                                ["orig"] = "field_value",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "reference",
+                                                ["orig"] = "reference",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
@@ -473,16 +493,6 @@ public static class SdkConfig
                                             "field_value",
                                             "reference",
                                         },
-                                    },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body.values`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "healthcheck",
-                                        "detokenize",
                                     },
                                 },
                             },
@@ -500,6 +510,8 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "batches",
+                            ["title"] = "Batches",
+                            ["type"] = "`$ARRAY`",
                             ["op"] = new Dictionary<string, object?>
                             {
                                 ["create"] = new Dictionary<string, object?>
@@ -508,11 +520,12 @@ public static class SdkConfig
                                     ["type"] = "`$ARRAY`",
                                 },
                             },
-                            ["type"] = "`$ARRAY`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "bfid",
+                            ["title"] = "Bfid",
+                            ["type"] = "`$STRING`",
                             ["op"] = new Dictionary<string, object?>
                             {
                                 ["create"] = new Dictionary<string, object?>
@@ -522,42 +535,48 @@ public static class SdkConfig
                                 },
                             },
                             ["short"] = "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).",
-                            ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "messageId",
-                            ["short"] = "Message Id",
+                            ["title"] = "Message Id",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Message Id",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "name",
-                            ["short"] = "Field Name.",
+                            ["title"] = "Name",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Field Name.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "reference",
-                            ["short"] = "Request Reference.",
+                            ["title"] = "Reference",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Request Reference.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "templateRef",
+                            ["title"] = "Template Ref",
+                            ["type"] = "`$STRING`",
                             ["req"] = true,
                             ["short"] = "Template Reference",
-                            ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "value",
-                            ["short"] = "Field Value.",
+                            ["title"] = "Value",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Field Value.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "values",
+                            ["title"] = "Values",
+                            ["type"] = "`$ARRAY`",
                             ["op"] = new Dictionary<string, object?>
                             {
                                 ["create"] = new Dictionary<string, object?>
@@ -566,7 +585,6 @@ public static class SdkConfig
                                     ["type"] = "`$ARRAY`",
                                 },
                             },
-                            ["type"] = "`$ARRAY`",
                         },
                     },
                     ["name"] = "tokenize",
@@ -580,19 +598,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["query"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "query",
-                                                ["name"] = "omit",
-                                                ["orig"] = "omit",
-                                                ["type"] = "`$NUMBER`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/tokenization/batch/tokenize",
@@ -611,6 +616,31 @@ public static class SdkConfig
                                             ["lit"] = "tokenize",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "tokenization",
+                                        "batch",
+                                        "tokenize",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["query"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "omit",
+                                                ["orig"] = "omit",
+                                                ["type"] = "`$NUMBER`",
+                                                ["kind"] = "query",
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
@@ -618,33 +648,9 @@ public static class SdkConfig
                                             "omit",
                                         },
                                     },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "tokenization",
-                                        "batch",
-                                        "tokenize",
-                                    },
                                 },
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["query"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "query",
-                                                ["name"] = "omit",
-                                                ["orig"] = "omit",
-                                                ["type"] = "`$NUMBER`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/tokenization/tokenize",
@@ -659,6 +665,30 @@ public static class SdkConfig
                                             ["lit"] = "tokenize",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "tokenization",
+                                        "tokenize",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["query"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "omit",
+                                                ["orig"] = "omit",
+                                                ["type"] = "`$NUMBER`",
+                                                ["kind"] = "query",
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
@@ -666,20 +696,9 @@ public static class SdkConfig
                                             "omit",
                                         },
                                     },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "tokenization",
-                                        "tokenize",
-                                    },
                                 },
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/tokenization/delete",
@@ -694,17 +713,19 @@ public static class SdkConfig
                                             ["lit"] = "delete",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>(),
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
                                     ["parts"] = new List<object?>
                                     {
                                         "tokenization",
                                         "delete",
                                     },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>(),
                                 },
                             },
                         },
@@ -716,41 +737,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["query"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "query",
-                                                ["name"] = "field_name",
-                                                ["orig"] = "field_name",
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "query",
-                                                ["name"] = "field_value",
-                                                ["orig"] = "field_value",
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "query",
-                                                ["name"] = "reference",
-                                                ["orig"] = "reference",
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "query",
-                                                ["name"] = "template_ref",
-                                                ["orig"] = "template_ref",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/healthcheck/tokenize",
@@ -765,6 +751,52 @@ public static class SdkConfig
                                             ["lit"] = "tokenize",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "healthcheck",
+                                        "tokenize",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body.values`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["query"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "field_name",
+                                                ["orig"] = "field_name",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "field_value",
+                                                ["orig"] = "field_value",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "reference",
+                                                ["orig"] = "reference",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "template_ref",
+                                                ["orig"] = "template_ref",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                                ["reqd"] = true,
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
@@ -774,16 +806,6 @@ public static class SdkConfig
                                             "reference",
                                             "template_ref",
                                         },
-                                    },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body.values`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "healthcheck",
-                                        "tokenize",
                                     },
                                 },
                             },
@@ -801,6 +823,8 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "batches",
+                            ["title"] = "Batches",
+                            ["type"] = "`$ARRAY`",
                             ["op"] = new Dictionary<string, object?>
                             {
                                 ["create"] = new Dictionary<string, object?>
@@ -809,19 +833,20 @@ public static class SdkConfig
                                     ["type"] = "`$ARRAY`",
                                 },
                             },
-                            ["type"] = "`$ARRAY`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "messageId",
-                            ["short"] = "Message Id",
+                            ["title"] = "Message Id",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Message Id",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "reference",
-                            ["short"] = "Request Reference.",
+                            ["title"] = "Reference",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Request Reference.",
                         },
                     },
                     ["name"] = "tokenize_batch",
@@ -835,7 +860,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/tokenization/batch/delete",
@@ -854,22 +878,23 @@ public static class SdkConfig
                                             ["lit"] = "delete",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>(),
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
                                     ["parts"] = new List<object?>
                                     {
                                         "tokenization",
                                         "batch",
                                         "delete",
                                     },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>(),
                                 },
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/tokenization/batch/read",
@@ -888,18 +913,20 @@ public static class SdkConfig
                                             ["lit"] = "read",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>(),
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
                                     ["parts"] = new List<object?>
                                     {
                                         "tokenization",
                                         "batch",
                                         "read",
                                     },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>(),
                                 },
                             },
                         },
@@ -916,6 +943,8 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "bfid",
+                            ["title"] = "Bfid",
+                            ["type"] = "`$STRING`",
                             ["op"] = new Dictionary<string, object?>
                             {
                                 ["create"] = new Dictionary<string, object?>
@@ -925,29 +954,32 @@ public static class SdkConfig
                                 },
                             },
                             ["short"] = "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).",
-                            ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "messageId",
-                            ["short"] = "Message Id",
+                            ["title"] = "Message Id",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Message Id",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "reference",
-                            ["short"] = "Request Reference.",
+                            ["title"] = "Reference",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Request Reference.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "state",
-                            ["short"] = "Tokenized State Data (if available)",
+                            ["title"] = "State",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "Tokenized State Data (if available)",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "values",
+                            ["title"] = "Values",
                             ["type"] = "`$ARRAY`",
                         },
                     },
@@ -962,7 +994,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/tokenization/read",
@@ -977,17 +1008,19 @@ public static class SdkConfig
                                             ["lit"] = "read",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>(),
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
                                     ["parts"] = new List<object?>
                                     {
                                         "tokenization",
                                         "read",
                                     },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>(),
                                 },
                             },
                         },
@@ -1004,21 +1037,24 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "messageId",
-                            ["short"] = "Message Id",
+                            ["title"] = "Message Id",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Message Id",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "reference",
-                            ["short"] = "Request Reference.",
+                            ["title"] = "Reference",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Request Reference.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "templateRef",
+                            ["title"] = "Template Ref",
+                            ["type"] = "`$STRING`",
                             ["req"] = true,
                             ["short"] = "Template Reference.",
-                            ["type"] = "`$STRING`",
                         },
                     },
                     ["name"] = "validate",
@@ -1032,7 +1068,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/partner/validate",
@@ -1047,21 +1082,22 @@ public static class SdkConfig
                                             ["lit"] = "validate",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>(),
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
                                     ["parts"] = new List<object?>
                                     {
                                         "partner",
                                         "validate",
                                     },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>(),
                                 },
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/template/validate",
@@ -1076,17 +1112,19 @@ public static class SdkConfig
                                             ["lit"] = "validate",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>(),
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
                                     ["parts"] = new List<object?>
                                     {
                                         "template",
                                         "validate",
                                     },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>(),
                                 },
                             },
                         },

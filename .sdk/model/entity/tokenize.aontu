@@ -1,0 +1,257 @@
+# Entity: tokenize
+
+main: kit: entity: tokenize: {
+
+  alias: field: {}
+
+  fields: {
+    batches: {
+      h: "Batches"
+      n: "batches"
+      op: {
+        create: {
+          req: true
+          type: "`$ARRAY`"
+        }
+      }
+      r: false
+      t: "`$ARRAY`"
+    }
+    bfid: {
+      h: "Bfid"
+      n: "bfid"
+      op: {
+        create: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
+      r: false
+      sh: "The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request)."
+      t: "`$STRING`"
+    }
+    messageId: {
+      h: "Message Id"
+      n: "messageId"
+      r: false
+      sh: "Message Id"
+      t: "`$STRING`"
+    }
+    name: {
+      h: "Name"
+      n: "name"
+      r: false
+      sh: "Field Name."
+      t: "`$STRING`"
+    }
+    reference: {
+      h: "Reference"
+      n: "reference"
+      r: false
+      sh: "Request Reference."
+      t: "`$STRING`"
+    }
+    templateRef: {
+      h: "Template Ref"
+      n: "templateRef"
+      r: true
+      sh: "Template Reference"
+      t: "`$STRING`"
+    }
+    value: {
+      h: "Value"
+      n: "value"
+      r: false
+      sh: "Field Value."
+      t: "`$STRING`"
+    }
+    values: {
+      h: "Values"
+      n: "values"
+      op: {
+        create: {
+          req: true
+          type: "`$ARRAY`"
+        }
+      }
+      r: false
+      t: "`$ARRAY`"
+    }
+  }
+
+  name: "tokenize"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /tokenization/batch/tokenize"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "omit"
+                or: "omit"
+                r: false
+                t: "`$NUMBER`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/tokenization/batch/tokenize"
+          q: {
+            exist: [
+              "omit"
+            ]
+          }
+          s: [
+            {
+              lit: "tokenization"
+            }
+            {
+              lit: "batch"
+            }
+            {
+              lit: "tokenize"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "POST /tokenization/tokenize"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "omit"
+                or: "omit"
+                r: false
+                t: "`$NUMBER`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/tokenization/tokenize"
+          q: {
+            exist: [
+              "omit"
+            ]
+          }
+          s: [
+            {
+              lit: "tokenization"
+            }
+            {
+              lit: "tokenize"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "POST /tokenization/delete"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/tokenization/delete"
+          s: [
+            {
+              lit: "tokenization"
+            }
+            {
+              lit: "delete"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /healthcheck/tokenize"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "field_name"
+                or: "field_name"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "field_value"
+                or: "field_value"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "reference"
+                or: "reference"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "template_ref"
+                or: "template_ref"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/healthcheck/tokenize"
+          q: {
+            exist: [
+              "field_name"
+              "field_value"
+              "reference"
+              "template_ref"
+            ]
+          }
+          s: [
+            {
+              lit: "healthcheck"
+            }
+            {
+              lit: "tokenize"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.values`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}
