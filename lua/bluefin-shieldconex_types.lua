@@ -47,7 +47,6 @@
 ---@field template_ref string
 
 ---@class TokenizeCreateData
----@field omit? number
 ---@field batches? table
 ---@field bfid? string
 ---@field messageId? string

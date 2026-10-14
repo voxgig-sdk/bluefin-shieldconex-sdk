@@ -53,7 +53,7 @@
         },
         "edition": {
           "github-pages": {
-            "active": true,
+            "active": false,
             "base": "node_modules/@voxgig/docgen/project/.sdk",
             "brand": {},
             "filter": {
@@ -210,6 +210,10 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "batches",
+                    "reference"
+                  ],
                   "co": {
                     "id": "POST /tokenization/batch/detokenize",
                     "source": "openapi3",
@@ -221,6 +225,10 @@
                   "o": "/tokenization/batch/detokenize",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "tokenization"
@@ -239,6 +247,11 @@
                 },
                 {
                   "a": true,
+                  "bf": [
+                    "bfid",
+                    "reference",
+                    "values"
+                  ],
                   "co": {
                     "id": "POST /tokenization/detokenize",
                     "source": "openapi3",
@@ -250,6 +263,10 @@
                   "o": "/tokenization/detokenize",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "tokenization"
@@ -290,7 +307,7 @@
                         "a": true,
                         "k": "query",
                         "n": "field_name",
-                        "or": "field_name",
+                        "or": "fieldNames",
                         "r": false,
                         "t": "`$STRING`"
                       },
@@ -298,7 +315,7 @@
                         "a": true,
                         "k": "query",
                         "n": "field_value",
-                        "or": "field_value",
+                        "or": "fieldValues",
                         "r": false,
                         "t": "`$STRING`"
                       },
@@ -317,13 +334,14 @@
                   "o": "/healthcheck/detokenize",
                   "q": {
                     "exist": [
-                      "bfid",
-                      "field_name",
-                      "field_value",
-                      "reference"
+                      "bfid"
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "healthcheck"
@@ -439,6 +457,11 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "batches",
+                    "reference",
+                    "templateRef"
+                  ],
                   "co": {
                     "id": "POST /tokenization/batch/tokenize",
                     "source": "openapi3",
@@ -459,12 +482,12 @@
                   "k": "http",
                   "m": "POST",
                   "o": "/tokenization/batch/tokenize",
-                  "q": {
-                    "exist": [
-                      "omit"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "tokenization"
@@ -483,6 +506,45 @@
                 },
                 {
                   "a": true,
+                  "bf": [
+                    "bfid",
+                    "reference"
+                  ],
+                  "co": {
+                    "id": "POST /tokenization/delete",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {},
+                  "k": "http",
+                  "m": "POST",
+                  "o": "/tokenization/delete",
+                  "q": {},
+                  "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
+                  "s": [
+                    {
+                      "lit": "tokenization"
+                    },
+                    {
+                      "lit": "delete"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "a": true,
+                  "bf": [
+                    "reference",
+                    "templateRef",
+                    "values"
+                  ],
                   "co": {
                     "id": "POST /tokenization/tokenize",
                     "source": "openapi3",
@@ -503,44 +565,18 @@
                   "k": "http",
                   "m": "POST",
                   "o": "/tokenization/tokenize",
-                  "q": {
-                    "exist": [
-                      "omit"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "tokenization"
                     },
                     {
                       "lit": "tokenize"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                },
-                {
-                  "a": true,
-                  "co": {
-                    "id": "POST /tokenization/delete",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {},
-                  "k": "http",
-                  "m": "POST",
-                  "o": "/tokenization/delete",
-                  "q": {},
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "tokenization"
-                    },
-                    {
-                      "lit": "delete"
                     }
                   ],
                   "t": {
@@ -567,7 +603,7 @@
                         "a": true,
                         "k": "query",
                         "n": "field_name",
-                        "or": "field_name",
+                        "or": "fieldNames",
                         "r": false,
                         "t": "`$STRING`"
                       },
@@ -575,7 +611,7 @@
                         "a": true,
                         "k": "query",
                         "n": "field_value",
-                        "or": "field_value",
+                        "or": "fieldValues",
                         "r": false,
                         "t": "`$STRING`"
                       },
@@ -591,7 +627,7 @@
                         "a": true,
                         "k": "query",
                         "n": "template_ref",
-                        "or": "template_ref",
+                        "or": "templateRef",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -602,13 +638,14 @@
                   "o": "/healthcheck/tokenize",
                   "q": {
                     "exist": [
-                      "field_name",
-                      "field_value",
-                      "reference",
                       "template_ref"
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "healthcheck"
@@ -673,6 +710,10 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "batches",
+                    "reference"
+                  ],
                   "co": {
                     "id": "POST /tokenization/batch/delete",
                     "source": "openapi3",
@@ -684,6 +725,10 @@
                   "o": "/tokenization/batch/delete",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "tokenization"
@@ -702,6 +747,10 @@
                 },
                 {
                   "a": true,
+                  "bf": [
+                    "batches",
+                    "reference"
+                  ],
                   "co": {
                     "id": "POST /tokenization/batch/read",
                     "source": "openapi3",
@@ -713,6 +762,10 @@
                   "o": "/tokenization/batch/read",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "tokenization"
@@ -796,6 +849,10 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "bfid",
+                    "reference"
+                  ],
                   "co": {
                     "id": "POST /tokenization/read",
                     "source": "openapi3",
@@ -807,6 +864,10 @@
                   "o": "/tokenization/read",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "tokenization"
@@ -866,6 +927,9 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "reference"
+                  ],
                   "co": {
                     "id": "POST /partner/validate",
                     "source": "openapi3",
@@ -877,6 +941,10 @@
                   "o": "/partner/validate",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "partner"
@@ -892,6 +960,10 @@
                 },
                 {
                   "a": true,
+                  "bf": [
+                    "reference",
+                    "templateRef"
+                  ],
                   "co": {
                     "id": "POST /template/validate",
                     "source": "openapi3",
@@ -903,6 +975,10 @@
                   "o": "/template/validate",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "template"
@@ -2683,6 +2759,7 @@
             },
             "optspec": {
               "clearTimer": "`$FUNCTION`",
+              "now": "`$FUNCTION`",
               "setTimer": "`$FUNCTION`"
             },
             "strict": false
@@ -2984,7 +3061,7 @@
       "optspec": {
         "allow": {
           "method": "GET,PUT,POST,PATCH,DELETE,OPTIONS",
-          "op": "create,update,load,list,remove,command,direct,graphql"
+          "op": "create,update,patch,load,list,remove,command,direct,graphql"
         },
         "apikey": "",
         "auth": {
@@ -2995,7 +3072,12 @@
         },
         "base": "http://localhost:8000",
         "clean": {
-          "keys": "key,token,id"
+          "active": true,
+          "hint": "0",
+          "keys": "key,secret,token,password,passwd,authorization,cookie,credential,signature",
+          "mask": "[redacted]",
+          "min": "4",
+          "values": ""
         },
         "entity": {
           "`$CHILD`": {
@@ -3032,6 +3114,11 @@
         "top": {
           "active": true
         }
+      },
+      "publisher": {
+        "name": "",
+        "security": "",
+        "url": ""
       },
       "repo": {
         "host": "github.com",
@@ -3669,7 +3756,10 @@
             "version": "0.1.1"
           },
           "superseded": [],
-          "title": "Go MCP server"
+          "title": "Go MCP server",
+          "tool": {
+            "write": false
+          }
         },
         "haskell": {
           "active": true,
@@ -4824,6 +4914,17 @@
           "base": "",
           "strict": true
         }
+      },
+      "text": {
+        "about_md": "",
+        "docs_url": "",
+        "entity_desc": {},
+        "homepage": "",
+        "meta_source": "",
+        "summary": "",
+        "tagline": "",
+        "title": "",
+        "website": ""
       }
     }
   },

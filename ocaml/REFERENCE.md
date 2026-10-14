@@ -10,6 +10,7 @@ Complete API reference for the BluefinShieldconex OCaml SDK.
 ```ocaml
 open Voxgig_struct
 open Sdk_helpers
+open Sdk_types
 
 let client = Sdk_client.make options
 ```
@@ -127,7 +128,7 @@ let detokenize = Sdk_client.detokenize client Noval
 
 #### `e_create reqdata ctrl : entity_obj`
 
-Create a new entity with the given data. Resolves to the ENTITY (read the record with `e_data_get`) and raises on error.
+Create a new entity with the given data. Resolves to the created entity and raises on error.
 
 ```ocaml
 let result = (Sdk_client.detokenize client Noval).e_create (jo [
@@ -137,11 +138,11 @@ let result_data = result.e_data_get ()
 
 #### `e_list reqmatch ctrl : entity_obj list`
 
-List entities matching the given criteria. The match is optional — pass `(empty_map ())` to list all records. Resolves to one ENTITY per record and raises on error.
+List entities matching the given criteria. The match is optional — pass `(empty_map ())` to list all records. Resolves to one entity per record and raises on error.
 
 ```ocaml
 (* One ENTITY per record; the record is reached with e_data_get. *)
-let results = (Sdk_client.detokenize client Noval).e_list (empty_map ()) Noval in
+let results = (Sdk_client.detokenize client Noval).e_list (jo [("bfid", (Str "example"))]) Noval in
 List.iter (fun e -> print_endline (stringify (e.e_data_get ()))) results
 ```
 
@@ -210,7 +211,7 @@ let tokenize = Sdk_client.tokenize client Noval
 
 #### `e_create reqdata ctrl : entity_obj`
 
-Create a new entity with the given data. Resolves to the ENTITY (read the record with `e_data_get`) and raises on error.
+Create a new entity with the given data. Resolves to the created entity and raises on error.
 
 ```ocaml
 let result = (Sdk_client.tokenize client Noval).e_create (jo [
@@ -221,11 +222,11 @@ let result_data = result.e_data_get ()
 
 #### `e_list reqmatch ctrl : entity_obj list`
 
-List entities matching the given criteria. The match is optional — pass `(empty_map ())` to list all records. Resolves to one ENTITY per record and raises on error.
+List entities matching the given criteria. The match is optional — pass `(empty_map ())` to list all records. Resolves to one entity per record and raises on error.
 
 ```ocaml
 (* One ENTITY per record; the record is reached with e_data_get. *)
-let results = (Sdk_client.tokenize client Noval).e_list (empty_map ()) Noval in
+let results = (Sdk_client.tokenize client Noval).e_list (jo [("template_ref", (Str "example"))]) Noval in
 List.iter (fun e -> print_endline (stringify (e.e_data_get ()))) results
 ```
 
@@ -284,7 +285,7 @@ let tokenize_batch = Sdk_client.tokenize_batch client Noval
 
 #### `e_create reqdata ctrl : entity_obj`
 
-Create a new entity with the given data. Resolves to the ENTITY (read the record with `e_data_get`) and raises on error.
+Create a new entity with the given data. Resolves to the created entity and raises on error.
 
 ```ocaml
 let result = (Sdk_client.tokenize_batch client Noval).e_create (jo [
@@ -351,7 +352,7 @@ let tokenize_read = Sdk_client.tokenize_read client Noval
 
 #### `e_create reqdata ctrl : entity_obj`
 
-Create a new entity with the given data. Resolves to the ENTITY (read the record with `e_data_get`) and raises on error.
+Create a new entity with the given data. Resolves to the created entity and raises on error.
 
 ```ocaml
 let result = (Sdk_client.tokenize_read client Noval).e_create (jo [
@@ -406,7 +407,7 @@ let validate = Sdk_client.validate client Noval
 
 #### `e_create reqdata ctrl : entity_obj`
 
-Create a new entity with the given data. Resolves to the ENTITY (read the record with `e_data_get`) and raises on error.
+Create a new entity with the given data. Resolves to the created entity and raises on error.
 
 ```ocaml
 let result = (Sdk_client.validate client Noval).e_create (jo [
@@ -865,6 +866,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

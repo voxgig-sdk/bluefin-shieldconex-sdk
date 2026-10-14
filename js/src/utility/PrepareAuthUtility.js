@@ -6,6 +6,13 @@ const OPTION_secret = 'secret'
 
 const NOTFOUND = '__NOTFOUND__'
 
+
+// The client's `auth.name` option, when set, replaces the name the API declares.
+function credName(name) {
+  return 'string' === typeof name && '' !== name ? name.toLowerCase() : CRED_name
+}
+
+
 function prepareAuth(ctx) {
   const utility = ctx.utility
 
@@ -31,22 +38,34 @@ function prepareAuth(ctx) {
     return spec
   }
 
+  const name = credName(options.auth.name)
+
+  // A credential left under the declared name would travel beside the renamed one.
+  if (CRED_name !== name) {
+    delprop(headers, CRED_name)
+  }
+
   const apikey = getprop(options, OPTION_apikey, NOTFOUND)
 
-  // True HTTP Basic Auth needs TWO credentials, base64-joined - a single
+  // True HTTP Basic Auth joins the two credentials, base64-encoded - a single
   // token in the header (the branch below) can never authenticate against
   // an API that actually checks `Authorization: Basic base64(user:pass)`.
+  // The password may be empty (RFC 7617): Lob, for one, documents the key as
+  // the user with a blank password (`curl -u key:`).
   if (true === options.auth.basic) {
     const secret = getprop(options, OPTION_secret, NOTFOUND)
     const noApikey = NOTFOUND === apikey || null == apikey || '' === apikey
-    const noSecret = NOTFOUND === secret || null == secret || '' === secret
+    const pass = NOTFOUND === secret || null == secret ? '' : secret
 
-    if (noApikey || noSecret) {
-      delprop(headers, CRED_name)
+    if (noApikey) {
+      delprop(headers, name)
     }
     else {
-      const b64 = Buffer.from(apikey + ':' + secret).toString('base64')
-      setprop(headers, CRED_name,
+      const b64 = Buffer.from(apikey + ':' + pass).toString('base64')
+      // The joined, encoded pair is a wire form neither credential's own
+      // registration covers.
+      utility.cleanAdd(ctx, b64)
+      setprop(headers, name,
         options.auth.prefix ? options.auth.prefix + ' ' + b64 : b64)
     }
 
@@ -54,11 +73,11 @@ function prepareAuth(ctx) {
   }
 
   if (NOTFOUND === apikey || null == apikey || '' === apikey) {
-    delprop(headers, CRED_name)
+    delprop(headers, name)
   }
   else {
     // Empty prefix (raw apiKey credential) must not add a leading space.
-    setprop(headers, CRED_name,
+    setprop(headers, name,
       options.auth.prefix ? options.auth.prefix + ' ' + apikey : apikey)
   }
 

@@ -22,7 +22,7 @@ loadFixture entName = do
   -- plain lowercase of the CamelCase entName (createresult) misses the
   -- underscores for multi-word entities. Convert CamelCase -> snake_case.
   let lname = camelToSnake entName
-  raw <- readFile ("../.sdk/test/entity/" ++ lname ++ "/" ++ entName ++ "TestData.json")
+  raw <- readUtf8 ("../.sdk/test/entity/" ++ lname ++ "/" ++ entName ++ "TestData.json")
   jsonRead raw
   where
     toLowerCh ch = if ch >= 'A' && ch <= 'Z' then toEnum (fromEnum ch + 32) else ch
@@ -78,6 +78,12 @@ detokenizeBasicTest c = do
     sdk <- C.testSdk opts VNoval
     ent <- C.detokenize sdk VNoval
     em1 <- emptyMap; em2 <- emptyMap
+    entmap <- getp existing "detokenize"
+    rec0 <- keysof entmap >>= \ids -> case ids of { (i : _) -> getp entmap i; [] -> emptyMap }
+    setp em1 "bfid" =<< getp rec0 "bfid"
+    setp em1 "field_name" =<< getp rec0 "field_name"
+    setp em1 "field_value" =<< getp rec0 "field_value"
+    setp em1 "reference" =<< getp rec0 "reference"
     lst <- eList ent em1 em2
     -- `list` resolves to one ENTITY per record; the record is reached
     -- through eDataGet. See AGENTS.md "Entity operations return ENTITIES".
@@ -119,10 +125,11 @@ detokenizeDirectTest c = runTest c "detokenize.direct" $ do
 
 detokenizeStreamTest :: Counters -> IO ()
 detokenizeStreamTest c = do
-  let mkSeed = do
-        r1 <- jo [("id", VStr "S1"), ("name", VStr "a")]
-        r2 <- jo [("id", VStr "S2"), ("name", VStr "b")]
-        r3 <- jo [("id", VStr "S3"), ("name", VStr "c")]
+  let parentVals = [("bfid", VStr "P1"), ("field_name", VStr "P1"), ("field_value", VStr "P1"), ("reference", VStr "P1")]
+      mkSeed = do
+        r1 <- jo ([("id", VStr "S1"), ("name", VStr "a")] ++ parentVals)
+        r2 <- jo ([("id", VStr "S2"), ("name", VStr "b")] ++ parentVals)
+        r3 <- jo ([("id", VStr "S3"), ("name", VStr "c")] ++ parentVals)
         recs <- jo [("S1", r1), ("S2", r2), ("S3", r3)]
         jo [("detokenize", recs)]
       hasStreaming = do
@@ -134,14 +141,14 @@ detokenizeStreamTest c = do
     seed <- mkSeed; opts <- jo [("entity", seed)]
     sdk <- C.testSdk opts VNoval
     ent <- C.detokenize sdk VNoval
-    em1 <- emptyMap
+    em1 <- jo parentVals
     items <- eStream ent "list" em1 VNoval
     pure (length items == 3 && (case items of (x : _) -> ismap x; [] -> False))
   runTest c "detokenize.stream_signal" $ do
     seed <- mkSeed; opts <- jo [("entity", seed)]
     sdk <- C.testSdk opts VNoval
     ent <- C.detokenize sdk VNoval
-    em1 <- emptyMap
+    em1 <- jo parentVals
     n <- newIORef (0 :: Int)
     let sig = vfunc0 (do modifyIORef n (+ 1); v <- readIORef n; pure (VBool (v >= 2)))
     co <- jo [("signal", sig)]
@@ -154,7 +161,7 @@ detokenizeStreamTest c = do
       stg <- jo [("active", VBool True)]; strm <- jo [("streaming", stg)]; sopts <- jo [("feature", strm)]
       sdk <- C.testSdk opts sopts
       ent <- C.detokenize sdk VNoval
-      em1 <- emptyMap
+      em1 <- jo parentVals
       items <- eStream ent "list" em1 VNoval
       pure (length items == 3)
   runTest c "detokenize.stream_chunk" $ do
@@ -164,7 +171,7 @@ detokenizeStreamTest c = do
       stg <- jo [("active", VBool True), ("chunkSize", VNum 2)]; strm <- jo [("streaming", stg)]; sopts <- jo [("feature", strm)]
       sdk <- C.testSdk opts sopts
       ent <- C.detokenize sdk VNoval
-      em1 <- emptyMap
+      em1 <- jo parentVals
       batches <- eStream ent "list" em1 VNoval
       pure (length batches == 2)
 
@@ -183,6 +190,12 @@ tokenizeBasicTest c = do
     sdk <- C.testSdk opts VNoval
     ent <- C.tokenize sdk VNoval
     em1 <- emptyMap; em2 <- emptyMap
+    entmap <- getp existing "tokenize"
+    rec0 <- keysof entmap >>= \ids -> case ids of { (i : _) -> getp entmap i; [] -> emptyMap }
+    setp em1 "field_name" =<< getp rec0 "field_name"
+    setp em1 "field_value" =<< getp rec0 "field_value"
+    setp em1 "reference" =<< getp rec0 "reference"
+    setp em1 "template_ref" =<< getp rec0 "template_ref"
     lst <- eList ent em1 em2
     -- `list` resolves to one ENTITY per record; the record is reached
     -- through eDataGet. See AGENTS.md "Entity operations return ENTITIES".
@@ -224,10 +237,11 @@ tokenizeDirectTest c = runTest c "tokenize.direct" $ do
 
 tokenizeStreamTest :: Counters -> IO ()
 tokenizeStreamTest c = do
-  let mkSeed = do
-        r1 <- jo [("id", VStr "S1"), ("name", VStr "a")]
-        r2 <- jo [("id", VStr "S2"), ("name", VStr "b")]
-        r3 <- jo [("id", VStr "S3"), ("name", VStr "c")]
+  let parentVals = [("field_name", VStr "P1"), ("field_value", VStr "P1"), ("reference", VStr "P1"), ("template_ref", VStr "P1")]
+      mkSeed = do
+        r1 <- jo ([("id", VStr "S1"), ("name", VStr "a")] ++ parentVals)
+        r2 <- jo ([("id", VStr "S2"), ("name", VStr "b")] ++ parentVals)
+        r3 <- jo ([("id", VStr "S3"), ("name", VStr "c")] ++ parentVals)
         recs <- jo [("S1", r1), ("S2", r2), ("S3", r3)]
         jo [("tokenize", recs)]
       hasStreaming = do
@@ -239,14 +253,14 @@ tokenizeStreamTest c = do
     seed <- mkSeed; opts <- jo [("entity", seed)]
     sdk <- C.testSdk opts VNoval
     ent <- C.tokenize sdk VNoval
-    em1 <- emptyMap
+    em1 <- jo parentVals
     items <- eStream ent "list" em1 VNoval
     pure (length items == 3 && (case items of (x : _) -> ismap x; [] -> False))
   runTest c "tokenize.stream_signal" $ do
     seed <- mkSeed; opts <- jo [("entity", seed)]
     sdk <- C.testSdk opts VNoval
     ent <- C.tokenize sdk VNoval
-    em1 <- emptyMap
+    em1 <- jo parentVals
     n <- newIORef (0 :: Int)
     let sig = vfunc0 (do modifyIORef n (+ 1); v <- readIORef n; pure (VBool (v >= 2)))
     co <- jo [("signal", sig)]
@@ -259,7 +273,7 @@ tokenizeStreamTest c = do
       stg <- jo [("active", VBool True)]; strm <- jo [("streaming", stg)]; sopts <- jo [("feature", strm)]
       sdk <- C.testSdk opts sopts
       ent <- C.tokenize sdk VNoval
-      em1 <- emptyMap
+      em1 <- jo parentVals
       items <- eStream ent "list" em1 VNoval
       pure (length items == 3)
   runTest c "tokenize.stream_chunk" $ do
@@ -269,7 +283,7 @@ tokenizeStreamTest c = do
       stg <- jo [("active", VBool True), ("chunkSize", VNum 2)]; strm <- jo [("streaming", stg)]; sopts <- jo [("feature", strm)]
       sdk <- C.testSdk opts sopts
       ent <- C.tokenize sdk VNoval
-      em1 <- emptyMap
+      em1 <- jo parentVals
       batches <- eStream ent "list" em1 VNoval
       pure (length batches == 2)
 

@@ -67,7 +67,6 @@ struct TokenizeListMatch {
 };
 
 struct TokenizeCreateData {
-  double omit;  // optional
   std::vector<Value> batches;  // optional
   std::string bfid;  // optional
   std::string messageId;  // optional

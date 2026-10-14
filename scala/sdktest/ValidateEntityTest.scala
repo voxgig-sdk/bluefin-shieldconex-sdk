@@ -5,16 +5,36 @@
 
 import java.util.{ArrayList, LinkedHashMap, List => JList, Map => JMap}
 
-import voxgig.bluefinshieldconexsdk.core.{Helpers, SdkEntity, BluefinShieldconexSDK}
+import voxgig.bluefinshieldconexsdk.core.{Config, Context, Helpers, SdkEntity, SdkError, BluefinShieldconexSDK}
+import voxgig.bluefinshieldconexsdk.feature.BaseFeature
 import voxgig.bluefinshieldconexsdk.utility.struct.Struct
 
 object ValidateEntityTest {
+
+  import SdkTestSupport.{B, I, jl, om}
+
+  private def hasFeature(name: String): Boolean = {
+    val fm = Helpers.toMapAny(Config.sharedConfig().get("feature"))
+    fm != null && fm.get(name) != null
+  }
 
   def run(rep: SdkTestReport): Unit = {
     rep.scope("validate.instance") {
       val testsdk = BluefinShieldconexSDK.testSDK()
       val ent = testsdk.validate(null)
       rep.check("validate.instance", ent != null, "expected non-null validate entity")
+    }
+
+    rep.scope("validate.validate") {
+      if (hasFeature("validate")) {
+        val client = BluefinShieldconexSDK.testSDK(null, om("feature" -> om("validate" -> om("active" -> B(true)))))
+        val err = try {
+          client.validate(null).create(om("messageId" -> I(1), "templateRef" -> "x"), null)
+          null
+        } catch { case e: SdkError => e }
+        rep.check("validate.validate", err != null && "validate_failed" == err.code,
+          "expected validate_failed, got " + err)
+      }
     }
 
     rep.scope("validate.basic") {

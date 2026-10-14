@@ -85,6 +85,11 @@ main: kit: entity: tokenize: {
       name: "create"
       points: [
         {
+          bf: [
+            "batches"
+            "reference"
+            "templateRef"
+          ]
           co: {
             id: "POST /tokenization/batch/tokenize"
             source: "openapi3"
@@ -103,10 +108,9 @@ main: kit: entity: tokenize: {
           }
           m: "POST"
           o: "/tokenization/batch/tokenize"
-          q: {
-            exist: [
-              "omit"
-            ]
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -125,6 +129,40 @@ main: kit: entity: tokenize: {
           }
         }
         {
+          bf: [
+            "bfid"
+            "reference"
+          ]
+          co: {
+            id: "POST /tokenization/delete"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/tokenization/delete"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "tokenization"
+            }
+            {
+              lit: "delete"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          bf: [
+            "reference"
+            "templateRef"
+            "values"
+          ]
           co: {
             id: "POST /tokenization/tokenize"
             source: "openapi3"
@@ -143,10 +181,9 @@ main: kit: entity: tokenize: {
           }
           m: "POST"
           o: "/tokenization/tokenize"
-          q: {
-            exist: [
-              "omit"
-            ]
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -154,27 +191,6 @@ main: kit: entity: tokenize: {
             }
             {
               lit: "tokenize"
-            }
-          ]
-          t: {
-            req: "`reqdata`"
-            res: "`body`"
-          }
-        }
-        {
-          co: {
-            id: "POST /tokenization/delete"
-            source: "openapi3"
-            version: 2
-          }
-          m: "POST"
-          o: "/tokenization/delete"
-          s: [
-            {
-              lit: "tokenization"
-            }
-            {
-              lit: "delete"
             }
           ]
           t: {
@@ -198,14 +214,14 @@ main: kit: entity: tokenize: {
               {
                 k: "query"
                 n: "field_name"
-                or: "field_name"
+                or: "fieldNames"
                 r: false
                 t: "`$STRING`"
               }
               {
                 k: "query"
                 n: "field_value"
-                or: "field_value"
+                or: "fieldValues"
                 r: false
                 t: "`$STRING`"
               }
@@ -219,7 +235,7 @@ main: kit: entity: tokenize: {
               {
                 k: "query"
                 n: "template_ref"
-                or: "template_ref"
+                or: "templateRef"
                 r: true
                 t: "`$STRING`"
               }
@@ -229,11 +245,12 @@ main: kit: entity: tokenize: {
           o: "/healthcheck/tokenize"
           q: {
             exist: [
-              "field_name"
-              "field_value"
-              "reference"
               "template_ref"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

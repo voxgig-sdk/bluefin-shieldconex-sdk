@@ -215,6 +215,7 @@ class BluefinShieldconexConfig
           ],
           'optspec' => [
             'clearTimer' => '`$FUNCTION`',
+            'now' => '`$FUNCTION`',
             'setTimer' => '`$FUNCTION`',
           ],
           'strict' => false,
@@ -225,6 +226,7 @@ class BluefinShieldconexConfig
                 "base" => "https://secure-cert.shieldconex.com/api",
                 "auth" => [
                     "prefix" => "Basic",
+                    "basic" => true,
                 ],
                 "headers" => [
           'content-type' => 'application/json',
@@ -332,6 +334,10 @@ class BluefinShieldconexConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
                 [
                   'kind' => 'http',
@@ -356,6 +362,10 @@ class BluefinShieldconexConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -392,16 +402,17 @@ class BluefinShieldconexConfig
                         'type' => '`$STRING`',
                         'kind' => 'query',
                         'reqd' => true,
+                        'field' => true,
                       ],
                       [
                         'name' => 'field_name',
-                        'orig' => 'field_name',
+                        'orig' => 'fieldNames',
                         'type' => '`$STRING`',
                         'kind' => 'query',
                       ],
                       [
                         'name' => 'field_value',
-                        'orig' => 'field_value',
+                        'orig' => 'fieldValues',
                         'type' => '`$STRING`',
                         'kind' => 'query',
                       ],
@@ -410,16 +421,18 @@ class BluefinShieldconexConfig
                         'orig' => 'reference',
                         'type' => '`$STRING`',
                         'kind' => 'query',
+                        'field' => true,
                       ],
                     ],
                   ],
                   'select' => [
                     'exist' => [
                       'bfid',
-                      'field_name',
-                      'field_value',
-                      'reference',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -538,10 +551,38 @@ class BluefinShieldconexConfig
                       ],
                     ],
                   ],
-                  'select' => [
-                    'exist' => [
-                      'omit',
+                  'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
+                ],
+                [
+                  'kind' => 'http',
+                  'method' => 'POST',
+                  'orig' => '/tokenization/delete',
+                  'segments' => [
+                    [
+                      'lit' => 'tokenization',
                     ],
+                    [
+                      'lit' => 'delete',
+                    ],
+                  ],
+                  'parts' => [
+                    'tokenization',
+                    'delete',
+                  ],
+                  'rename' => [],
+                  'transform' => [
+                    'req' => '`reqdata`',
+                    'res' => '`body`',
+                  ],
+                  'args' => [],
+                  'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
                 [
@@ -575,35 +616,11 @@ class BluefinShieldconexConfig
                       ],
                     ],
                   ],
-                  'select' => [
-                    'exist' => [
-                      'omit',
-                    ],
-                  ],
-                ],
-                [
-                  'kind' => 'http',
-                  'method' => 'POST',
-                  'orig' => '/tokenization/delete',
-                  'segments' => [
-                    [
-                      'lit' => 'tokenization',
-                    ],
-                    [
-                      'lit' => 'delete',
-                    ],
-                  ],
-                  'parts' => [
-                    'tokenization',
-                    'delete',
-                  ],
-                  'rename' => [],
-                  'transform' => [
-                    'req' => '`reqdata`',
-                    'res' => '`body`',
-                  ],
-                  'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -636,13 +653,13 @@ class BluefinShieldconexConfig
                     'query' => [
                       [
                         'name' => 'field_name',
-                        'orig' => 'field_name',
+                        'orig' => 'fieldNames',
                         'type' => '`$STRING`',
                         'kind' => 'query',
                       ],
                       [
                         'name' => 'field_value',
-                        'orig' => 'field_value',
+                        'orig' => 'fieldValues',
                         'type' => '`$STRING`',
                         'kind' => 'query',
                       ],
@@ -651,10 +668,11 @@ class BluefinShieldconexConfig
                         'orig' => 'reference',
                         'type' => '`$STRING`',
                         'kind' => 'query',
+                        'field' => true,
                       ],
                       [
                         'name' => 'template_ref',
-                        'orig' => 'template_ref',
+                        'orig' => 'templateRef',
                         'type' => '`$STRING`',
                         'kind' => 'query',
                         'reqd' => true,
@@ -663,11 +681,12 @@ class BluefinShieldconexConfig
                   ],
                   'select' => [
                     'exist' => [
-                      'field_name',
-                      'field_value',
-                      'reference',
                       'template_ref',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -736,6 +755,10 @@ class BluefinShieldconexConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
                 [
                   'kind' => 'http',
@@ -764,6 +787,10 @@ class BluefinShieldconexConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -839,6 +866,10 @@ class BluefinShieldconexConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -898,6 +929,10 @@ class BluefinShieldconexConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
                 [
                   'kind' => 'http',
@@ -922,6 +957,10 @@ class BluefinShieldconexConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],

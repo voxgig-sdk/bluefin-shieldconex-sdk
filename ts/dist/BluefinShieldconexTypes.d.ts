@@ -39,7 +39,6 @@ export interface TokenizeListMatch {
     template_ref: string;
 }
 export interface TokenizeCreateData {
-    omit?: number;
     batches?: any[];
     bfid?: string;
     messageId?: string;

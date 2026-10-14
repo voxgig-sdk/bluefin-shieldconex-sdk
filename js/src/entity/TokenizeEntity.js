@@ -25,7 +25,7 @@ class TokenizeEntity extends BluefinShieldconexEntityBase {
   /**
    * @param {TokenizeListMatch} [reqmatch]
    * @param {Object} [ctrl]
-   * @returns {Promise<Tokenize[]>}
+   * @returns {Promise<TokenizeEntity[]>}
    */
   async list(reqmatch, ctrl) {
 
@@ -118,9 +118,15 @@ class TokenizeEntity extends BluefinShieldconexEntityBase {
       return done(ctx)
     }
     catch (err) {
+      // What a hook throws here must not escape the cleaning below.
+      try {
 
-      fres = featureHook(ctx, 'PreUnexpected')
-      if (fres instanceof Promise) { await fres }
+        fres = featureHook(ctx, 'PreUnexpected')
+        if (fres instanceof Promise) { await fres }
+      }
+      catch (hookerr) {
+        err = hookerr
+      }
 
       err = this._unexpected(ctx, err)
 
@@ -138,7 +144,7 @@ class TokenizeEntity extends BluefinShieldconexEntityBase {
   /**
    * @param {TokenizeCreateData} [reqdata]
    * @param {Object} [ctrl]
-   * @returns {Promise<Tokenize>}
+   * @returns {Promise<TokenizeEntity>}
    */
   async create(reqdata, ctrl) {
 
@@ -238,9 +244,15 @@ class TokenizeEntity extends BluefinShieldconexEntityBase {
       return (ctx.result && ctx.result.ok) ? this : out
     }
     catch (err) {
+      // What a hook throws here must not escape the cleaning below.
+      try {
 
-      fres = featureHook(ctx, 'PreUnexpected')
-      if (fres instanceof Promise) { await fres }
+        fres = featureHook(ctx, 'PreUnexpected')
+        if (fres instanceof Promise) { await fres }
+      }
+      catch (hookerr) {
+        err = hookerr
+      }
 
       err = this._unexpected(ctx, err)
 
@@ -252,6 +264,7 @@ class TokenizeEntity extends BluefinShieldconexEntityBase {
       }
     }
   }
+
 
 
 

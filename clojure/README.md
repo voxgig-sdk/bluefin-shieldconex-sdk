@@ -17,7 +17,7 @@ keeps the cognitive load low.
 
 ## Install
 This package is not yet published to Clojars. Depend on it directly from the
-GitHub release tag (`clojure/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/releases)),
+GitHub release tag (`clojure/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags)),
 using a `tools.deps` git dependency:
 
 ```clojure
@@ -54,13 +54,13 @@ loading a specific record.
 
 ### 2. List detokenize records
 
-`list` returns a vector of records (each a map) and raises on error —
-iterate it directly.
+`list` returns a vector of entities, one per record, and raises on error.
+Read each record with `((:data-get detokenize))`.
 
 ```clojure
 (try
-  (doseq [detokenize (e-detokenize/list (api/detokenize client nil) nil nil)]
-    (println detokenize))
+  (doseq [detokenize (e-detokenize/list (api/detokenize client nil) (vs/jm "bfid" "example") nil)]
+    (println ((:data-get detokenize))))
   (catch Exception err
     (println "list failed:" (.getMessage err))))
 ```
@@ -68,7 +68,7 @@ iterate it directly.
 ### 4. Create, update, and remove
 
 ```clojure
-;; Create — returns the bare created record (a map)
+;; Create — returns the created entity
 (def created (e-detokenize/create (api/detokenize client nil) (vs/jm "batches" (vs/jt) "bfid" "example_bfid") nil))
 
 ```
@@ -80,15 +80,16 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const detokenizes = await client.Detokenize().list()
-  console.log(detokenizes)
+  const detokenizes = await client.Detokenize().list({ bfid: "example" })
+  console.log(detokenizes.map((item) => item.data()))
 } catch (err) {
   console.error('list failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -97,8 +98,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -151,10 +152,10 @@ Create a mock client for unit testing — no server required:
 
 (def client (api/test-sdk nil nil))
 
-;; Entity ops return the bare record and raise on error.
-(def detokenize (e-detokenize/list (api/detokenize client nil) nil nil))
-;; detokenize contains the mock response record
-(println detokenize)
+;; list returns a vector of entities, one per mock record; it raises on error.
+(def detokenizes (e-detokenize/list (api/detokenize client nil) (vs/jm "bfid" "example") nil))
+(doseq [item detokenizes]
+  (println ((:data-get item))))
 ```
 
 ### Use a custom fetch function
@@ -244,8 +245,8 @@ entity map and are called via keyword lookup.
 
 | Member | Signature | Description |
 | --- | --- | --- |
-| `list` | `(ent reqmatch ctrl) -> vector` | List entities matching the criteria. Raises on error. |
-| `create` | `(ent reqdata ctrl) -> map` | Create a new entity. Raises on error. |
+| `list` | `(ent reqmatch ctrl) -> vector` | List entities matching the criteria, one per record. Raises on error. |
+| `create` | `(ent reqdata ctrl) -> entity` | Create a new entity, and return it. Raises on error. |
 | `:data-get` | `() -> map` | Get entity data. |
 | `:data-set` | `(data)` | Set entity data. |
 | `:match-get` | `() -> map` | Get entity match criteria. |
@@ -258,9 +259,10 @@ State accessors are called by looking up the fn and applying it, e.g.
 
 ### Result shape
 
-Entity operations return the bare result data (a `map` for single-entity
-ops, a `vector` for `list`) and raise (via `ex-info`) on error. Wrap
-calls in `try`/`catch` to handle failures.
+Entity operations resolve to the entity, and `list` to a `vector` of
+entities, one per record. Read an entity's record with
+`((:data-get ent))`. They raise (via `ex-info`) on error, so wrap calls
+in `try`/`catch` to handle failures.
 
 The `direct` escape hatch never raises — it returns a result `map` you
 branch on via `(vs/getprop result "ok")`:
@@ -378,7 +380,7 @@ Create an instance: `(def detokenize (api/detokenize client nil))`
 #### Example: List
 
 ```clojure
-(def detokenizes (e-detokenize/list (api/detokenize client nil) nil nil))
+(def detokenizes (e-detokenize/list (api/detokenize client nil) (vs/jm "bfid" "example") nil))
 ```
 
 #### Example: Create
@@ -419,7 +421,7 @@ Create an instance: `(def tokenize (api/tokenize client nil))`
 #### Example: List
 
 ```clojure
-(def tokenizes (e-tokenize/list (api/tokenize client nil) nil nil))
+(def tokenizes (e-tokenize/list (api/tokenize client nil) (vs/jm "template_ref" "example") nil))
 ```
 
 #### Example: Create
@@ -799,7 +801,7 @@ calls on the same instance can rely on this state.
 
 ```ts
 const detokenize = client.Detokenize()
-await detokenize.list()
+await detokenize.list({ bfid: "example" })
 
 // detokenize.data() now returns the detokenize data from the last `list`
 // detokenize.match() returns the last match criteria

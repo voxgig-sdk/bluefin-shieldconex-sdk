@@ -1,7 +1,7 @@
 # BluefinShieldconex SDK Detokenize entity
 #
 # Per-entity module. Generic construction/data/match operations delegate to
-# EntityBase; each active op (load/list/create/update/remove) builds a ctx
+# EntityBase; each active op (load/list/create/update/patch/remove) builds a ctx
 # and drives it through BluefinShieldconex.Pipeline.run_op.
 
 defmodule BluefinShieldconex.Entity.Detokenize do
@@ -28,9 +28,10 @@ defmodule BluefinShieldconex.Entity.Detokenize do
   
 
   
-  # Returns a list of detokenize entity maps (BluefinShieldconex.Types.detokenize/0)
-  # on success; pipeline errors surface as the error value built by
-  # Utility.make_error (shape is utility-configurable), hence term().
+  # Returns a list of detokenize entities, one per record, whose data_get/1
+  # reads each record (BluefinShieldconex.Types.detokenize/0), on success; pipeline
+  # errors surface as the error value built by Utility.make_error (shape is
+  # utility-configurable), hence term().
   @spec list(map(), BluefinShieldconex.Types.detokenize_list_match() | nil, map() | nil) :: term()
   def list(ent, reqmatch \\ nil, ctrl \\ nil) do
     reqmatch = if reqmatch == nil, do: S.jm([]), else: reqmatch
@@ -63,9 +64,10 @@ defmodule BluefinShieldconex.Entity.Detokenize do
 
 
   
-  # Returns the created detokenize entity map (BluefinShieldconex.Types.detokenize/0)
-  # on success; pipeline errors surface as the error value built by
-  # Utility.make_error (shape is utility-configurable), hence term().
+  # Returns the created detokenize entity, whose data_get/1 reads its record
+  # (BluefinShieldconex.Types.detokenize/0), on success; pipeline errors surface as
+  # the error value built by Utility.make_error (shape is
+  # utility-configurable), hence term().
   @spec create(map(), BluefinShieldconex.Types.detokenize_create_data() | nil, map() | nil) :: term()
   def create(ent, reqdata, ctrl \\ nil) do
     ctx =
@@ -94,6 +96,8 @@ defmodule BluefinShieldconex.Entity.Detokenize do
   end
 
 
+
+  
 
   
 

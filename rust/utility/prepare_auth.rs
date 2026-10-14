@@ -11,6 +11,7 @@ use crate::core::context::Context;
 use crate::core::error::BluefinShieldconexError;
 use crate::core::helpers::{getp, getpath, setp};
 use crate::core::spec::Spec;
+use crate::utility::clean::{base64_encode, clean_add};
 use crate::utility::voxgigstruct as vs;
 use crate::utility::voxgigstruct::Value;
 
@@ -19,6 +20,14 @@ const CRED_NAME: &str = "authorization";
 const OPTION_APIKEY: &str = "apikey";
 const OPTION_SECRET: &str = "secret";
 const NOT_FOUND: &str = "__NOTFOUND__";
+
+/// The client's `auth.name` option, when set, replaces the name the API declares.
+fn auth_name(options: &Value) -> String {
+    match getpath(&["auth", "name"], options) {
+        Value::Str(s) if !s.is_empty() => s.to_lowercase(),
+        _ => CRED_NAME.to_string(),
+    }
+}
 
 pub fn prepare_auth_util(ctx: &Rc<Context>) -> Result<Rc<RefCell<Spec>>, BluefinShieldconexError> {
     let spec = ctx.spec.borrow().clone().ok_or_else(|| {
@@ -34,8 +43,15 @@ pub fn prepare_auth_util(ctx: &Rc<Context>) -> Result<Rc<RefCell<Spec>>, Bluefin
     // Public APIs that need no auth omit the options.auth block entirely.
     let auth = getp(&options, "auth");
     if auth.is_noval() || auth.is_null() {
-        vs::del_prop(headers, &Value::str(CRED_NAME));
+        vs::del_prop(headers.clone(), &Value::str(CRED_NAME));
         return Ok(spec);
+    }
+
+    let name = auth_name(&options);
+
+    // A credential left under the declared name would travel beside the renamed one.
+    if name != CRED_NAME {
+        vs::del_prop(headers.clone(), &Value::str(CRED_NAME));
     }
 
     let apikey = vs::get_prop(&options, &Value::str(OPTION_APIKEY), Value::str(NOT_FOUND));
@@ -46,9 +62,11 @@ pub fn prepare_auth_util(ctx: &Rc<Context>) -> Result<Rc<RefCell<Spec>>, Bluefin
         _ => false,
     };
 
-    // True HTTP Basic Auth needs TWO credentials, base64-joined - a single
+    // True HTTP Basic Auth joins the two credentials, base64-encoded - a single
     // token in the header (the branch below) can never authenticate against
     // an API that actually checks `Authorization: Basic base64(user:pass)`.
+    // The password may be empty (RFC 7617): Lob, for one, documents the key as
+    // the user with a blank password (`curl -u key:`).
     if let Value::Bool(true) = getpath(&["auth", "basic"], &options) {
         let secret = vs::get_prop(&options, &Value::str(OPTION_SECRET), Value::str(NOT_FOUND));
 
@@ -58,18 +76,21 @@ pub fn prepare_auth_util(ctx: &Rc<Context>) -> Result<Rc<RefCell<Spec>>, Bluefin
             _ => false,
         };
 
-        if skip || no_secret {
-            vs::del_prop(headers, &Value::str(CRED_NAME));
+        if skip {
+            vs::del_prop(headers.clone(), &Value::str(&name));
         } else {
             let apikey_val = match &apikey {
                 Value::Str(s) => s.clone(),
                 _ => String::new(),
             };
             let secret_val = match &secret {
-                Value::Str(s) => s.clone(),
+                Value::Str(s) if !no_secret => s.clone(),
                 _ => String::new(),
             };
             let b64 = base64_encode(format!("{}:{}", apikey_val, secret_val).as_bytes());
+            // The joined, encoded pair is a wire form neither credential's own
+            // registration covers.
+            clean_add(ctx, &b64);
 
             let auth_prefix = match getpath(&["auth", "prefix"], &options) {
                 Value::Str(s) => s,
@@ -77,11 +98,11 @@ pub fn prepare_auth_util(ctx: &Rc<Context>) -> Result<Rc<RefCell<Spec>>, Bluefin
             };
             // Empty prefix (raw apiKey credential) must not add a leading space.
             if auth_prefix.is_empty() {
-                setp(&headers, CRED_NAME, Value::str(b64));
+                setp(&headers, &name, Value::str(b64));
             } else {
                 setp(
                     &headers,
-                    CRED_NAME,
+                    &name,
                     Value::str(format!("{} {}", auth_prefix, b64)),
                 );
             }
@@ -91,7 +112,7 @@ pub fn prepare_auth_util(ctx: &Rc<Context>) -> Result<Rc<RefCell<Spec>>, Bluefin
     }
 
     if skip {
-        vs::del_prop(headers, &Value::str(CRED_NAME));
+        vs::del_prop(headers.clone(), &Value::str(&name));
     } else {
         let auth_prefix = match getpath(&["auth", "prefix"], &options) {
             Value::Str(s) => s,
@@ -103,53 +124,15 @@ pub fn prepare_auth_util(ctx: &Rc<Context>) -> Result<Rc<RefCell<Spec>>, Bluefin
         };
         // Empty prefix (raw apiKey credential) must not add a leading space.
         if auth_prefix.is_empty() {
-            setp(&headers, CRED_NAME, Value::str(apikey_val));
+            setp(&headers, &name, Value::str(apikey_val));
         } else {
             setp(
                 &headers,
-                CRED_NAME,
+                &name,
                 Value::str(format!("{} {}", auth_prefix, apikey_val)),
             );
         }
     }
 
     Ok(spec)
-}
-
-/// Standard base64, for the `Authorization: Basic base64(user:pass)` value.
-///
-/// In-tree because the crate takes no dependency for it: the secrets
-/// feature's base64 DECODER lives behind a feature module this utility
-/// cannot reach, and adding a crate for twenty lines would put a dependency
-/// into every SDK whose API happens to use HTTP Basic.
-fn base64_encode(input: &[u8]) -> String {
-    const ALPHABET: &[u8] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-
-    let mut out = String::with_capacity((input.len() + 2) / 3 * 4);
-
-    for chunk in input.chunks(3) {
-        // `chunks` hands back a 1- or 2-byte tail for input that is not a
-        // multiple of three; the missing bytes read as zero and are padded out
-        // below.
-        let b0 = chunk[0] as usize;
-        let b1 = *chunk.get(1).unwrap_or(&0) as usize;
-        let b2 = *chunk.get(2).unwrap_or(&0) as usize;
-
-        out.push(ALPHABET[b0 >> 2] as char);
-        out.push(ALPHABET[((b0 & 0x03) << 4) | (b1 >> 4)] as char);
-        // The tail is padded, never truncated: a decoder that counts groups
-        // of four needs the '=' to know how many bytes came back.
-        out.push(if 1 < chunk.len() {
-            ALPHABET[((b1 & 0x0f) << 2) | (b2 >> 6)] as char
-        } else {
-            '='
-        });
-        out.push(if 2 < chunk.len() {
-            ALPHABET[b2 & 0x3f] as char
-        } else {
-            '='
-        });
-    }
-
-    out
 }

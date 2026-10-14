@@ -62,7 +62,6 @@ public struct TokenizeListMatch {
 
 /// TokenizeCreateData is the typed request payload for Tokenize.create.
 public struct TokenizeCreateData {
-  public var omit: Double?
   public var batches: [Value]?
   public var bfid: String?
   public var messageId: String?

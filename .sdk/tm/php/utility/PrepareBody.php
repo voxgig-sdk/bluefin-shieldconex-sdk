@@ -3,11 +3,16 @@ declare(strict_types=1);
 
 // BluefinShieldconex SDK utility: prepare_body
 
+require_once __DIR__ . '/Media.php';
+
 class BluefinShieldconexPrepareBody
 {
     public static function call(BluefinShieldconexContext $ctx): mixed
     {
         if ($ctx->op->input === 'data') {
+            if (BluefinShieldconexMedia::isRawRequest($ctx->point)) {
+                return BluefinShieldconexMedia::rawBody($ctx->reqdata);
+            }
             $body = ($ctx->utility->transform_request)($ctx);
             // PHP cannot tell an empty map from an empty list, and this
             // vendored struct answers [] where the canonical transform

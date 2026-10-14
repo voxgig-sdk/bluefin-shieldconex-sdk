@@ -155,6 +155,7 @@ let make_config () : value =
           ("ms", (Num (30000.))) ]));
         ("optspec", (jo [
           ("clearTimer", (Str "`$FUNCTION`"));
+          ("now", (Str "`$FUNCTION`"));
           ("setTimer", (Str "`$FUNCTION`")) ]));
         ("strict", (Bool false));
         ("transport", (Str "wrap")) ])) ]));
@@ -245,7 +246,10 @@ let make_config () : value =
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
                 ("args", (empty_map ()));
-                ("select", (empty_map ())) ]);
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]);
               (jo [
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
@@ -263,7 +267,10 @@ let make_config () : value =
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
                 ("args", (empty_map ()));
-                ("select", (empty_map ())) ]) ])) ]));
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ]));
           ("list", (jo [
             ("input", (Str "data"));
             ("name", (Str "list"));
@@ -291,28 +298,30 @@ let make_config () : value =
                       ("orig", (Str "bfid"));
                       ("type", (Str "`$STRING`"));
                       ("kind", (Str "query"));
-                      ("reqd", (Bool true)) ]);
+                      ("reqd", (Bool true));
+                      ("field", (Bool true)) ]);
                     (jo [
                       ("name", (Str "field_name"));
-                      ("orig", (Str "field_name"));
+                      ("orig", (Str "fieldNames"));
                       ("type", (Str "`$STRING`"));
                       ("kind", (Str "query")) ]);
                     (jo [
                       ("name", (Str "field_value"));
-                      ("orig", (Str "field_value"));
+                      ("orig", (Str "fieldValues"));
                       ("type", (Str "`$STRING`"));
                       ("kind", (Str "query")) ]);
                     (jo [
                       ("name", (Str "reference"));
                       ("orig", (Str "reference"));
                       ("type", (Str "`$STRING`"));
-                      ("kind", (Str "query")) ]) ])) ]));
+                      ("kind", (Str "query"));
+                      ("field", (Bool true)) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
-                    (Str "bfid");
-                    (Str "field_name");
-                    (Str "field_value");
-                    (Str "reference") ])) ])) ]) ])) ])) ]));
+                    (Str "bfid") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("tokenize", (jo [
@@ -400,9 +409,31 @@ let make_config () : value =
                       ("orig", (Str "omit"));
                       ("type", (Str "`$NUMBER`"));
                       ("kind", (Str "query")) ]) ])) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "omit") ])) ])) ]);
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]);
+              (jo [
+                ("kind", (Str "http"));
+                ("method", (Str "POST"));
+                ("orig", (Str "/tokenization/delete"));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "tokenization")) ]);
+                  (jo [
+                    ("lit", (Str "delete")) ]) ]));
+                ("parts", (ja [
+                  (Str "tokenization");
+                  (Str "delete") ]));
+                ("rename", (empty_map ()));
+                ("transform", (jo [
+                  ("req", (Str "`reqdata`"));
+                  ("res", (Str "`body`")) ]));
+                ("args", (empty_map ()));
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]);
               (jo [
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
@@ -426,27 +457,10 @@ let make_config () : value =
                       ("orig", (Str "omit"));
                       ("type", (Str "`$NUMBER`"));
                       ("kind", (Str "query")) ]) ])) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "omit") ])) ])) ]);
-              (jo [
-                ("kind", (Str "http"));
-                ("method", (Str "POST"));
-                ("orig", (Str "/tokenization/delete"));
-                ("segments", (ja [
-                  (jo [
-                    ("lit", (Str "tokenization")) ]);
-                  (jo [
-                    ("lit", (Str "delete")) ]) ]));
-                ("parts", (ja [
-                  (Str "tokenization");
-                  (Str "delete") ]));
-                ("rename", (empty_map ()));
-                ("transform", (jo [
-                  ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ]));
-                ("args", (empty_map ()));
-                ("select", (empty_map ())) ]) ])) ]));
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ]));
           ("list", (jo [
             ("input", (Str "data"));
             ("name", (Str "list"));
@@ -471,31 +485,32 @@ let make_config () : value =
                   ("query", (ja [
                     (jo [
                       ("name", (Str "field_name"));
-                      ("orig", (Str "field_name"));
+                      ("orig", (Str "fieldNames"));
                       ("type", (Str "`$STRING`"));
                       ("kind", (Str "query")) ]);
                     (jo [
                       ("name", (Str "field_value"));
-                      ("orig", (Str "field_value"));
+                      ("orig", (Str "fieldValues"));
                       ("type", (Str "`$STRING`"));
                       ("kind", (Str "query")) ]);
                     (jo [
                       ("name", (Str "reference"));
                       ("orig", (Str "reference"));
                       ("type", (Str "`$STRING`"));
-                      ("kind", (Str "query")) ]);
+                      ("kind", (Str "query"));
+                      ("field", (Bool true)) ]);
                     (jo [
                       ("name", (Str "template_ref"));
-                      ("orig", (Str "template_ref"));
+                      ("orig", (Str "templateRef"));
                       ("type", (Str "`$STRING`"));
                       ("kind", (Str "query"));
                       ("reqd", (Bool true)) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
-                    (Str "field_name");
-                    (Str "field_value");
-                    (Str "reference");
-                    (Str "template_ref") ])) ])) ]) ])) ])) ]));
+                    (Str "template_ref") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("tokenize_batch", (jo [
@@ -544,7 +559,10 @@ let make_config () : value =
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
                 ("args", (empty_map ()));
-                ("select", (empty_map ())) ]);
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]);
               (jo [
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
@@ -565,7 +583,10 @@ let make_config () : value =
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
                 ("args", (empty_map ()));
-                ("select", (empty_map ())) ]) ])) ])) ]));
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("tokenize_read", (jo [
@@ -621,7 +642,10 @@ let make_config () : value =
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
                 ("args", (empty_map ()));
-                ("select", (empty_map ())) ]) ])) ])) ]));
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("validate", (jo [
@@ -665,7 +689,10 @@ let make_config () : value =
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
                 ("args", (empty_map ()));
-                ("select", (empty_map ())) ]);
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]);
               (jo [
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
@@ -683,7 +710,10 @@ let make_config () : value =
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
                 ("args", (empty_map ()));
-                ("select", (empty_map ())) ]) ])) ])) ]));
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ])) ])) ])
 

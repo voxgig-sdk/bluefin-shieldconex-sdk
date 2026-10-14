@@ -49,7 +49,6 @@ type TokenizeListMatch struct {
 
 // TokenizeCreateData is the typed request payload for Tokenize.CreateTyped.
 type TokenizeCreateData struct {
-	Omit *float64 `json:"omit,omitempty"`
 	Batches *[]any `json:"batches,omitempty"`
 	Bfid *string `json:"bfid,omitempty"`
 	MessageId *string `json:"messageId,omitempty"`

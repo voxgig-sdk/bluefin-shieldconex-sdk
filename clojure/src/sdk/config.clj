@@ -68,6 +68,9 @@
                   "batch"
                   "detokenize")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "tokenization")
@@ -88,6 +91,9 @@
                   "tokenization"
                   "detokenize")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "tokenization")
@@ -105,6 +111,7 @@
                 "args" (vs/jm
                   "query" (vs/jt
                     (vs/jm
+                      "field" true
                       "kind" "query"
                       "name" "bfid"
                       "orig" "bfid"
@@ -113,14 +120,15 @@
                     (vs/jm
                       "kind" "query"
                       "name" "field_name"
-                      "orig" "field_name"
+                      "orig" "fieldNames"
                       "type" "`$STRING`")
                     (vs/jm
                       "kind" "query"
                       "name" "field_value"
-                      "orig" "field_value"
+                      "orig" "fieldValues"
                       "type" "`$STRING`")
                     (vs/jm
+                      "field" true
                       "kind" "query"
                       "name" "reference"
                       "orig" "reference"
@@ -132,6 +140,9 @@
                   "healthcheck"
                   "detokenize")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "healthcheck")
@@ -139,10 +150,7 @@
                     "lit" "detokenize"))
                 "select" (vs/jm
                   "exist" (vs/jt
-                    "bfid"
-                    "field_name"
-                    "field_value"
-                    "reference"))
+                    "bfid"))
                 "transform" (vs/jm
                   "req" "`reqdata`"
                   "res" "`body.values`")))))
@@ -223,6 +231,9 @@
                   "batch"
                   "tokenize")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "tokenization")
@@ -230,9 +241,28 @@
                     "lit" "batch")
                   (vs/jm
                     "lit" "tokenize"))
-                "select" (vs/jm
-                  "exist" (vs/jt
-                    "omit"))
+                "select" (vs/jm)
+                "transform" (vs/jm
+                  "req" "`reqdata`"
+                  "res" "`body`"))
+              (vs/jm
+                "args" (vs/jm)
+                "kind" "http"
+                "method" "POST"
+                "orig" "/tokenization/delete"
+                "parts" (vs/jt
+                  "tokenization"
+                  "delete")
+                "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "tokenization")
+                  (vs/jm
+                    "lit" "delete"))
+                "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
                   "res" "`body`"))
@@ -251,31 +281,14 @@
                   "tokenization"
                   "tokenize")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "tokenization")
                   (vs/jm
                     "lit" "tokenize"))
-                "select" (vs/jm
-                  "exist" (vs/jt
-                    "omit"))
-                "transform" (vs/jm
-                  "req" "`reqdata`"
-                  "res" "`body`"))
-              (vs/jm
-                "args" (vs/jm)
-                "kind" "http"
-                "method" "POST"
-                "orig" "/tokenization/delete"
-                "parts" (vs/jt
-                  "tokenization"
-                  "delete")
-                "rename" (vs/jm)
-                "segments" (vs/jt
-                  (vs/jm
-                    "lit" "tokenization")
-                  (vs/jm
-                    "lit" "delete"))
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
@@ -290,14 +303,15 @@
                     (vs/jm
                       "kind" "query"
                       "name" "field_name"
-                      "orig" "field_name"
+                      "orig" "fieldNames"
                       "type" "`$STRING`")
                     (vs/jm
                       "kind" "query"
                       "name" "field_value"
-                      "orig" "field_value"
+                      "orig" "fieldValues"
                       "type" "`$STRING`")
                     (vs/jm
+                      "field" true
                       "kind" "query"
                       "name" "reference"
                       "orig" "reference"
@@ -305,7 +319,7 @@
                     (vs/jm
                       "kind" "query"
                       "name" "template_ref"
-                      "orig" "template_ref"
+                      "orig" "templateRef"
                       "reqd" true
                       "type" "`$STRING`")))
                 "kind" "http"
@@ -315,6 +329,9 @@
                   "healthcheck"
                   "tokenize")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "healthcheck")
@@ -322,9 +339,6 @@
                     "lit" "tokenize"))
                 "select" (vs/jm
                   "exist" (vs/jt
-                    "field_name"
-                    "field_value"
-                    "reference"
                     "template_ref"))
                 "transform" (vs/jm
                   "req" "`reqdata`"
@@ -367,6 +381,9 @@
                   "batch"
                   "delete")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "tokenization")
@@ -388,6 +405,9 @@
                   "batch"
                   "read")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "tokenization")
@@ -446,6 +466,9 @@
                   "tokenization"
                   "read")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "tokenization")
@@ -490,6 +513,9 @@
                   "partner"
                   "validate")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "partner")
@@ -508,6 +534,9 @@
                   "template"
                   "validate")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "template")
@@ -659,6 +688,7 @@
           "ms" 30000)
         "optspec" (vs/jm
           "clearTimer" "`$FUNCTION`"
+          "now" "`$FUNCTION`"
           "setTimer" "`$FUNCTION`")
         "strict" false
         "transport" "wrap"))

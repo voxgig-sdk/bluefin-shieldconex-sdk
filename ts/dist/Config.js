@@ -225,6 +225,7 @@ class Config {
             },
             "optspec": {
                 "clearTimer": "`$FUNCTION`",
+                "now": "`$FUNCTION`",
                 "setTimer": "`$FUNCTION`"
             },
             "strict": false,
@@ -342,7 +343,11 @@ class Config {
                                 "res": "`body`"
                             },
                             "args": {},
-                            "select": {}
+                            "select": {},
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
+                            }
                         },
                         {
                             "kind": "http",
@@ -366,7 +371,11 @@ class Config {
                                 "res": "`body`"
                             },
                             "args": {},
-                            "select": {}
+                            "select": {},
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
+                            }
                         }
                     ]
                 },
@@ -402,17 +411,18 @@ class Config {
                                         "orig": "bfid",
                                         "type": "`$STRING`",
                                         "kind": "query",
-                                        "reqd": true
+                                        "reqd": true,
+                                        "field": true
                                     },
                                     {
                                         "name": "field_name",
-                                        "orig": "field_name",
+                                        "orig": "fieldNames",
                                         "type": "`$STRING`",
                                         "kind": "query"
                                     },
                                     {
                                         "name": "field_value",
-                                        "orig": "field_value",
+                                        "orig": "fieldValues",
                                         "type": "`$STRING`",
                                         "kind": "query"
                                     },
@@ -420,17 +430,19 @@ class Config {
                                         "name": "reference",
                                         "orig": "reference",
                                         "type": "`$STRING`",
-                                        "kind": "query"
+                                        "kind": "query",
+                                        "field": true
                                     }
                                 ]
                             },
                             "select": {
                                 "exist": [
-                                    "bfid",
-                                    "field_name",
-                                    "field_value",
-                                    "reference"
+                                    "bfid"
                                 ]
+                            },
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
                             }
                         }
                     ]
@@ -549,10 +561,38 @@ class Config {
                                     }
                                 ]
                             },
-                            "select": {
-                                "exist": [
-                                    "omit"
-                                ]
+                            "select": {},
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
+                            }
+                        },
+                        {
+                            "kind": "http",
+                            "method": "POST",
+                            "orig": "/tokenization/delete",
+                            "segments": [
+                                {
+                                    "lit": "tokenization"
+                                },
+                                {
+                                    "lit": "delete"
+                                }
+                            ],
+                            "parts": [
+                                "tokenization",
+                                "delete"
+                            ],
+                            "rename": {},
+                            "transform": {
+                                "req": "`reqdata`",
+                                "res": "`body`"
+                            },
+                            "args": {},
+                            "select": {},
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
                             }
                         },
                         {
@@ -586,35 +626,11 @@ class Config {
                                     }
                                 ]
                             },
-                            "select": {
-                                "exist": [
-                                    "omit"
-                                ]
+                            "select": {},
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
                             }
-                        },
-                        {
-                            "kind": "http",
-                            "method": "POST",
-                            "orig": "/tokenization/delete",
-                            "segments": [
-                                {
-                                    "lit": "tokenization"
-                                },
-                                {
-                                    "lit": "delete"
-                                }
-                            ],
-                            "parts": [
-                                "tokenization",
-                                "delete"
-                            ],
-                            "rename": {},
-                            "transform": {
-                                "req": "`reqdata`",
-                                "res": "`body`"
-                            },
-                            "args": {},
-                            "select": {}
                         }
                     ]
                 },
@@ -647,13 +663,13 @@ class Config {
                                 "query": [
                                     {
                                         "name": "field_name",
-                                        "orig": "field_name",
+                                        "orig": "fieldNames",
                                         "type": "`$STRING`",
                                         "kind": "query"
                                     },
                                     {
                                         "name": "field_value",
-                                        "orig": "field_value",
+                                        "orig": "fieldValues",
                                         "type": "`$STRING`",
                                         "kind": "query"
                                     },
@@ -661,11 +677,12 @@ class Config {
                                         "name": "reference",
                                         "orig": "reference",
                                         "type": "`$STRING`",
-                                        "kind": "query"
+                                        "kind": "query",
+                                        "field": true
                                     },
                                     {
                                         "name": "template_ref",
-                                        "orig": "template_ref",
+                                        "orig": "templateRef",
                                         "type": "`$STRING`",
                                         "kind": "query",
                                         "reqd": true
@@ -674,11 +691,12 @@ class Config {
                             },
                             "select": {
                                 "exist": [
-                                    "field_name",
-                                    "field_value",
-                                    "reference",
                                     "template_ref"
                                 ]
+                            },
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
                             }
                         }
                     ]
@@ -746,7 +764,11 @@ class Config {
                                 "res": "`body`"
                             },
                             "args": {},
-                            "select": {}
+                            "select": {},
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
+                            }
                         },
                         {
                             "kind": "http",
@@ -774,7 +796,11 @@ class Config {
                                 "res": "`body`"
                             },
                             "args": {},
-                            "select": {}
+                            "select": {},
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
+                            }
                         }
                     ]
                 }
@@ -849,7 +875,11 @@ class Config {
                                 "res": "`body`"
                             },
                             "args": {},
-                            "select": {}
+                            "select": {},
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
+                            }
                         }
                     ]
                 }
@@ -908,7 +938,11 @@ class Config {
                                 "res": "`body`"
                             },
                             "args": {},
-                            "select": {}
+                            "select": {},
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
+                            }
                         },
                         {
                             "kind": "http",
@@ -932,7 +966,11 @@ class Config {
                                 "res": "`body`"
                             },
                             "args": {},
-                            "select": {}
+                            "select": {},
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
+                            }
                         }
                     ]
                 }

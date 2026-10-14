@@ -131,7 +131,7 @@ local detokenize = client:Detokenize(nil)
 
 #### `create(reqdata, ctrl) -> any, err`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Detokenize():create({
@@ -140,10 +140,10 @@ local result, err = client:Detokenize():create({
 
 #### `list(reqmatch, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
-local results, err = client:Detokenize():list()
+local results, err = client:Detokenize():list({ bfid = "example" })
 ```
 
 ### Common Methods
@@ -212,7 +212,7 @@ local tokenize = client:Tokenize(nil)
 
 #### `create(reqdata, ctrl) -> any, err`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Tokenize():create({
@@ -222,10 +222,10 @@ local result, err = client:Tokenize():create({
 
 #### `list(reqmatch, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
-local results, err = client:Tokenize():list()
+local results, err = client:Tokenize():list({ template_ref = "example" })
 ```
 
 ### Common Methods
@@ -284,7 +284,7 @@ local tokenize_batch = client:TokenizeBatch(nil)
 
 #### `create(reqdata, ctrl) -> any, err`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:TokenizeBatch():create({
@@ -351,7 +351,7 @@ local tokenize_read = client:TokenizeRead(nil)
 
 #### `create(reqdata, ctrl) -> any, err`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:TokenizeRead():create({
@@ -406,7 +406,7 @@ local validate = client:Validate(nil)
 
 #### `create(reqdata, ctrl) -> any, err`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Validate():create({
@@ -865,6 +865,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

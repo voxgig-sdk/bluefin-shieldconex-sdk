@@ -37,6 +37,8 @@ require_once __DIR__ . '/TransformResponse.php';
 
 BluefinShieldconexUtility::setRegistrar(function (BluefinShieldconexUtility $u): void {
     $u->clean = [BluefinShieldconexClean::class, 'call'];
+    $u->clean_add = [BluefinShieldconexClean::class, 'add'];
+    $u->clean_explain = [BluefinShieldconexDone::class, 'clean_explain'];
     $u->done = [BluefinShieldconexDone::class, 'call'];
     $u->make_error = [BluefinShieldconexMakeError::class, 'call'];
     $u->feature_add = [BluefinShieldconexFeatureAdd::class, 'call'];

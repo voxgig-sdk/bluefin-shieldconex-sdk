@@ -75,7 +75,6 @@ class TokenizeCreateDataRequired(TypedDict):
 
 
 class TokenizeCreateData(TokenizeCreateDataRequired, total=False):
-    omit: float
     batches: list
     bfid: str
     messageId: str

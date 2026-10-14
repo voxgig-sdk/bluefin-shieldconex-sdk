@@ -53,6 +53,10 @@ main: kit: entity: tokenize_read: {
       name: "create"
       points: [
         {
+          bf: [
+            "bfid"
+            "reference"
+          ]
           co: {
             id: "POST /tokenization/read"
             source: "openapi3"
@@ -60,6 +64,10 @@ main: kit: entity: tokenize_read: {
           }
           m: "POST"
           o: "/tokenization/read"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "tokenization"

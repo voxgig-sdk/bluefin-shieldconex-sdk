@@ -8,7 +8,7 @@ Complete API reference for the BluefinShieldconex Rust SDK.
 ### Constructor
 
 ```rust
-use bluefin_shieldconex_sdk::{BluefinShieldconexSDK, Value};
+use bluefin_shieldconex_sdk::{jo, BluefinShieldconexEntity, BluefinShieldconexSDK, Entity, Value};
 
 let client = BluefinShieldconexSDK::new(options);
 ```
@@ -135,25 +135,23 @@ let detokenize = client.detokenize(Value::Noval);
 
 ### Operations
 
-#### `create(reqdata: Value, ctrl: Value) -> Result<Value, BluefinShieldconexError>`
+#### `create(reqdata: Value, ctrl: Value) -> Result<Rc<Self>, BluefinShieldconexError>`
 
-Create a new entity with the given data. Returns the created entity data on `Ok` and `Err` on failure.
+Create a new entity with the given data. `Ok` is the created entity, and `Err` a failure.
 
 ```rust
 let result = client.detokenize(Value::Noval).create(jo(vec![
 ]), Value::Noval).unwrap();
 ```
 
-#### `list(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinShieldconexError>`
+#### `list(reqmatch: Value, ctrl: Value) -> Result<Vec<Rc<Self>>, BluefinShieldconexError>`
 
-List entities matching the given criteria. The match is optional — pass `Value::Noval` to list all records. `Ok` is a `Value::List`.
+List entities matching the given criteria. The match is optional — pass `Value::Noval` to list all records. `Ok` is a `Vec` of entities, one per record.
 
 ```rust
-let results = client.detokenize(Value::Noval).list(Value::Noval, Value::Noval).unwrap();
-if let Value::List(items) = &results {
-    for detokenize in items.borrow().iter() {
-        println!("{:?}", detokenize);
-    }
+let results = client.detokenize(Value::Noval).list(jo(vec![("bfid", Value::str("example"))]), Value::Noval).unwrap();
+for detokenize in &results {
+    println!("{:?}", detokenize.data(None));
 }
 ```
 
@@ -212,9 +210,9 @@ let tokenize = client.tokenize(Value::Noval);
 
 ### Operations
 
-#### `create(reqdata: Value, ctrl: Value) -> Result<Value, BluefinShieldconexError>`
+#### `create(reqdata: Value, ctrl: Value) -> Result<Rc<Self>, BluefinShieldconexError>`
 
-Create a new entity with the given data. Returns the created entity data on `Ok` and `Err` on failure.
+Create a new entity with the given data. `Ok` is the created entity, and `Err` a failure.
 
 ```rust
 let result = client.tokenize(Value::Noval).create(jo(vec![
@@ -222,16 +220,14 @@ let result = client.tokenize(Value::Noval).create(jo(vec![
 ]), Value::Noval).unwrap();
 ```
 
-#### `list(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinShieldconexError>`
+#### `list(reqmatch: Value, ctrl: Value) -> Result<Vec<Rc<Self>>, BluefinShieldconexError>`
 
-List entities matching the given criteria. The match is optional — pass `Value::Noval` to list all records. `Ok` is a `Value::List`.
+List entities matching the given criteria. The match is optional — pass `Value::Noval` to list all records. `Ok` is a `Vec` of entities, one per record.
 
 ```rust
-let results = client.tokenize(Value::Noval).list(Value::Noval, Value::Noval).unwrap();
-if let Value::List(items) = &results {
-    for tokenize in items.borrow().iter() {
-        println!("{:?}", tokenize);
-    }
+let results = client.tokenize(Value::Noval).list(jo(vec![("template_ref", Value::str("example"))]), Value::Noval).unwrap();
+for tokenize in &results {
+    println!("{:?}", tokenize.data(None));
 }
 ```
 
@@ -280,9 +276,9 @@ let tokenize_batch = client.tokenize_batch(Value::Noval);
 
 ### Operations
 
-#### `create(reqdata: Value, ctrl: Value) -> Result<Value, BluefinShieldconexError>`
+#### `create(reqdata: Value, ctrl: Value) -> Result<Rc<Self>, BluefinShieldconexError>`
 
-Create a new entity with the given data. Returns the created entity data on `Ok` and `Err` on failure.
+Create a new entity with the given data. `Ok` is the created entity, and `Err` a failure.
 
 ```rust
 let result = client.tokenize_batch(Value::Noval).create(jo(vec![
@@ -338,9 +334,9 @@ let tokenize_read = client.tokenize_read(Value::Noval);
 
 ### Operations
 
-#### `create(reqdata: Value, ctrl: Value) -> Result<Value, BluefinShieldconexError>`
+#### `create(reqdata: Value, ctrl: Value) -> Result<Rc<Self>, BluefinShieldconexError>`
 
-Create a new entity with the given data. Returns the created entity data on `Ok` and `Err` on failure.
+Create a new entity with the given data. `Ok` is the created entity, and `Err` a failure.
 
 ```rust
 let result = client.tokenize_read(Value::Noval).create(jo(vec![
@@ -384,9 +380,9 @@ let validate = client.validate(Value::Noval);
 
 ### Operations
 
-#### `create(reqdata: Value, ctrl: Value) -> Result<Value, BluefinShieldconexError>`
+#### `create(reqdata: Value, ctrl: Value) -> Result<Rc<Self>, BluefinShieldconexError>`
 
-Create a new entity with the given data. Returns the created entity data on `Ok` and `Err` on failure.
+Create a new entity with the given data. `Ok` is the created entity, and `Err` a failure.
 
 ```rust
 let result = client.validate(Value::Noval).create(jo(vec![
@@ -836,6 +832,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

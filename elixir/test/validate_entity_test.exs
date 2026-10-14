@@ -4,23 +4,6 @@ defmodule BluefinShieldconex.ValidateEntityTest do
   use ExUnit.Case
 
   alias Voxgig.Struct, as: S
-  alias BluefinShieldconex.Helpers, as: H
-  alias BluefinShieldconex.Json
-
-  defp fixture do
-    Json.parse(File.read!("../.sdk/test/entity/validate/ValidateTestData.json"))
-  end
-
-  defp mk_sdk do
-    existing = H.or_(S.getpath(fixture(), "existing"), S.jm([]))
-    BluefinShieldconex.test(S.jm(["entity", existing]))
-  end
-
-  defp first_id do
-    existing = H.or_(S.getpath(fixture(), "existing.validate"), S.jm([]))
-    keys = S.keysof(existing)
-    if keys == [], do: nil, else: hd(keys)
-  end
 
   test "should create instance" do
     sdk = BluefinShieldconex.test()
@@ -35,5 +18,18 @@ defmodule BluefinShieldconex.ValidateEntityTest do
     made = BluefinShieldconex.EntityBase.data_get(created)
     assert S.ismap(made)
     assert S.getprop(made, "id") != nil
+  end
+
+  test "should refuse an invalid request" do
+    if BluefinShieldconex.FeatureHarness.has_feature("validate") do
+      client = BluefinShieldconex.test(nil, S.jm(["feature", S.jm(["validate", S.jm(["active", true])])]))
+
+      err =
+        assert_raise BluefinShieldconex.Error, fn ->
+          BluefinShieldconex.Entity.Validate.create(BluefinShieldconex.validate(client), S.jm(["messageId", 1, "templateRef", "x"]))
+        end
+
+      assert err.code == "validate_failed"
+    end
   end
 end

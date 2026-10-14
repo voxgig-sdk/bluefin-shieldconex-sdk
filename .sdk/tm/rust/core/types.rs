@@ -83,6 +83,7 @@ pub trait BluefinShieldconexEntity: Entity + Sized {
     fn list(self: &Rc<Self>, reqmatch: Value, ctrl: Value) -> Result<Vec<Rc<Self>>, BluefinShieldconexError>;
     fn create(self: &Rc<Self>, reqdata: Value, ctrl: Value) -> Result<Rc<Self>, BluefinShieldconexError>;
     fn update(self: &Rc<Self>, reqdata: Value, ctrl: Value) -> Result<Rc<Self>, BluefinShieldconexError>;
+    fn patch(self: &Rc<Self>, reqdata: Value, ctrl: Value) -> Result<Rc<Self>, BluefinShieldconexError>;
     fn remove(self: &Rc<Self>, reqmatch: Value, ctrl: Value) -> Result<Rc<Self>, BluefinShieldconexError>;
 }
 

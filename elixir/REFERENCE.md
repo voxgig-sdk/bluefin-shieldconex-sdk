@@ -113,21 +113,21 @@ detokenize = BluefinShieldconex.detokenize(sdk)
 
 ### Operations
 
-#### `create(entity, reqdata, ctrl \\ nil) :: map()`
+#### `create(entity, reqdata, ctrl \\ nil) :: entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```elixir
-record = BluefinShieldconex.Entity.Detokenize.create(detokenize, BluefinShieldconex.Helpers.deep(%{
+detokenize = BluefinShieldconex.Entity.Detokenize.create(detokenize, BluefinShieldconex.Helpers.deep(%{
 }))
 ```
 
 #### `list(entity, reqmatch \\ nil, ctrl \\ nil) :: list()`
 
-List entities matching the given criteria. The match is optional — call `list(entity)` to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(entity)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```elixir
-records = BluefinShieldconex.Entity.Detokenize.list(detokenize)
+detokenizes = BluefinShieldconex.Entity.Detokenize.list(detokenize, BluefinShieldconex.Helpers.deep(%{"bfid" => "example"}))
 ```
 
 ### Common Functions
@@ -180,22 +180,22 @@ tokenize = BluefinShieldconex.tokenize(sdk)
 
 ### Operations
 
-#### `create(entity, reqdata, ctrl \\ nil) :: map()`
+#### `create(entity, reqdata, ctrl \\ nil) :: entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```elixir
-record = BluefinShieldconex.Entity.Tokenize.create(tokenize, BluefinShieldconex.Helpers.deep(%{
+tokenize = BluefinShieldconex.Entity.Tokenize.create(tokenize, BluefinShieldconex.Helpers.deep(%{
   "templateRef" => "example_templateRef",  # String.t()
 }))
 ```
 
 #### `list(entity, reqmatch \\ nil, ctrl \\ nil) :: list()`
 
-List entities matching the given criteria. The match is optional — call `list(entity)` to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(entity)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```elixir
-records = BluefinShieldconex.Entity.Tokenize.list(tokenize)
+tokenizes = BluefinShieldconex.Entity.Tokenize.list(tokenize, BluefinShieldconex.Helpers.deep(%{"template_ref" => "example"}))
 ```
 
 ### Common Functions
@@ -243,12 +243,12 @@ tokenize_batch = BluefinShieldconex.tokenize_batch(sdk)
 
 ### Operations
 
-#### `create(entity, reqdata, ctrl \\ nil) :: map()`
+#### `create(entity, reqdata, ctrl \\ nil) :: entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```elixir
-record = BluefinShieldconex.Entity.TokenizeBatch.create(tokenize_batch, BluefinShieldconex.Helpers.deep(%{
+tokenize_batch = BluefinShieldconex.Entity.TokenizeBatch.create(tokenize_batch, BluefinShieldconex.Helpers.deep(%{
 }))
 ```
 
@@ -299,12 +299,12 @@ tokenize_read = BluefinShieldconex.tokenize_read(sdk)
 
 ### Operations
 
-#### `create(entity, reqdata, ctrl \\ nil) :: map()`
+#### `create(entity, reqdata, ctrl \\ nil) :: entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```elixir
-record = BluefinShieldconex.Entity.TokenizeRead.create(tokenize_read, BluefinShieldconex.Helpers.deep(%{
+tokenize_read = BluefinShieldconex.Entity.TokenizeRead.create(tokenize_read, BluefinShieldconex.Helpers.deep(%{
 }))
 ```
 
@@ -353,12 +353,12 @@ validate = BluefinShieldconex.validate(sdk)
 
 ### Operations
 
-#### `create(entity, reqdata, ctrl \\ nil) :: map()`
+#### `create(entity, reqdata, ctrl \\ nil) :: entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```elixir
-record = BluefinShieldconex.Entity.Validate.create(validate, BluefinShieldconex.Helpers.deep(%{
+validate = BluefinShieldconex.Entity.Validate.create(validate, BluefinShieldconex.Helpers.deep(%{
   "templateRef" => "example_templateRef",  # String.t()
 }))
 ```
@@ -813,6 +813,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

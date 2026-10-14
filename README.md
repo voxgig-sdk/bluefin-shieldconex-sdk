@@ -12,7 +12,7 @@ Learn more about Voxgig SDKs at [voxgig.com/sdk](https://voxgig.com/sdk/).
 
 > TypeScript, Python, PHP, Golang, Ruby, Lua, C, Clojure, C++, C#, Dart, Elixir, Haskell, Java, JavaScript, Kotlin, Lean, OCaml, Perl, Rust, Scala, Swift, Zig SDKs, a CLI with an interactive REPL, and an MCP server for AI agents — all generated from one OpenAPI spec by [@voxgig/sdkgen](https://github.com/voxgig/sdkgen).
 
-> **Features:** `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined` — opt-in,
+> **Features:** `audit`, `clienttrack`, `debug`, `idempotency`, `log`, `metrics`, `paging`, `ratelimit`, `retry`, `telemetry`, `test`, `timeout` — opt-in,
 > inactive until switched on, and configured per client. See the Features
 > section of any SDK README below for what each one does.
 
@@ -45,22 +45,21 @@ network, and no credentials:
 const client = BluefinShieldconexSDK.test({
   entity: {
     detokenize: {
-      test01: { id: 'test01' },
+      test01: { id: 'test01', bfid: 'example_bfid' },
     },
   },
 })
-const detokenizes = await client.Detokenize().list()
-// detokenizes is an array of Detokenize entities, populated with mock data
-// — call detokenizes[0].data() for the record itself
-console.log(detokenizes)
+const detokenizes = await client.Detokenize().list({ bfid: 'example_bfid' })
+// detokenizes is an array of Detokenize entities, one per mock record
+console.log(detokenizes.map((detokenize) => detokenize.data()))
 ```
 
 ### Python
 
 ```python
 client = BluefinShieldconexSDK.test()
-detokenizes = client.Detokenize().list()
-print(detokenizes)
+detokenizes = client.Detokenize().list({"bfid": "example"})
+print([item.data_get() for item in detokenizes])
 ```
 
 ### PHP
@@ -68,9 +67,9 @@ print(detokenizes)
 ```php
 // Seed fixture data so offline calls resolve without a live server.
 $client = BluefinShieldconexSDK::test([
-    "entity" => ["detokenize" => ["test01" => []]],
+    "entity" => ["detokenize" => ["test01" => ["bfid" => "example"]]],
 ]);
-$detokenizes = $client->Detokenize()->list();
+$detokenizes = $client->Detokenize()->list(["bfid" => "example"]);
 ```
 
 ### Golang
@@ -78,7 +77,7 @@ $detokenizes = $client->Detokenize()->list();
 ```go
 client := sdk.Test()
 result, err := client.Detokenize(nil).List(
-    nil, nil,
+    map[string]any{"bfid": "example"}, nil,
 )
 ```
 
@@ -87,16 +86,16 @@ result, err := client.Detokenize(nil).List(
 ```ruby
 # Seed fixture data so offline calls resolve without a live server.
 client = BluefinShieldconexSDK.test({
-  "entity" => { "detokenize" => { "test01" => {} } },
+  "entity" => { "detokenize" => { "test01" => { "bfid" => "example" } } },
 })
-detokenizes = client.Detokenize.list()
+detokenizes = client.Detokenize.list({ "bfid" => "example" })
 ```
 
 ### Lua
 
 ```lua
 local client = sdk.test()
-local results, err = client:Detokenize():list()
+local results, err = client:Detokenize():list({ bfid = "example" })
 ```
 
 ### C
@@ -107,8 +106,10 @@ local results, err = client:Detokenize():list()
 BluefinShieldconexSDK* client = test_sdk(NULL, NULL);
 PNError* err = NULL;
 Entity* detokenize = bluefinshieldconex_detokenize(client, NULL);
-voxgig_value* detokenizes = detokenize->vt->list(detokenize, NULL, NULL, &err);
-printf("%s\n", voxgig_to_json(detokenizes));
+Entity** detokenizes = detokenize->vt->list(detokenize, cmap(1, "bfid", v_str("example")), NULL, &err);
+for (size_t i = 0; detokenizes && detokenizes[i]; i++) {
+    printf("%s\n", voxgig_to_json(detokenizes[i]->vt->data(detokenizes[i], NULL)));
+}
 ```
 
 ### Clojure
@@ -119,24 +120,29 @@ printf("%s\n", voxgig_to_json(detokenizes));
          '[voxgig.struct :as vs])
 
 (def client (api/test-sdk nil nil))
-(def detokenizes (e-detokenize/list (api/detokenize client nil) nil nil))
-(println detokenizes)
+(def detokenizes (e-detokenize/list (api/detokenize client nil) (vs/jm "bfid" "example") nil))
+(doseq [item detokenizes]
+  (println ((:data-get item))))
 ```
 
 ### C++
 
 ```cpp
 auto client = BluefinShieldconexSDK::testSDK();
-Value detokenizes = client->detokenize()->list(Value::undef(), Value::undef());
-std::cout << Struct::jsonify(detokenizes) << std::endl;
+for (const auto& detokenize : client->detokenize()->list(vmap({{"bfid", Value("example")}}), Value::undef())) {
+  std::cout << Struct::jsonify(detokenize->data()) << std::endl;
+}
 ```
 
 ### C#
 
 ```csharp
 var client = BluefinShieldconexSDK.TestSDK(null, null);
-var detokenizeList = client.Detokenize().List(null);
-Console.WriteLine(detokenizeList);
+var detokenizeList = (List<object?>)client.Detokenize().List(new Dictionary<string, object?> { ["bfid"] = "example" })!;
+foreach (var detokenizeItem in detokenizeList)
+{
+    Console.WriteLine(StructUtils.Jsonify(((IEntity)detokenizeItem!).Data()));
+}
 ```
 
 ### Dart
@@ -147,7 +153,9 @@ import 'package:bluefin_shieldconex_sdk/BluefinShieldconexSDK.dart';
 Future<void> main() async {
   final client = BluefinShieldconexSDK.test();
   final detokenizes = await client.Detokenize().list();
-  print(detokenizes);
+  for (final item in detokenizes) {
+    print(item.data());
+  }
 }
 ```
 
@@ -158,15 +166,17 @@ alias BluefinShieldconex.Helpers, as: H
 
 sdk = BluefinShieldconex.test()
 detokenize = BluefinShieldconex.detokenize(sdk)
-records = BluefinShieldconex.Entity.Detokenize.list(detokenize, H.deep(%{}))
-IO.inspect(records)
+detokenizes = BluefinShieldconex.Entity.Detokenize.list(detokenize, H.deep(%{"bfid" => "example"}))
+for i <- 0..(Voxgig.Struct.size(detokenizes) - 1)//1 do
+  IO.puts(Voxgig.Struct.jsonify(BluefinShieldconex.Entity.Detokenize.data_get(Voxgig.Struct.getelem(detokenizes, i))))
+end
 ```
 
 ### Haskell
 
 ```haskell
 import qualified SdkClient as Sdk
-import VoxgigStruct (Value (..), emptyMap)
+import VoxgigStruct (Value (..), emptyMap, stringify)
 import SdkHelpers (jo)
 
 main :: IO ()
@@ -176,33 +186,36 @@ main = do
   arg <- emptyMap
   ctrl <- emptyMap
   detokenizes <- Sdk.eList ent arg ctrl
-  print detokenizes
+  mapM_ (\en -> putStrLn =<< stringify =<< Sdk.eDataGet en) detokenizes
 ```
 
 ### Java
 
 ```java
 BluefinShieldconexSDK client = BluefinShieldconexSDK.testSDK(null, null);
-Object detokenizeList = client.detokenize(null).list(null, null);
-System.out.println(detokenizeList);
+List<?> detokenizeList = (List<?>) client.detokenize(null).list(Map.of("bfid", "example"), null);
+for (Object detokenizeItem : detokenizeList) {
+    System.out.println(((SdkEntity) detokenizeItem).data());
+}
 ```
 
 ### JavaScript
 
 ```js
 const client = BluefinShieldconexSDK.test()
-const detokenizes = await client.Detokenize().list()
-// detokenizes is an array of entities, populated with mock data
-// — call detokenizes[0].data() for the record itself
-console.log(detokenizes)
+const detokenizes = await client.Detokenize().list({ bfid: 'example_bfid' })
+// detokenizes is an array of Detokenize entities, one per mock record
+console.log(detokenizes.map((detokenize) => detokenize.data()))
 ```
 
 ### Kotlin
 
 ```kotlin
 val client = BluefinShieldconexSDK.testSDK(null, null)
-val detokenizeList = client.detokenize(null).list(null, null)
-println(detokenizeList)
+val detokenizeList = client.detokenize(null).list(mutableMapOf<String, Any?>("bfid" to "example"), null) as List<*>
+for (detokenizeItem in detokenizeList) {
+    println((detokenizeItem as SdkEntity).data())
+}
 ```
 
 ### Lean
@@ -212,6 +225,7 @@ cd lean
 lake build
 lake exe omnismoke      # the vendored @voxgig/omni corpus engine itself
 lake exe primary        # shared corpus: request-shaping utilities
+lake exe pipeline       # request shaping driven directly: header, cookie and query arguments
 lake exe feature        # the feature catalog (retry, cache, rbac, netsim, …)
 lake exe structcorpus   # shared corpus: the vendored struct model
 lake exe runner         # entity behaviour (offline; add SDK_TEST_BASE for live)
@@ -223,7 +237,7 @@ lake exe runner         # entity behaviour (offline; add SDK_TEST_BASE for live)
 ```ocaml
 let () =
   let client = Sdk_client.test () in
-  let results = (Sdk_client.detokenize client Noval).e_list (empty_map ()) Noval in
+  let results = (Sdk_client.detokenize client Noval).e_list (jo [("bfid", (Str "example"))]) Noval in
   List.iter (fun e -> print_endline (stringify (e.e_data_get ()))) results
 ```
 
@@ -234,34 +248,39 @@ use lib 'perl/lib';
 use BluefinShieldconexSDK;
 
 my $client = BluefinShieldconexSDK->test(undef, undef);
-my $detokenizes = $client->Detokenize->list();
-print scalar(@$detokenizes), " records\n";
+my $detokenizes = $client->Detokenize->list({ 'bfid' => 'example' });
+print $_->data_get->{id}, "\n" for @$detokenizes;
 ```
 
 ### Rust
 
 ```rust
-use bluefin_shieldconex_sdk::{jo, test_sdk, Value};
+use bluefin_shieldconex_sdk::{jo, test_sdk, BluefinShieldconexEntity, Entity, Value};
 
 let client = test_sdk(Value::Noval, Value::Noval);
-let detokenizes = client.detokenize(Value::Noval).list(Value::Noval, Value::Noval).unwrap();
-println!("{:?}", detokenizes);
+for detokenize in client.detokenize(Value::Noval).list(jo(vec![("bfid", Value::str("example"))]), Value::Noval).unwrap() {
+    println!("{:?}", detokenize.data(None));
+}
 ```
 
 ### Scala
 
 ```scala
 val client = BluefinShieldconexSDK.testSDK(null, null)
-val detokenizeList = client.detokenize(null).list(null, null)
-println(detokenizeList)
+val detokenizeList = client.detokenize(null).list(java.util.Map.of("bfid", "example"), null).asInstanceOf[java.util.List[SdkEntity]]
+detokenizeList.forEach(detokenizeItem => println(detokenizeItem.data()))
 ```
 
 ### Swift
 
 ```swift
 let client = BluefinShieldconexSDK.testSDK(nil, nil)
-let detokenizeList = try client.Detokenize().list(nil, nil)
-print(detokenizeList)
+let detokenizeList = try client.Detokenize().list(VMap([("bfid", .string("example"))]), nil)
+for detokenizeItem in detokenizeList.asList?.items ?? [] {
+    if let detokenizeEntity = detokenizeItem.asNative as? Entity {
+        print(detokenizeEntity.data())
+    }
+}
 ```
 
 ### Zig
@@ -272,8 +291,12 @@ const sdk = @import("sdk");
 const h = sdk.h;
 
 const client = sdk.test_sdk(h.vnull(), h.vnull());
-switch (client.detokenize(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |detokenizes| std.debug.print("{s}\n", .{h.stringify(detokenizes)}),
+switch (client.detokenize(h.vnull()).list(h.jo(&.{.{ "bfid", h.vstr("example") }}), h.vnull())) {
+    .ok => |detokenizes| {
+        for (detokenizes) |detokenize| {
+            std.debug.print("{s}\n", .{h.stringify(detokenize.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
@@ -282,31 +305,31 @@ switch (client.detokenize(h.vnull()).list(h.vnull(), h.vnull())) {
 
 | Language | Package | Install |
 | --- | --- | --- |
-| TypeScript | `@voxgig-sdk/bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
-| Python | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
-| PHP | `voxgig-sdk/bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
+| TypeScript | `@voxgig-sdk/bluefin-shieldconex-sdk` | publish pending — [install from source](ts/README.md#install) |
+| Python | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from source](py/README.md#install) |
+| PHP | `voxgig-sdk/bluefin-shieldconex-sdk` | publish pending — [install from source](php/README.md#install) |
 | Golang | `github.com/voxgig-sdk/bluefin-shieldconex-sdk/go` | `go get github.com/voxgig-sdk/bluefin-shieldconex-sdk/go@latest` |
-| Ruby | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
-| Lua | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
-| C | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
-| Clojure | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
-| C++ | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
-| C# | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
-| Dart | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
-| Elixir | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
-| Haskell | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
-| Java | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
-| JavaScript | `@voxgig-sdk/bluefin-shieldconex-sdk-js` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
-| Kotlin | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
-| Lean | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
-| OCaml | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
-| Perl | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
-| Rust | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
-| Scala | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
-| Swift | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
-| Zig | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags) |
-| Go CLI | `github.com/voxgig-sdk/bluefin-shieldconex-sdk/go-cli` | `go install github.com/voxgig-sdk/bluefin-shieldconex-sdk/go-cli/cmd/bluefin-shieldconex@latest` |
-| Go MCP server | `github.com/voxgig-sdk/bluefin-shieldconex-sdk/go-mcp` | `go get github.com/voxgig-sdk/bluefin-shieldconex-sdk/go-mcp@latest` |
+| Ruby | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from source](rb/README.md#install) |
+| Lua | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from source](lua/README.md#install) |
+| C | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from source](c/README.md#install) |
+| Clojure | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from source](clojure/README.md#install) |
+| C++ | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from source](cpp/README.md#install) |
+| C# | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from source](csharp/README.md#install) |
+| Dart | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from source](dart/README.md#install) |
+| Elixir | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from source](elixir/README.md#install) |
+| Haskell | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from source](haskell/README.md#install) |
+| Java | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from source](java/README.md#install) |
+| JavaScript | `@voxgig-sdk/bluefin-shieldconex-sdk-js` | publish pending — [install from source](js/README.md#install) |
+| Kotlin | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from source](kotlin/README.md#install) |
+| Lean | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from source](lean/README.md#install) |
+| OCaml | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from source](ocaml/README.md#install) |
+| Perl | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from source](perl/README.md#install) |
+| Rust | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from source](rust/README.md#install) |
+| Scala | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from source](scala/README.md#install) |
+| Swift | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from source](swift/README.md#install) |
+| Zig | `voxgig-sdk-bluefin-shieldconex-sdk` | publish pending — [install from source](zig/README.md#install) |
+| Go CLI | `github.com/voxgig-sdk/bluefin-shieldconex-sdk/go-cli` | build from source — [go-cli/README.md](go-cli/README.md) |
+| Go MCP server | `github.com/voxgig-sdk/bluefin-shieldconex-sdk/go-mcp` | build from source — [go-mcp/README.md](go-mcp/README.md) |
 
 ## Quickstart
 
@@ -320,10 +343,10 @@ const client = new BluefinShieldconexSDK({
   secret: process.env.BLUEFIN_SHIELDCONEX_SECRET,
 })
 
-// List all detokenizes (returns DetokenizeEntity[] — .data() for the record)
+// List all detokenizes (returns DetokenizeEntity[], one entity per record)
 const detokenizes = await client.Detokenize().list({ bfid: "example" })
 for (const detokenize of detokenizes) {
-  console.log(detokenize)
+  console.log(detokenize.data())
 }
 ```
 
@@ -339,9 +362,10 @@ See the [TypeScript README](ts/README.md) for the full guide.
 
 ## Use it from an AI agent (MCP)
 
-The generated MCP server exposes every operation in this SDK as an
-[MCP](https://modelcontextprotocol.io) tool that Claude, Cursor or Cline
-can call directly. Build and register it:
+The generated MCP server exposes this SDK's list operations as
+[MCP](https://modelcontextprotocol.io) tools that Claude, Cursor or Cline
+can call directly. It only reads: create, update, patch and remove become tools when the SDK's model sets
+`main: kit: target: 'go-mcp': tool: write: true`. Build and register it:
 
 ```bash
 cd go-mcp && go build -o bluefin-shieldconex-mcp .
@@ -386,10 +410,10 @@ client = BluefinShieldconexSDK({
     "apikey": os.environ.get("BLUEFIN_SHIELDCONEX_APIKEY"),
 })
 
-# List all detokenizes (returns a list, raises on error)
+# List all detokenizes (a list of entities, one per record; raises on error)
 detokenizes = client.Detokenize().list({"bfid": "example"})
 for detokenize in detokenizes:
-    print(detokenize)
+    print(detokenize.data_get())
 ```
 
 ### PHP
@@ -402,8 +426,8 @@ $client = new BluefinShieldconexSDK([
     "apikey" => getenv("BLUEFIN_SHIELDCONEX_APIKEY"),
 ]);
 
-// List all detokenizes (returns an array; throws on error)
-$detokenizes = $client->Detokenize()->list();
+// List all detokenizes (an array of entities, one per record; throws on error)
+$detokenizes = $client->Detokenize()->list(["bfid" => "example"]);
 print_r(array_map(fn($item) => $item->data_get(), $detokenizes));
 ```
 
@@ -416,12 +440,14 @@ client := sdk.NewBluefinShieldconexSDK(map[string]any{
     "apikey": os.Getenv("BLUEFIN_SHIELDCONEX_APIKEY"),
 })
 
-// List all detokenizes
-detokenizes, err := client.Detokenize(nil).List(nil, nil)
+// List all detokenizes (one entity per record; err is non-nil on failure)
+detokenizes, err := client.Detokenize(nil).List(map[string]any{"bfid": "example"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(detokenizes)
+for _, detokenize := range detokenizes.([]any) {
+    fmt.Println(detokenize.(sdk.Entity).Data())
+}
 ```
 
 ### Ruby
@@ -433,23 +459,27 @@ client = BluefinShieldconexSDK.new({
   "apikey" => ENV["BLUEFIN_SHIELDCONEX_APIKEY"],
 })
 
-# List all detokenizes (returns an Array; raises on error)
-detokenizes = client.Detokenize.list
-puts detokenizes
+# List all detokenizes (an Array of entities, one per record; raises on error)
+detokenizes = client.Detokenize.list({ "bfid" => "example" })
+detokenizes.each { |item| puts item.data_get }
 ```
 
 ### Lua
 
 ```lua
 local sdk = require("bluefin-shieldconex_sdk")
+local json = require("dkjson")
 
 local client = sdk.new({
   apikey = os.getenv("BLUEFIN_SHIELDCONEX_APIKEY"),
 })
 
--- List all detokenizes
-local detokenizes, err = client:Detokenize():list()
-print(detokenizes)
+-- List all detokenizes (an array of entities, one per record; err on failure)
+local detokenizes, err = client:Detokenize():list({ bfid = "example" })
+if err then error(err) end
+for _, detokenize in ipairs(detokenizes) do
+  print(json.encode(detokenize:data_get()))
+end
 ```
 
 ### C
@@ -463,10 +493,10 @@ PNError* err = NULL;
 
 Entity* detokenize = bluefinshieldconex_detokenize(client, NULL);
 
-// List all detokenizes (returns a List, sets *err on failure)
-voxgig_value* detokenizes = detokenize->vt->list(detokenize, NULL, NULL, &err);
-for (size_t i = 0; i < (size_t)voxgig_size(detokenizes); i++) {
-    printf("%s\n", voxgig_to_json(voxgig_getelem(detokenizes, v_int(i), NULL)));
+// List all detokenizes (one entity per record, sets *err on failure)
+Entity** detokenizes = detokenize->vt->list(detokenize, cmap(1, "bfid", v_str("example")), NULL, &err);
+for (size_t i = 0; detokenizes && detokenizes[i]; i++) {
+    printf("%s\n", voxgig_to_json(detokenizes[i]->vt->data(detokenizes[i], NULL)));
 }
 ```
 
@@ -479,9 +509,9 @@ for (size_t i = 0; i < (size_t)voxgig_size(detokenizes); i++) {
 
 (def client (api/make-sdk (vs/jm "apikey" (System/getenv "BLUEFIN_SHIELDCONEX_APIKEY"))))
 
-;; List all detokenizes (returns a vector, raises on error)
-(doseq [detokenize (e-detokenize/list (api/detokenize client nil) nil nil)]
-  (println detokenize))
+;; List all detokenizes (a vector of entities, one per record; raises on error)
+(doseq [detokenize (e-detokenize/list (api/detokenize client nil) (vs/jm "bfid" "example") nil)]
+  (println ((:data-get detokenize))))
 ```
 
 ### C++
@@ -497,10 +527,10 @@ auto client = std::make_shared<BluefinShieldconexSDK>(vmap({
     {"apikey", Value(apikey ? apikey : "")},
 }));
 
-// List all detokenizes (returns a Value list, throws on error)
-Value detokenizes = client->detokenize()->list(Value::undef(), Value::undef());
-for (const auto& detokenize : *detokenizes.as_list()) {
-  std::cout << Struct::jsonify(detokenize) << std::endl;
+// List all detokenizes (one entity per record, throws on error)
+std::vector<SdkEntityPtr> detokenizes = client->detokenize()->list(vmap({{"bfid", Value("example")}}), Value::undef());
+for (const auto& detokenize : detokenizes) {
+  std::cout << Struct::jsonify(detokenize->data()) << std::endl;
 }
 ```
 
@@ -508,15 +538,19 @@ for (const auto& detokenize : *detokenizes.as_list()) {
 
 ```csharp
 using BluefinShieldconexSdk;
+using Voxgig.Struct;
 
 var client = new BluefinShieldconexSDK(new Dictionary<string, object?>
 {
     ["apikey"] = Environment.GetEnvironmentVariable("BLUEFIN_SHIELDCONEX_APIKEY"),
 });
 
-// List all detokenizes (returns object?, an aggregate list; raises on error)
-var detokenizeList = client.Detokenize().List(null);
-Console.WriteLine(detokenizeList);
+// List all detokenizes (a list of entities, one per record, as object?; raises on error)
+var detokenizeList = (List<object?>)client.Detokenize().List(new Dictionary<string, object?> { ["bfid"] = "example" })!;
+foreach (var detokenizeItem in detokenizeList)
+{
+    Console.WriteLine(StructUtils.Jsonify(((IEntity)detokenizeItem!).Data()));
+}
 ```
 
 ### Dart
@@ -530,7 +564,7 @@ Future<void> main() async {
     'apikey': Platform.environment['BLUEFIN_SHIELDCONEX_APIKEY'],
   });
 
-  // List all detokenizes (returns a list of entities, throws on error)
+  // List all detokenizes (one entity per record, throws on error)
   final detokenizes = await client.Detokenize().list({ bfid: "example" });
   for (final item in detokenizes) {
     print(item.data());
@@ -547,9 +581,11 @@ sdk = BluefinShieldconex.new(H.deep(%{"apikey" => System.get_env("BLUEFIN_SHIELD
 
 detokenize = BluefinShieldconex.detokenize(sdk)
 
-# List all detokenize records (raises on error)
-records = BluefinShieldconex.Entity.Detokenize.list(detokenize)
-IO.inspect(records)
+# List all detokenizes (a list of entities, one per record; raises on error)
+detokenizes = BluefinShieldconex.Entity.Detokenize.list(detokenize, BluefinShieldconex.Helpers.deep(%{"bfid" => "example"}))
+for i <- 0..(Voxgig.Struct.size(detokenizes) - 1)//1 do
+  IO.puts(Voxgig.Struct.jsonify(BluefinShieldconex.Entity.Detokenize.data_get(Voxgig.Struct.getelem(detokenizes, i))))
+end
 ```
 
 ### Haskell
@@ -557,7 +593,7 @@ IO.inspect(records)
 ```haskell
 import System.Environment (lookupEnv)
 import qualified SdkClient as Sdk
-import VoxgigStruct (Value (..), emptyMap)
+import VoxgigStruct (Value (..), emptyMap, stringify)
 import SdkHelpers (jo)
 
 main :: IO ()
@@ -566,26 +602,31 @@ main = do
   opts <- jo [("apikey", maybe VNoval VStr mkey)]
   sdk <- Sdk.newSdk opts
 
-  -- List all detokenizes (one ENTITY per record, raises on error)
+  -- List all detokenizes (one entity per record, raises on error)
   ent <- Sdk.detokenize sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
   detokenizes <- Sdk.eList ent match ctrl
-  mapM_ (\en -> print =<< Sdk.eDataGet en) detokenizes
+  mapM_ (\en -> putStrLn =<< stringify =<< Sdk.eDataGet en) detokenizes
 ```
 
 ### Java
 
 ```java
+import java.util.List;
+import java.util.Map;
 import voxgig.bluefinshieldconexsdk.core.BluefinShieldconexSDK;
+import voxgig.bluefinshieldconexsdk.core.SdkEntity;
 
 Map<String, Object> options = new java.util.LinkedHashMap<>();
 options.put("apikey", System.getenv("BLUEFIN_SHIELDCONEX_APIKEY"));
 BluefinShieldconexSDK client = new BluefinShieldconexSDK(options);
 
-// List all detokenizes (returns Object, an aggregate list; raises on error)
-Object detokenizeList = client.detokenize(null).list(null, null);
-System.out.println(detokenizeList);
+// List all detokenizes (a list of entities, one per record; raises on error)
+List<?> detokenizeList = (List<?>) client.detokenize(null).list(Map.of("bfid", "example"), null);
+for (Object detokenizeItem : detokenizeList) {
+    System.out.println(((SdkEntity) detokenizeItem).data());
+}
 ```
 
 ### JavaScript
@@ -597,10 +638,10 @@ const client = new BluefinShieldconexSDK({
   apikey: process.env.BLUEFIN_SHIELDCONEX_APIKEY,
 })
 
-// List all detokenizes (returns an array)
+// List all detokenizes (an array of entities, one per record)
 const detokenizes = await client.Detokenize().list({ bfid: "example" })
 for (const detokenize of detokenizes) {
-  console.log(detokenize)
+  console.log(detokenize.data())
 }
 ```
 
@@ -608,14 +649,17 @@ for (const detokenize of detokenizes) {
 
 ```kotlin
 import voxgig.bluefinshieldconexsdk.core.BluefinShieldconexSDK
+import voxgig.bluefinshieldconexsdk.core.SdkEntity
 
 val client = BluefinShieldconexSDK(mutableMapOf<String, Any?>(
     "apikey" to System.getenv("BLUEFIN_SHIELDCONEX_APIKEY"),
 ))
 
-// List all detokenizes (returns Any?, an aggregate list; raises on error)
-val detokenizeList = client.detokenize(null).list(null, null)
-println(detokenizeList)
+// List all detokenizes (a list of entities, one per record; raises on error)
+val detokenizeList = client.detokenize(null).list(mutableMapOf<String, Any?>("bfid" to "example"), null) as List<*>
+for (detokenizeItem in detokenizeList) {
+    println((detokenizeItem as SdkEntity).data())
+}
 ```
 
 ### Lean
@@ -640,11 +684,12 @@ Build it with `cd lean && lake build`.
 ```ocaml
 open Voxgig_struct
 open Sdk_helpers
+open Sdk_types
 
 let () =
   let client = Sdk_client.make (jo [("apikey", Str (Sys.getenv "BLUEFIN_SHIELDCONEX_APIKEY"))]) in
   (* List all detokenize records (one ENTITY per record; raises on error) *)
-  let detokenizes = (Sdk_client.detokenize client Noval).e_list (empty_map ()) Noval in
+  let detokenizes = (Sdk_client.detokenize client Noval).e_list (jo [("bfid", (Str "example"))]) Noval in
   List.iter (fun e -> print_endline (stringify (e.e_data_get ()))) detokenizes;
 ```
 
@@ -658,28 +703,26 @@ my $client = BluefinShieldconexSDK->new({
     'apikey' => $ENV{'BLUEFIN_SHIELDCONEX_APIKEY'},
 });
 
-# List all detokenizes (returns an arrayref; dies on error)
-my $detokenizes = $client->Detokenize->list;
+# List all detokenizes (an arrayref of entities, one per record; dies on error)
+my $detokenizes = $client->Detokenize->list({ 'bfid' => 'example' });
 for my $detokenize (@$detokenizes) {
-    print "$detokenize->{id}\n";
+    print $detokenize->data_get->{id}, "\n";
 }
 ```
 
 ### Rust
 
 ```rust
-use bluefin_shieldconex_sdk::{jo, BluefinShieldconexSDK, Value};
+use bluefin_shieldconex_sdk::{jo, BluefinShieldconexEntity, BluefinShieldconexSDK, Entity, Value};
 
 let client = BluefinShieldconexSDK::new(jo(vec![
     ("apikey", Value::str(std::env::var("BLUEFIN_SHIELDCONEX_APIKEY").unwrap_or_default())),
 ]));
 
-// List all detokenizes (returns a Value::List, Err on failure)
-let detokenizes = client.detokenize(Value::Noval).list(Value::Noval, Value::Noval).unwrap();
-if let Value::List(items) = &detokenizes {
-    for detokenize in items.borrow().iter() {
-        println!("{:?}", detokenize);
-    }
+// List all detokenizes (one entity per record, Err on failure)
+let detokenizes = client.detokenize(Value::Noval).list(jo(vec![("bfid", Value::str("example"))]), Value::Noval).unwrap();
+for detokenize in &detokenizes {
+    println!("{:?}", detokenize.data(None));
 }
 ```
 
@@ -687,14 +730,15 @@ if let Value::List(items) = &detokenizes {
 
 ```scala
 import voxgig.bluefinshieldconexsdk.core.BluefinShieldconexSDK
+import voxgig.bluefinshieldconexsdk.core.SdkEntity
 
 val options = new java.util.LinkedHashMap[String, Object]()
 options.put("apikey", System.getenv("BLUEFIN_SHIELDCONEX_APIKEY"))
 val client = new BluefinShieldconexSDK(options)
 
-// List all detokenizes (returns Object, an aggregate list; raises on error)
-val detokenizeList = client.detokenize(null).list(null, null)
-println(detokenizeList)
+// List all detokenizes (a list of entities, one per record; raises on error)
+val detokenizeList = client.detokenize(null).list(java.util.Map.of("bfid", "example"), null).asInstanceOf[java.util.List[SdkEntity]]
+detokenizeList.forEach(detokenizeItem => println(detokenizeItem.data()))
 ```
 
 ### Swift
@@ -707,10 +751,12 @@ options.entries["apikey"] = .string(
     ProcessInfo.processInfo.environment["BLUEFIN_SHIELDCONEX_APIKEY"] ?? "")
 let client = BluefinShieldconexSDK(options)
 
-// List all detokenizes (returns a Value list, throws on error)
-let detokenizeList = try client.Detokenize().list(nil, nil)
-for detokenize in detokenizeList.asList?.items ?? [] {
-    print(detokenize)
+// List all detokenizes (a Value list of entities, one per record; throws on error)
+let detokenizeList = try client.Detokenize().list(VMap([("bfid", .string("example"))]), nil)
+for detokenizeItem in detokenizeList.asList?.items ?? [] {
+    if let detokenizeEntity = detokenizeItem.asNative as? Entity {
+        print(detokenizeEntity.data())
+    }
 }
 ```
 
@@ -725,9 +771,13 @@ const client = sdk.BluefinShieldconexSDK.new(h.jo(&.{
     .{ "apikey", h.vstr(std.posix.getenv("BLUEFIN_SHIELDCONEX_APIKEY") orelse "") },
 }));
 
-// List all detokenizes (Ok is a Value array, .err on failure)
-switch (client.detokenize(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |detokenizes| std.debug.print("{s}\n", .{h.stringify(detokenizes)}),
+// List all detokenizes (one entity per record, .err on failure)
+switch (client.detokenize(h.vnull()).list(h.jo(&.{.{ "bfid", h.vstr("example") }}), h.vnull())) {
+    .ok => |detokenizes| {
+        for (detokenizes) |detokenize| {
+            std.debug.print("{s}\n", .{h.stringify(detokenize.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
@@ -755,10 +805,9 @@ const result = await client.direct({
   method: 'GET',
   params: { id: 'example' },
 })
-if (result instanceof Error) {
-  throw result
+if (result.ok) {
+  console.log(result.data)
 }
-console.log(result.data)
 ```
 
 **Python:**
@@ -869,7 +918,7 @@ result = BluefinShieldconex.direct(sdk, BluefinShieldconex.Helpers.deep(%{
 ```haskell
 import qualified SdkClient as Sdk
 import qualified SdkFeatures as F
-import VoxgigStruct (Value (..))
+import VoxgigStruct (Value (..), stringify)
 import SdkHelpers (jo)
 
 main :: IO ()
@@ -878,7 +927,7 @@ main = do
   params <- jo [("id", VStr "example")]
   args <- jo [("path", VStr "/api/resource/{id}"), ("method", VStr "GET"), ("params", params)]
   result <- F.direct sdk args
-  print result
+  putStrLn =<< stringify result
 ```
 
 **Java:**
@@ -896,10 +945,9 @@ const result = await client.direct({
   method: 'GET',
   params: { id: 'example' },
 })
-if (result instanceof Error) {
-  throw result
+if (result.ok) {
+  console.log(result.data)
 }
-console.log(result.data)
 ```
 
 **Kotlin:**
@@ -1021,10 +1069,12 @@ customizable without forking any upstream tool:
 - **Templates** (`.sdk/tm/`) and **components** (`.sdk/src/cmp/`) are
   the two layers of generation, copied into this repo: templates are the
   literal per-language source, components generate the API-shaped parts.
-- **Regeneration merges.** By default, newly generated content is
-  three-way merged into existing files, so generator updates and local
-  edits usually converge without manual conflict handling. A project can
-  opt for plain overwrite instead.
+- **Regeneration overwrites.** Each run rewrites every generated file from
+  the model, the templates and the components, so an edit made to
+  generated output is lost. Say what this project needs in its own model
+  (`.sdk/model/sdk.aontu`), or extend a target with a component of its
+  own in `.sdk/src/cmp/<target>/`, registered with `registerComponent`,
+  which `voxgig-sdkgen doctor` reports as an addition rather than drift.
 - **Custom features and entire custom targets** arrive through sdkgen
   packages (`voxgig-sdkgen package add`), on the same rails as the
   bundled languages, and `voxgig-sdkgen doctor` reports any drift from

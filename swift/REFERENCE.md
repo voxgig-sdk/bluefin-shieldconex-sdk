@@ -133,7 +133,7 @@ let detokenize = client.Detokenize()
 
 #### `create(reqdata, ctrl) throws -> Value`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```swift
 let result = try client.Detokenize().create(VMap([
@@ -142,11 +142,15 @@ let result = try client.Detokenize().create(VMap([
 
 #### `list(reqmatch, ctrl) throws -> Value`
 
-List entities matching the given criteria. The match is optional — call `list(nil, nil)` to list all records. Returns a Value list and throws on error.
+List entities matching the given criteria. The match is optional — call `list(nil, nil)` to list all records. Returns a `Value` list of entities, one per record, and throws on error.
 
 ```swift
-let results = try client.Detokenize().list(nil, nil)
-print(results)
+let results = try client.Detokenize().list(VMap([("bfid", .string("example"))]), nil)
+for item in results.asList?.items ?? [] {
+    if let entity = item.asNative as? Entity {
+        print(entity.data())
+    }
+}
 ```
 
 ### Common Methods
@@ -206,7 +210,7 @@ let tokenize = client.Tokenize()
 
 #### `create(reqdata, ctrl) throws -> Value`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```swift
 let result = try client.Tokenize().create(VMap([
@@ -216,11 +220,15 @@ let result = try client.Tokenize().create(VMap([
 
 #### `list(reqmatch, ctrl) throws -> Value`
 
-List entities matching the given criteria. The match is optional — call `list(nil, nil)` to list all records. Returns a Value list and throws on error.
+List entities matching the given criteria. The match is optional — call `list(nil, nil)` to list all records. Returns a `Value` list of entities, one per record, and throws on error.
 
 ```swift
-let results = try client.Tokenize().list(nil, nil)
-print(results)
+let results = try client.Tokenize().list(VMap([("template_ref", .string("example"))]), nil)
+for item in results.asList?.items ?? [] {
+    if let entity = item.asNative as? Entity {
+        print(entity.data())
+    }
+}
 ```
 
 ### Common Methods
@@ -270,7 +278,7 @@ let tokenizeBatch = client.TokenizeBatch()
 
 #### `create(reqdata, ctrl) throws -> Value`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```swift
 let result = try client.TokenizeBatch().create(VMap([
@@ -328,7 +336,7 @@ let tokenizeRead = client.TokenizeRead()
 
 #### `create(reqdata, ctrl) throws -> Value`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```swift
 let result = try client.TokenizeRead().create(VMap([
@@ -374,7 +382,7 @@ let validate = client.Validate()
 
 #### `create(reqdata, ctrl) throws -> Value`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```swift
 let result = try client.Validate().create(VMap([
@@ -824,6 +832,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

@@ -12,9 +12,18 @@ The SDK exposes the API as capitalised, semantic **Entities** — for example `c
 
 ## Install
 This package is not yet published to RubyGems. Install it from the
-GitHub release tag (`rb/vX.Y.Z`):
+GitHub release tag (`rb/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags)), or
+from a clone:
 
-- Releases: [https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/releases](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/releases)
+```bash
+git clone https://github.com/voxgig-sdk/bluefin-shieldconex-sdk
+```
+
+Then add it to your `Gemfile` by path, and run `bundle install`:
+
+```ruby
+gem "voxgig-sdk-bluefin-shieldconex-sdk", path: "./bluefin-shieldconex-sdk/rb"
+```
 
 
 ## Tutorial: your first API call
@@ -36,10 +45,11 @@ client = BluefinShieldconexSDK.new({
 
 ```ruby
 begin
-  # list returns an Array of Detokenize records — iterate directly.
-  detokenizes = client.Detokenize.list
+  # list returns an Array of Detokenize entities, one per record; data_get reads the record.
+  detokenizes = client.Detokenize.list({ "bfid" => "example" })
   detokenizes.each do |item|
-    puts "#{item["batches"]}"
+    record = item.data_get
+    puts "#{record["batches"]}"
   end
 rescue => err
   warn "list failed: #{err}"
@@ -61,7 +71,7 @@ Entity operations raise on failure, so rescue them:
 
 ```ruby
 begin
-  detokenizes = client.Detokenize.list()
+  detokenizes = client.Detokenize.list({ "bfid" => "example" })
 rescue => err
   warn "list failed: #{err}"
 end
@@ -129,10 +139,10 @@ Create a mock client for unit testing — no server required:
 ```ruby
 client = BluefinShieldconexSDK.test
 
-# Entity ops return the ENTITY (raises on error);
-# call data_get for the mock record.
-detokenize = client.Detokenize.list()
-puts detokenize
+# list returns an Array of Detokenize entities, one per mock record (raises on
+# error); data_get reads each record.
+detokenizes = client.Detokenize.list({ "bfid" => "example" })
+detokenizes.each { |item| puts item.data_get }
 ```
 
 ### Use a custom fetch function
@@ -222,8 +232,8 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `list` | `(reqmatch = nil, ctrl) -> Array` | List entities matching the criteria (call with no argument to list all). Raises on error. |
-| `create` | `(reqdata, ctrl) -> any` | Create a new entity. Raises on error. |
+| `list` | `(reqmatch = nil, ctrl) -> Array` | List entities matching the criteria (call with no argument to list all), one per record. Raises on error. |
+| `create` | `(reqdata, ctrl) -> any` | Create a new entity, and return it. Raises on error. |
 | `data_get` | `() -> Hash` | Get entity data. |
 | `data_set` | `(data)` | Set entity data. |
 | `match_get` | `() -> Hash` | Get entity match criteria. |
@@ -233,9 +243,10 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the result data directly. On failure they
-raise a `BluefinShieldconexError` (a `StandardError` subclass), so wrap
-calls in `begin`/`rescue` where you need to handle errors.
+Entity operations return the entity, and `list` an `Array` of entities, one
+per record; an entity's `data_get` reads its record. On failure they raise a
+`BluefinShieldconexError` (a `StandardError` subclass), so wrap calls in
+`begin`/`rescue` where you need to handle errors.
 
 The `direct` escape hatch is the exception: it never raises and instead
 returns a result `Hash` with these keys:
@@ -352,8 +363,9 @@ Create an instance: `detokenize = client.Detokenize`
 #### Example: List
 
 ```ruby
-# list returns an Array of Detokenize records (raises on error).
-detokenizes = client.Detokenize.list
+# list returns an Array of Detokenize entities, one per record (raises on error).
+detokenizes = client.Detokenize.list({ "bfid" => "example" })
+detokenizes.each { |item| puts item.data_get }
 ```
 
 #### Example: Create
@@ -391,8 +403,9 @@ Create an instance: `tokenize = client.Tokenize`
 #### Example: List
 
 ```ruby
-# list returns an Array of Tokenize records (raises on error).
-tokenizes = client.Tokenize.list
+# list returns an Array of Tokenize entities, one per record (raises on error).
+tokenizes = client.Tokenize.list({ "template_ref" => "example" })
+tokenizes.each { |item| puts item.data_get }
 ```
 
 #### Example: Create
@@ -757,7 +770,7 @@ stores the returned data and match criteria internally.
 
 ```ruby
 detokenize = client.Detokenize
-detokenize.list()
+detokenize.list({ "bfid" => "example" })
 
 # detokenize.data_get now returns the detokenize data from the last list
 # detokenize.match_get returns the last match criteria

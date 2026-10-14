@@ -192,6 +192,7 @@ pub fn make_config() Value {
                 }) },
                 .{ "optspec", h.jo(&.{
                     .{ "clearTimer", h.vstr("`$FUNCTION`") },
+                    .{ "now", h.vstr("`$FUNCTION`") },
                     .{ "setTimer", h.vstr("`$FUNCTION`") },
                 }) },
                 .{ "strict", h.vbool(false) },
@@ -310,6 +311,10 @@ pub fn make_config() Value {
                                 }) },
                                 .{ "args", h.omap() },
                                 .{ "select", h.omap() },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
+                                }) },
                             }),
                             h.jo(&.{
                                 .{ "kind", h.vstr("http") },
@@ -334,6 +339,10 @@ pub fn make_config() Value {
                                 }) },
                                 .{ "args", h.omap() },
                                 .{ "select", h.omap() },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
+                                }) },
                             }),
                         }) },
                     }) },
@@ -370,16 +379,17 @@ pub fn make_config() Value {
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("query") },
                                             .{ "reqd", h.vbool(true) },
+                                            .{ "field", h.vbool(true) },
                                         }),
                                         h.jo(&.{
                                             .{ "name", h.vstr("field_name") },
-                                            .{ "orig", h.vstr("field_name") },
+                                            .{ "orig", h.vstr("fieldNames") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("query") },
                                         }),
                                         h.jo(&.{
                                             .{ "name", h.vstr("field_value") },
-                                            .{ "orig", h.vstr("field_value") },
+                                            .{ "orig", h.vstr("fieldValues") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("query") },
                                         }),
@@ -388,16 +398,18 @@ pub fn make_config() Value {
                                             .{ "orig", h.vstr("reference") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("query") },
+                                            .{ "field", h.vbool(true) },
                                         }),
                                     }) },
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
                                         h.vstr("bfid"),
-                                        h.vstr("field_name"),
-                                        h.vstr("field_value"),
-                                        h.vstr("reference"),
                                     }) },
+                                }) },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
                                 }) },
                             }),
                         }) },
@@ -516,10 +528,38 @@ pub fn make_config() Value {
                                         }),
                                     }) },
                                 }) },
-                                .{ "select", h.jo(&.{
-                                    .{ "exist", h.ja(&.{
-                                        h.vstr("omit"),
-                                    }) },
+                                .{ "select", h.omap() },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
+                                }) },
+                            }),
+                            h.jo(&.{
+                                .{ "kind", h.vstr("http") },
+                                .{ "method", h.vstr("POST") },
+                                .{ "orig", h.vstr("/tokenization/delete") },
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("tokenization") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("delete") },
+                                    }),
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("tokenization"),
+                                    h.vstr("delete"),
+                                }) },
+                                .{ "rename", h.omap() },
+                                .{ "transform", h.jo(&.{
+                                    .{ "req", h.vstr("`reqdata`") },
+                                    .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "args", h.omap() },
+                                .{ "select", h.omap() },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
                                 }) },
                             }),
                             h.jo(&.{
@@ -553,35 +593,11 @@ pub fn make_config() Value {
                                         }),
                                     }) },
                                 }) },
-                                .{ "select", h.jo(&.{
-                                    .{ "exist", h.ja(&.{
-                                        h.vstr("omit"),
-                                    }) },
-                                }) },
-                            }),
-                            h.jo(&.{
-                                .{ "kind", h.vstr("http") },
-                                .{ "method", h.vstr("POST") },
-                                .{ "orig", h.vstr("/tokenization/delete") },
-                                .{ "segments", h.ja(&.{
-                                    h.jo(&.{
-                                        .{ "lit", h.vstr("tokenization") },
-                                    }),
-                                    h.jo(&.{
-                                        .{ "lit", h.vstr("delete") },
-                                    }),
-                                }) },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("tokenization"),
-                                    h.vstr("delete"),
-                                }) },
-                                .{ "rename", h.omap() },
-                                .{ "transform", h.jo(&.{
-                                    .{ "req", h.vstr("`reqdata`") },
-                                    .{ "res", h.vstr("`body`") },
-                                }) },
-                                .{ "args", h.omap() },
                                 .{ "select", h.omap() },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
+                                }) },
                             }),
                         }) },
                     }) },
@@ -614,13 +630,13 @@ pub fn make_config() Value {
                                     .{ "query", h.ja(&.{
                                         h.jo(&.{
                                             .{ "name", h.vstr("field_name") },
-                                            .{ "orig", h.vstr("field_name") },
+                                            .{ "orig", h.vstr("fieldNames") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("query") },
                                         }),
                                         h.jo(&.{
                                             .{ "name", h.vstr("field_value") },
-                                            .{ "orig", h.vstr("field_value") },
+                                            .{ "orig", h.vstr("fieldValues") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("query") },
                                         }),
@@ -629,10 +645,11 @@ pub fn make_config() Value {
                                             .{ "orig", h.vstr("reference") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("query") },
+                                            .{ "field", h.vbool(true) },
                                         }),
                                         h.jo(&.{
                                             .{ "name", h.vstr("template_ref") },
-                                            .{ "orig", h.vstr("template_ref") },
+                                            .{ "orig", h.vstr("templateRef") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("query") },
                                             .{ "reqd", h.vbool(true) },
@@ -641,11 +658,12 @@ pub fn make_config() Value {
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
-                                        h.vstr("field_name"),
-                                        h.vstr("field_value"),
-                                        h.vstr("reference"),
                                         h.vstr("template_ref"),
                                     }) },
+                                }) },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
                                 }) },
                             }),
                         }) },
@@ -714,6 +732,10 @@ pub fn make_config() Value {
                                 }) },
                                 .{ "args", h.omap() },
                                 .{ "select", h.omap() },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
+                                }) },
                             }),
                             h.jo(&.{
                                 .{ "kind", h.vstr("http") },
@@ -742,6 +764,10 @@ pub fn make_config() Value {
                                 }) },
                                 .{ "args", h.omap() },
                                 .{ "select", h.omap() },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
+                                }) },
                             }),
                         }) },
                     }) },
@@ -817,6 +843,10 @@ pub fn make_config() Value {
                                 }) },
                                 .{ "args", h.omap() },
                                 .{ "select", h.omap() },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
+                                }) },
                             }),
                         }) },
                     }) },
@@ -876,6 +906,10 @@ pub fn make_config() Value {
                                 }) },
                                 .{ "args", h.omap() },
                                 .{ "select", h.omap() },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
+                                }) },
                             }),
                             h.jo(&.{
                                 .{ "kind", h.vstr("http") },
@@ -900,6 +934,10 @@ pub fn make_config() Value {
                                 }) },
                                 .{ "args", h.omap() },
                                 .{ "select", h.omap() },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
+                                }) },
                             }),
                         }) },
                     }) },

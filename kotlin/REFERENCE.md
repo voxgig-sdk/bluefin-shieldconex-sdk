@@ -134,7 +134,7 @@ val detokenize = client.detokenize(null)
 
 #### `create(reqdata, ctrl) -> Any?`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```kotlin
 val result = client.detokenize(null).create(mutableMapOf<String, Any?>(
@@ -143,11 +143,13 @@ val result = client.detokenize(null).create(mutableMapOf<String, Any?>(
 
 #### `list(reqmatch, ctrl) -> Any?`
 
-List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```kotlin
-val results = client.detokenize(null).list(null, null)
-println(results)
+val results = client.detokenize(null).list(mutableMapOf<String, Any?>("bfid" to "example"), null) as List<*>
+for (item in results) {
+    println((item as SdkEntity).data())
+}
 ```
 
 ### Common Methods
@@ -207,7 +209,7 @@ val tokenize = client.tokenize(null)
 
 #### `create(reqdata, ctrl) -> Any?`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```kotlin
 val result = client.tokenize(null).create(mutableMapOf<String, Any?>(
@@ -217,11 +219,13 @@ val result = client.tokenize(null).create(mutableMapOf<String, Any?>(
 
 #### `list(reqmatch, ctrl) -> Any?`
 
-List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```kotlin
-val results = client.tokenize(null).list(null, null)
-println(results)
+val results = client.tokenize(null).list(mutableMapOf<String, Any?>("template_ref" to "example"), null) as List<*>
+for (item in results) {
+    println((item as SdkEntity).data())
+}
 ```
 
 ### Common Methods
@@ -271,7 +275,7 @@ val tokenizeBatch = client.tokenizeBatch(null)
 
 #### `create(reqdata, ctrl) -> Any?`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```kotlin
 val result = client.tokenizeBatch(null).create(mutableMapOf<String, Any?>(
@@ -329,7 +333,7 @@ val tokenizeRead = client.tokenizeRead(null)
 
 #### `create(reqdata, ctrl) -> Any?`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```kotlin
 val result = client.tokenizeRead(null).create(mutableMapOf<String, Any?>(
@@ -375,7 +379,7 @@ val validate = client.validate(null)
 
 #### `create(reqdata, ctrl) -> Any?`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```kotlin
 val result = client.validate(null).create(mutableMapOf<String, Any?>(
@@ -824,6 +828,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

@@ -1,7 +1,7 @@
 # BluefinShieldconex SDK TokenizeRead entity
 #
 # Per-entity module. Generic construction/data/match operations delegate to
-# EntityBase; each active op (load/list/create/update/remove) builds a ctx
+# EntityBase; each active op (load/list/create/update/patch/remove) builds a ctx
 # and drives it through BluefinShieldconex.Pipeline.run_op.
 
 defmodule BluefinShieldconex.Entity.TokenizeRead do
@@ -30,9 +30,10 @@ defmodule BluefinShieldconex.Entity.TokenizeRead do
   
 
   
-  # Returns the created tokenize_read entity map (BluefinShieldconex.Types.tokenize_read/0)
-  # on success; pipeline errors surface as the error value built by
-  # Utility.make_error (shape is utility-configurable), hence term().
+  # Returns the created tokenize_read entity, whose data_get/1 reads its record
+  # (BluefinShieldconex.Types.tokenize_read/0), on success; pipeline errors surface as
+  # the error value built by Utility.make_error (shape is
+  # utility-configurable), hence term().
   @spec create(map(), BluefinShieldconex.Types.tokenize_read_create_data() | nil, map() | nil) :: term()
   def create(ent, reqdata, ctrl \\ nil) do
     ctx =
@@ -61,6 +62,8 @@ defmodule BluefinShieldconex.Entity.TokenizeRead do
   end
 
 
+
+  
 
   
 

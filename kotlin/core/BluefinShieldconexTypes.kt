@@ -26,7 +26,7 @@ object BluefinShieldconexTypes {
 
   data class TokenizeListMatch(val field_name: String?, val field_value: String?, val reference: String?, val template_ref: String?)
 
-  data class TokenizeCreateData(val omit: Double?, val batches: List<Any?>?, val bfid: String?, val messageId: String?, val name: String?, val reference: String?, val templateRef: String?, val value: String?, val values: List<Any?>?)
+  data class TokenizeCreateData(val batches: List<Any?>?, val bfid: String?, val messageId: String?, val name: String?, val reference: String?, val templateRef: String?, val value: String?, val values: List<Any?>?)
 
   data class TokenizeBatch(val batches: List<Any?>?, val messageId: String?, val reference: String?)
 

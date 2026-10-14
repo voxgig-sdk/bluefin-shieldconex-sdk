@@ -15,7 +15,7 @@ keeps the cognitive load low.
 
 ## Install
 Zig has no central package registry, so this package is distributed as a
-git tag (`zig/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/releases)). Add it to
+git tag (`zig/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags)). Add it to
 your `build.zig.zon` dependencies, or build from a source checkout:
 
 ```bash
@@ -54,12 +54,16 @@ const client = sdk.BluefinShieldconexSDK.new(h.jo(&.{
 
 ### 2. List detokenize records
 
-`list()` returns an `OpResult` whose `.ok` is a `Value` array —
-`switch` on it.
+`list()`'s `.ok` is a slice of entities, one per record — `switch` on
+it. `asEntity().data(null)` reads an entity's record.
 
 ```zig
-switch (client.detokenize(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |detokenizes| std.debug.print("{s}\n", .{h.stringify(detokenizes)}),
+switch (client.detokenize(h.vnull()).list(h.jo(&.{.{ "bfid", h.vstr("example") }}), h.vnull())) {
+    .ok => |detokenizes| {
+        for (detokenizes) |detokenize| {
+            std.debug.print("{s}\n", .{h.stringify(detokenize.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
@@ -67,9 +71,9 @@ switch (client.detokenize(h.vnull()).list(h.vnull(), h.vnull())) {
 ### 4. Create, update, and remove
 
 ```zig
-// Create — .ok carries the created record
+// Create — .ok carries the created entity
 switch (client.detokenize(h.vnull()).create(h.jo(&.{.{ "batches", h.olist() }, .{ "bfid", h.vstr("example_bfid") }}), h.vnull())) {
-    .ok => |created| std.debug.print("{s}\n", .{h.stringify(created)}),
+    .ok => |created| std.debug.print("{s}\n", .{h.stringify(created.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 
@@ -82,15 +86,16 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const detokenizes = await client.Detokenize().list()
-  console.log(detokenizes)
+  const detokenizes = await client.Detokenize().list({ bfid: "example" })
+  console.log(detokenizes.map((item) => item.data()))
 } catch (err) {
   console.error('list failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -99,8 +104,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -150,9 +155,13 @@ Create a mock client for unit testing — no server required:
 ```zig
 const client = sdk.test_sdk(h.vnull(), h.vnull());
 
-// Entity ops return an OpResult — .ok carries the record, .err the error.
-switch (client.detokenize(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |detokenize| std.debug.print("{s}\n", .{h.stringify(detokenize)}), // the mock record
+// list's .ok is one entity per mock record, .err the error.
+switch (client.detokenize(h.vnull()).list(h.jo(&.{.{ "bfid", h.vstr("example") }}), h.vnull())) {
+    .ok => |detokenizes| {
+        for (detokenizes) |detokenize| {
+            std.debug.print("{s}\n", .{h.stringify(detokenize.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
@@ -235,18 +244,19 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `list` | `(reqmatch: Value, ctrl: Value) OpResult` | List entities matching the criteria (`.ok` is a `Value` array). |
-| `create` | `(reqdata: Value, ctrl: Value) OpResult` | Create a new entity. |
-| `stream` | `(action: []const u8, args: Value, callopts: Value) []Value` | Run an op through the pipeline and materialise its result items. |
+| `list` | `(reqmatch: Value, ctrl: Value) EntListResult` | List entities matching the criteria (`.ok` is a slice of entities, one per record). |
+| `create` | `(reqdata: Value, ctrl: Value) EntResult` | Create a new entity. |
+| `stream` | `(action: []const u8, args: Value, callopts: Value) StreamResult` | Run an op through the pipeline: `.ok` with its result items, or `.err` with the error that failed it. |
 | `data` | `(args: ?Value) Value` | Get entity data (pass a map to set). |
 | `matchv` | `(args: ?Value) Value` | Get entity match criteria (pass a map to set). |
 | `get_name` | `() []const u8` | Return the entity name. |
 
 ### Result shape
 
-Entity operations return an `OpResult` union — `switch` on it: `.ok`
-carries the bare result data (a `Value` object for single-entity ops, a
-`Value` array for `list`), `.err` carries the branded error pointer.
+Entity operations return a result union — `switch` on it: `.ok` carries
+the entity (`EntResult`), or for `list` a slice of entities, one per record
+(`EntListResult`), and `asEntity().data(null)` reads an entity's record;
+`.err` carries the branded error pointer.
 
 The `direct()` escape hatch returns a result `Value` map directly (no
 error union) — even on a non-2xx response — that you branch on via
@@ -350,8 +360,9 @@ Create an instance: `const detokenize = client.detokenize(h.vnull());`
 | `create(reqdata, ctrl)` | Create a new entity with the given data. |
 | `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. |
 
-Each operation returns an `OpResult` — `switch` on it: `.ok => |data|`
-carries the result `Value`, `.err => |e|` carries the branded error.
+Each operation returns a result union — `switch` on it: `.ok` carries the
+entity (for `list`, a slice of entities, one per record), whose record
+`asEntity().data(null)` reads, and `.err => |e|` the branded error.
 
 #### Fields
 
@@ -368,8 +379,12 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 #### Example: List
 
 ```zig
-switch (client.detokenize(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |detokenizes| std.debug.print("{s}\n", .{h.stringify(detokenizes)}),
+switch (client.detokenize(h.vnull()).list(h.jo(&.{.{ "bfid", h.vstr("example") }}), h.vnull())) {
+    .ok => |detokenizes| {
+        for (detokenizes) |detokenize| {
+            std.debug.print("{s}\n", .{h.stringify(detokenize.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
@@ -379,7 +394,7 @@ switch (client.detokenize(h.vnull()).list(h.vnull(), h.vnull())) {
 ```zig
 switch (client.detokenize(h.vnull()).create(h.jo(&.{
 }), h.vnull())) {
-    .ok => |detokenize| std.debug.print("{s}\n", .{h.stringify(detokenize)}),
+    .ok => |detokenize| std.debug.print("{s}\n", .{h.stringify(detokenize.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 ```
@@ -396,8 +411,9 @@ Create an instance: `const tokenize = client.tokenize(h.vnull());`
 | `create(reqdata, ctrl)` | Create a new entity with the given data. |
 | `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. |
 
-Each operation returns an `OpResult` — `switch` on it: `.ok => |data|`
-carries the result `Value`, `.err => |e|` carries the branded error.
+Each operation returns a result union — `switch` on it: `.ok` carries the
+entity (for `list`, a slice of entities, one per record), whose record
+`asEntity().data(null)` reads, and `.err => |e|` the branded error.
 
 #### Fields
 
@@ -415,8 +431,12 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 #### Example: List
 
 ```zig
-switch (client.tokenize(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |tokenizes| std.debug.print("{s}\n", .{h.stringify(tokenizes)}),
+switch (client.tokenize(h.vnull()).list(h.jo(&.{.{ "template_ref", h.vstr("example") }}), h.vnull())) {
+    .ok => |tokenizes| {
+        for (tokenizes) |tokenize| {
+            std.debug.print("{s}\n", .{h.stringify(tokenize.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
@@ -427,7 +447,7 @@ switch (client.tokenize(h.vnull()).list(h.vnull(), h.vnull())) {
 switch (client.tokenize(h.vnull()).create(h.jo(&.{
     .{ "templateRef", h.vstr("example_templateRef") }, // []const u8
 }), h.vnull())) {
-    .ok => |tokenize| std.debug.print("{s}\n", .{h.stringify(tokenize)}),
+    .ok => |tokenize| std.debug.print("{s}\n", .{h.stringify(tokenize.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 ```
@@ -443,8 +463,9 @@ Create an instance: `const tokenize_batch = client.tokenize_batch(h.vnull());`
 | --- | --- |
 | `create(reqdata, ctrl)` | Create a new entity with the given data. |
 
-Each operation returns an `OpResult` — `switch` on it: `.ok => |data|`
-carries the result `Value`, `.err => |e|` carries the branded error.
+Each operation returns a result union — `switch` on it: `.ok` carries the
+entity (for `list`, a slice of entities, one per record), whose record
+`asEntity().data(null)` reads, and `.err => |e|` the branded error.
 
 #### Fields
 
@@ -459,7 +480,7 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 ```zig
 switch (client.tokenize_batch(h.vnull()).create(h.jo(&.{
 }), h.vnull())) {
-    .ok => |tokenize_batch| std.debug.print("{s}\n", .{h.stringify(tokenize_batch)}),
+    .ok => |tokenize_batch| std.debug.print("{s}\n", .{h.stringify(tokenize_batch.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 ```
@@ -475,8 +496,9 @@ Create an instance: `const tokenize_read = client.tokenize_read(h.vnull());`
 | --- | --- |
 | `create(reqdata, ctrl)` | Create a new entity with the given data. |
 
-Each operation returns an `OpResult` — `switch` on it: `.ok => |data|`
-carries the result `Value`, `.err => |e|` carries the branded error.
+Each operation returns a result union — `switch` on it: `.ok` carries the
+entity (for `list`, a slice of entities, one per record), whose record
+`asEntity().data(null)` reads, and `.err => |e|` the branded error.
 
 #### Fields
 
@@ -493,7 +515,7 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 ```zig
 switch (client.tokenize_read(h.vnull()).create(h.jo(&.{
 }), h.vnull())) {
-    .ok => |tokenize_read| std.debug.print("{s}\n", .{h.stringify(tokenize_read)}),
+    .ok => |tokenize_read| std.debug.print("{s}\n", .{h.stringify(tokenize_read.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 ```
@@ -509,8 +531,9 @@ Create an instance: `const validate = client.validate(h.vnull());`
 | --- | --- |
 | `create(reqdata, ctrl)` | Create a new entity with the given data. |
 
-Each operation returns an `OpResult` — `switch` on it: `.ok => |data|`
-carries the result `Value`, `.err => |e|` carries the branded error.
+Each operation returns a result union — `switch` on it: `.ok` carries the
+entity (for `list`, a slice of entities, one per record), whose record
+`asEntity().data(null)` reads, and `.err => |e|` the branded error.
 
 #### Fields
 
@@ -526,7 +549,7 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 switch (client.validate(h.vnull()).create(h.jo(&.{
     .{ "templateRef", h.vstr("example_templateRef") }, // []const u8
 }), h.vnull())) {
-    .ok => |validate| std.debug.print("{s}\n", .{h.stringify(validate)}),
+    .ok => |validate| std.debug.print("{s}\n", .{h.stringify(validate.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 ```
@@ -807,7 +830,7 @@ calls on the same instance can rely on this state.
 
 ```ts
 const detokenize = client.Detokenize()
-await detokenize.list()
+await detokenize.list({ bfid: "example" })
 
 // detokenize.data() now returns the detokenize data from the last `list`
 // detokenize.match() returns the last match criteria

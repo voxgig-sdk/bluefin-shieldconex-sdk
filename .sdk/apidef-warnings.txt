@@ -1,0 +1,51 @@
+{
+  point: "warning"
+  note: "Points POST /tokenization/batch/detokenize and POST /tokenization/detokenize on entity=detokenize op=create have the same selector (exist: none), so only POST /tokenization/batch/detokenize is ever chosen. An action or another entity in guide.aontu tells them apart."
+  entity: "detokenize"
+  op: "create"
+  points: [
+    "POST /tokenization/batch/detokenize"
+    "POST /tokenization/detokenize"
+  ]
+
+}
+
+
+{
+  point: "warning"
+  note: "Points POST /tokenization/batch/tokenize, POST /tokenization/delete and POST /tokenization/tokenize on entity=tokenize op=create have the same selector (exist: none), so only POST /tokenization/batch/tokenize is ever chosen. An action or another entity in guide.aontu tells them apart."
+  entity: "tokenize"
+  op: "create"
+  points: [
+    "POST /tokenization/batch/tokenize"
+    "POST /tokenization/delete"
+    "POST /tokenization/tokenize"
+  ]
+
+}
+
+
+{
+  point: "warning"
+  note: "Points POST /tokenization/batch/delete and POST /tokenization/batch/read on entity=tokenize_batch op=create have the same selector (exist: none), so only POST /tokenization/batch/delete is ever chosen. An action or another entity in guide.aontu tells them apart."
+  entity: "tokenize_batch"
+  op: "create"
+  points: [
+    "POST /tokenization/batch/delete"
+    "POST /tokenization/batch/read"
+  ]
+
+}
+
+
+{
+  point: "warning"
+  note: "Points POST /partner/validate and POST /template/validate on entity=validate op=create have the same selector (exist: none), so only POST /partner/validate is ever chosen. An action or another entity in guide.aontu tells them apart."
+  entity: "validate"
+  op: "create"
+  points: [
+    "POST /partner/validate"
+    "POST /template/validate"
+  ]
+
+}

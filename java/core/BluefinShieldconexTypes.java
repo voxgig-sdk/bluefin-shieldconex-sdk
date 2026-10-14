@@ -30,7 +30,7 @@ public final class BluefinShieldconexTypes {
 
   public record TokenizeListMatch(String field_name, String field_value, String reference, String template_ref) {}
 
-  public record TokenizeCreateData(Double omit, List<Object> batches, String bfid, String messageId, String name, String reference, String templateRef, String value, List<Object> values) {}
+  public record TokenizeCreateData(List<Object> batches, String bfid, String messageId, String name, String reference, String templateRef, String value, List<Object> values) {}
 
   public record TokenizeBatch(List<Object> batches, String messageId, String reference) {}
 

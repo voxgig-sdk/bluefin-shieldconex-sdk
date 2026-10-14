@@ -155,9 +155,6 @@ TokenizeListMatch = Struct.new(
 
 # Request payload for Tokenize#create.
 #
-# @!attribute [rw] omit
-#   @return [Float, nil]
-#
 # @!attribute [rw] batches
 #   @return [Array, nil]
 #
@@ -182,7 +179,6 @@ TokenizeListMatch = Struct.new(
 # @!attribute [rw] values
 #   @return [Array, nil]
 TokenizeCreateData = Struct.new(
-  :omit,
   :batches,
   :bfid,
   :messageId,

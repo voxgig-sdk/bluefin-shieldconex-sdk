@@ -65,7 +65,6 @@ public record TokenizeListMatch
 
 public record TokenizeCreateData
 {
-    public double? omit { get; init; }
     public List<object?>? batches { get; init; }
     public string? bfid { get; init; }
     public string? messageId { get; init; }

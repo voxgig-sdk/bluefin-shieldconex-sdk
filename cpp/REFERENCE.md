@@ -129,23 +129,23 @@ auto detokenize = client->detokenize();
 
 ### Operations
 
-#### `create(reqdata, ctrl) -> Value`
+#### `create(reqdata, ctrl) -> SdkEntityPtr`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```cpp
-Value result = client->detokenize()->create(vmap({
+SdkEntityPtr result = client->detokenize()->create(vmap({
 }), Value::undef());
 ```
 
-#### `list(reqmatch, ctrl) -> Value`
+#### `list(reqmatch, ctrl) -> std::vector<SdkEntityPtr>`
 
-List entities matching the given criteria. The match is optional — pass `Value::undef()` to list all records. Returns a Value list and throws on error.
+List entities matching the given criteria. The match is optional — pass `Value::undef()` to list all records. Returns one entity per record and throws on error.
 
 ```cpp
-Value results = client->detokenize()->list(Value::undef(), Value::undef());
-for (const auto& detokenize : *results.as_list()) {
-  std::cout << Struct::jsonify(detokenize) << std::endl;
+std::vector<SdkEntityPtr> results = client->detokenize()->list(vmap({{"bfid", Value("example")}}), Value::undef());
+for (const auto& detokenize : results) {
+  std::cout << Struct::jsonify(detokenize->data()) << std::endl;
 }
 ```
 
@@ -204,24 +204,24 @@ auto tokenize = client->tokenize();
 
 ### Operations
 
-#### `create(reqdata, ctrl) -> Value`
+#### `create(reqdata, ctrl) -> SdkEntityPtr`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```cpp
-Value result = client->tokenize()->create(vmap({
+SdkEntityPtr result = client->tokenize()->create(vmap({
     {"templateRef", Value("example_templateRef")},  // std::string
 }), Value::undef());
 ```
 
-#### `list(reqmatch, ctrl) -> Value`
+#### `list(reqmatch, ctrl) -> std::vector<SdkEntityPtr>`
 
-List entities matching the given criteria. The match is optional — pass `Value::undef()` to list all records. Returns a Value list and throws on error.
+List entities matching the given criteria. The match is optional — pass `Value::undef()` to list all records. Returns one entity per record and throws on error.
 
 ```cpp
-Value results = client->tokenize()->list(Value::undef(), Value::undef());
-for (const auto& tokenize : *results.as_list()) {
-  std::cout << Struct::jsonify(tokenize) << std::endl;
+std::vector<SdkEntityPtr> results = client->tokenize()->list(vmap({{"template_ref", Value("example")}}), Value::undef());
+for (const auto& tokenize : results) {
+  std::cout << Struct::jsonify(tokenize->data()) << std::endl;
 }
 ```
 
@@ -270,12 +270,12 @@ auto tokenize_batch = client->tokenize_batch();
 
 ### Operations
 
-#### `create(reqdata, ctrl) -> Value`
+#### `create(reqdata, ctrl) -> SdkEntityPtr`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```cpp
-Value result = client->tokenize_batch()->create(vmap({
+SdkEntityPtr result = client->tokenize_batch()->create(vmap({
 }), Value::undef());
 ```
 
@@ -328,12 +328,12 @@ auto tokenize_read = client->tokenize_read();
 
 ### Operations
 
-#### `create(reqdata, ctrl) -> Value`
+#### `create(reqdata, ctrl) -> SdkEntityPtr`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```cpp
-Value result = client->tokenize_read()->create(vmap({
+SdkEntityPtr result = client->tokenize_read()->create(vmap({
 }), Value::undef());
 ```
 
@@ -374,12 +374,12 @@ auto validate = client->validate();
 
 ### Operations
 
-#### `create(reqdata, ctrl) -> Value`
+#### `create(reqdata, ctrl) -> SdkEntityPtr`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```cpp
-Value result = client->validate()->create(vmap({
+SdkEntityPtr result = client->validate()->create(vmap({
     {"templateRef", Value("example_templateRef")},  // std::string
 }), Value::undef());
 ```
@@ -826,6 +826,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

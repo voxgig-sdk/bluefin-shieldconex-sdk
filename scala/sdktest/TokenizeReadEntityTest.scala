@@ -5,16 +5,36 @@
 
 import java.util.{ArrayList, LinkedHashMap, List => JList, Map => JMap}
 
-import voxgig.bluefinshieldconexsdk.core.{Helpers, SdkEntity, BluefinShieldconexSDK}
+import voxgig.bluefinshieldconexsdk.core.{Config, Context, Helpers, SdkEntity, SdkError, BluefinShieldconexSDK}
+import voxgig.bluefinshieldconexsdk.feature.BaseFeature
 import voxgig.bluefinshieldconexsdk.utility.struct.Struct
 
 object TokenizeReadEntityTest {
+
+  import SdkTestSupport.{B, I, jl, om}
+
+  private def hasFeature(name: String): Boolean = {
+    val fm = Helpers.toMapAny(Config.sharedConfig().get("feature"))
+    fm != null && fm.get(name) != null
+  }
 
   def run(rep: SdkTestReport): Unit = {
     rep.scope("tokenize_read.instance") {
       val testsdk = BluefinShieldconexSDK.testSDK()
       val ent = testsdk.tokenizeRead(null)
       rep.check("tokenize_read.instance", ent != null, "expected non-null tokenize_read entity")
+    }
+
+    rep.scope("tokenize_read.validate") {
+      if (hasFeature("validate")) {
+        val client = BluefinShieldconexSDK.testSDK(null, om("feature" -> om("validate" -> om("active" -> B(true)))))
+        val err = try {
+          client.tokenizeRead(null).create(om("bfid" -> I(1)), null)
+          null
+        } catch { case e: SdkError => e }
+        rep.check("tokenize_read.validate", err != null && "validate_failed" == err.code,
+          "expected validate_failed, got " + err)
+      }
     }
 
     rep.scope("tokenize_read.basic") {

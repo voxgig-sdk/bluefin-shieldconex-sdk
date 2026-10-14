@@ -12,9 +12,14 @@ The SDK exposes the API as capitalised, semantic **Entities** — for example `$
 
 ## Install
 This package is not yet published to Packagist. Install it from the
-GitHub release tag (`php/vX.Y.Z`):
+GitHub release tag (`php/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags)), or
+from a clone as a Composer path repository:
 
-- Releases: [https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/releases](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/releases)
+```bash
+git clone https://github.com/voxgig-sdk/bluefin-shieldconex-sdk
+composer config repositories.bluefin-shieldconex-sdk path ./bluefin-shieldconex-sdk/php
+composer require voxgig-sdk/bluefin-shieldconex-sdk:@dev
+```
 
 
 ## Tutorial: your first API call
@@ -38,7 +43,7 @@ $client = new BluefinShieldconexSDK([
 ```php
 try {
     // list() returns entity instances; data_get() reads each record.
-    $detokenizes = $client->Detokenize()->list();
+    $detokenizes = $client->Detokenize()->list(["bfid" => "example"]);
     foreach ($detokenizes as $record) {
         $item = $record->data_get();
         echo $item["batches"] . "\n";
@@ -64,7 +69,7 @@ Entity operations throw a `\Throwable` on failure, so wrap them in
 
 ```php
 try {
-    $detokenizes = $client->Detokenize()->list();
+    $detokenizes = $client->Detokenize()->list(["bfid" => "example"]);
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
 }
@@ -138,7 +143,7 @@ $client = BluefinShieldconexSDK::test();
 
 // list() returns entity instances (throws on error);
 // call data_get() for the mock record.
-$detokenize = $client->Detokenize()->list();
+$detokenize = $client->Detokenize()->list(["bfid" => "example"]);
 print_r(array_map(fn($item) => $item->data_get(), $detokenize));
 ```
 
@@ -232,8 +237,8 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `list` | `(?array $reqmatch = null, $ctrl): array` | List entities matching the criteria (call with no argument to list all). |
-| `create` | `($reqdata, $ctrl): array` | Create a new entity. |
+| `list` | `(?array $reqmatch = null, $ctrl): mixed` | List entities matching the criteria (call with no argument to list all), one per record. |
+| `create` | `($reqdata, $ctrl): mixed` | Create a new entity, and return it. |
 | `data_get` | `(): array` | Get entity data. |
 | `data_set` | `($data): void` | Set entity data. |
 | `match_get` | `(): array` | Get entity match criteria. |
@@ -243,9 +248,9 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the ENTITY (call data_get() for the record) (an `array` for single-entity
-ops, a `list` for `list`) and throw on error. Wrap calls in
-`try`/`catch` to handle failures.
+Entity operations return the entity, and `list` an `array` of entities, one
+per record; an entity's `data_get()` reads its record (an `array`). They
+throw on error, so wrap calls in `try`/`catch` to handle failures.
 
 The `direct()` escape hatch never throws — it returns a result `array`
 you branch on via `$result["ok"]`:
@@ -363,8 +368,8 @@ Create an instance: `$detokenize = $client->Detokenize();`
 #### Example: List
 
 ```php
-// list() returns an array of Detokenize records (throws on error).
-$detokenizes = $client->Detokenize()->list();
+// list() returns an array of Detokenize entities, one per record (throws on error).
+$detokenizes = $client->Detokenize()->list(["bfid" => "example"]);
 ```
 
 #### Example: Create
@@ -402,8 +407,8 @@ Create an instance: `$tokenize = $client->Tokenize();`
 #### Example: List
 
 ```php
-// list() returns an array of Tokenize records (throws on error).
-$tokenizes = $client->Tokenize()->list();
+// list() returns an array of Tokenize entities, one per record (throws on error).
+$tokenizes = $client->Tokenize()->list(["template_ref" => "example"]);
 ```
 
 #### Example: Create
@@ -768,7 +773,7 @@ stores the returned data and match criteria internally.
 
 ```php
 $detokenize = $client->Detokenize();
-$detokenize->list();
+$detokenize->list(["bfid" => "example"]);
 
 // $detokenize->data_get() now returns the detokenize data from the last list
 // $detokenize->match_get() returns the last match criteria

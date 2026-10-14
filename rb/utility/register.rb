@@ -33,6 +33,8 @@ require_relative 'transform_response'
 
 BluefinShieldconexUtility.registrar = ->(u) {
   u.clean = BluefinShieldconexUtilities::Clean
+  u.clean_add = BluefinShieldconexUtilities::CleanAdd
+  u.clean_explain = BluefinShieldconexUtilities::CleanExplain
   u.done = BluefinShieldconexUtilities::Done
   u.make_error = BluefinShieldconexUtilities::MakeError
   u.feature_add = BluefinShieldconexUtilities::FeatureAdd

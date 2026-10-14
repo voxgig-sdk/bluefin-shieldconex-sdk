@@ -50,7 +50,7 @@ static TokenizeBatchSetup tokenize_batch_basic_setup(const Value& extra) {
 
   TokenizeBatchSetup s;
   s.client = client;
-  s.d = entity_data;
+  s.data = entity_data;
   s.idmap = idmap_resolved;
   s.env = env;
   s.live = live;
@@ -65,6 +65,27 @@ static void tokenize_batch_entity_instance() {
   ASSERT_EQ(ent->getName(), std::string("tokenize_batch"), "entity name");
 }
 
+
+static bool tokenize_batch_has_feature(const std::string& name) {
+  Value fm = Helpers::toMapAny(getp(sharedConfig(), "feature"));
+  return fm.is_map() && !getp(fm, name).is_undef();
+}
+
+static void tokenize_batch_entity_validate() {
+  if (!tokenize_batch_has_feature("validate")) {
+    std::cerr << "skip: feature not present in this SDK: validate\n";
+    return;
+  }
+  auto vsdk = BluefinShieldconexSDK::testSDK(Value::undef(), vmap({{"feature",
+      vmap({{"validate", vmap({{"active", Value(true)}})}})}}));
+  std::string code;
+  try {
+    vsdk->tokenize_batch()->create(vmap({{"messageId", Value(1)}}), Value::undef());
+  } catch (const SdkErrorPtr& err) {
+    code = err->code;
+  }
+  ASSERT_EQ(code, std::string("validate_failed"), "an invalid request fails with validate_failed");
+}
 
 static void tokenize_batch_entity_basic() {
   auto setup = tokenize_batch_basic_setup(Value::undef());
@@ -89,6 +110,7 @@ static void tokenize_batch_entity_basic() {
 
 int main() {
   T_RUN(tokenize_batch_entity_instance);
+  T_RUN(tokenize_batch_entity_validate);
   T_RUN(tokenize_batch_entity_basic);
   return sdktest::summary("tokenize_batch_entity_test");
 }

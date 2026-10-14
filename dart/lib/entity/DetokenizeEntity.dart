@@ -19,7 +19,7 @@ class DetokenizeEntity extends BluefinShieldconexEntityBase {
 
 
   /// List Detokenize entities by match (see DetokenizeListMatch in
-  /// BluefinShieldconexTypes.dart). Returns a list of Detokenize entity instances.
+  /// BluefinShieldconexTypes.dart). Returns a list of entities, one per record.
   Future<dynamic> list([dynamic reqmatch, dynamic ctrl]) async {
     final utility = this.utility;
 
@@ -113,13 +113,19 @@ class DetokenizeEntity extends BluefinShieldconexEntityBase {
 
       return done(ctx);
     } catch (err) {
+      // What a hook throws here must not escape the cleaning below.
+      dynamic failure = err;
+      try {
 
-      fres = featureHook(ctx, 'PreUnexpected');
-      if (fres is Future) {
-        await fres;
+        fres = featureHook(ctx, 'PreUnexpected');
+        if (fres is Future) {
+          await fres;
+        }
+      } catch (hookerr) {
+        failure = hookerr;
       }
 
-      final uerr = unexpected(ctx, err);
+      final uerr = unexpected(ctx, failure);
 
       if (null != uerr) {
         throw uerr;
@@ -133,7 +139,7 @@ class DetokenizeEntity extends BluefinShieldconexEntityBase {
 
 
   /// Create a Detokenize (see DetokenizeCreateData in
-  /// BluefinShieldconexTypes.dart). Returns the entity data map (Detokenize).
+  /// BluefinShieldconexTypes.dart). Returns the created entity.
   Future<dynamic> create([dynamic reqdata, dynamic ctrl]) async {
     final utility = this.utility;
 
@@ -235,13 +241,19 @@ class DetokenizeEntity extends BluefinShieldconexEntityBase {
       // operations return ENTITIES".
       return (null != ctx.result && true == ctx.result.ok) ? this : out;
     } catch (err) {
+      // What a hook throws here must not escape the cleaning below.
+      dynamic failure = err;
+      try {
 
-      fres = featureHook(ctx, 'PreUnexpected');
-      if (fres is Future) {
-        await fres;
+        fres = featureHook(ctx, 'PreUnexpected');
+        if (fres is Future) {
+          await fres;
+        }
+      } catch (hookerr) {
+        failure = hookerr;
       }
 
-      final uerr = unexpected(ctx, err);
+      final uerr = unexpected(ctx, failure);
 
       if (null != uerr) {
         throw uerr;
@@ -251,6 +263,7 @@ class DetokenizeEntity extends BluefinShieldconexEntityBase {
       }
     }
   }
+
 
 
 

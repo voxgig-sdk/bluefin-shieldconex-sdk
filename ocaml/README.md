@@ -17,7 +17,7 @@ keeps the cognitive load low.
 
 ## Install
 This package is not yet published to the opam registry. Install it from the
-GitHub release tag (`ocaml/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/releases))
+GitHub release tag (`ocaml/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags))
 or from a source checkout. The SDK is dependency-free and compiles with the
 stock `ocamlc` — no opam packages, no dune:
 
@@ -36,6 +36,7 @@ loading a specific record.
 ```ocaml
 open Voxgig_struct
 open Sdk_helpers
+open Sdk_types
 
 let client = Sdk_client.make (jo [("apikey", Str (Sys.getenv "BLUEFIN_SHIELDCONEX_APIKEY"))])
 ```
@@ -47,7 +48,7 @@ record with `e_data_get`.
 
 ```ocaml
 (try
-   let detokenizes = (Sdk_client.detokenize client Noval).e_list (empty_map ()) Noval in
+   let detokenizes = (Sdk_client.detokenize client Noval).e_list (jo [("bfid", (Str "example"))]) Noval in
    List.iter (fun e -> print_endline (stringify (e.e_data_get ()))) detokenizes
  with Sdk_error.E err -> Printf.eprintf "list failed: %s\n" (Sdk_error.message err))
 ```
@@ -68,15 +69,16 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const detokenizes = await client.Detokenize().list()
-  console.log(detokenizes)
+  const detokenizes = await client.Detokenize().list({ bfid: "example" })
+  console.log(detokenizes.map((item) => item.data()))
 } catch (err) {
   console.error('list failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -85,8 +87,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -136,7 +138,7 @@ Create a mock client for unit testing — no server required:
 let () =
   let client = Sdk_client.test () in
   (* Entity ops resolve to the ENTITY (list: one per record) and raise on error. *)
-  let detokenizes = (Sdk_client.detokenize client Noval).e_list (empty_map ()) Noval in
+  let detokenizes = (Sdk_client.detokenize client Noval).e_list (jo [("bfid", (Str "example"))]) Noval in
   List.iter (fun e -> print_endline (stringify (e.e_data_get ()))) detokenizes  (* the mock records *)
 ```
 
@@ -178,6 +180,7 @@ cd ocaml && make test
 ```ocaml
 open Voxgig_struct
 open Sdk_helpers
+open Sdk_types
 
 let client = Sdk_client.make options
 ```
@@ -358,7 +361,7 @@ Create an instance: `let detokenize = Sdk_client.detokenize client Noval`
 
 ```ocaml
 (* One ENTITY per record. *)
-let detokenizes = (Sdk_client.detokenize client Noval).e_list (empty_map ()) Noval
+let detokenizes = (Sdk_client.detokenize client Noval).e_list (jo [("bfid", (Str "example"))]) Noval
 let detokenize_datas = List.map (fun e -> e.e_data_get ()) detokenizes
 ```
 
@@ -399,7 +402,7 @@ Create an instance: `let tokenize = Sdk_client.tokenize client Noval`
 
 ```ocaml
 (* One ENTITY per record. *)
-let tokenizes = (Sdk_client.tokenize client Noval).e_list (empty_map ()) Noval
+let tokenizes = (Sdk_client.tokenize client Noval).e_list (jo [("template_ref", (Str "example"))]) Noval
 let tokenize_datas = List.map (fun e -> e.e_data_get ()) tokenizes
 ```
 
@@ -774,7 +777,7 @@ calls on the same instance can rely on this state.
 
 ```ts
 const detokenize = client.Detokenize()
-await detokenize.list()
+await detokenize.list({ bfid: "example" })
 
 // detokenize.data() now returns the detokenize data from the last `list`
 // detokenize.match() returns the last match criteria

@@ -126,24 +126,24 @@ Entity* detokenize = bluefinshieldconex_detokenize(client, NULL);
 
 ### Operations
 
-#### `vt->create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err)`
+#### `Entity* vt->create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err)`
 
-Create a new entity with the given data. Returns the created entity data and sets `*err` on failure.
+Create a new entity with the given data. Returns the created entity, or `NULL` with `*err` set on failure.
 
 ```c
 Entity* detokenize = bluefinshieldconex_detokenize(client, NULL);
-voxgig_value* result = detokenize->vt->create(detokenize, NULL, NULL, &err);
+Entity* result = detokenize->vt->create(detokenize, NULL, NULL, &err);
 ```
 
-#### `vt->list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err)`
+#### `Entity** vt->list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err)`
 
-List entities matching the given criteria. The match is optional — pass `NULL` to list all records. Returns a List.
+List entities matching the given criteria. The match is optional — pass `NULL` to list all records. Returns a `NULL`-terminated array of entities, one per record, or `NULL` with `*err` set on failure.
 
 ```c
 Entity* detokenize = bluefinshieldconex_detokenize(client, NULL);
-voxgig_value* results = detokenize->vt->list(detokenize, NULL, NULL, &err);
-for (size_t i = 0; i < (size_t)voxgig_size(results); i++) {
-    printf("%s\n", voxgig_to_json(voxgig_getelem(results, v_int(i), NULL)));
+Entity** results = detokenize->vt->list(detokenize, cmap(1, "bfid", v_str("example")), NULL, &err);
+for (size_t i = 0; results && results[i]; i++) {
+    printf("%s\n", voxgig_to_json(results[i]->vt->data(results[i], NULL)));
 }
 ```
 
@@ -202,26 +202,26 @@ Entity* tokenize = bluefinshieldconex_tokenize(client, NULL);
 
 ### Operations
 
-#### `vt->create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err)`
+#### `Entity* vt->create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err)`
 
-Create a new entity with the given data. Returns the created entity data and sets `*err` on failure.
+Create a new entity with the given data. Returns the created entity, or `NULL` with `*err` set on failure.
 
 ```c
 Entity* tokenize = bluefinshieldconex_tokenize(client, NULL);
-voxgig_value* result = tokenize->vt->create(tokenize, cmap(1,
+Entity* result = tokenize->vt->create(tokenize, cmap(1,
     "templateRef", v_str("example_templateRef"))  // char*
 , NULL, &err);
 ```
 
-#### `vt->list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err)`
+#### `Entity** vt->list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err)`
 
-List entities matching the given criteria. The match is optional — pass `NULL` to list all records. Returns a List.
+List entities matching the given criteria. The match is optional — pass `NULL` to list all records. Returns a `NULL`-terminated array of entities, one per record, or `NULL` with `*err` set on failure.
 
 ```c
 Entity* tokenize = bluefinshieldconex_tokenize(client, NULL);
-voxgig_value* results = tokenize->vt->list(tokenize, NULL, NULL, &err);
-for (size_t i = 0; i < (size_t)voxgig_size(results); i++) {
-    printf("%s\n", voxgig_to_json(voxgig_getelem(results, v_int(i), NULL)));
+Entity** results = tokenize->vt->list(tokenize, cmap(1, "template_ref", v_str("example")), NULL, &err);
+for (size_t i = 0; results && results[i]; i++) {
+    printf("%s\n", voxgig_to_json(results[i]->vt->data(results[i], NULL)));
 }
 ```
 
@@ -270,13 +270,13 @@ Entity* tokenize_batch = bluefinshieldconex_tokenize_batch(client, NULL);
 
 ### Operations
 
-#### `vt->create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err)`
+#### `Entity* vt->create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err)`
 
-Create a new entity with the given data. Returns the created entity data and sets `*err` on failure.
+Create a new entity with the given data. Returns the created entity, or `NULL` with `*err` set on failure.
 
 ```c
 Entity* tokenize_batch = bluefinshieldconex_tokenize_batch(client, NULL);
-voxgig_value* result = tokenize_batch->vt->create(tokenize_batch, NULL, NULL, &err);
+Entity* result = tokenize_batch->vt->create(tokenize_batch, NULL, NULL, &err);
 ```
 
 ### Common Methods
@@ -328,13 +328,13 @@ Entity* tokenize_read = bluefinshieldconex_tokenize_read(client, NULL);
 
 ### Operations
 
-#### `vt->create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err)`
+#### `Entity* vt->create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err)`
 
-Create a new entity with the given data. Returns the created entity data and sets `*err` on failure.
+Create a new entity with the given data. Returns the created entity, or `NULL` with `*err` set on failure.
 
 ```c
 Entity* tokenize_read = bluefinshieldconex_tokenize_read(client, NULL);
-voxgig_value* result = tokenize_read->vt->create(tokenize_read, NULL, NULL, &err);
+Entity* result = tokenize_read->vt->create(tokenize_read, NULL, NULL, &err);
 ```
 
 ### Common Methods
@@ -374,13 +374,13 @@ Entity* validate = bluefinshieldconex_validate(client, NULL);
 
 ### Operations
 
-#### `vt->create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err)`
+#### `Entity* vt->create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err)`
 
-Create a new entity with the given data. Returns the created entity data and sets `*err` on failure.
+Create a new entity with the given data. Returns the created entity, or `NULL` with `*err` set on failure.
 
 ```c
 Entity* validate = bluefinshieldconex_validate(client, NULL);
-voxgig_value* result = validate->vt->create(validate, cmap(1,
+Entity* result = validate->vt->create(validate, cmap(1,
     "templateRef", v_str("example_templateRef"))  // char*
 , NULL, &err);
 ```
@@ -826,6 +826,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

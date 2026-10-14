@@ -134,7 +134,7 @@ val detokenize = client.detokenize(null)
 
 #### `create(reqdata, ctrl) -> Object`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```scala
 val result = client.detokenize(null).create(java.util.Map.of(
@@ -143,11 +143,11 @@ val result = client.detokenize(null).create(java.util.Map.of(
 
 #### `list(reqmatch, ctrl) -> Object`
 
-List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```scala
-val results = client.detokenize(null).list(null, null)
-println(results)
+val results = client.detokenize(null).list(java.util.Map.of("bfid", "example"), null).asInstanceOf[java.util.List[SdkEntity]]
+results.forEach(item => println(item.data()))
 ```
 
 ### Common Methods
@@ -207,7 +207,7 @@ val tokenize = client.tokenize(null)
 
 #### `create(reqdata, ctrl) -> Object`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```scala
 val result = client.tokenize(null).create(java.util.Map.of(
@@ -217,11 +217,11 @@ val result = client.tokenize(null).create(java.util.Map.of(
 
 #### `list(reqmatch, ctrl) -> Object`
 
-List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```scala
-val results = client.tokenize(null).list(null, null)
-println(results)
+val results = client.tokenize(null).list(java.util.Map.of("template_ref", "example"), null).asInstanceOf[java.util.List[SdkEntity]]
+results.forEach(item => println(item.data()))
 ```
 
 ### Common Methods
@@ -271,7 +271,7 @@ val tokenizeBatch = client.tokenizeBatch(null)
 
 #### `create(reqdata, ctrl) -> Object`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```scala
 val result = client.tokenizeBatch(null).create(java.util.Map.of(
@@ -329,7 +329,7 @@ val tokenizeRead = client.tokenizeRead(null)
 
 #### `create(reqdata, ctrl) -> Object`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```scala
 val result = client.tokenizeRead(null).create(java.util.Map.of(
@@ -375,7 +375,7 @@ val validate = client.validate(null)
 
 #### `create(reqdata, ctrl) -> Object`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```scala
 val result = client.validate(null).create(java.util.Map.of(
@@ -825,6 +825,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

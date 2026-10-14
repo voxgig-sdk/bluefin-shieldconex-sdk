@@ -50,7 +50,7 @@ static ValidateSetup validate_basic_setup(const Value& extra) {
 
   ValidateSetup s;
   s.client = client;
-  s.d = entity_data;
+  s.data = entity_data;
   s.idmap = idmap_resolved;
   s.env = env;
   s.live = live;
@@ -65,6 +65,27 @@ static void validate_entity_instance() {
   ASSERT_EQ(ent->getName(), std::string("validate"), "entity name");
 }
 
+
+static bool validate_has_feature(const std::string& name) {
+  Value fm = Helpers::toMapAny(getp(sharedConfig(), "feature"));
+  return fm.is_map() && !getp(fm, name).is_undef();
+}
+
+static void validate_entity_validate() {
+  if (!validate_has_feature("validate")) {
+    std::cerr << "skip: feature not present in this SDK: validate\n";
+    return;
+  }
+  auto vsdk = BluefinShieldconexSDK::testSDK(Value::undef(), vmap({{"feature",
+      vmap({{"validate", vmap({{"active", Value(true)}})}})}}));
+  std::string code;
+  try {
+    vsdk->validate()->create(vmap({{"messageId", Value(1)}, {"templateRef", Value("x")}}), Value::undef());
+  } catch (const SdkErrorPtr& err) {
+    code = err->code;
+  }
+  ASSERT_EQ(code, std::string("validate_failed"), "an invalid request fails with validate_failed");
+}
 
 static void validate_entity_basic() {
   auto setup = validate_basic_setup(Value::undef());
@@ -89,6 +110,7 @@ static void validate_entity_basic() {
 
 int main() {
   T_RUN(validate_entity_instance);
+  T_RUN(validate_entity_validate);
   T_RUN(validate_entity_basic);
   return sdktest::summary("validate_entity_test");
 }

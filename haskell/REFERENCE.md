@@ -133,7 +133,7 @@ Prepare a fetch definition without sending. Returns the `fetchdef` and raises on
 
 #### `eCreate ent data ctrl :: IO Entity`
 
-Create a new entity with the given data. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
+Create a new entity with the given data. Resolves to the created entity and raises on error.
 
 ```haskell
   ent <- Sdk.detokenize sdk VNoval
@@ -146,7 +146,7 @@ Create a new entity with the given data. Resolves to the ENTITY (read the record
 
 #### `eList ent match ctrl :: IO [Entity]`
 
-List entities matching the given criteria. The match is optional — pass an empty map to list all records. Resolves to one ENTITY per record and raises on error.
+List entities matching the given criteria. The match is optional — pass an empty map to list all records. Resolves to one entity per record and raises on error.
 
 ```haskell
   ent <- Sdk.detokenize sdk VNoval
@@ -217,7 +217,7 @@ The entity name.
 
 #### `eCreate ent data ctrl :: IO Entity`
 
-Create a new entity with the given data. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
+Create a new entity with the given data. Resolves to the created entity and raises on error.
 
 ```haskell
   ent <- Sdk.tokenize sdk VNoval
@@ -231,7 +231,7 @@ Create a new entity with the given data. Resolves to the ENTITY (read the record
 
 #### `eList ent match ctrl :: IO [Entity]`
 
-List entities matching the given criteria. The match is optional — pass an empty map to list all records. Resolves to one ENTITY per record and raises on error.
+List entities matching the given criteria. The match is optional — pass an empty map to list all records. Resolves to one entity per record and raises on error.
 
 ```haskell
   ent <- Sdk.tokenize sdk VNoval
@@ -292,7 +292,7 @@ The entity name.
 
 #### `eCreate ent data ctrl :: IO Entity`
 
-Create a new entity with the given data. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
+Create a new entity with the given data. Resolves to the created entity and raises on error.
 
 ```haskell
   ent <- Sdk.tokenize_batch sdk VNoval
@@ -358,7 +358,7 @@ The entity name.
 
 #### `eCreate ent data ctrl :: IO Entity`
 
-Create a new entity with the given data. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
+Create a new entity with the given data. Resolves to the created entity and raises on error.
 
 ```haskell
   ent <- Sdk.tokenize_read sdk VNoval
@@ -412,7 +412,7 @@ The entity name.
 
 #### `eCreate ent data ctrl :: IO Entity`
 
-Create a new entity with the given data. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
+Create a new entity with the given data. Resolves to the created entity and raises on error.
 
 ```haskell
   ent <- Sdk.validate sdk VNoval

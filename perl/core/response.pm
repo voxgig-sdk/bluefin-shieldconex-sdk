@@ -34,6 +34,8 @@ sub new {
     json_func   => $json_func,
     body        => BluefinShieldconexHelpers::gp($resmap, 'body'),
     err         => BluefinShieldconexHelpers::gp($resmap, 'err'),
+    # Set by a transport that could not read a non-blank body as JSON.
+    unreadable  => (BluefinShieldconexHelpers::gp($resmap, 'unreadable') ? 1 : 0),
   }, $class;
 }
 

@@ -15,7 +15,7 @@ keeps the cognitive load low.
 
 ## Install
 C has no central package registry — a release is the git tag
-(`c/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/releases)). Build from a
+(`c/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags)). Build from a
 source checkout with the bundled `Makefile`; the voxgig struct library is
 vendored under `utility/struct`, so there are no external dependencies to
 fetch:
@@ -50,17 +50,18 @@ PNError* err = NULL;
 
 ### 2. List detokenize records
 
-`list()` returns a List of records and sets `*err` on failure — check
-`err` after the call.
+`list()` returns a `NULL`-terminated array of entities, one per record,
+and sets `*err` on failure — check `err` after the call. `vt->data`
+reads an entity's record.
 
 ```c
 Entity* detokenize = bluefinshieldconex_detokenize(client, NULL);
-voxgig_value* detokenizes = detokenize->vt->list(detokenize, NULL, NULL, &err);
+Entity** detokenizes = detokenize->vt->list(detokenize, cmap(1, "bfid", v_str("example")), NULL, &err);
 if (err) {
     fprintf(stderr, "list failed: %s\n", err->msg);
 } else {
-    for (size_t i = 0; i < (size_t)voxgig_size(detokenizes); i++) {
-        printf("%s\n", voxgig_to_json(voxgig_getelem(detokenizes, v_int(i), NULL)));
+    for (size_t i = 0; detokenizes[i]; i++) {
+        printf("%s\n", voxgig_to_json(detokenizes[i]->vt->data(detokenizes[i], NULL)));
     }
 }
 ```
@@ -68,8 +69,8 @@ if (err) {
 ### 4. Create, update, and remove
 
 ```c
-// Create — returns the bare created record
-voxgig_value* created = detokenize->vt->create(detokenize, cmap(2, "batches", v_list(), "bfid", v_str("example_bfid")), NULL, &err);
+// Create — returns the created entity, or NULL with *err set
+Entity* created = detokenize->vt->create(detokenize, cmap(2, "batches", v_list(), "bfid", v_str("example_bfid")), NULL, &err);
 
 ```
 
@@ -80,15 +81,16 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const detokenizes = await client.Detokenize().list()
-  console.log(detokenizes)
+  const detokenizes = await client.Detokenize().list({ bfid: "example" })
+  console.log(detokenizes.map((item) => item.data()))
 } catch (err) {
   console.error('list failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -97,8 +99,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -151,10 +153,10 @@ Create a mock client for unit testing — no server required:
 BluefinShieldconexSDK* client = test_sdk(NULL, NULL);
 PNError* err = NULL;
 
-// Entity ops return the bare record and set *err on failure.
+// list returns one entity per mock record, and sets *err on failure.
 Entity* detokenize = bluefinshieldconex_detokenize(client, NULL);
-voxgig_value* detokenize_rec = detokenize->vt->list(detokenize, NULL, NULL, &err);
-// detokenize_rec contains the mock response record
+Entity** detokenizes = detokenize->vt->list(detokenize, cmap(1, "bfid", v_str("example")), NULL, &err);
+// detokenizes[i]->vt->data(detokenizes[i], NULL) is a mock record
 ```
 
 ### Use a custom fetch function
@@ -251,8 +253,8 @@ All entities share the same `EntityVT` vtable, reached via `e->vt->...`.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `list` | `(Entity*, reqmatch, ctrl, PNError**) -> voxgig_value*` | List entities matching the criteria (a List). |
-| `create` | `(Entity*, reqdata, ctrl, PNError**) -> voxgig_value*` | Create a new entity. |
+| `list` | `(Entity*, reqmatch, ctrl, PNError**) -> Entity**` | List entities matching the criteria: a `NULL`-terminated array, one per record. |
+| `create` | `(Entity*, reqdata, ctrl, PNError**) -> Entity*` | Create a new entity. |
 | `data` | `(Entity*, args) -> voxgig_value*` | Get entity data (pass a map to set). |
 | `matchv` | `(Entity*, args) -> voxgig_value*` | Get entity match criteria (pass a map to set). |
 | `make` | `(Entity*) -> Entity*` | Create a new instance with the same options. |
@@ -260,10 +262,10 @@ All entities share the same `EntityVT` vtable, reached via `e->vt->...`.
 
 ### Result shape
 
-Entity operations return the bare result data (a `voxgig_value` map for
-single-entity ops, a List for `list`) and set `*err` to a `PNError*` on
-failure. Always initialise `PNError* err = NULL;` and check it after the
-call.
+Entity operations return the entity, and `list` a `NULL`-terminated array
+of entities, one per record; `vt->data` reads an entity's record. On
+failure they return `NULL` and set `*err` to a `PNError*`. Always
+initialise `PNError* err = NULL;` and check it after the call.
 
 The `sdk_direct()` escape hatch never sets `*err` for a non-2xx response —
 it returns a result map you branch on via `getp(result, "ok")`:
@@ -363,8 +365,8 @@ Create an instance: `Entity* detokenize = bluefinshieldconex_detokenize(client, 
 
 | Method | Description |
 | --- | --- |
-| `vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
-| `vt->list(e, reqmatch, ctrl, &err)` | List entities, optionally matching the given criteria. |
+| `Entity* vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
+| `Entity** vt->list(e, reqmatch, ctrl, &err)` | List entities, optionally matching the given criteria: a `NULL`-terminated array, one per record. |
 
 #### Fields
 
@@ -382,14 +384,17 @@ Create an instance: `Entity* detokenize = bluefinshieldconex_detokenize(client, 
 
 ```c
 Entity* detokenize = bluefinshieldconex_detokenize(client, NULL);
-voxgig_value* detokenizes = detokenize->vt->list(detokenize, NULL, NULL, &err);
+Entity** detokenizes = detokenize->vt->list(detokenize, cmap(1, "bfid", v_str("example")), NULL, &err);
+for (size_t i = 0; detokenizes && detokenizes[i]; i++) {
+    printf("%s\n", voxgig_to_json(detokenizes[i]->vt->data(detokenizes[i], NULL)));
+}
 ```
 
 #### Example: Create
 
 ```c
 Entity* detokenize = bluefinshieldconex_detokenize(client, NULL);
-voxgig_value* detokenize_rec = detokenize->vt->create(detokenize, NULL, NULL, &err);
+Entity* created = detokenize->vt->create(detokenize, NULL, NULL, &err);
 ```
 
 
@@ -401,8 +406,8 @@ Create an instance: `Entity* tokenize = bluefinshieldconex_tokenize(client, NULL
 
 | Method | Description |
 | --- | --- |
-| `vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
-| `vt->list(e, reqmatch, ctrl, &err)` | List entities, optionally matching the given criteria. |
+| `Entity* vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
+| `Entity** vt->list(e, reqmatch, ctrl, &err)` | List entities, optionally matching the given criteria: a `NULL`-terminated array, one per record. |
 
 #### Fields
 
@@ -421,14 +426,17 @@ Create an instance: `Entity* tokenize = bluefinshieldconex_tokenize(client, NULL
 
 ```c
 Entity* tokenize = bluefinshieldconex_tokenize(client, NULL);
-voxgig_value* tokenizes = tokenize->vt->list(tokenize, NULL, NULL, &err);
+Entity** tokenizes = tokenize->vt->list(tokenize, cmap(1, "template_ref", v_str("example")), NULL, &err);
+for (size_t i = 0; tokenizes && tokenizes[i]; i++) {
+    printf("%s\n", voxgig_to_json(tokenizes[i]->vt->data(tokenizes[i], NULL)));
+}
 ```
 
 #### Example: Create
 
 ```c
 Entity* tokenize = bluefinshieldconex_tokenize(client, NULL);
-voxgig_value* tokenize_rec = tokenize->vt->create(tokenize, cmap(1,
+Entity* created = tokenize->vt->create(tokenize, cmap(1,
     "templateRef", v_str("example_templateRef"))  // char*
 , NULL, &err);
 ```
@@ -442,7 +450,7 @@ Create an instance: `Entity* tokenize_batch = bluefinshieldconex_tokenize_batch(
 
 | Method | Description |
 | --- | --- |
-| `vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
+| `Entity* vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
 
 #### Fields
 
@@ -456,7 +464,7 @@ Create an instance: `Entity* tokenize_batch = bluefinshieldconex_tokenize_batch(
 
 ```c
 Entity* tokenize_batch = bluefinshieldconex_tokenize_batch(client, NULL);
-voxgig_value* tokenize_batch_rec = tokenize_batch->vt->create(tokenize_batch, NULL, NULL, &err);
+Entity* created = tokenize_batch->vt->create(tokenize_batch, NULL, NULL, &err);
 ```
 
 
@@ -468,7 +476,7 @@ Create an instance: `Entity* tokenize_read = bluefinshieldconex_tokenize_read(cl
 
 | Method | Description |
 | --- | --- |
-| `vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
+| `Entity* vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
 
 #### Fields
 
@@ -484,7 +492,7 @@ Create an instance: `Entity* tokenize_read = bluefinshieldconex_tokenize_read(cl
 
 ```c
 Entity* tokenize_read = bluefinshieldconex_tokenize_read(client, NULL);
-voxgig_value* tokenize_read_rec = tokenize_read->vt->create(tokenize_read, NULL, NULL, &err);
+Entity* created = tokenize_read->vt->create(tokenize_read, NULL, NULL, &err);
 ```
 
 
@@ -496,7 +504,7 @@ Create an instance: `Entity* validate = bluefinshieldconex_validate(client, NULL
 
 | Method | Description |
 | --- | --- |
-| `vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
+| `Entity* vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
 
 #### Fields
 
@@ -510,7 +518,7 @@ Create an instance: `Entity* validate = bluefinshieldconex_validate(client, NULL
 
 ```c
 Entity* validate = bluefinshieldconex_validate(client, NULL);
-voxgig_value* validate_rec = validate->vt->create(validate, cmap(1,
+Entity* created = validate->vt->create(validate, cmap(1,
     "templateRef", v_str("example_templateRef"))  // char*
 , NULL, &err);
 ```
@@ -801,7 +809,7 @@ calls on the same instance can rely on this state.
 
 ```ts
 const detokenize = client.Detokenize()
-await detokenize.list()
+await detokenize.list({ bfid: "example" })
 
 // detokenize.data() now returns the detokenize data from the last `list`
 // detokenize.match() returns the last match criteria

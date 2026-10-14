@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import voxgig.bluefinshieldconexsdk.core.Context;
+import voxgig.bluefinshieldconexsdk.core.Helpers;
 import voxgig.bluefinshieldconexsdk.core.SdkClient;
 
 // Audit trail. Emits a structured record for every operation — who (actor),
@@ -98,6 +99,11 @@ public class AuditFeature extends BaseFeature {
     record.put("correlationId", ctx.id);
     if (ctx.result != null) {
       record.put("status", ctx.result.status);
+    }
+
+    if (ctx.utility != null && ctx.utility.clean != null) {
+      Map<String, Object> cleaned = Helpers.toMapAny(ctx.utility.clean.apply(ctx, record));
+      record = cleaned == null ? record : cleaned;
     }
 
     this.records.add(record);

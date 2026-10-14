@@ -39,6 +39,14 @@ const OPTION_APIKEY = "apikey";
 const OPTION_SECRET = "secret";
 const NOT_FOUND = "__NOTFOUND__";
 
+// The client's auth.name option, when set, replaces the name the API declares.
+fn auth_name(options: Value) []const u8 {
+    return switch (h.getpath(&.{ "auth", "name" }, options)) {
+        .string => |s| if (s.len == 0) CRED_NAME else std.ascii.allocLowerString(h.A(), s) catch CRED_NAME,
+        else => CRED_NAME,
+    };
+}
+
 // Boolean-or-absent: an option that is unset, null or a non-boolean is false
 // (core/utility.zig's is_true, which this file can no longer see).
 fn is_true(v: Value) bool {
@@ -68,6 +76,13 @@ pub fn prepare_auth_util(ctx: *Context) E!*Spec {
         return spec;
     }
 
+    const name = auth_name(options);
+
+    // A credential left under the declared name would travel beside the renamed one.
+    if (!std.mem.eql(u8, name, CRED_NAME)) {
+        h.del_prop(headers, h.vstr(CRED_NAME));
+    }
+
     const apikey = vs.getprop(h.A(), options, h.vstr(OPTION_APIKEY), h.vstr(NOT_FOUND)) catch h.vstr(NOT_FOUND);
 
     const skip = switch (apikey) {
@@ -76,9 +91,11 @@ pub fn prepare_auth_util(ctx: *Context) E!*Spec {
         else => false,
     };
 
-    // True HTTP Basic Auth needs TWO credentials, base64-joined - a single
+    // True HTTP Basic Auth joins the two credentials, base64-encoded - a single
     // token in the header (the branch below) can never authenticate against
     // an API that actually checks `Authorization: Basic base64(user:pass)`.
+    // The password may be empty (RFC 7617): Lob, for one, documents the key as
+    // the user with a blank password (`curl -u key:`).
     if (is_true(h.getpath(&.{ "auth", "basic" }, options))) {
         const secret = vs.getprop(h.A(), options, h.vstr(OPTION_SECRET), h.vstr(NOT_FOUND)) catch h.vstr(NOT_FOUND);
 
@@ -88,8 +105,8 @@ pub fn prepare_auth_util(ctx: *Context) E!*Spec {
             else => false,
         };
 
-        if (skip or no_secret) {
-            h.del_prop(headers, h.vstr(CRED_NAME));
+        if (skip) {
+            h.del_prop(headers, h.vstr(name));
         } else {
             const basic_prefix: []const u8 = switch (h.getpath(&.{ "auth", "prefix" }, options)) {
                 .string => |s| s,
@@ -99,15 +116,18 @@ pub fn prepare_auth_util(ctx: *Context) E!*Spec {
                 .string => |s| s,
                 else => "",
             };
-            const secret_val: []const u8 = switch (secret) {
+            const secret_val: []const u8 = if (no_secret) "" else switch (secret) {
                 .string => |s| s,
                 else => "",
             };
             const b64 = base64_std(fmt("{s}:{s}", .{ apikey_val, secret_val }));
+            // The joined, encoded pair is a wire form neither credential's own
+            // registration covers.
+            ctx.util().clean_add(ctx, b64);
             if (basic_prefix.len == 0) {
-                h.setp(headers, CRED_NAME, h.vstr(b64));
+                h.setp(headers, name, h.vstr(b64));
             } else {
-                h.setp(headers, CRED_NAME, h.vstr(fmt("{s} {s}", .{ basic_prefix, b64 })));
+                h.setp(headers, name, h.vstr(fmt("{s} {s}", .{ basic_prefix, b64 })));
             }
         }
 
@@ -115,7 +135,7 @@ pub fn prepare_auth_util(ctx: *Context) E!*Spec {
     }
 
     if (skip) {
-        h.del_prop(headers, h.vstr(CRED_NAME));
+        h.del_prop(headers, h.vstr(name));
     } else {
         const auth_prefix: []const u8 = switch (h.getpath(&.{ "auth", "prefix" }, options)) {
             .string => |s| s,
@@ -128,9 +148,9 @@ pub fn prepare_auth_util(ctx: *Context) E!*Spec {
         // A raw credential (empty prefix, e.g. an apiKey scheme) must go in
         // as-is; only a non-empty prefix (Bearer/Basic/OAuth) is space-joined.
         if (auth_prefix.len == 0) {
-            h.setp(headers, CRED_NAME, h.vstr(apikey_val));
+            h.setp(headers, name, h.vstr(apikey_val));
         } else {
-            h.setp(headers, CRED_NAME, h.vstr(fmt("{s} {s}", .{ auth_prefix, apikey_val })));
+            h.setp(headers, name, h.vstr(fmt("{s} {s}", .{ auth_prefix, apikey_val })));
         }
     }
 

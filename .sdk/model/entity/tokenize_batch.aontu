@@ -39,6 +39,10 @@ main: kit: entity: tokenize_batch: {
       name: "create"
       points: [
         {
+          bf: [
+            "batches"
+            "reference"
+          ]
           co: {
             id: "POST /tokenization/batch/delete"
             source: "openapi3"
@@ -46,6 +50,10 @@ main: kit: entity: tokenize_batch: {
           }
           m: "POST"
           o: "/tokenization/batch/delete"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "tokenization"
@@ -63,6 +71,10 @@ main: kit: entity: tokenize_batch: {
           }
         }
         {
+          bf: [
+            "batches"
+            "reference"
+          ]
           co: {
             id: "POST /tokenization/batch/read"
             source: "openapi3"
@@ -70,6 +82,10 @@ main: kit: entity: tokenize_batch: {
           }
           m: "POST"
           o: "/tokenization/batch/read"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "tokenization"

@@ -38,12 +38,24 @@ describe('TokenizeReadEntity', async () => {
   })
 
 
+  test('validate', async (t) => {
+    if (null == config.feature?.validate) {
+      t.skip('feature not present in this SDK: validate')
+      return
+    }
+    const client = BluefinShieldconexSDK.test(undefined, { feature: { validate: { active: true } } })
+    await assert.rejects(client.TokenizeRead().create({"bfid":1}),
+      (err) => 'validate_failed' === err.code)
+  })
+
+
+
   test('basic', async (t) => {
 
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"bfid":{"a":true,"h":"Bfid","n":"bfid","op":{"create":{"req":true,"type":"`$STRING`"}},"r":false,"sh":"The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).","t":"`$STRING`","key$":"bfid","index$":0},"messageId":{"a":true,"h":"Message Id","n":"messageId","r":false,"sh":"Message Id","t":"`$STRING`","key$":"messageId","index$":1},"reference":{"a":true,"h":"Reference","n":"reference","r":false,"sh":"Request Reference.","t":"`$STRING`","key$":"reference","index$":2},"state":{"a":true,"h":"State","n":"state","r":false,"sh":"Tokenized State Data (if available)","t":"`$OBJECT`","key$":"state","index$":3},"values":{"a":true,"h":"Values","n":"values","r":false,"t":"`$ARRAY`","key$":"values","index$":4}},"name":"tokenize_read","op":{"create":{"input":"data","name":"create","points":[{"a":true,"co":{"id":"POST /tokenization/read","source":"openapi3","version":2},"g":{},"k":"http","m":"POST","o":"/tokenization/read","q":{},"r":{},"s":[{"lit":"tokenization"},{"lit":"read"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"create"}},"relations":{"ancestors":[]},"key$":"tokenize_read","name__orig":"tokenize_read","Name":"TokenizeRead","name_":"tokenize_read","name-":"tokenize-read","NAME":"TOKENIZE_READ","index$":3}, {"active":true,"entity":"tokenize_read","key$":"BasicTokenizeReadFlow","kind":"basic","name":"BasicTokenizeReadFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"tokenize_read_ref01"},"m":{},"o":"create","s":[],"v":[],"index$":0}]}, 'TokenizeRead', {"POST /tokenization/read":{"protocol":"http","requestBody":{"description":"Tokenized data query.","content":{"application/json":{"schema":{"required":["bfid"],"type":"object","properties":{"reference":{"type":"string","description":"Request Reference. This is a reference value that Developers can use to track API requests and responses. It is solely for tracking purposes.","key$":"reference"},"bfid":{"type":"string","description":"The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).  The BFID refers to that specific tokenization request and is necessary for tokenization and detokenization.","key$":"bfid"}},"description":"This request (TOKENIZATION/READ) is intended to be used to read data that was entered into a ShieldConex iFrame element (this cannot be used for API only transactions). The BFID that is created during a tokenization request is used to recall the data was used during a tokenize request. The response values would be tokenized. This activity can only be performed once per BFID.","x-ref":"#/components/schemas/TokenizeReadRequest","index$":1}}},"required":true},"parameters":[]}})
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"bfid":{"a":true,"h":"Bfid","n":"bfid","op":{"create":{"req":true,"type":"`$STRING`"}},"r":false,"sh":"The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).","t":"`$STRING`","key$":"bfid","index$":0},"messageId":{"a":true,"h":"Message Id","n":"messageId","r":false,"sh":"Message Id","t":"`$STRING`","key$":"messageId","index$":1},"reference":{"a":true,"h":"Reference","n":"reference","r":false,"sh":"Request Reference.","t":"`$STRING`","key$":"reference","index$":2},"state":{"a":true,"h":"State","n":"state","r":false,"sh":"Tokenized State Data (if available)","t":"`$OBJECT`","key$":"state","index$":3},"values":{"a":true,"h":"Values","n":"values","r":false,"t":"`$ARRAY`","key$":"values","index$":4}},"name":"tokenize_read","op":{"create":{"input":"data","name":"create","points":[{"a":true,"bf":["bfid","reference"],"co":{"id":"POST /tokenization/read","source":"openapi3","version":2},"g":{},"k":"http","m":"POST","o":"/tokenization/read","q":{},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"tokenization"},{"lit":"read"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"create"}},"relations":{"ancestors":[]},"key$":"tokenize_read","name__orig":"tokenize_read","Name":"TokenizeRead","name_":"tokenize_read","name-":"tokenize-read","NAME":"TOKENIZE_READ","index$":3}, {"active":true,"entity":"tokenize_read","key$":"BasicTokenizeReadFlow","kind":"basic","name":"BasicTokenizeReadFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"tokenize_read_ref01"},"m":{},"o":"create","s":[],"v":[],"index$":0}]}, 'TokenizeRead', {"POST /tokenization/read":{"protocol":"http","requestBody":{"description":"Tokenized data query.","content":{"application/json":{"schema":{"required":["bfid"],"type":"object","properties":{"reference":{"type":"string","description":"Request Reference. This is a reference value that Developers can use to track API requests and responses. It is solely for tracking purposes.","key$":"reference"},"bfid":{"type":"string","description":"The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).  The BFID refers to that specific tokenization request and is necessary for tokenization and detokenization.","key$":"bfid"}},"description":"This request (TOKENIZATION/READ) is intended to be used to read data that was entered into a ShieldConex iFrame element (this cannot be used for API only transactions). The BFID that is created during a tokenization request is used to recall the data was used during a tokenize request. The response values would be tokenized. This activity can only be performed once per BFID.","x-ref":"#/components/schemas/TokenizeReadRequest","index$":1}}},"required":true},"parameters":[]}}, { strict: LIVE_STRICT, t })
     }
     const client = setup.client
     const struct = setup.struct
@@ -64,6 +76,12 @@ describe('TokenizeReadEntity', async () => {
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function basicSetup(extra) {
   // TODO: fix test def options

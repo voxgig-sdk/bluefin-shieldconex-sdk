@@ -38,12 +38,73 @@ describe('DetokenizeEntity', async () => {
   })
 
 
+  class FailHook extends BaseFeature {
+    constructor() {
+      super()
+      this.name = 'failhook'
+      this.version = '0.0.1'
+      this.active = true
+      this.unexpected = 0
+    }
+    init() { }
+    PreSpec() { throw new Error('detokenize hook failed') }
+    PreUnexpected() { this.unexpected++ }
+  }
+
+  test('stream-error', async () => {
+    const offline = { net: { offline: true } }
+    await assert.rejects(async () => {
+      for await (const _item of BluefinShieldconexSDK.test(offline).Detokenize().stream('list')) { }
+    }, /offline/)
+
+    for await (const _item of BluefinShieldconexSDK.test(offline).Detokenize()
+      .stream('list', undefined, { ctrl: { throw: false } })) { }
+
+    if (null != config.feature?.rbac) {
+      const denied = BluefinShieldconexSDK.test(undefined, { feature: { rbac: { active: true, deny: true } } })
+      await assert.rejects(async () => {
+        for await (const _item of denied.Detokenize().stream('list')) { }
+      }, (err) => 'rbac_denied' === err.code)
+    }
+  })
+
+  test('stream-ctrl', async () => {
+    const explain = {}
+    const ctrl = { explain }
+    for await (const _item of BluefinShieldconexSDK.test().Detokenize().stream('list', undefined, { ctrl })) { }
+    assert.deepStrictEqual(Object.keys(ctrl), ['explain'])
+    assert(explain === ctrl.explain && 0 < Object.keys(explain).length)
+  })
+
+  test('unexpected', async () => {
+    const hook = new FailHook()
+    const client = new BluefinShieldconexSDK({ feature: { test: { active: true } }, extend: [hook] })
+    await assert.rejects(client.Detokenize().list(), /hook failed/)
+    assert(0 < hook.unexpected)
+
+    const fired = hook.unexpected
+    assert.strictEqual(await client.Detokenize().list(undefined, { throw: false }), undefined)
+    assert(fired < hook.unexpected)
+  })
+
+  test('validate', async (t) => {
+    if (null == config.feature?.validate) {
+      t.skip('feature not present in this SDK: validate')
+      return
+    }
+    const client = BluefinShieldconexSDK.test(undefined, { feature: { validate: { active: true } } })
+    await assert.rejects(client.Detokenize().list({"bfid":1}),
+      (err) => 'validate_failed' === err.code)
+  })
+
+
+
   test('basic', async (t) => {
 
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"batches":{"a":true,"h":"Batches","n":"batches","op":{"create":{"req":true,"type":"`$ARRAY`"}},"r":false,"t":"`$ARRAY`","key$":"batches","index$":0},"bfid":{"a":true,"h":"Bfid","n":"bfid","op":{"create":{"req":true,"type":"`$STRING`"}},"r":false,"sh":"The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).","t":"`$STRING`","key$":"bfid","index$":1},"messageId":{"a":true,"h":"Message Id","n":"messageId","r":false,"sh":"Message Id","t":"`$STRING`","key$":"messageId","index$":2},"name":{"a":true,"h":"Name","n":"name","r":false,"sh":"Field Name.","t":"`$STRING`","key$":"name","index$":3},"reference":{"a":true,"h":"Reference","n":"reference","r":false,"sh":"Request Reference.","t":"`$STRING`","key$":"reference","index$":4},"value":{"a":true,"h":"Value","n":"value","r":false,"sh":"Field Value.","t":"`$STRING`","key$":"value","index$":5},"values":{"a":true,"h":"Values","n":"values","op":{"create":{"req":true,"type":"`$ARRAY`"}},"r":false,"t":"`$ARRAY`","key$":"values","index$":6}},"name":"detokenize","op":{"create":{"input":"data","name":"create","points":[{"a":true,"co":{"id":"POST /tokenization/batch/detokenize","source":"openapi3","version":2},"g":{},"k":"http","m":"POST","o":"/tokenization/batch/detokenize","q":{},"r":{},"s":[{"lit":"tokenization"},{"lit":"batch"},{"lit":"detokenize"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0},{"a":true,"co":{"id":"POST /tokenization/detokenize","source":"openapi3","version":2},"g":{},"k":"http","m":"POST","o":"/tokenization/detokenize","q":{},"r":{},"s":[{"lit":"tokenization"},{"lit":"detokenize"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"create"},"list":{"input":"data","name":"list","points":[{"a":true,"co":{"id":"GET /healthcheck/detokenize","source":"openapi3","version":2},"g":{"query":[{"a":true,"k":"query","n":"bfid","or":"bfid","r":true,"t":"`$STRING`","index$":0},{"a":true,"k":"query","n":"field_name","or":"field_name","r":false,"t":"`$STRING`","index$":1},{"a":true,"k":"query","n":"field_value","or":"field_value","r":false,"t":"`$STRING`","index$":2},{"a":true,"k":"query","n":"reference","or":"reference","r":false,"t":"`$STRING`","index$":3}]},"k":"http","m":"GET","o":"/healthcheck/detokenize","q":{"exist":["bfid","field_name","field_value","reference"]},"r":{},"s":[{"lit":"healthcheck"},{"lit":"detokenize"}],"t":{"req":"`reqdata`","res":"`body.values`"},"index$":0}],"key$":"list"}},"relations":{"ancestors":[]},"key$":"detokenize","name__orig":"detokenize","Name":"Detokenize","name_":"detokenize","name-":"detokenize","NAME":"DETOKENIZE","index$":0}, {"active":true,"entity":"detokenize","key$":"BasicDetokenizeFlow","kind":"basic","name":"BasicDetokenizeFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"detokenize_ref01"},"m":{},"o":"create","s":[],"v":[],"index$":0},{"a":true,"d":{},"i":{},"m":{},"o":"list","s":[],"v":[{"apply":"ItemExists","def":{"ref":"detokenize_ref01"}}],"index$":1}]}, 'Detokenize', {"POST /tokenization/batch/detokenize":{"protocol":"http","requestBody":{"description":"Batch data to be detokenized.","content":{"application/json":{"schema":{"required":["batches"],"type":"object","properties":{"reference":{"type":"string","description":"Batch Request Reference","key$":"reference"},"batches":{"type":"array","items":{"type":"object","properties":{"reference":{"type":"string","description":"Batch Item Request Reference. This is a reference value that Developers can use to track API requests and responses. It is solely for tracking purposes."},"bfid":{"type":"string","description":"The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).  The BFID refers to that specific tokenization request and is necessary for tokenization and detokenization."},"values":{"type":"array","items":{}}},"description":"Field Data","x-ref":"#/components/schemas/DetokenizeBatchRequestItemData"},"key$":"batches"}},"description":"Batch data to be detokenized","x-ref":"#/components/schemas/DetokenizeBatchRequest","index$":1}}},"required":true},"parameters":[]},"POST /tokenization/detokenize":{"protocol":"http","requestBody":{"description":"Data to be detokenized.","content":{"application/json":{"schema":{"required":["bfid","values"],"type":"object","properties":{"reference":{"type":"string","description":"Request Reference. This is a reference value that Developers can use to track API requests and responses. It is solely for tracking purposes.","key$":"reference"},"bfid":{"type":"string","description":"The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).  The BFID refers to that specific tokenization request and is necessary for tokenization and detokenization.","key$":"bfid"},"values":{"type":"array","items":{"type":"object","properties":{"name":{"type":"string","description":"Field Name. This refers to the name of a field within a template."},"value":{"type":"string","description":"Field Value. This is to the encrypted value of a field. This is the data that requires detokenization."}},"description":"Field Data","x-ref":"#/components/schemas/DetokenizeRequestItemData"},"key$":"values"}},"description":"Data to be detokenized","x-ref":"#/components/schemas/DetokenizeRequest","index$":1}}},"required":true},"parameters":[]},"GET /healthcheck/detokenize":{"protocol":"http","parameters":[{"name":"bfid","in":"query","description":"The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).  The BFID refers to that specific tokenization request and is necessary for tokenization and detokenization.","required":true,"schema":{"type":"string"},"index$":0},{"name":"reference","in":"query","description":"Request Reference. This is a reference value that Developers can use to track API requests and responses. It is solely for tracking purposes.","schema":{"type":"string"},"index$":1},{"name":"fieldNames","in":"query","description":"Field names split by |. This refers to the names of the fields within a template.","schema":{"type":"string"},"index$":2},{"name":"fieldValues","in":"query","description":"Field values split by |. This is the encrypted data that requires detokenization.","schema":{"type":"string"},"index$":3}]}})
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"batches":{"a":true,"h":"Batches","n":"batches","op":{"create":{"req":true,"type":"`$ARRAY`"}},"r":false,"t":"`$ARRAY`","key$":"batches","index$":0},"bfid":{"a":true,"h":"Bfid","n":"bfid","op":{"create":{"req":true,"type":"`$STRING`"}},"r":false,"sh":"The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).","t":"`$STRING`","key$":"bfid","index$":1},"messageId":{"a":true,"h":"Message Id","n":"messageId","r":false,"sh":"Message Id","t":"`$STRING`","key$":"messageId","index$":2},"name":{"a":true,"h":"Name","n":"name","r":false,"sh":"Field Name.","t":"`$STRING`","key$":"name","index$":3},"reference":{"a":true,"h":"Reference","n":"reference","r":false,"sh":"Request Reference.","t":"`$STRING`","key$":"reference","index$":4},"value":{"a":true,"h":"Value","n":"value","r":false,"sh":"Field Value.","t":"`$STRING`","key$":"value","index$":5},"values":{"a":true,"h":"Values","n":"values","op":{"create":{"req":true,"type":"`$ARRAY`"}},"r":false,"t":"`$ARRAY`","key$":"values","index$":6}},"name":"detokenize","op":{"create":{"input":"data","name":"create","points":[{"a":true,"bf":["batches","reference"],"co":{"id":"POST /tokenization/batch/detokenize","source":"openapi3","version":2},"g":{},"k":"http","m":"POST","o":"/tokenization/batch/detokenize","q":{},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"tokenization"},{"lit":"batch"},{"lit":"detokenize"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0},{"a":true,"bf":["bfid","reference","values"],"co":{"id":"POST /tokenization/detokenize","source":"openapi3","version":2},"g":{},"k":"http","m":"POST","o":"/tokenization/detokenize","q":{},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"tokenization"},{"lit":"detokenize"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":1}],"key$":"create"},"list":{"input":"data","name":"list","points":[{"a":true,"co":{"id":"GET /healthcheck/detokenize","source":"openapi3","version":2},"g":{"query":[{"a":true,"k":"query","n":"bfid","or":"bfid","r":true,"t":"`$STRING`","index$":0},{"a":true,"k":"query","n":"field_name","or":"fieldNames","r":false,"t":"`$STRING`","index$":1},{"a":true,"k":"query","n":"field_value","or":"fieldValues","r":false,"t":"`$STRING`","index$":2},{"a":true,"k":"query","n":"reference","or":"reference","r":false,"t":"`$STRING`","index$":3}]},"k":"http","m":"GET","o":"/healthcheck/detokenize","q":{"exist":["bfid"]},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"healthcheck"},{"lit":"detokenize"}],"t":{"req":"`reqdata`","res":"`body.values`"},"index$":0}],"key$":"list"}},"relations":{"ancestors":[]},"key$":"detokenize","name__orig":"detokenize","Name":"Detokenize","name_":"detokenize","name-":"detokenize","NAME":"DETOKENIZE","index$":0}, {"active":true,"entity":"detokenize","key$":"BasicDetokenizeFlow","kind":"basic","name":"BasicDetokenizeFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"detokenize_ref01"},"m":{},"o":"create","s":[],"v":[],"index$":0},{"a":true,"d":{},"i":{},"m":{},"o":"list","s":[],"v":[{"apply":"ItemExists","def":{"ref":"detokenize_ref01"}}],"index$":1}]}, 'Detokenize', {"POST /tokenization/batch/detokenize":{"protocol":"http","requestBody":{"description":"Batch data to be detokenized.","content":{"application/json":{"schema":{"required":["batches"],"type":"object","properties":{"reference":{"type":"string","description":"Batch Request Reference","key$":"reference"},"batches":{"type":"array","items":{"type":"object","properties":{"reference":{"type":"string","description":"Batch Item Request Reference. This is a reference value that Developers can use to track API requests and responses. It is solely for tracking purposes."},"bfid":{"type":"string","description":"The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).  The BFID refers to that specific tokenization request and is necessary for tokenization and detokenization."},"values":{"type":"array","items":{}}},"description":"Field Data","x-ref":"#/components/schemas/DetokenizeBatchRequestItemData"},"key$":"batches"}},"description":"Batch data to be detokenized","x-ref":"#/components/schemas/DetokenizeBatchRequest","index$":1}}},"required":true},"parameters":[]},"POST /tokenization/detokenize":{"protocol":"http","requestBody":{"description":"Data to be detokenized.","content":{"application/json":{"schema":{"required":["bfid","values"],"type":"object","properties":{"reference":{"type":"string","description":"Request Reference. This is a reference value that Developers can use to track API requests and responses. It is solely for tracking purposes.","key$":"reference"},"bfid":{"type":"string","description":"The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).  The BFID refers to that specific tokenization request and is necessary for tokenization and detokenization.","key$":"bfid"},"values":{"type":"array","items":{"type":"object","properties":{"name":{"type":"string","description":"Field Name. This refers to the name of a field within a template."},"value":{"type":"string","description":"Field Value. This is to the encrypted value of a field. This is the data that requires detokenization."}},"description":"Field Data","x-ref":"#/components/schemas/DetokenizeRequestItemData"},"key$":"values"}},"description":"Data to be detokenized","x-ref":"#/components/schemas/DetokenizeRequest","index$":1}}},"required":true},"parameters":[]},"GET /healthcheck/detokenize":{"protocol":"http","parameters":[{"name":"bfid","in":"query","description":"The BFID, or Bluefin ID, is the value that is created when a tokenization request is made (i.e., it is the value retrieved from an iFrame transaction, or a /tokenization/tokenize request).  The BFID refers to that specific tokenization request and is necessary for tokenization and detokenization.","required":true,"schema":{"type":"string"},"index$":0},{"name":"reference","in":"query","description":"Request Reference. This is a reference value that Developers can use to track API requests and responses. It is solely for tracking purposes.","schema":{"type":"string"},"index$":1},{"name":"fieldNames","in":"query","description":"Field names split by |. This refers to the names of the fields within a template.","schema":{"type":"string"},"index$":2},{"name":"fieldValues","in":"query","description":"Field values split by |. This is the encrypted data that requires detokenization.","schema":{"type":"string"},"index$":3}]}}, { strict: LIVE_STRICT, t })
     }
     const client = setup.client
     const struct = setup.struct
@@ -70,6 +131,12 @@ describe('DetokenizeEntity', async () => {
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function basicSetup(extra) {
   // TODO: fix test def options

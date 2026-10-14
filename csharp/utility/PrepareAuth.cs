@@ -12,6 +12,11 @@ public static partial class SdkUtility
     private const string OptionSecret = "secret";
     private const string NotFound = "__NOTFOUND__";
 
+    // The client's auth.name option, when set, replaces the name the API declares.
+    private static string PrepareAuthName(object? options) =>
+        StructUtils.GetPath(options, StructUtils.Jt("auth", "name")) is string name && name != ""
+            ? name.ToLowerInvariant() : HeaderAuth;
+
     internal static Spec PrepareAuthUtil(Context ctx)
     {
         var spec = ctx.Spec ?? throw ctx.MakeError("auth_no_spec",
@@ -27,12 +32,22 @@ public static partial class SdkUtility
             return spec;
         }
 
+        var name = PrepareAuthName(options);
+
+        // A credential left under the declared name would travel beside the renamed one.
+        if (name != HeaderAuth)
+        {
+            headers.Remove(HeaderAuth);
+        }
+
         var apikey = StructUtils.GetProp(options, OptionApikey, NotFound);
 
-        // True HTTP Basic Auth needs TWO credentials, base64-joined - a
+        // True HTTP Basic Auth joins the two credentials, base64-encoded - a
         // single token in the header (the branch below) can never
         // authenticate against an API that actually checks
-        // `Authorization: Basic base64(user:pass)`.
+        // `Authorization: Basic base64(user:pass)`. The password may be
+        // empty (RFC 7617): Lob, for one, documents the key as the user with
+        // a blank password (`curl -u key:`).
         if (StructUtils.GetPath(options, StructUtils.Jt("auth", "basic")) is bool isBasic &&
             isBasic)
         {
@@ -43,9 +58,9 @@ public static partial class SdkUtility
             var noSecret = secret == null ||
                 (secret is string skStr && (skStr == NotFound || skStr == ""));
 
-            if (noApikey || noSecret)
+            if (noApikey)
             {
-                headers.Remove(HeaderAuth);
+                headers.Remove(name);
             }
             else
             {
@@ -55,8 +70,11 @@ public static partial class SdkUtility
                     basicPrefix = bp;
                 }
                 var b64 = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(
-                    (apikey as string ?? "") + ":" + (secret as string ?? "")));
-                headers[HeaderAuth] = basicPrefix == ""
+                    (apikey as string ?? "") + ":" + (noSecret ? "" : secret as string ?? "")));
+                // The joined, encoded pair is a wire form neither credential's
+                // own registration covers.
+                ctx.Utility!.CleanAdd(ctx, b64);
+                headers[name] = basicPrefix == ""
                     ? b64
                     : basicPrefix + " " + b64;
             }
@@ -69,7 +87,7 @@ public static partial class SdkUtility
 
         if (skip)
         {
-            headers.Remove(HeaderAuth);
+            headers.Remove(name);
         }
         else
         {
@@ -80,7 +98,7 @@ public static partial class SdkUtility
             }
             var apikeyVal = apikey as string ?? "";
             // Empty prefix (raw apiKey credential) must not add a leading space.
-            headers[HeaderAuth] = authPrefix == ""
+            headers[name] = authPrefix == ""
                 ? apikeyVal
                 : authPrefix + " " + apikeyVal;
         }

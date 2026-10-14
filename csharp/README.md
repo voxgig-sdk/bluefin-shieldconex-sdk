@@ -15,7 +15,7 @@ keeps the cognitive load low.
 
 ## Install
 This package is not yet published to NuGet. Install it from the GitHub
-release tag (`csharp/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/releases)) or
+release tag (`csharp/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags)) or
 from a source checkout — build the library and add a project reference:
 
 ```bash
@@ -32,6 +32,7 @@ loading a specific record.
 
 ```csharp
 using BluefinShieldconexSdk;
+using Voxgig.Struct;
 
 var client = new BluefinShieldconexSDK(new Dictionary<string, object?>
 {
@@ -41,14 +42,17 @@ var client = new BluefinShieldconexSDK(new Dictionary<string, object?>
 
 ### 2. List detokenize records
 
-`List(null)` returns an aggregate list of records (as `object?`) and raises
-on error.
+`List(null)` returns a list of entities, one per record (as `object?`), and
+raises on error; an entity's `Data()` reads its record.
 
 ```csharp
 try
 {
-    var detokenizeList = client.Detokenize().List(null);
-    Console.WriteLine(detokenizeList);
+    var detokenizeList = (List<object?>)client.Detokenize().List(new Dictionary<string, object?> { ["bfid"] = "example" })!;
+    foreach (var detokenizeItem in detokenizeList)
+    {
+        Console.WriteLine(StructUtils.Jsonify(((IEntity)detokenizeItem!).Data()));
+    }
 }
 catch (Exception err)
 {
@@ -59,7 +63,7 @@ catch (Exception err)
 ### 4. Create, update, and remove
 
 ```csharp
-// Create — returns the bare created record (as object?)
+// Create — returns the created entity (as object?)
 var created = client.Detokenize().Create(new Dictionary<string, object?> { ["batches"] = new List<object?>(), ["bfid"] = "example_bfid" });
 
 ```
@@ -71,15 +75,16 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const detokenizes = await client.Detokenize().list()
-  console.log(detokenizes)
+  const detokenizes = await client.Detokenize().list({ bfid: "example" })
+  console.log(detokenizes.map((item) => item.data()))
 } catch (err) {
   console.error('list failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -88,8 +93,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -147,10 +152,12 @@ Create a mock client for unit testing — no server required:
 ```csharp
 var client = BluefinShieldconexSDK.TestSDK(null, null);
 
-// Entity ops return the bare record and raise on error.
-var detokenize = client.Detokenize().List(null);
-// detokenize holds the mock response record
-Console.WriteLine(detokenize);
+// List returns a list of entities, one per mock record; it raises on error.
+var detokenizeList = (List<object?>)client.Detokenize().List(new Dictionary<string, object?> { ["bfid"] = "example" })!;
+foreach (var detokenizeItem in detokenizeList)
+{
+    Console.WriteLine(StructUtils.Jsonify(((IEntity)detokenizeItem!).Data()));
+}
 ```
 
 ### Use a custom fetch function
@@ -243,8 +250,8 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `List` | `(reqmatch, ctrl) -> object?` | List entities matching the criteria (an aggregate list). Raises on error. |
-| `Create` | `(reqdata, ctrl) -> object?` | Create a new entity. Raises on error. |
+| `List` | `(reqmatch, ctrl) -> object?` | List entities matching the criteria, one per record. Raises on error. |
+| `Create` | `(reqdata, ctrl) -> object?` | Create a new entity, and return it. Raises on error. |
 | `Data` | `(newdata) -> object?` | Get or set entity data. |
 | `Match` | `(newmatch) -> object?` | Get or set entity match criteria. |
 | `Make` | `() -> IEntity` | Create a new instance with the same options. |
@@ -252,9 +259,10 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (a `Dictionary` for
-single-entity ops, an aggregate list for `List`) as `object?` and raise on
-error. Wrap calls in `try`/`catch` to handle failures.
+Entity operations return the entity, and `List` a list of entities, one per
+record, as `object?`; an entity is an `IEntity`, whose `Data()` reads its
+record. They raise on error, so wrap calls in `try`/`catch` to handle
+failures.
 
 The `Direct()` escape hatch never raises — it returns a result
 `Dictionary<string, object?>` you branch on via `result["ok"]`:
@@ -372,7 +380,7 @@ Create an instance: `var detokenize = client.Detokenize();`
 #### Example: List
 
 ```csharp
-var detokenizeList = client.Detokenize().List(null);
+var detokenizeList = client.Detokenize().List(new Dictionary<string, object?> { ["bfid"] = "example" });
 ```
 
 #### Example: Create
@@ -411,7 +419,7 @@ Create an instance: `var tokenize = client.Tokenize();`
 #### Example: List
 
 ```csharp
-var tokenizeList = client.Tokenize().List(null);
+var tokenizeList = client.Tokenize().List(new Dictionary<string, object?> { ["template_ref"] = "example" });
 ```
 
 #### Example: Create
@@ -780,7 +788,7 @@ calls on the same instance can rely on this state.
 
 ```ts
 const detokenize = client.Detokenize()
-await detokenize.list()
+await detokenize.list({ bfid: "example" })
 
 // detokenize.data() now returns the detokenize data from the last `list`
 // detokenize.match() returns the last match criteria

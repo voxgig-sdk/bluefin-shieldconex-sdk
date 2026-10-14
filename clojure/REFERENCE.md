@@ -128,9 +128,9 @@ Prepare a fetch definition without sending. Returns the `fetchdef` and raises on
 
 ### Operations
 
-#### `(create ent reqdata ctrl) -> map`
+#### `(create ent reqdata ctrl) -> entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```clojure
 (def result
@@ -142,11 +142,11 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 #### `(list ent reqmatch ctrl) -> vector`
 
-List entities matching the given criteria. The match is optional — call with `nil` to list all records. Returns a vector and raises on error.
+List entities matching the given criteria. The match is optional — call with `nil` to list all records. Returns a vector of entities, one per record, and raises on error.
 
 ```clojure
-(doseq [detokenize (e-detokenize/list (api/detokenize client nil) nil nil)]
-  (println detokenize))
+(doseq [detokenize (e-detokenize/list (api/detokenize client nil) (vs/jm "bfid" "example") nil)]
+  (println ((:data-get detokenize))))
 ```
 
 ### Common Members
@@ -216,9 +216,9 @@ Return the entity name.
 
 ### Operations
 
-#### `(create ent reqdata ctrl) -> map`
+#### `(create ent reqdata ctrl) -> entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```clojure
 (def result
@@ -231,11 +231,11 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 #### `(list ent reqmatch ctrl) -> vector`
 
-List entities matching the given criteria. The match is optional — call with `nil` to list all records. Returns a vector and raises on error.
+List entities matching the given criteria. The match is optional — call with `nil` to list all records. Returns a vector of entities, one per record, and raises on error.
 
 ```clojure
-(doseq [tokenize (e-tokenize/list (api/tokenize client nil) nil nil)]
-  (println tokenize))
+(doseq [tokenize (e-tokenize/list (api/tokenize client nil) (vs/jm "template_ref" "example") nil)]
+  (println ((:data-get tokenize))))
 ```
 
 ### Common Members
@@ -295,9 +295,9 @@ Return the entity name.
 
 ### Operations
 
-#### `(create ent reqdata ctrl) -> map`
+#### `(create ent reqdata ctrl) -> entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```clojure
 (def result
@@ -368,9 +368,9 @@ Return the entity name.
 
 ### Operations
 
-#### `(create ent reqdata ctrl) -> map`
+#### `(create ent reqdata ctrl) -> entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```clojure
 (def result
@@ -429,9 +429,9 @@ Return the entity name.
 
 ### Operations
 
-#### `(create ent reqdata ctrl) -> map`
+#### `(create ent reqdata ctrl) -> entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```clojure
 (def result
@@ -895,6 +895,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

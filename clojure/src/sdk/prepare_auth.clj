@@ -11,6 +11,11 @@
 (def OPTION-SECRET "secret")
 (def NOT-FOUND "__NOTFOUND__")
 
+;; The client's auth.name option, when set, replaces the name the API declares.
+(defn- prepare-auth-name [options]
+  (let [given (vs/getpath options "auth.name")]
+    (if (and (string? given) (not= "" given)) (.toLowerCase ^String given java.util.Locale/ROOT) HEADER-AUTH)))
+
 (defn u-prepare-auth [ctx]
   (let [spec (oget ctx :spec)]
     (if (nil? spec) [nil (ctx-error ctx "auth_no_spec" "Expected context spec property to be defined.")]
@@ -19,26 +24,34 @@
           (if (nil? (vs/getprop options "auth"))
             ;; Public APIs that need no auth omit the options.auth block entirely.
             (do (vs/delprop headers HEADER-AUTH) [spec nil])
-            (let [apikey (vs/getprop options OPTION-APIKEY NOT-FOUND)]
-              ;; True HTTP Basic Auth needs TWO credentials, base64-joined - a
-              ;; single token in the header (the branch below) can never
+            (let [cred (prepare-auth-name options)
+                  apikey (vs/getprop options OPTION-APIKEY NOT-FOUND)]
+              ;; A credential left under the declared name would travel beside the renamed one.
+              (when (not= cred HEADER-AUTH) (vs/delprop headers HEADER-AUTH))
+              ;; True HTTP Basic Auth joins the two credentials, base64-encoded -
+              ;; a single token in the header (the branch below) can never
               ;; authenticate against an API that actually checks
-              ;; `Authorization: Basic base64(user:pass)`.
+              ;; `Authorization: Basic base64(user:pass)`. The password may
+              ;; be empty (RFC 7617): Lob, for one, documents the key as the
+              ;; user with a blank password (`curl -u key:`).
               (if (= true (vs/getpath options "auth.basic"))
                 (let [secret (vs/getprop options OPTION-SECRET NOT-FOUND)
                       missing? (fn [v] (or (nil? v)
                                            (and (string? v) (or (= v NOT-FOUND) (= v "")))))]
-                  (if (or (missing? apikey) (missing? secret))
-                    (vs/delprop headers HEADER-AUTH)
+                  (if (missing? apikey)
+                    (vs/delprop headers cred)
                     (let [auth-prefix (or (vs/getpath options "auth.prefix") "")
                           b64 (.encodeToString (java.util.Base64/getEncoder)
-                                               (.getBytes ^String (str apikey ":" secret) "UTF-8"))]
-                      (.put ^java.util.Map headers HEADER-AUTH
+                                               (.getBytes ^String (str apikey ":" (if (missing? secret) "" secret)) "UTF-8"))]
+                      ;; The joined, encoded pair is a wire form neither
+                      ;; credential's own registration covers.
+                      (ucall ctx :clean-add b64)
+                      (.put ^java.util.Map headers cred
                             (if (= auth-prefix "") b64 (str auth-prefix " " b64))))))
                 (if (or (nil? apikey) (and (string? apikey) (or (= apikey NOT-FOUND) (= apikey ""))))
-                  (vs/delprop headers HEADER-AUTH)
+                  (vs/delprop headers cred)
                   (let [auth-prefix (or (vs/getpath options "auth.prefix") "")
                         apikey-val (if (string? apikey) apikey "")]
-                    (.put ^java.util.Map headers HEADER-AUTH
+                    (.put ^java.util.Map headers cred
                           (if (= auth-prefix "") apikey-val (str auth-prefix " " apikey-val))))))
               [spec nil]))))))

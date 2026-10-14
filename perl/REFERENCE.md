@@ -127,9 +127,9 @@ my $detokenize = $client->Detokenize;
 
 ### Operations
 
-#### `create($reqdata, $ctrl) -> hashref`
+#### `create($reqdata, $ctrl) -> DetokenizeEntity`
 
-Create a new entity with the given data. Returns the created entity data and dies on error.
+Create a new entity with the given data. Returns the created entity and dies on error.
 
 ```perl
 my $result = $client->Detokenize->create({
@@ -138,12 +138,12 @@ my $result = $client->Detokenize->create({
 
 #### `list($reqmatch, $ctrl) -> arrayref`
 
-List entities matching the given criteria. The match is optional — call `list` with no argument to list all records. Returns an arrayref and dies on error.
+List entities matching the given criteria. The match is optional — call `list` with no argument to list all records. Returns an arrayref of entities, one per record (`data_get` reads each record), and dies on error.
 
 ```perl
-my $results = $client->Detokenize->list;
+my $results = $client->Detokenize->list({ 'bfid' => 'example' });
 for my $detokenize (@$results) {
-    print "$detokenize->{id}\n";
+    print $detokenize->data_get->{id}, "\n";
 }
 ```
 
@@ -210,9 +210,9 @@ my $tokenize = $client->Tokenize;
 
 ### Operations
 
-#### `create($reqdata, $ctrl) -> hashref`
+#### `create($reqdata, $ctrl) -> TokenizeEntity`
 
-Create a new entity with the given data. Returns the created entity data and dies on error.
+Create a new entity with the given data. Returns the created entity and dies on error.
 
 ```perl
 my $result = $client->Tokenize->create({
@@ -222,12 +222,12 @@ my $result = $client->Tokenize->create({
 
 #### `list($reqmatch, $ctrl) -> arrayref`
 
-List entities matching the given criteria. The match is optional — call `list` with no argument to list all records. Returns an arrayref and dies on error.
+List entities matching the given criteria. The match is optional — call `list` with no argument to list all records. Returns an arrayref of entities, one per record (`data_get` reads each record), and dies on error.
 
 ```perl
-my $results = $client->Tokenize->list;
+my $results = $client->Tokenize->list({ 'template_ref' => 'example' });
 for my $tokenize (@$results) {
-    print "$tokenize->{id}\n";
+    print $tokenize->data_get->{id}, "\n";
 }
 ```
 
@@ -284,9 +284,9 @@ my $tokenize_batch = $client->TokenizeBatch;
 
 ### Operations
 
-#### `create($reqdata, $ctrl) -> hashref`
+#### `create($reqdata, $ctrl) -> TokenizeBatchEntity`
 
-Create a new entity with the given data. Returns the created entity data and dies on error.
+Create a new entity with the given data. Returns the created entity and dies on error.
 
 ```perl
 my $result = $client->TokenizeBatch->create({
@@ -350,9 +350,9 @@ my $tokenize_read = $client->TokenizeRead;
 
 ### Operations
 
-#### `create($reqdata, $ctrl) -> hashref`
+#### `create($reqdata, $ctrl) -> TokenizeReadEntity`
 
-Create a new entity with the given data. Returns the created entity data and dies on error.
+Create a new entity with the given data. Returns the created entity and dies on error.
 
 ```perl
 my $result = $client->TokenizeRead->create({
@@ -404,9 +404,9 @@ my $validate = $client->Validate;
 
 ### Operations
 
-#### `create($reqdata, $ctrl) -> hashref`
+#### `create($reqdata, $ctrl) -> ValidateEntity`
 
-Create a new entity with the given data. Returns the created entity data and dies on error.
+Create a new entity with the given data. Returns the created entity and dies on error.
 
 ```perl
 my $result = $client->Validate->create({
@@ -864,6 +864,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

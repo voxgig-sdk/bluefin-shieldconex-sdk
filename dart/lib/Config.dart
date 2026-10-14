@@ -250,6 +250,7 @@ class Config {
       },
       'optspec': <String, dynamic>{
         'clearTimer': '`\$FUNCTION`',
+        'now': '`\$FUNCTION`',
         'setTimer': '`\$FUNCTION`',
       },
       'strict': false,
@@ -376,6 +377,10 @@ class Config {
               },
               'args': <String, dynamic>{},
               'select': <String, dynamic>{},
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
+              },
             },
             <String, dynamic>{
               'kind': 'http',
@@ -400,6 +405,10 @@ class Config {
               },
               'args': <String, dynamic>{},
               'select': <String, dynamic>{},
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
+              },
             },
           ],
         },
@@ -436,16 +445,17 @@ class Config {
                     'type': '`\$STRING`',
                     'kind': 'query',
                     'reqd': true,
+                    'field': true,
                   },
                   <String, dynamic>{
                     'name': 'field_name',
-                    'orig': 'field_name',
+                    'orig': 'fieldNames',
                     'type': '`\$STRING`',
                     'kind': 'query',
                   },
                   <String, dynamic>{
                     'name': 'field_value',
-                    'orig': 'field_value',
+                    'orig': 'fieldValues',
                     'type': '`\$STRING`',
                     'kind': 'query',
                   },
@@ -454,16 +464,18 @@ class Config {
                     'orig': 'reference',
                     'type': '`\$STRING`',
                     'kind': 'query',
+                    'field': true,
                   },
                 ],
               },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'bfid',
-                  'field_name',
-                  'field_value',
-                  'reference',
                 ],
+              },
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
               },
             },
           ],
@@ -582,10 +594,38 @@ class Config {
                   },
                 ],
               },
-              'select': <String, dynamic>{
-                'exist': <dynamic>[
-                  'omit',
-                ],
+              'select': <String, dynamic>{},
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
+              },
+            },
+            <String, dynamic>{
+              'kind': 'http',
+              'method': 'POST',
+              'orig': '/tokenization/delete',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'tokenization',
+                },
+                <String, dynamic>{
+                  'lit': 'delete',
+                },
+              ],
+              'parts': <dynamic>[
+                'tokenization',
+                'delete',
+              ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{},
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
               },
             },
             <String, dynamic>{
@@ -619,35 +659,11 @@ class Config {
                   },
                 ],
               },
-              'select': <String, dynamic>{
-                'exist': <dynamic>[
-                  'omit',
-                ],
-              },
-            },
-            <String, dynamic>{
-              'kind': 'http',
-              'method': 'POST',
-              'orig': '/tokenization/delete',
-              'segments': <dynamic>[
-                <String, dynamic>{
-                  'lit': 'tokenization',
-                },
-                <String, dynamic>{
-                  'lit': 'delete',
-                },
-              ],
-              'parts': <dynamic>[
-                'tokenization',
-                'delete',
-              ],
-              'rename': <String, dynamic>{},
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
-              'args': <String, dynamic>{},
               'select': <String, dynamic>{},
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
+              },
             },
           ],
         },
@@ -680,13 +696,13 @@ class Config {
                 'query': <dynamic>[
                   <String, dynamic>{
                     'name': 'field_name',
-                    'orig': 'field_name',
+                    'orig': 'fieldNames',
                     'type': '`\$STRING`',
                     'kind': 'query',
                   },
                   <String, dynamic>{
                     'name': 'field_value',
-                    'orig': 'field_value',
+                    'orig': 'fieldValues',
                     'type': '`\$STRING`',
                     'kind': 'query',
                   },
@@ -695,10 +711,11 @@ class Config {
                     'orig': 'reference',
                     'type': '`\$STRING`',
                     'kind': 'query',
+                    'field': true,
                   },
                   <String, dynamic>{
                     'name': 'template_ref',
-                    'orig': 'template_ref',
+                    'orig': 'templateRef',
                     'type': '`\$STRING`',
                     'kind': 'query',
                     'reqd': true,
@@ -707,11 +724,12 @@ class Config {
               },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
-                  'field_name',
-                  'field_value',
-                  'reference',
                   'template_ref',
                 ],
+              },
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
               },
             },
           ],
@@ -780,6 +798,10 @@ class Config {
               },
               'args': <String, dynamic>{},
               'select': <String, dynamic>{},
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
+              },
             },
             <String, dynamic>{
               'kind': 'http',
@@ -808,6 +830,10 @@ class Config {
               },
               'args': <String, dynamic>{},
               'select': <String, dynamic>{},
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
+              },
             },
           ],
         },
@@ -883,6 +909,10 @@ class Config {
               },
               'args': <String, dynamic>{},
               'select': <String, dynamic>{},
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
+              },
             },
           ],
         },
@@ -942,6 +972,10 @@ class Config {
               },
               'args': <String, dynamic>{},
               'select': <String, dynamic>{},
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
+              },
             },
             <String, dynamic>{
               'kind': 'http',
@@ -966,6 +1000,10 @@ class Config {
               },
               'args': <String, dynamic>{},
               'select': <String, dynamic>{},
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
+              },
             },
           ],
         },

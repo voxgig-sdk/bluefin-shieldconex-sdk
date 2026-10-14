@@ -11,6 +11,19 @@ import { BluefinShieldconexEntityBase } from './BluefinShieldconexEntityBase';
 import { Utility } from './utility/Utility';
 import { BaseFeature } from './feature/base/BaseFeature';
 declare const stdutil: Utility;
+type DirectResult = {
+    ok: false;
+    err: any;
+    status?: undefined;
+    headers?: undefined;
+    data?: undefined;
+} | {
+    ok: boolean;
+    status: number;
+    headers: any;
+    data: any;
+    err?: any;
+};
 declare class BluefinShieldconexSDK {
     _mode: string;
     _options: any;
@@ -21,32 +34,8 @@ declare class BluefinShieldconexSDK {
     options(): any;
     utility(): any;
     prepare(fetchargs?: any): Promise<any>;
-    direct(fetchargs?: any): Promise<Error | {
-        ok: boolean;
-        status: number;
-        headers: any;
-        data: any;
-        err?: undefined;
-    } | {
-        ok: boolean;
-        err: any;
-        status?: undefined;
-        headers?: undefined;
-        data?: undefined;
-    }>;
-    _rawRequest(fetchargs?: any): Promise<Error | {
-        ok: boolean;
-        status: number;
-        headers: any;
-        data: any;
-        err?: undefined;
-    } | {
-        ok: boolean;
-        err: any;
-        status?: undefined;
-        headers?: undefined;
-        data?: undefined;
-    }>;
+    direct(fetchargs?: any): Promise<DirectResult>;
+    _rawRequest(fetchargs?: any): Promise<DirectResult>;
     graphql(query: string, variables?: any, ctrl?: any): Promise<any>;
     Detokenize(entopts?: Record<string, any>): DetokenizeEntity;
     Tokenize(entopts?: Record<string, any>): TokenizeEntity;
@@ -63,3 +52,4 @@ declare class BluefinShieldconexSDK {
 }
 declare const SDK: typeof BluefinShieldconexSDK;
 export { stdutil, config, BaseFeature, BluefinShieldconexEntityBase, BluefinShieldconexSDK, SDK, };
+export type { DirectResult };

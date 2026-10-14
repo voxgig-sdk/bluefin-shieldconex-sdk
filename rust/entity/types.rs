@@ -69,7 +69,6 @@ pub struct TokenizeListMatch {
 /// TokenizeCreateData is the typed request payload for Tokenize.create.
 #[derive(Debug, Clone)]
 pub struct TokenizeCreateData {
-    pub omit: Option<f64>,
     pub batches: Option<Vec<Value>>,
     pub bfid: Option<String>,
     pub messageid: Option<String>,

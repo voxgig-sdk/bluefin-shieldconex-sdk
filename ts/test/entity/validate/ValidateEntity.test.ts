@@ -9,7 +9,7 @@ import { createLiveTransport } from '../../live-runner'
 import { runLiveEntity } from '../../live-entity'
 
 
-import { BluefinShieldconexSDK, BaseFeature, stdutil } from '../../..'
+import { BluefinShieldconexSDK, BaseFeature, config, stdutil } from '../../..'
 
 import {
   envOverride,
@@ -41,6 +41,18 @@ describe('ValidateEntity', async () => {
   })
 
 
+  test('validate', async (t) => {
+    if (null == (config as any).feature?.validate) {
+      t.skip('feature not present in this SDK: validate')
+      return
+    }
+    const client = BluefinShieldconexSDK.test(undefined, { feature: { validate: { active: true } } })
+    await assert.rejects(client.Validate().create({"messageId":1,"templateRef":"x"} as any),
+      (err: any) => 'validate_failed' === err.code)
+  })
+
+
+
   test('basic', async (t) => {
 
     const live = 'TRUE' === process.env.BLUEFIN_SHIELDCONEX_TEST_LIVE
@@ -51,7 +63,7 @@ describe('ValidateEntity', async () => {
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"messageId":{"a":true,"h":"Message Id","n":"messageId","r":false,"sh":"Message Id","t":"`$STRING`","key$":"messageId","index$":0},"reference":{"a":true,"h":"Reference","n":"reference","r":false,"sh":"Request Reference.","t":"`$STRING`","key$":"reference","index$":1},"templateRef":{"a":true,"h":"Template Ref","n":"templateRef","r":true,"sh":"Template Reference.","t":"`$STRING`","key$":"templateRef","index$":2}},"name":"validate","op":{"create":{"input":"data","name":"create","points":[{"a":true,"co":{"id":"POST /partner/validate","source":"openapi3","version":2},"g":{},"k":"http","m":"POST","o":"/partner/validate","q":{},"r":{},"s":[{"lit":"partner"},{"lit":"validate"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0},{"a":true,"co":{"id":"POST /template/validate","source":"openapi3","version":2},"g":{},"k":"http","m":"POST","o":"/template/validate","q":{},"r":{},"s":[{"lit":"template"},{"lit":"validate"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":1}],"key$":"create"}},"relations":{"ancestors":[]},"key$":"validate","name__orig":"validate","Name":"Validate","name_":"validate","name-":"validate","NAME":"VALIDATE","index$":4}, {"active":true,"entity":"validate","key$":"BasicValidateFlow","kind":"basic","name":"BasicValidateFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"validate_ref01"},"m":{},"o":"create","s":[],"v":[],"index$":0}]}, 'Validate', {"POST /partner/validate":{"protocol":"http","requestBody":{"description":"Partner to be validated.","content":{"application/json":{"schema":{"type":"object","properties":{"reference":{"type":"string","description":"Request Reference. This is a reference value that Developers can use to track API requests and responses. It is solely for tracking purposes.","key$":"reference"}},"description":"Partner to be validated","x-ref":"#/components/schemas/PartnerValidateRequest","index$":1}}},"required":true},"parameters":[]},"POST /template/validate":{"protocol":"http","requestBody":{"description":"Template to be validated.","content":{"application/json":{"schema":{"required":["templateRef"],"type":"object","properties":{"reference":{"type":"string","description":"Request Reference. This is a reference value that Developers can use to track API requests and responses. It is solely for tracking purposes.","key$":"reference"},"templateRef":{"type":"string","description":"Template Reference. This is the unique alphanumeric string that is used to identify a template. The templateRef is created within ShieldConex Manager and can be found within the template details page of any template within ShieldConex Manager.","key$":"templateRef"}},"description":"Template to be validated","x-ref":"#/components/schemas/TemplateValidateRequest","index$":1}}},"required":true},"parameters":[]}})
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"messageId":{"a":true,"h":"Message Id","n":"messageId","r":false,"sh":"Message Id","t":"`$STRING`","key$":"messageId","index$":0},"reference":{"a":true,"h":"Reference","n":"reference","r":false,"sh":"Request Reference.","t":"`$STRING`","key$":"reference","index$":1},"templateRef":{"a":true,"h":"Template Ref","n":"templateRef","r":true,"sh":"Template Reference.","t":"`$STRING`","key$":"templateRef","index$":2}},"name":"validate","op":{"create":{"input":"data","name":"create","points":[{"a":true,"bf":["reference"],"co":{"id":"POST /partner/validate","source":"openapi3","version":2},"g":{},"k":"http","m":"POST","o":"/partner/validate","q":{},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"partner"},{"lit":"validate"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0},{"a":true,"bf":["reference","templateRef"],"co":{"id":"POST /template/validate","source":"openapi3","version":2},"g":{},"k":"http","m":"POST","o":"/template/validate","q":{},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"template"},{"lit":"validate"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":1}],"key$":"create"}},"relations":{"ancestors":[]},"key$":"validate","name__orig":"validate","Name":"Validate","name_":"validate","name-":"validate","NAME":"VALIDATE","index$":4}, {"active":true,"entity":"validate","key$":"BasicValidateFlow","kind":"basic","name":"BasicValidateFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"validate_ref01"},"m":{},"o":"create","s":[],"v":[],"index$":0}]}, 'Validate', {"POST /partner/validate":{"protocol":"http","requestBody":{"description":"Partner to be validated.","content":{"application/json":{"schema":{"type":"object","properties":{"reference":{"type":"string","description":"Request Reference. This is a reference value that Developers can use to track API requests and responses. It is solely for tracking purposes.","key$":"reference"}},"description":"Partner to be validated","x-ref":"#/components/schemas/PartnerValidateRequest","index$":1}}},"required":true},"parameters":[]},"POST /template/validate":{"protocol":"http","requestBody":{"description":"Template to be validated.","content":{"application/json":{"schema":{"required":["templateRef"],"type":"object","properties":{"reference":{"type":"string","description":"Request Reference. This is a reference value that Developers can use to track API requests and responses. It is solely for tracking purposes.","key$":"reference"},"templateRef":{"type":"string","description":"Template Reference. This is the unique alphanumeric string that is used to identify a template. The templateRef is created within ShieldConex Manager and can be found within the template details page of any template within ShieldConex Manager.","key$":"templateRef"}},"description":"Template to be validated","x-ref":"#/components/schemas/TemplateValidateRequest","index$":1}}},"required":true},"parameters":[]}}, { strict: LIVE_STRICT, t })
     }
     const client = setup.client
     const struct = setup.struct
@@ -72,6 +84,12 @@ describe('ValidateEntity', async () => {
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function basicSetup(extra?: any) {
   // TODO: fix test def options

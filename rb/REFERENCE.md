@@ -134,7 +134,7 @@ detokenize = client.Detokenize
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.Detokenize.create({
@@ -143,10 +143,11 @@ result = client.Detokenize.create({
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
-results = client.Detokenize.list
+results = client.Detokenize.list({ "bfid" => "example" })
+results.each { |item| puts item.data_get }
 ```
 
 ### Common Methods
@@ -215,7 +216,7 @@ tokenize = client.Tokenize
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.Tokenize.create({
@@ -225,10 +226,11 @@ result = client.Tokenize.create({
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
-results = client.Tokenize.list
+results = client.Tokenize.list({ "template_ref" => "example" })
+results.each { |item| puts item.data_get }
 ```
 
 ### Common Methods
@@ -287,7 +289,7 @@ tokenize_batch = client.TokenizeBatch
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.TokenizeBatch.create({
@@ -354,7 +356,7 @@ tokenize_read = client.TokenizeRead
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.TokenizeRead.create({
@@ -409,7 +411,7 @@ validate = client.Validate
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.Validate.create({
@@ -868,6 +870,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

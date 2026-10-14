@@ -84,7 +84,6 @@ defmodule BluefinShieldconex.Types do
   Request payload for Tokenize create.
 
   Members:
-    * `"omit"` — float() (optional)
     * `"batches"` — list() (optional)
     * `"bfid"` — String.t() (optional)
     * `"messageId"` — String.t() (optional)

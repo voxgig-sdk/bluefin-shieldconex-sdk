@@ -58,7 +58,6 @@
 
 /**
  * @typedef {Object} TokenizeCreateData
- * @property {number} [omit]
  * @property {Array} [batches]
  * @property {string} [bfid]
  * @property {string} [messageId]

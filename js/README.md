@@ -14,9 +14,16 @@ predictable and low-friction for both humans and AI agents.
 
 
 ## Install
-```js
-npm install bluefin-shieldconex
+This package is not yet published to npm. Install it from the GitHub
+release tag (`js/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags)), or from a
+clone:
+
+```bash
+git clone https://github.com/voxgig-sdk/bluefin-shieldconex-sdk
+npm install ./bluefin-shieldconex-sdk/js
 ```
+
+
 ## Tutorial: your first API call
 
 This tutorial walks through creating a client, listing entities, and
@@ -38,7 +45,7 @@ const client = new BluefinShieldconexSDK({
 ```js
 const detokenizes = await client.Detokenize().list({ bfid: "example" })
 for (const detokenize of detokenizes) {
-  console.log(detokenize)
+  console.log(detokenize.data())
 }
 ```
 
@@ -49,7 +56,7 @@ const created = await client.Detokenize().create({
   batches: [],
   bfid: 'example_bfid',
 })
-console.log(created)
+console.log(created.data())
 ```
 
 ### Direct API Access
@@ -75,15 +82,16 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const detokenizes = await client.Detokenize().list()
-  console.log(detokenizes)
+  const detokenizes = await client.Detokenize().list({ bfid: "example" })
+  console.log(detokenizes.map((item) => item.data()))
 } catch (err) {
   console.error('list failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -92,8 +100,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -111,9 +119,6 @@ const result = await client.direct({
   params: { id: 'example' },
 })
 
-if (result instanceof Error) {
-  throw result
-}
 if (result.ok) {
   console.log(result.status)  // 200
   console.log(result.data)    // response body
@@ -142,10 +147,9 @@ Create a mock client for unit testing — no server required:
 ```js
 const client = BluefinShieldconexSDK.test()
 
-const detokenize = await client.Detokenize().list()
-// detokenize is the entity, populated with mock response data
-// — call detokenize.data() for the record itself
-console.log(detokenize)
+const detokenizes = await client.Detokenize().list({ bfid: 'example_bfid' })
+// detokenizes is an array of Detokenize entities, one per mock record
+console.log(detokenizes.map((detokenize) => detokenize.data()))
 ```
 
 You can also use the instance method:
@@ -163,7 +167,7 @@ Entity instances remember their last match and data:
 const entity = client.Detokenize()
 
 // First call runs the operation and stores its result
-await entity.list()
+await entity.list({ bfid: 'example_bfid' })
 
 // Subsequent calls reuse the stored state
 const data = entity.data()
@@ -256,8 +260,8 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `list` | `list(reqmatch?, ctrl?): Promise<Entity[]>` | List entities matching the criteria. |
-| `create` | `create(reqdata?, ctrl?): Promise<Entity>` | Create a new entity. |
+| `list` | `list(reqmatch?, ctrl?): Promise<Entity[]>` | List entities matching the criteria, one per record. |
+| `create` | `create(reqdata?, ctrl?): Promise<Entity>` | Create a new entity, and return it. |
 | `data` | `data(data?: Partial<Entity>): Entity` | Get or set entity data. |
 | `match` | `match(match?: Partial<Entity>): Partial<Entity>` | Get or set entity match criteria. |
 | `make` | `make(): Entity` | Create a new instance with the same options. |
@@ -266,8 +270,8 @@ All entities share the same interface.
 
 #### Return values
 
-Entity operations resolve to the entity data directly — there is no
-result envelope:
+Entity operations resolve to the entity itself — there is no result
+envelope, and an entity's `data()` reads its record:
 
 - `create` resolves to a single entity object.
 - `list` resolves to an **array** of entity objects (iterate it directly;
@@ -803,7 +807,7 @@ calls on the same instance can rely on this state.
 
 ```ts
 const detokenize = client.Detokenize()
-await detokenize.list()
+await detokenize.list({ bfid: "example" })
 
 // detokenize.data() now returns the detokenize data from the last `list`
 // detokenize.match() returns the last match criteria

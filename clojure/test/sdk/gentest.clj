@@ -27,6 +27,15 @@
                ;; list resolves to one entity per record.
                (t/is-true (sequential? items) "list returns a sequential collection"))
              )))
+  (t/run-check rec "gen-list-detokenize"
+    (fn [] (let [seed (vs/jm "detokenize" (vs/jm "L1" (vs/jm "id" "L1" "name" "a")
+                                                "L2" (vs/jm "id" "L2" "name" "b")))
+                 items (e-detokenize/list (api/detokenize (api/test-sdk (vs/jm "entity" seed) nil) nil)
+                                         (vs/jm) nil)]
+             ;; list resolves to one entity per record; data-get reads the record.
+             (t/is-eq (count items) 2 "list answers each seeded record")
+             (t/is-true (every? (fn [item] (and (map? item) (vs/ismap ((:data-get item))))) items)
+                        "each listed item is an entity carrying its record"))))
   (t/run-check rec "gen-stream-detokenize"
     (fn [] (let [seed (vs/jm "detokenize" (vs/jm "S1" (vs/jm "id" "S1" "name" "a")
                                                 "S2" (vs/jm "id" "S2" "name" "b")
@@ -49,6 +58,45 @@
                (let [csdk (api/test-sdk (vs/jm "entity" seed) (vs/jm "feature" (vs/jm "streaming" (vs/jm "active" true "chunkSize" 2))))
                      batches (vec (e-detokenize/stream (api/detokenize csdk nil) "list" (vs/jm) nil))]
                  (t/is-eq (count batches) 2 "stream chunkSize groups items into 2 batches"))))))
+  (t/run-check rec "gen-stream-error-detokenize"
+    (fn [] (let [offline (vs/jm "net" (vs/jm "offline" true))
+                 err (try (vec (e-detokenize/stream (api/detokenize (api/test-sdk offline nil) nil) "list" (vs/jm) nil)) nil
+                          (catch Throwable e e))]
+             (t/is-true (and (some? err) (.contains (str (.getMessage ^Throwable err)) "offline"))
+                        "the transport failure raises from the stream")
+             (t/is-eq (count (vec (e-detokenize/stream (api/detokenize (api/test-sdk offline nil) nil) "list" (vs/jm)
+                                                 (vs/jm "ctrl" (vs/jm "throw" false)))))
+                      0 "throw false ends the stream quietly")
+             (when (vs/getpath (config/make-config) "feature.rbac")
+               (let [denied (api/test-sdk nil (vs/jm "feature" (vs/jm "rbac" (vs/jm "active" true "deny" true))))]
+                 (t/is-throws (fn [] (vec (e-detokenize/stream (api/detokenize denied nil) "list" (vs/jm) nil)))
+                              "rbac_denied" "the rbac denial raises from the stream"))))))
+  (t/run-check rec "gen-stream-ctrl-detokenize"
+    (fn [] (let [explain (vs/jm)
+                 ctrl (vs/jm "explain" explain)]
+             (vec (e-detokenize/stream (api/detokenize (api/test-sdk nil nil) nil) "list" (vs/jm) (vs/jm "ctrl" ctrl)))
+             (t/is-eq (vec (vs/keysof ctrl)) ["explain"] "the stream changed the caller's ctrl")
+             (t/is-true (identical? explain (vs/getprop ctrl "explain")) "the caller's explain record is not its own")
+             (t/is-true (pos? (count (vs/keysof explain))) "the caller's explain record was not filled"))))
+  (t/run-check rec "gen-unexpected-detokenize"
+    (fn [] (let [seen (atom 0)
+                 hook (atom {:name "failhook" :active true :version "0.0.1" :_options nil
+                             "init" (fn [_ctx _opts] nil)
+                             "PreSpec" (fn [_ctx] (throw (RuntimeException. "detokenize hook failed")))
+                             "PreUnexpected" (fn [_ctx] (swap! seen inc))})
+                 ent (api/detokenize (api/make-sdk (vs/jm "feature" (vs/jm "test" (vs/jm "active" true)) "extend" [hook])) nil)
+                 err (try (e-detokenize/list ent (vs/jm) nil) nil (catch Throwable e e))]
+             (t/is-true (and (some? err) (.contains (str (.getMessage ^Throwable err)) "hook failed"))
+                        "the hook's failure is raised")
+             (t/is-true (pos? @seen) "PreUnexpected did not fire")
+             (let [fired @seen]
+               (t/is-nil (e-detokenize/list ent (vs/jm) (vs/jm "throw" false)) "throw false should resolve to nothing")
+               (t/is-true (> @seen fired) "PreUnexpected did not fire under throw false")))))
+  (t/run-check rec "gen-validate-detokenize"
+    (fn [] (when (vs/getpath (config/make-config) "feature.validate")
+             (let [client (api/test-sdk nil (vs/jm "feature" (vs/jm "validate" (vs/jm "active" true))))]
+               (t/is-throws (fn [] (e-detokenize/list (api/detokenize client nil) (vs/jm "bfid" 1) nil))
+                            "validate_failed" "validate refuses an invalid request")))))
   (t/run-check rec "gen-exists-tokenize"
     (fn [] (let [sdk (api/test-sdk nil nil)]
              (t/is-true (some? (api/tokenize sdk nil)) "tokenize accessor present"))))
@@ -64,6 +112,15 @@
                ;; list resolves to one entity per record.
                (t/is-true (sequential? items) "list returns a sequential collection"))
              )))
+  (t/run-check rec "gen-list-tokenize"
+    (fn [] (let [seed (vs/jm "tokenize" (vs/jm "L1" (vs/jm "id" "L1" "name" "a")
+                                                "L2" (vs/jm "id" "L2" "name" "b")))
+                 items (e-tokenize/list (api/tokenize (api/test-sdk (vs/jm "entity" seed) nil) nil)
+                                         (vs/jm) nil)]
+             ;; list resolves to one entity per record; data-get reads the record.
+             (t/is-eq (count items) 2 "list answers each seeded record")
+             (t/is-true (every? (fn [item] (and (map? item) (vs/ismap ((:data-get item))))) items)
+                        "each listed item is an entity carrying its record"))))
   (t/run-check rec "gen-stream-tokenize"
     (fn [] (let [seed (vs/jm "tokenize" (vs/jm "S1" (vs/jm "id" "S1" "name" "a")
                                                 "S2" (vs/jm "id" "S2" "name" "b")
@@ -86,6 +143,45 @@
                (let [csdk (api/test-sdk (vs/jm "entity" seed) (vs/jm "feature" (vs/jm "streaming" (vs/jm "active" true "chunkSize" 2))))
                      batches (vec (e-tokenize/stream (api/tokenize csdk nil) "list" (vs/jm) nil))]
                  (t/is-eq (count batches) 2 "stream chunkSize groups items into 2 batches"))))))
+  (t/run-check rec "gen-stream-error-tokenize"
+    (fn [] (let [offline (vs/jm "net" (vs/jm "offline" true))
+                 err (try (vec (e-tokenize/stream (api/tokenize (api/test-sdk offline nil) nil) "list" (vs/jm) nil)) nil
+                          (catch Throwable e e))]
+             (t/is-true (and (some? err) (.contains (str (.getMessage ^Throwable err)) "offline"))
+                        "the transport failure raises from the stream")
+             (t/is-eq (count (vec (e-tokenize/stream (api/tokenize (api/test-sdk offline nil) nil) "list" (vs/jm)
+                                                 (vs/jm "ctrl" (vs/jm "throw" false)))))
+                      0 "throw false ends the stream quietly")
+             (when (vs/getpath (config/make-config) "feature.rbac")
+               (let [denied (api/test-sdk nil (vs/jm "feature" (vs/jm "rbac" (vs/jm "active" true "deny" true))))]
+                 (t/is-throws (fn [] (vec (e-tokenize/stream (api/tokenize denied nil) "list" (vs/jm) nil)))
+                              "rbac_denied" "the rbac denial raises from the stream"))))))
+  (t/run-check rec "gen-stream-ctrl-tokenize"
+    (fn [] (let [explain (vs/jm)
+                 ctrl (vs/jm "explain" explain)]
+             (vec (e-tokenize/stream (api/tokenize (api/test-sdk nil nil) nil) "list" (vs/jm) (vs/jm "ctrl" ctrl)))
+             (t/is-eq (vec (vs/keysof ctrl)) ["explain"] "the stream changed the caller's ctrl")
+             (t/is-true (identical? explain (vs/getprop ctrl "explain")) "the caller's explain record is not its own")
+             (t/is-true (pos? (count (vs/keysof explain))) "the caller's explain record was not filled"))))
+  (t/run-check rec "gen-unexpected-tokenize"
+    (fn [] (let [seen (atom 0)
+                 hook (atom {:name "failhook" :active true :version "0.0.1" :_options nil
+                             "init" (fn [_ctx _opts] nil)
+                             "PreSpec" (fn [_ctx] (throw (RuntimeException. "tokenize hook failed")))
+                             "PreUnexpected" (fn [_ctx] (swap! seen inc))})
+                 ent (api/tokenize (api/make-sdk (vs/jm "feature" (vs/jm "test" (vs/jm "active" true)) "extend" [hook])) nil)
+                 err (try (e-tokenize/list ent (vs/jm) nil) nil (catch Throwable e e))]
+             (t/is-true (and (some? err) (.contains (str (.getMessage ^Throwable err)) "hook failed"))
+                        "the hook's failure is raised")
+             (t/is-true (pos? @seen) "PreUnexpected did not fire")
+             (let [fired @seen]
+               (t/is-nil (e-tokenize/list ent (vs/jm) (vs/jm "throw" false)) "throw false should resolve to nothing")
+               (t/is-true (> @seen fired) "PreUnexpected did not fire under throw false")))))
+  (t/run-check rec "gen-validate-tokenize"
+    (fn [] (when (vs/getpath (config/make-config) "feature.validate")
+             (let [client (api/test-sdk nil (vs/jm "feature" (vs/jm "validate" (vs/jm "active" true))))]
+               (t/is-throws (fn [] (e-tokenize/list (api/tokenize client nil) (vs/jm "field_name" 1 "template_ref" "x") nil))
+                            "validate_failed" "validate refuses an invalid request")))))
   (t/run-check rec "gen-exists-tokenize_batch"
     (fn [] (let [sdk (api/test-sdk nil nil)]
              (t/is-true (some? (api/tokenize_batch sdk nil)) "tokenize_batch accessor present"))))
@@ -98,6 +194,11 @@
                (t/is-true (vs/ismap rec) "create resolves to an entity carrying a record")
                (t/is-true (some? (vs/getprop rec "id")) "created record has an id"))
              )))
+  (t/run-check rec "gen-validate-tokenize_batch"
+    (fn [] (when (vs/getpath (config/make-config) "feature.validate")
+             (let [client (api/test-sdk nil (vs/jm "feature" (vs/jm "validate" (vs/jm "active" true))))]
+               (t/is-throws (fn [] (e-tokenize_batch/create (api/tokenize_batch client nil) (vs/jm "messageId" 1) nil))
+                            "validate_failed" "validate refuses an invalid request")))))
   (t/run-check rec "gen-exists-tokenize_read"
     (fn [] (let [sdk (api/test-sdk nil nil)]
              (t/is-true (some? (api/tokenize_read sdk nil)) "tokenize_read accessor present"))))
@@ -110,6 +211,11 @@
                (t/is-true (vs/ismap rec) "create resolves to an entity carrying a record")
                (t/is-true (some? (vs/getprop rec "id")) "created record has an id"))
              )))
+  (t/run-check rec "gen-validate-tokenize_read"
+    (fn [] (when (vs/getpath (config/make-config) "feature.validate")
+             (let [client (api/test-sdk nil (vs/jm "feature" (vs/jm "validate" (vs/jm "active" true))))]
+               (t/is-throws (fn [] (e-tokenize_read/create (api/tokenize_read client nil) (vs/jm "bfid" 1) nil))
+                            "validate_failed" "validate refuses an invalid request")))))
   (t/run-check rec "gen-exists-validate"
     (fn [] (let [sdk (api/test-sdk nil nil)]
              (t/is-true (some? (api/validate sdk nil)) "validate accessor present"))))
@@ -122,6 +228,11 @@
                (t/is-true (vs/ismap rec) "create resolves to an entity carrying a record")
                (t/is-true (some? (vs/getprop rec "id")) "created record has an id"))
              )))
+  (t/run-check rec "gen-validate-validate"
+    (fn [] (when (vs/getpath (config/make-config) "feature.validate")
+             (let [client (api/test-sdk nil (vs/jm "feature" (vs/jm "validate" (vs/jm "active" true))))]
+               (t/is-throws (fn [] (e-validate/create (api/validate client nil) (vs/jm "messageId" 1 "templateRef" "x") nil))
+                            "validate_failed" "validate refuses an invalid request")))))
   (t/run-check rec "gen-prepare-detokenize"
     (fn [] (let [client (api/make-sdk (vs/jm "base" "http://example.test" "apikey" "test-key"))
                  fetchdef (api/prepare client (vs/jm "path" "/api/detokenize" "method" "GET"))]

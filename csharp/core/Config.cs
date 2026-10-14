@@ -235,6 +235,7 @@ public static class SdkConfig
                     ["optspec"] = new Dictionary<string, object?>
                     {
                         ["clearTimer"] = "`$FUNCTION`",
+                        ["now"] = "`$FUNCTION`",
                         ["setTimer"] = "`$FUNCTION`",
                     },
                     ["strict"] = false,
@@ -383,6 +384,11 @@ public static class SdkConfig
                                     },
                                     ["args"] = new Dictionary<string, object?>(),
                                     ["select"] = new Dictionary<string, object?>(),
+                                    ["response"] = new Dictionary<string, object?>
+                                    {
+                                        ["kind"] = "json",
+                                        ["media"] = "application/json",
+                                    },
                                 },
                                 new Dictionary<string, object?>
                                 {
@@ -413,6 +419,11 @@ public static class SdkConfig
                                     },
                                     ["args"] = new Dictionary<string, object?>(),
                                     ["select"] = new Dictionary<string, object?>(),
+                                    ["response"] = new Dictionary<string, object?>
+                                    {
+                                        ["kind"] = "json",
+                                        ["media"] = "application/json",
+                                    },
                                 },
                             },
                         },
@@ -460,18 +471,19 @@ public static class SdkConfig
                                                 ["type"] = "`$STRING`",
                                                 ["kind"] = "query",
                                                 ["reqd"] = true,
+                                                ["field"] = true,
                                             },
                                             new Dictionary<string, object?>
                                             {
                                                 ["name"] = "field_name",
-                                                ["orig"] = "field_name",
+                                                ["orig"] = "fieldNames",
                                                 ["type"] = "`$STRING`",
                                                 ["kind"] = "query",
                                             },
                                             new Dictionary<string, object?>
                                             {
                                                 ["name"] = "field_value",
-                                                ["orig"] = "field_value",
+                                                ["orig"] = "fieldValues",
                                                 ["type"] = "`$STRING`",
                                                 ["kind"] = "query",
                                             },
@@ -481,6 +493,7 @@ public static class SdkConfig
                                                 ["orig"] = "reference",
                                                 ["type"] = "`$STRING`",
                                                 ["kind"] = "query",
+                                                ["field"] = true,
                                             },
                                         },
                                     },
@@ -489,10 +502,12 @@ public static class SdkConfig
                                         ["exist"] = new List<object?>
                                         {
                                             "bfid",
-                                            "field_name",
-                                            "field_value",
-                                            "reference",
                                         },
+                                    },
+                                    ["response"] = new Dictionary<string, object?>
+                                    {
+                                        ["kind"] = "json",
+                                        ["media"] = "application/json",
                                     },
                                 },
                             },
@@ -641,12 +656,46 @@ public static class SdkConfig
                                             },
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>
+                                    ["select"] = new Dictionary<string, object?>(),
+                                    ["response"] = new Dictionary<string, object?>
                                     {
-                                        ["exist"] = new List<object?>
+                                        ["kind"] = "json",
+                                        ["media"] = "application/json",
+                                    },
+                                },
+                                new Dictionary<string, object?>
+                                {
+                                    ["kind"] = "http",
+                                    ["method"] = "POST",
+                                    ["orig"] = "/tokenization/delete",
+                                    ["segments"] = new List<object?>
+                                    {
+                                        new Dictionary<string, object?>
                                         {
-                                            "omit",
+                                            ["lit"] = "tokenization",
                                         },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "delete",
+                                        },
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "tokenization",
+                                        "delete",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>(),
+                                    ["response"] = new Dictionary<string, object?>
+                                    {
+                                        ["kind"] = "json",
+                                        ["media"] = "application/json",
                                     },
                                 },
                                 new Dictionary<string, object?>
@@ -689,43 +738,12 @@ public static class SdkConfig
                                             },
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>
-                                    {
-                                        ["exist"] = new List<object?>
-                                        {
-                                            "omit",
-                                        },
-                                    },
-                                },
-                                new Dictionary<string, object?>
-                                {
-                                    ["kind"] = "http",
-                                    ["method"] = "POST",
-                                    ["orig"] = "/tokenization/delete",
-                                    ["segments"] = new List<object?>
-                                    {
-                                        new Dictionary<string, object?>
-                                        {
-                                            ["lit"] = "tokenization",
-                                        },
-                                        new Dictionary<string, object?>
-                                        {
-                                            ["lit"] = "delete",
-                                        },
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "tokenization",
-                                        "delete",
-                                    },
-                                    ["rename"] = new Dictionary<string, object?>(),
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["select"] = new Dictionary<string, object?>(),
+                                    ["response"] = new Dictionary<string, object?>
+                                    {
+                                        ["kind"] = "json",
+                                        ["media"] = "application/json",
+                                    },
                                 },
                             },
                         },
@@ -769,14 +787,14 @@ public static class SdkConfig
                                             new Dictionary<string, object?>
                                             {
                                                 ["name"] = "field_name",
-                                                ["orig"] = "field_name",
+                                                ["orig"] = "fieldNames",
                                                 ["type"] = "`$STRING`",
                                                 ["kind"] = "query",
                                             },
                                             new Dictionary<string, object?>
                                             {
                                                 ["name"] = "field_value",
-                                                ["orig"] = "field_value",
+                                                ["orig"] = "fieldValues",
                                                 ["type"] = "`$STRING`",
                                                 ["kind"] = "query",
                                             },
@@ -786,11 +804,12 @@ public static class SdkConfig
                                                 ["orig"] = "reference",
                                                 ["type"] = "`$STRING`",
                                                 ["kind"] = "query",
+                                                ["field"] = true,
                                             },
                                             new Dictionary<string, object?>
                                             {
                                                 ["name"] = "template_ref",
-                                                ["orig"] = "template_ref",
+                                                ["orig"] = "templateRef",
                                                 ["type"] = "`$STRING`",
                                                 ["kind"] = "query",
                                                 ["reqd"] = true,
@@ -801,11 +820,13 @@ public static class SdkConfig
                                     {
                                         ["exist"] = new List<object?>
                                         {
-                                            "field_name",
-                                            "field_value",
-                                            "reference",
                                             "template_ref",
                                         },
+                                    },
+                                    ["response"] = new Dictionary<string, object?>
+                                    {
+                                        ["kind"] = "json",
+                                        ["media"] = "application/json",
                                     },
                                 },
                             },
@@ -892,6 +913,11 @@ public static class SdkConfig
                                     },
                                     ["args"] = new Dictionary<string, object?>(),
                                     ["select"] = new Dictionary<string, object?>(),
+                                    ["response"] = new Dictionary<string, object?>
+                                    {
+                                        ["kind"] = "json",
+                                        ["media"] = "application/json",
+                                    },
                                 },
                                 new Dictionary<string, object?>
                                 {
@@ -927,6 +953,11 @@ public static class SdkConfig
                                     },
                                     ["args"] = new Dictionary<string, object?>(),
                                     ["select"] = new Dictionary<string, object?>(),
+                                    ["response"] = new Dictionary<string, object?>
+                                    {
+                                        ["kind"] = "json",
+                                        ["media"] = "application/json",
+                                    },
                                 },
                             },
                         },
@@ -1021,6 +1052,11 @@ public static class SdkConfig
                                     },
                                     ["args"] = new Dictionary<string, object?>(),
                                     ["select"] = new Dictionary<string, object?>(),
+                                    ["response"] = new Dictionary<string, object?>
+                                    {
+                                        ["kind"] = "json",
+                                        ["media"] = "application/json",
+                                    },
                                 },
                             },
                         },
@@ -1095,6 +1131,11 @@ public static class SdkConfig
                                     },
                                     ["args"] = new Dictionary<string, object?>(),
                                     ["select"] = new Dictionary<string, object?>(),
+                                    ["response"] = new Dictionary<string, object?>
+                                    {
+                                        ["kind"] = "json",
+                                        ["media"] = "application/json",
+                                    },
                                 },
                                 new Dictionary<string, object?>
                                 {
@@ -1125,6 +1166,11 @@ public static class SdkConfig
                                     },
                                     ["args"] = new Dictionary<string, object?>(),
                                     ["select"] = new Dictionary<string, object?>(),
+                                    ["response"] = new Dictionary<string, object?>
+                                    {
+                                        ["kind"] = "json",
+                                        ["media"] = "application/json",
+                                    },
                                 },
                             },
                         },

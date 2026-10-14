@@ -70,7 +70,6 @@ class TokenizeListMatch
 /** Request payload for Tokenize#create. */
 class TokenizeCreateData
 {
-    public ?float $omit = null;
     public ?array $batches = null;
     public ?string $bfid = null;
     public ?string $messageId = null;

@@ -218,6 +218,7 @@ def make_config():
         },
         "optspec": {
           "clearTimer": "`$FUNCTION`",
+          "now": "`$FUNCTION`",
           "setTimer": "`$FUNCTION`",
         },
         "strict": False,
@@ -228,6 +229,7 @@ def make_config():
             "base": "https://secure-cert.shieldconex.com/api",
             "auth": {
                 "prefix": "Basic",
+                "basic": True,
             },
             "headers": {
         "content-type": "application/json",
@@ -335,6 +337,10 @@ def make_config():
                 },
                 "args": {},
                 "select": {},
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
               },
               {
                 "kind": "http",
@@ -359,6 +365,10 @@ def make_config():
                 },
                 "args": {},
                 "select": {},
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
               },
             ],
           },
@@ -395,16 +405,17 @@ def make_config():
                       "type": "`$STRING`",
                       "kind": "query",
                       "reqd": True,
+                      "field": True,
                     },
                     {
                       "name": "field_name",
-                      "orig": "field_name",
+                      "orig": "fieldNames",
                       "type": "`$STRING`",
                       "kind": "query",
                     },
                     {
                       "name": "field_value",
-                      "orig": "field_value",
+                      "orig": "fieldValues",
                       "type": "`$STRING`",
                       "kind": "query",
                     },
@@ -413,16 +424,18 @@ def make_config():
                       "orig": "reference",
                       "type": "`$STRING`",
                       "kind": "query",
+                      "field": True,
                     },
                   ],
                 },
                 "select": {
                   "exist": [
                     "bfid",
-                    "field_name",
-                    "field_value",
-                    "reference",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],
@@ -541,10 +554,38 @@ def make_config():
                     },
                   ],
                 },
-                "select": {
-                  "exist": [
-                    "omit",
-                  ],
+                "select": {},
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
+              },
+              {
+                "kind": "http",
+                "method": "POST",
+                "orig": "/tokenization/delete",
+                "segments": [
+                  {
+                    "lit": "tokenization",
+                  },
+                  {
+                    "lit": "delete",
+                  },
+                ],
+                "parts": [
+                  "tokenization",
+                  "delete",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {},
+                "select": {},
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
               {
@@ -578,35 +619,11 @@ def make_config():
                     },
                   ],
                 },
-                "select": {
-                  "exist": [
-                    "omit",
-                  ],
-                },
-              },
-              {
-                "kind": "http",
-                "method": "POST",
-                "orig": "/tokenization/delete",
-                "segments": [
-                  {
-                    "lit": "tokenization",
-                  },
-                  {
-                    "lit": "delete",
-                  },
-                ],
-                "parts": [
-                  "tokenization",
-                  "delete",
-                ],
-                "rename": {},
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "args": {},
                 "select": {},
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
               },
             ],
           },
@@ -639,13 +656,13 @@ def make_config():
                   "query": [
                     {
                       "name": "field_name",
-                      "orig": "field_name",
+                      "orig": "fieldNames",
                       "type": "`$STRING`",
                       "kind": "query",
                     },
                     {
                       "name": "field_value",
-                      "orig": "field_value",
+                      "orig": "fieldValues",
                       "type": "`$STRING`",
                       "kind": "query",
                     },
@@ -654,10 +671,11 @@ def make_config():
                       "orig": "reference",
                       "type": "`$STRING`",
                       "kind": "query",
+                      "field": True,
                     },
                     {
                       "name": "template_ref",
-                      "orig": "template_ref",
+                      "orig": "templateRef",
                       "type": "`$STRING`",
                       "kind": "query",
                       "reqd": True,
@@ -666,11 +684,12 @@ def make_config():
                 },
                 "select": {
                   "exist": [
-                    "field_name",
-                    "field_value",
-                    "reference",
                     "template_ref",
                   ],
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
                 },
               },
             ],
@@ -739,6 +758,10 @@ def make_config():
                 },
                 "args": {},
                 "select": {},
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
               },
               {
                 "kind": "http",
@@ -767,6 +790,10 @@ def make_config():
                 },
                 "args": {},
                 "select": {},
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
               },
             ],
           },
@@ -842,6 +869,10 @@ def make_config():
                 },
                 "args": {},
                 "select": {},
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
               },
             ],
           },
@@ -901,6 +932,10 @@ def make_config():
                 },
                 "args": {},
                 "select": {},
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
               },
               {
                 "kind": "http",
@@ -925,6 +960,10 @@ def make_config():
                 },
                 "args": {},
                 "select": {},
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
               },
             ],
           },

@@ -15,7 +15,7 @@ keeps the cognitive load low.
 
 ## Install
 This package is not yet published to Maven Central. Install it from the GitHub
-release tag (`kotlin/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/releases)) or
+release tag (`kotlin/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/bluefin-shieldconex-sdk/tags)) or
 from a source checkout — build the library with Gradle:
 
 ```bash
@@ -32,6 +32,7 @@ loading a specific record.
 
 ```kotlin
 import voxgig.bluefinshieldconexsdk.core.BluefinShieldconexSDK
+import voxgig.bluefinshieldconexsdk.core.SdkEntity
 
 val client = BluefinShieldconexSDK(mutableMapOf<String, Any?>(
     "apikey" to System.getenv("BLUEFIN_SHIELDCONEX_APIKEY"),
@@ -40,13 +41,15 @@ val client = BluefinShieldconexSDK(mutableMapOf<String, Any?>(
 
 ### 2. List detokenize records
 
-`list(null, null)` returns an aggregate list of records (as `Any?`, an
-aggregate list) and raises on error.
+`list(null, null)` returns a list of entities, one per record (as `Any?`),
+and raises on error; an entity's `data()` reads its record.
 
 ```kotlin
 try {
-    val detokenizeList = client.detokenize(null).list(null, null)
-    println(detokenizeList)
+    val detokenizeList = client.detokenize(null).list(mutableMapOf<String, Any?>("bfid" to "example"), null) as List<*>
+    for (detokenizeItem in detokenizeList) {
+        println((detokenizeItem as SdkEntity).data())
+    }
 }
 catch (err: RuntimeException) {
     println("list failed: " + err.message)
@@ -68,15 +71,16 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const detokenizes = await client.Detokenize().list()
-  console.log(detokenizes)
+  const detokenizes = await client.Detokenize().list({ bfid: "example" })
+  console.log(detokenizes.map((item) => item.data()))
 } catch (err) {
   console.error('list failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -85,8 +89,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -136,11 +140,11 @@ Create a mock client for unit testing — no server required:
 ```kotlin
 val client = BluefinShieldconexSDK.testSDK(null, null)
 
-// Entity ops return the ENTITY and raises on error;
-// call data() for the record.
-val detokenize = client.detokenize(null).list(null, null)
-// detokenize holds the mock response record
-println(detokenize)
+// list returns a list of entities, one per mock record; it raises on error.
+val detokenizeList = client.detokenize(null).list(mutableMapOf<String, Any?>("bfid" to "example"), null) as List<*>
+for (detokenizeItem in detokenizeList) {
+    println((detokenizeItem as SdkEntity).data())
+}
 ```
 
 ### Use a custom fetch function
@@ -227,8 +231,8 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `list` | `(reqmatch, ctrl) -> Any?` | List entities matching the criteria (an aggregate list). Raises on error. |
-| `create` | `(reqdata, ctrl) -> Any?` | Create a new entity. Raises on error. |
+| `list` | `(reqmatch, ctrl) -> Any?` | List entities matching the criteria, one per record. Raises on error. |
+| `create` | `(reqdata, ctrl) -> Any?` | Create a new entity, and return it. Raises on error. |
 | `data` | `(vararg newdata) -> Any?` | Get or set entity data. |
 | `match` | `(vararg newmatch) -> Any?` | Get or set entity match criteria. |
 | `make` | `() -> Entity` | Create a new instance with the same options. |
@@ -236,9 +240,10 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the ENTITY (call data() for the record) (a `Map` for single-entity
-ops, an aggregate `List` for `list`) as `Any?` and raise on error. Wrap
-calls in `try`/`catch` to handle failures.
+Entity operations return the entity, and `list` a list of entities, one per
+record, as `Any?`; an entity is an `SdkEntity`, whose `data()` reads its
+record. They raise on error, so wrap calls in `try`/`catch` to handle
+failures.
 
 The `direct()` escape hatch never raises — it returns a result
 `MutableMap<String, Any?>` you branch on via `result["ok"]`:
@@ -356,7 +361,7 @@ Create an instance: `val detokenize = client.detokenize(null)`
 #### Example: List
 
 ```kotlin
-val detokenizeList = client.detokenize(null).list(null, null)
+val detokenizeList = client.detokenize(null).list(mutableMapOf<String, Any?>("bfid" to "example"), null)
 ```
 
 #### Example: Create
@@ -394,7 +399,7 @@ Create an instance: `val tokenize = client.tokenize(null)`
 #### Example: List
 
 ```kotlin
-val tokenizeList = client.tokenize(null).list(null, null)
+val tokenizeList = client.tokenize(null).list(mutableMapOf<String, Any?>("template_ref" to "example"), null)
 ```
 
 #### Example: Create
@@ -760,7 +765,7 @@ calls on the same instance can rely on this state.
 
 ```ts
 const detokenize = client.Detokenize()
-await detokenize.list()
+await detokenize.list({ bfid: "example" })
 
 // detokenize.data() now returns the detokenize data from the last `list`
 // detokenize.match() returns the last match criteria

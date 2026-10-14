@@ -9,6 +9,7 @@ Complete API reference for the BluefinShieldconex C# SDK.
 
 ```csharp
 using BluefinShieldconexSdk;
+using Voxgig.Struct;
 
 var client = new BluefinShieldconexSDK(options);
 ```
@@ -137,7 +138,7 @@ var detokenize = client.Detokenize();
 
 #### `Create(reqdata, ctrl = null) -> object?`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```csharp
 var result = client.Detokenize().Create(new Dictionary<string, object?>
@@ -147,11 +148,14 @@ var result = client.Detokenize().Create(new Dictionary<string, object?>
 
 #### `List(reqmatch, ctrl = null) -> object?`
 
-List entities matching the given criteria. The match is optional — call `List(null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `List(null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```csharp
-var results = client.Detokenize().List(null);
-Console.WriteLine(results);
+var results = (List<object?>)client.Detokenize().List(new Dictionary<string, object?> { ["bfid"] = "example" })!;
+foreach (var item in results)
+{
+    Console.WriteLine(StructUtils.Jsonify(((IEntity)item!).Data()));
+}
 ```
 
 ### Common Methods
@@ -211,7 +215,7 @@ var tokenize = client.Tokenize();
 
 #### `Create(reqdata, ctrl = null) -> object?`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```csharp
 var result = client.Tokenize().Create(new Dictionary<string, object?>
@@ -222,11 +226,14 @@ var result = client.Tokenize().Create(new Dictionary<string, object?>
 
 #### `List(reqmatch, ctrl = null) -> object?`
 
-List entities matching the given criteria. The match is optional — call `List(null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `List(null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```csharp
-var results = client.Tokenize().List(null);
-Console.WriteLine(results);
+var results = (List<object?>)client.Tokenize().List(new Dictionary<string, object?> { ["template_ref"] = "example" })!;
+foreach (var item in results)
+{
+    Console.WriteLine(StructUtils.Jsonify(((IEntity)item!).Data()));
+}
 ```
 
 ### Common Methods
@@ -276,7 +283,7 @@ var tokenizeBatch = client.TokenizeBatch();
 
 #### `Create(reqdata, ctrl = null) -> object?`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```csharp
 var result = client.TokenizeBatch().Create(new Dictionary<string, object?>
@@ -335,7 +342,7 @@ var tokenizeRead = client.TokenizeRead();
 
 #### `Create(reqdata, ctrl = null) -> object?`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```csharp
 var result = client.TokenizeRead().Create(new Dictionary<string, object?>
@@ -382,7 +389,7 @@ var validate = client.Validate();
 
 #### `Create(reqdata, ctrl = null) -> object?`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```csharp
 var result = client.Validate().Create(new Dictionary<string, object?>
@@ -835,6 +842,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

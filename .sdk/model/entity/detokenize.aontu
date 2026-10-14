@@ -78,6 +78,10 @@ main: kit: entity: detokenize: {
       name: "create"
       points: [
         {
+          bf: [
+            "batches"
+            "reference"
+          ]
           co: {
             id: "POST /tokenization/batch/detokenize"
             source: "openapi3"
@@ -85,6 +89,10 @@ main: kit: entity: detokenize: {
           }
           m: "POST"
           o: "/tokenization/batch/detokenize"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "tokenization"
@@ -102,6 +110,11 @@ main: kit: entity: detokenize: {
           }
         }
         {
+          bf: [
+            "bfid"
+            "reference"
+            "values"
+          ]
           co: {
             id: "POST /tokenization/detokenize"
             source: "openapi3"
@@ -109,6 +122,10 @@ main: kit: entity: detokenize: {
           }
           m: "POST"
           o: "/tokenization/detokenize"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "tokenization"
@@ -145,14 +162,14 @@ main: kit: entity: detokenize: {
               {
                 k: "query"
                 n: "field_name"
-                or: "field_name"
+                or: "fieldNames"
                 r: false
                 t: "`$STRING`"
               }
               {
                 k: "query"
                 n: "field_value"
-                or: "field_value"
+                or: "fieldValues"
                 r: false
                 t: "`$STRING`"
               }
@@ -170,10 +187,11 @@ main: kit: entity: detokenize: {
           q: {
             exist: [
               "bfid"
-              "field_name"
-              "field_value"
-              "reference"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

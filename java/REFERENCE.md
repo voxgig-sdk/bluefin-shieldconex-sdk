@@ -134,7 +134,7 @@ SdkEntity detokenize = client.detokenize(null);
 
 #### `create(reqdata, ctrl) -> Object`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```java
 Object result = client.detokenize(null).create(Map.of(
@@ -143,11 +143,13 @@ Object result = client.detokenize(null).create(Map.of(
 
 #### `list(reqmatch, ctrl) -> Object`
 
-List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```java
-Object results = client.detokenize(null).list(null, null);
-System.out.println(results);
+List<?> results = (List<?>) client.detokenize(null).list(Map.of("bfid", "example"), null);
+for (Object item : results) {
+    System.out.println(((SdkEntity) item).data());
+}
 ```
 
 ### Common Methods
@@ -207,7 +209,7 @@ SdkEntity tokenize = client.tokenize(null);
 
 #### `create(reqdata, ctrl) -> Object`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```java
 Object result = client.tokenize(null).create(Map.of(
@@ -217,11 +219,13 @@ Object result = client.tokenize(null).create(Map.of(
 
 #### `list(reqmatch, ctrl) -> Object`
 
-List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```java
-Object results = client.tokenize(null).list(null, null);
-System.out.println(results);
+List<?> results = (List<?>) client.tokenize(null).list(Map.of("template_ref", "example"), null);
+for (Object item : results) {
+    System.out.println(((SdkEntity) item).data());
+}
 ```
 
 ### Common Methods
@@ -271,7 +275,7 @@ SdkEntity tokenizeBatch = client.tokenizeBatch(null);
 
 #### `create(reqdata, ctrl) -> Object`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```java
 Object result = client.tokenizeBatch(null).create(Map.of(
@@ -329,7 +333,7 @@ SdkEntity tokenizeRead = client.tokenizeRead(null);
 
 #### `create(reqdata, ctrl) -> Object`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```java
 Object result = client.tokenizeRead(null).create(Map.of(
@@ -375,7 +379,7 @@ SdkEntity validate = client.validate(null);
 
 #### `create(reqdata, ctrl) -> Object`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```java
 Object result = client.validate(null).create(Map.of(
@@ -825,6 +829,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

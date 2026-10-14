@@ -66,7 +66,6 @@ typedef struct {
 
 // TokenizeCreateData is the typed request payload for Tokenize.create.
 typedef struct {
-  double omit;  // optional
   voxgig_value*batches;  // optional
   char*bfid;  // optional
   char*messageid;  // optional

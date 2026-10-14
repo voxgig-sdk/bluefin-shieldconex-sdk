@@ -51,7 +51,6 @@ export interface TokenizeListMatch {
 }
 
 export interface TokenizeCreateData {
-  omit?: number
   batches?: any[]
   bfid?: string
   messageId?: string

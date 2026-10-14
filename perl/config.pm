@@ -200,6 +200,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
       },
       "optspec": {
         "clearTimer": "`$FUNCTION`",
+        "now": "`$FUNCTION`",
         "setTimer": "`$FUNCTION`"
       },
       "strict": false,
@@ -317,7 +318,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
             },
             {
               "kind": "http",
@@ -341,7 +346,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
             }
           ]
         },
@@ -377,17 +386,18 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
                     "orig": "bfid",
                     "type": "`$STRING`",
                     "kind": "query",
-                    "reqd": true
+                    "reqd": true,
+                    "field": true
                   },
                   {
                     "name": "field_name",
-                    "orig": "field_name",
+                    "orig": "fieldNames",
                     "type": "`$STRING`",
                     "kind": "query"
                   },
                   {
                     "name": "field_value",
-                    "orig": "field_value",
+                    "orig": "fieldValues",
                     "type": "`$STRING`",
                     "kind": "query"
                   },
@@ -395,17 +405,19 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
                     "name": "reference",
                     "orig": "reference",
                     "type": "`$STRING`",
-                    "kind": "query"
+                    "kind": "query",
+                    "field": true
                   }
                 ]
               },
               "select": {
                 "exist": [
-                  "bfid",
-                  "field_name",
-                  "field_value",
-                  "reference"
+                  "bfid"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -524,10 +536,38 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
                   }
                 ]
               },
-              "select": {
-                "exist": [
-                  "omit"
-                ]
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
+            },
+            {
+              "kind": "http",
+              "method": "POST",
+              "orig": "/tokenization/delete",
+              "segments": [
+                {
+                  "lit": "tokenization"
+                },
+                {
+                  "lit": "delete"
+                }
+              ],
+              "parts": [
+                "tokenization",
+                "delete"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {},
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             },
             {
@@ -561,35 +601,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
                   }
                 ]
               },
-              "select": {
-                "exist": [
-                  "omit"
-                ]
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
-            },
-            {
-              "kind": "http",
-              "method": "POST",
-              "orig": "/tokenization/delete",
-              "segments": [
-                {
-                  "lit": "tokenization"
-                },
-                {
-                  "lit": "delete"
-                }
-              ],
-              "parts": [
-                "tokenization",
-                "delete"
-              ],
-              "rename": {},
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
-              "args": {},
-              "select": {}
             }
           ]
         },
@@ -622,13 +638,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
                 "query": [
                   {
                     "name": "field_name",
-                    "orig": "field_name",
+                    "orig": "fieldNames",
                     "type": "`$STRING`",
                     "kind": "query"
                   },
                   {
                     "name": "field_value",
-                    "orig": "field_value",
+                    "orig": "fieldValues",
                     "type": "`$STRING`",
                     "kind": "query"
                   },
@@ -636,11 +652,12 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
                     "name": "reference",
                     "orig": "reference",
                     "type": "`$STRING`",
-                    "kind": "query"
+                    "kind": "query",
+                    "field": true
                   },
                   {
                     "name": "template_ref",
-                    "orig": "template_ref",
+                    "orig": "templateRef",
                     "type": "`$STRING`",
                     "kind": "query",
                     "reqd": true
@@ -649,11 +666,12 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               },
               "select": {
                 "exist": [
-                  "field_name",
-                  "field_value",
-                  "reference",
                   "template_ref"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -721,7 +739,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
             },
             {
               "kind": "http",
@@ -749,7 +771,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
             }
           ]
         }
@@ -824,7 +850,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
             }
           ]
         }
@@ -883,7 +913,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
             },
             {
               "kind": "http",
@@ -907,7 +941,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
             }
           ]
         }

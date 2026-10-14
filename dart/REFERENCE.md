@@ -127,7 +127,7 @@ final detokenize = client.Detokenize();
 
 #### `create(reqdata, [ctrl]) -> Future<dynamic>`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```dart
 final result = await client.Detokenize().create({
@@ -136,7 +136,7 @@ final result = await client.Detokenize().create({
 
 #### `list([reqmatch, ctrl]) -> Future<List>`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entity instances and throws on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and throws on error.
 
 ```dart
 final results = await client.Detokenize().list({ bfid: "example" });
@@ -202,7 +202,7 @@ final tokenize = client.Tokenize();
 
 #### `create(reqdata, [ctrl]) -> Future<dynamic>`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```dart
 final result = await client.Tokenize().create({
@@ -212,7 +212,7 @@ final result = await client.Tokenize().create({
 
 #### `list([reqmatch, ctrl]) -> Future<List>`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entity instances and throws on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and throws on error.
 
 ```dart
 final results = await client.Tokenize().list({ template_ref: "example" });
@@ -268,7 +268,7 @@ final tokenize_batch = client.TokenizeBatch();
 
 #### `create(reqdata, [ctrl]) -> Future<dynamic>`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```dart
 final result = await client.TokenizeBatch().create({
@@ -326,7 +326,7 @@ final tokenize_read = client.TokenizeRead();
 
 #### `create(reqdata, [ctrl]) -> Future<dynamic>`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```dart
 final result = await client.TokenizeRead().create({
@@ -372,7 +372,7 @@ final validate = client.Validate();
 
 #### `create(reqdata, [ctrl]) -> Future<dynamic>`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```dart
 final result = await client.Validate().create({
@@ -822,6 +822,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

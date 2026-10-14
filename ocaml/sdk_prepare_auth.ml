@@ -35,28 +35,11 @@ let option_apikey = "apikey"
 let option_secret = "secret"
 let not_found = "__NOTFOUND__"
 
-let b64_alphabet =
-  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
-
-let base64_encode (text : string) : string =
-  let n = String.length text in
-  let buf = Buffer.create (((n + 2) / 3) * 4) in
-  let i = ref 0 in
-  while !i < n do
-    let rest = n - !i in
-    let a = Char.code text.[!i] in
-    let b = if 1 < rest then Char.code text.[!i + 1] else 0 in
-    let c = if 2 < rest then Char.code text.[!i + 2] else 0 in
-    let word = (a lsl 16) lor (b lsl 8) lor c in
-    Buffer.add_char buf b64_alphabet.[(word lsr 18) land 0x3f];
-    Buffer.add_char buf b64_alphabet.[(word lsr 12) land 0x3f];
-    (* One trailing source byte yields two characters and "==", two yield
-     * three and "=". *)
-    Buffer.add_char buf (if 1 < rest then b64_alphabet.[(word lsr 6) land 0x3f] else '=');
-    Buffer.add_char buf (if 2 < rest then b64_alphabet.[word land 0x3f] else '=');
-    i := !i + 3
-  done;
-  Buffer.contents buf
+(* The client's auth.name option, when set, replaces the name the API declares. *)
+let auth_name (options : value) : string =
+  match getpath_s options "auth.name" with
+  | Str s when s <> "" -> String.lowercase_ascii s
+  | _ -> cred_name
 
 let prepare_auth_util (ctx : ctx) : (spec option * sdk_error option) =
   match ctx.c_spec with
@@ -69,37 +52,45 @@ let prepare_auth_util (ctx : ctx) : (spec option * sdk_error option) =
       * needs no auth omits the block entirely. Both land here. *)
      | Noval | Null -> ignore (delprop headers (Str cred_name)); (Some spec, None)
      | _ ->
+       let name = auth_name options in
+       (* A credential left under the declared name would travel beside the renamed one. *)
+       if name <> cred_name then ignore (delprop headers (Str cred_name));
        let apikey = getprop ~alt:(Str not_found) options (Str option_apikey) in
        let is_notfound = (match apikey with Str s -> s = not_found | _ -> false) in
        let no_apikey = is_notfound || is_noval apikey || apikey = Str "" in
        if (match getpath_s options "auth.basic" with Bool b -> b | _ -> false) then begin
-         (* True HTTP Basic Auth needs TWO credentials, base64-joined - a
-          * single token in the header (the branch below) can never
+         (* True HTTP Basic Auth joins the two credentials, base64-encoded -
+          * a single token in the header (the branch below) can never
           * authenticate against an API that actually checks
-          * `Authorization: Basic base64(user:pass)`. *)
+          * `Authorization: Basic base64(user:pass)`. The password may be
+          * empty (RFC 7617): Lob, for one, documents the key as the user
+          * with a blank password (`curl -u key:`). *)
          let secret = getprop ~alt:(Str not_found) options (Str option_secret) in
          let no_secret =
            (match secret with Str s -> s = not_found | _ -> false)
            || is_noval secret || secret = Str "" in
-         if no_apikey || no_secret then
-           ignore (delprop headers (Str cred_name))
+         if no_apikey then
+           ignore (delprop headers (Str name))
          else begin
            let auth_prefix = match getpath_s options "auth.prefix" with Str s -> s | _ -> "" in
            let apikey_val = match apikey with Str s -> s | _ -> "" in
-           let secret_val = match secret with Str s -> s | _ -> "" in
+           let secret_val = if no_secret then "" else match secret with Str s -> s | _ -> "" in
            let joined = base64_encode (apikey_val ^ ":" ^ secret_val) in
-           setp headers cred_name
+           (* The joined, encoded pair is a wire form neither credential's
+            * own registration covers. base64_encode is Sdk_helpers'. *)
+           (cu ctx).u_clean_add ctx joined;
+           setp headers name
              (Str (if auth_prefix <> "" then auth_prefix ^ " " ^ joined else joined))
          end
        end
        else
        if no_apikey then
-         ignore (delprop headers (Str cred_name))
+         ignore (delprop headers (Str name))
        else begin
          let auth_prefix = match getpath_s options "auth.prefix" with Str s -> s | _ -> "" in
          let apikey_val = match apikey with Str s -> s | _ -> "" in
          (* Empty prefix (a raw apiKey credential) must not add a leading space. *)
          let authval = if auth_prefix <> "" then auth_prefix ^ " " ^ apikey_val else apikey_val in
-         setp headers cred_name (Str authval)
+         setp headers name (Str authval)
        end;
        (Some spec, None))

@@ -192,6 +192,7 @@ pub fn make_config() -> Value {
                 ])),
                 ("optspec".to_string(), Value::map_of([
                     ("clearTimer".to_string(), Value::str("`$FUNCTION`")),
+                    ("now".to_string(), Value::str("`$FUNCTION`")),
                     ("setTimer".to_string(), Value::str("`$FUNCTION`")),
                 ])),
                 ("strict".to_string(), Value::Bool(false)),
@@ -310,6 +311,10 @@ pub fn make_config() -> Value {
                                 ])),
                                 ("args".to_string(), Value::empty_map()),
                                 ("select".to_string(), Value::empty_map()),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
+                                ])),
                             ]),
                             Value::map_of([
                                 ("kind".to_string(), Value::str("http")),
@@ -334,6 +339,10 @@ pub fn make_config() -> Value {
                                 ])),
                                 ("args".to_string(), Value::empty_map()),
                                 ("select".to_string(), Value::empty_map()),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
+                                ])),
                             ]),
                         ])),
                     ])),
@@ -370,16 +379,17 @@ pub fn make_config() -> Value {
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("query")),
                                             ("reqd".to_string(), Value::Bool(true)),
+                                            ("field".to_string(), Value::Bool(true)),
                                         ]),
                                         Value::map_of([
                                             ("name".to_string(), Value::str("field_name")),
-                                            ("orig".to_string(), Value::str("field_name")),
+                                            ("orig".to_string(), Value::str("fieldNames")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("query")),
                                         ]),
                                         Value::map_of([
                                             ("name".to_string(), Value::str("field_value")),
-                                            ("orig".to_string(), Value::str("field_value")),
+                                            ("orig".to_string(), Value::str("fieldValues")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("query")),
                                         ]),
@@ -388,16 +398,18 @@ pub fn make_config() -> Value {
                                             ("orig".to_string(), Value::str("reference")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("query")),
+                                            ("field".to_string(), Value::Bool(true)),
                                         ]),
                                     ])),
                                 ])),
                                 ("select".to_string(), Value::map_of([
                                     ("exist".to_string(), Value::list(vec![
                                         Value::str("bfid"),
-                                        Value::str("field_name"),
-                                        Value::str("field_value"),
-                                        Value::str("reference"),
                                     ])),
+                                ])),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
                                 ])),
                             ]),
                         ])),
@@ -516,10 +528,38 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
-                                ("select".to_string(), Value::map_of([
-                                    ("exist".to_string(), Value::list(vec![
-                                        Value::str("omit"),
-                                    ])),
+                                ("select".to_string(), Value::empty_map()),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
+                                ])),
+                            ]),
+                            Value::map_of([
+                                ("kind".to_string(), Value::str("http")),
+                                ("method".to_string(), Value::str("POST")),
+                                ("orig".to_string(), Value::str("/tokenization/delete")),
+                                ("segments".to_string(), Value::list(vec![
+                                    Value::map_of([
+                                        ("lit".to_string(), Value::str("tokenization")),
+                                    ]),
+                                    Value::map_of([
+                                        ("lit".to_string(), Value::str("delete")),
+                                    ]),
+                                ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("tokenization"),
+                                    Value::str("delete"),
+                                ])),
+                                ("rename".to_string(), Value::empty_map()),
+                                ("transform".to_string(), Value::map_of([
+                                    ("req".to_string(), Value::str("`reqdata`")),
+                                    ("res".to_string(), Value::str("`body`")),
+                                ])),
+                                ("args".to_string(), Value::empty_map()),
+                                ("select".to_string(), Value::empty_map()),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
                                 ])),
                             ]),
                             Value::map_of([
@@ -553,35 +593,11 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
-                                ("select".to_string(), Value::map_of([
-                                    ("exist".to_string(), Value::list(vec![
-                                        Value::str("omit"),
-                                    ])),
-                                ])),
-                            ]),
-                            Value::map_of([
-                                ("kind".to_string(), Value::str("http")),
-                                ("method".to_string(), Value::str("POST")),
-                                ("orig".to_string(), Value::str("/tokenization/delete")),
-                                ("segments".to_string(), Value::list(vec![
-                                    Value::map_of([
-                                        ("lit".to_string(), Value::str("tokenization")),
-                                    ]),
-                                    Value::map_of([
-                                        ("lit".to_string(), Value::str("delete")),
-                                    ]),
-                                ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("tokenization"),
-                                    Value::str("delete"),
-                                ])),
-                                ("rename".to_string(), Value::empty_map()),
-                                ("transform".to_string(), Value::map_of([
-                                    ("req".to_string(), Value::str("`reqdata`")),
-                                    ("res".to_string(), Value::str("`body`")),
-                                ])),
-                                ("args".to_string(), Value::empty_map()),
                                 ("select".to_string(), Value::empty_map()),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
+                                ])),
                             ]),
                         ])),
                     ])),
@@ -614,13 +630,13 @@ pub fn make_config() -> Value {
                                     ("query".to_string(), Value::list(vec![
                                         Value::map_of([
                                             ("name".to_string(), Value::str("field_name")),
-                                            ("orig".to_string(), Value::str("field_name")),
+                                            ("orig".to_string(), Value::str("fieldNames")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("query")),
                                         ]),
                                         Value::map_of([
                                             ("name".to_string(), Value::str("field_value")),
-                                            ("orig".to_string(), Value::str("field_value")),
+                                            ("orig".to_string(), Value::str("fieldValues")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("query")),
                                         ]),
@@ -629,10 +645,11 @@ pub fn make_config() -> Value {
                                             ("orig".to_string(), Value::str("reference")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("query")),
+                                            ("field".to_string(), Value::Bool(true)),
                                         ]),
                                         Value::map_of([
                                             ("name".to_string(), Value::str("template_ref")),
-                                            ("orig".to_string(), Value::str("template_ref")),
+                                            ("orig".to_string(), Value::str("templateRef")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("query")),
                                             ("reqd".to_string(), Value::Bool(true)),
@@ -641,11 +658,12 @@ pub fn make_config() -> Value {
                                 ])),
                                 ("select".to_string(), Value::map_of([
                                     ("exist".to_string(), Value::list(vec![
-                                        Value::str("field_name"),
-                                        Value::str("field_value"),
-                                        Value::str("reference"),
                                         Value::str("template_ref"),
                                     ])),
+                                ])),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
                                 ])),
                             ]),
                         ])),
@@ -714,6 +732,10 @@ pub fn make_config() -> Value {
                                 ])),
                                 ("args".to_string(), Value::empty_map()),
                                 ("select".to_string(), Value::empty_map()),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
+                                ])),
                             ]),
                             Value::map_of([
                                 ("kind".to_string(), Value::str("http")),
@@ -742,6 +764,10 @@ pub fn make_config() -> Value {
                                 ])),
                                 ("args".to_string(), Value::empty_map()),
                                 ("select".to_string(), Value::empty_map()),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
+                                ])),
                             ]),
                         ])),
                     ])),
@@ -817,6 +843,10 @@ pub fn make_config() -> Value {
                                 ])),
                                 ("args".to_string(), Value::empty_map()),
                                 ("select".to_string(), Value::empty_map()),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
+                                ])),
                             ]),
                         ])),
                     ])),
@@ -876,6 +906,10 @@ pub fn make_config() -> Value {
                                 ])),
                                 ("args".to_string(), Value::empty_map()),
                                 ("select".to_string(), Value::empty_map()),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
+                                ])),
                             ]),
                             Value::map_of([
                                 ("kind".to_string(), Value::str("http")),
@@ -900,6 +934,10 @@ pub fn make_config() -> Value {
                                 ])),
                                 ("args".to_string(), Value::empty_map()),
                                 ("select".to_string(), Value::empty_map()),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
+                                ])),
                             ]),
                         ])),
                     ])),

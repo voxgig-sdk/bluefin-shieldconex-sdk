@@ -56,12 +56,12 @@
       "version": 2,
       "source": "openapi3"
     },
-    "POST /tokenization/tokenize": {
+    "POST /tokenization/delete": {
       "provenance": "operation-contract",
       "version": 2,
       "source": "openapi3"
     },
-    "POST /tokenization/delete": {
+    "POST /tokenization/tokenize": {
       "provenance": "operation-contract",
       "version": 2,
       "source": "openapi3"

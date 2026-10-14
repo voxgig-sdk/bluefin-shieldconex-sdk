@@ -133,7 +133,7 @@ $detokenize = $client->Detokenize();
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->Detokenize()->create([
@@ -142,10 +142,10 @@ $result = $client->Detokenize()->create([
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
-$results = $client->Detokenize()->list();
+$results = $client->Detokenize()->list(["bfid" => "example"]);
 ```
 
 ### Common Methods
@@ -214,7 +214,7 @@ $tokenize = $client->Tokenize();
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->Tokenize()->create([
@@ -224,10 +224,10 @@ $result = $client->Tokenize()->create([
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
-$results = $client->Tokenize()->list();
+$results = $client->Tokenize()->list(["template_ref" => "example"]);
 ```
 
 ### Common Methods
@@ -286,7 +286,7 @@ $tokenize_batch = $client->TokenizeBatch();
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->TokenizeBatch()->create([
@@ -353,7 +353,7 @@ $tokenize_read = $client->TokenizeRead();
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->TokenizeRead()->create([
@@ -408,7 +408,7 @@ $validate = $client->Validate();
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->Validate()->create([
@@ -867,6 +867,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

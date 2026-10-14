@@ -289,8 +289,6 @@ class TokenizeListMatch {
 }
 
 class TokenizeCreateData {
-  /// NUMBER
-  num? omit;
   /// ARRAY
   List<dynamic>? batches;
   /// STRING
@@ -309,7 +307,6 @@ class TokenizeCreateData {
   List<dynamic>? values;
 
   TokenizeCreateData({
-    this.omit,
     this.batches,
     this.bfid,
     this.messageId,
@@ -321,7 +318,6 @@ class TokenizeCreateData {
   });
 
   factory TokenizeCreateData.fromMap(Map<String, dynamic> m) => TokenizeCreateData(
-        omit: m['omit'] is num ? m['omit'] : null,
         batches: m['batches'] is List<dynamic> ? m['batches'] : null,
         bfid: m['bfid'] is String ? m['bfid'] : null,
         messageId: m['messageId'] is String ? m['messageId'] : null,
@@ -334,9 +330,6 @@ class TokenizeCreateData {
 
   Map<String, dynamic> toMap() {
     final m = <String, dynamic>{};
-    if (null != omit) {
-      m['omit'] = omit;
-    }
     if (null != batches) {
       m['batches'] = batches;
     }
